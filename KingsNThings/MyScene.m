@@ -215,11 +215,6 @@ float degToRad(float degree) {
 	[self panForTranslation:translation];
 }
 
-//- (void)didMoveToView:(SKView *)view {
-//    UIPanGestureRecognizer *gestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
-//    [[self view] addGestureRecognizer:gestureRecognizer];
-//}
-
 - (void)handlePanFrom:(UIPanGestureRecognizer *)recognizer {
     NSLog(@"move changed: %d",recognizer.state);
 	if (recognizer.state == UIGestureRecognizerStateBegan) {
