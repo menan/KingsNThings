@@ -10,4 +10,8 @@
 
 @interface MyScene : SKScene
 
+@property (nonatomic, strong) SKSpriteNode *board;
+@property (nonatomic, strong) SKSpriteNode *selectedNode;
+@property (nonatomic, strong) SKLabelNode *myLabel;
+
 @end
