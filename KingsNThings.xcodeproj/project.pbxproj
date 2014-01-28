@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6832A14C1897734100476D5D /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 6832A14B1897734100476D5D /* Player.m */; };
+		6832A14F1897735900476D5D /* Terrain.m in Sources */ = {isa = PBXBuildFile; fileRef = 6832A14E1897735900476D5D /* Terrain.m */; };
+		6832A1521897736700476D5D /* Board.m in Sources */ = {isa = PBXBuildFile; fileRef = 6832A1511897736700476D5D /* Board.m */; };
+		6832A1551897754B00476D5D /* Bank.m in Sources */ = {isa = PBXBuildFile; fileRef = 6832A1541897754B00476D5D /* Bank.m */; };
 		686C97271888A88500BE6D42 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686C97261888A88500BE6D42 /* Foundation.framework */; };
 		686C97291888A88500BE6D42 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686C97281888A88500BE6D42 /* CoreGraphics.framework */; };
 		686C972B1888A88500BE6D42 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686C972A1888A88500BE6D42 /* UIKit.framework */; };
@@ -68,6 +72,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6832A14A1897734100476D5D /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
+		6832A14B1897734100476D5D /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
+		6832A14D1897735900476D5D /* Terrain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Terrain.h; sourceTree = "<group>"; };
+		6832A14E1897735900476D5D /* Terrain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Terrain.m; sourceTree = "<group>"; };
+		6832A1501897736700476D5D /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Board.h; sourceTree = "<group>"; };
+		6832A1511897736700476D5D /* Board.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Board.m; sourceTree = "<group>"; };
+		6832A1531897754B00476D5D /* Bank.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bank.h; sourceTree = "<group>"; };
+		6832A1541897754B00476D5D /* Bank.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bank.m; sourceTree = "<group>"; };
 		686C97231888A88500BE6D42 /* KingsNThings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KingsNThings.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		686C97261888A88500BE6D42 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		686C97281888A88500BE6D42 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -194,6 +206,14 @@
 				686C97431888A88500BE6D42 /* Spaceship.png */,
 				686C97451888A88500BE6D42 /* Images.xcassets */,
 				686C972F1888A88500BE6D42 /* Supporting Files */,
+				6832A14A1897734100476D5D /* Player.h */,
+				6832A14B1897734100476D5D /* Player.m */,
+				6832A14D1897735900476D5D /* Terrain.h */,
+				6832A14E1897735900476D5D /* Terrain.m */,
+				6832A1501897736700476D5D /* Board.h */,
+				6832A1511897736700476D5D /* Board.m */,
+				6832A1531897754B00476D5D /* Bank.h */,
+				6832A1541897754B00476D5D /* Bank.m */,
 			);
 			path = KingsNThings;
 			sourceTree = "<group>";
@@ -418,10 +438,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6832A1521897736700476D5D /* Board.m in Sources */,
 				686C97421888A88500BE6D42 /* MyScene.m in Sources */,
 				686C973F1888A88500BE6D42 /* ViewController.m in Sources */,
 				686C97391888A88500BE6D42 /* AppDelegate.m in Sources */,
+				6832A14F1897735900476D5D /* Terrain.m in Sources */,
+				6832A1551897754B00476D5D /* Bank.m in Sources */,
 				686C97351888A88500BE6D42 /* main.m in Sources */,
+				6832A14C1897734100476D5D /* Player.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
