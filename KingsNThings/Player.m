@@ -8,7 +8,8 @@
 
 #import "Player.h"
 
-@implementation Player
+@implementation Player{
+}
 
 - (id)init
 {

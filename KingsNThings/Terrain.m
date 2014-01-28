@@ -8,23 +8,29 @@
 
 #import "Terrain.h"
 
-@implementation Terrain
+@implementation Terrain{
+    CGPoint point;
+    SKSpriteNode *board;
+}
+@synthesize type,imageName,flipped,position;
 
-
-- (void) draw: (SKSpriteNode *) board atPoint: (CGPoint) point{
-    
-    // 2) Loading the images
-    NSArray *images = @[@"desert", @"forest", @"frozenWaste", @"jungle", @"mountains", @"plains", @"sea", @"swamp"];
-    NSArray *imageNames = @[@"Desert", @"Forest", @"Frozen Waste", @"Jungle", @"Mountains", @"Plains", @"Sea", @"Swamp"];
-    
-    for(int i = 0; i < [imageNames count]; ++i) {
-        NSString *image = [images objectAtIndex:i];
-        NSString *imageName = [imageNames objectAtIndex:i];
-        SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:image];
-        [sprite setName:imageName];
-        
-        [sprite setPosition:point];
-        [board addChild:sprite];
+- (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image andTerrainName: (NSString *) name
+{
+    self = [super init];
+    if (self) {
+        point = aPoint;
+        board = aBoard;
+        imageName = image;
+        type = name;
+        flipped = YES;
     }
+    return self;
+}
+
+- (void) draw{
+    SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:imageName];
+    [sprite setName:type];
+    [sprite setPosition:point];
+    [board addChild:sprite];
 }
 @end

@@ -11,7 +11,10 @@
 
 @interface Terrain : NSObject
     @property (nonatomic, strong) NSString* type;
+    @property (nonatomic, strong) NSString* imageName;
     @property BOOL flipped;
     @property int position;
 
+- (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image andTerrainName: (NSString *) name;
+- (void) draw;
 @end
