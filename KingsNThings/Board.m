@@ -9,6 +9,7 @@
 #import "Board.h"
 #import "Terrain.h"
 #import "Creature.h"
+#import "Bank.h"
 
 @implementation Board{
     NSArray * nonMovables;
@@ -20,6 +21,11 @@
     SKScene *scene;
     CGPoint point;
     CGSize size;
+    Bank *bank;
+    
+    SKLabelNode* Baltext;
+    SKLabelNode* BalLabel;
+    
 }
 static NSString * const defaultText = @"KingsNThings - Team24";
 
@@ -33,6 +39,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         scene = aScene;
         nonMovables = @[@"board", @"bowl", @"rack"];
         terrains = [[NSMutableArray alloc] init];
+        bank = [[Bank alloc]init];
     }
     return self;
 }
@@ -52,6 +59,8 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
     [self drawText];
     
+    [self drawBank];
+    
     [self initTerrains:CGPointMake(45.0f, (size.height) - 40)];
     [self initTerrains:CGPointMake(130.0f, (size.height) - 40)];
     
@@ -65,6 +74,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     [self drawCitadels:CGPointMake(25.0f, (size.height) - 100)];
     
     [self drawSpecialCreatures:CGPointMake(160.0f, (size.height) - 20)];
+    
 }
 
 - (void) resetText{
@@ -198,6 +208,123 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
     
     
+}
+
+-(void) drawBank
+{
+    if([bank getBalance] == 710){
+    
+        for (int i = 0 ; i < 20 ; i++){
+    
+            SKSpriteNode *one = [bank goldsWithImage:@"GoldOne.jpg"];
+            [one setName:@"One"];
+            one.size = CGSizeMake(40,41);
+            //one.centerRect = CGRectMake(12.0/430.0,12.0/440.0,4.0/430.0,4.0/440.0);
+            [one setPosition:CGPointMake(535.0f, (size.height) - 420)];
+            
+            SKSpriteNode *two = [bank goldsWithImage:@"GoldTwo.jpg"];
+            [two setName:@"Two"];
+            two.size = CGSizeMake(40,41);
+            //one.centerRect = CGRectMake(12.0/430.0,12.0/440.0,4.0/430.0,4.0/440.0);
+            [two setPosition:CGPointMake(585.0f, (size.height) - 420)];
+            
+            SKSpriteNode *five = [bank goldsWithImage:@"GoldFive.jpg"];
+            [five setName:@"Five"];
+            five.size = CGSizeMake(40,41);
+            //one.centerRect = CGRectMake(12.0/430.0,12.0/440.0,4.0/430.0,4.0/440.0);
+            [five setPosition:CGPointMake(635.0f, (size.height) - 420)];
+    
+            SKSpriteNode *ten = [bank goldsWithImage:@"GoldTen.jpg"];
+            [ten setName:@"Ten"];
+            ten.size = CGSizeMake(40,41);
+            //one.centerRect = CGRectMake(12.0/430.0,12.0/440.0,4.0/430.0,4.0/440.0);
+            [ten setPosition:CGPointMake(535.0f, (size.height) - 481)];
+            
+            if(i <= 9 ){
+                
+    
+                SKSpriteNode *fifteen = [bank goldsWithImage:@"GoldFifteen.jpg"];
+                [fifteen setName:@"Fifteen"];
+                fifteen.size = CGSizeMake(40,41);
+                //one.centerRect = CGRectMake(12.0/430.0,12.0/440.0,4.0/430.0,4.0/440.0);
+                [fifteen setPosition:CGPointMake(585.0f, (size.height) - 481)];
+    
+                SKSpriteNode *twenty = [bank goldsWithImage:@"GoldTwenty.jpg"];
+                [twenty setName:@"Twenty"];
+                twenty.size = CGSizeMake(40,41);
+                //one.centerRect = CGRectMake(12.0/430.0,12.0/440.0,4.0/430.0,4.0/440.0);
+                [twenty setPosition:CGPointMake(635.0f, (size.height) - 481)];
+                
+                
+                [board addChild:fifteen];
+                [board addChild:twenty];
+            }
+            [board addChild:one];
+            [board addChild:two];
+            [board addChild:five];
+            [board addChild:ten];
+        }
+    
+    }
+    
+    
+    
+    
+    
+    Baltext = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    Baltext.text = @"Balance: ";
+    Baltext.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeRight;
+    Baltext.fontSize = 15;
+    Baltext.position = CGPointMake(630.0f,(size.height) - 530.0f);
+
+    
+    NSString *balance = [NSString stringWithFormat: @"%d", (int)[bank getBalance]];
+    
+    BalLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    BalLabel.text = balance;
+    BalLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeRight;
+    BalLabel.fontSize = 15;
+    BalLabel.position = CGPointMake(660.0f,(size.height) - 530.0f);
+    
+    
+    
+    [board addChild:Baltext];
+    [board addChild:BalLabel];
+    
+}
+
+-(void)drawPlayerGold:(NSString*)goldType andPoint:(CGPoint)location{
+    
+    SKSpriteNode *gold = [bank goldsWithImage:goldType];
+    [gold setName:goldType];
+    gold.size = CGSizeMake(40,41);
+    //one.centerRect = CGRectMake(12.0/430.0,12.0/440.0,4.0/430.0,4.0/440.0);
+    [gold setPosition:CGPointMake(670.0f,(size.height) - 530.0f)];
+      [board addChild:gold];
+    
+    
+}
+-(void)updateBankBalance:(NSInteger)goldNum
+{
+    if(goldNum == 1)
+        [bank setOneGold:[bank oneGold]-1];
+    else if(goldNum == 2)
+        [bank setTwoGold:[bank twoGold]-1];
+    else if(goldNum == 5)
+        [bank setFiveGold:[bank fiveGold]-1];
+    else if(goldNum == 10)
+        [bank setTenGold:[bank tenGold]-1];
+    else if(goldNum == 15)
+        [bank setFifteenGold:[bank fifteenGold]-1];
+    else if(goldNum == 20)
+        [bank setTwentyGold:[bank twentyGold]-1];
+    
+    
+    [bank updateBalance];
+    
+    NSString *balance = [NSString stringWithFormat: @"%d", (int)[bank getBalance]];
+
+    BalLabel.text = balance;
 }
 
 @end

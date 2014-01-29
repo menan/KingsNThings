@@ -28,6 +28,20 @@
     /* Called when a touch begins */
     UITouch *touch = [touches anyObject];
     CGPoint positionInScene = [touch locationInNode:self];
+    
+    SKNode *node = [self nodeAtPoint:positionInScene];
+    
+    if ([node.name isEqualToString:@"One"]) {
+        
+        [gameBoard updateBankBalance:1];
+        
+    [gameBoard drawPlayerGold:@"GoldOne.jpg" andPoint:(CGPoint)positionInScene];
+        
+        NSLog(@"Button pressed");
+    }
+    
+    
+    else
     [self selectNodeForTouch:positionInScene];
     
 }

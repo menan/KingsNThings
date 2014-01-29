@@ -16,4 +16,6 @@
 - (void)draw;
 - (SKSpriteNode *) getBoard;
 - (void) resetText;
+-(void) updateBankBalance:(NSInteger)goldNum;
+-(void)drawPlayerGold:(NSString*)goldType andPoint:(CGPoint)location;
 @end

@@ -59,6 +59,11 @@
 		686C97CC188FA3BD00BE6D42 /* sc_10.png in Resources */ = {isa = PBXBuildFile; fileRef = 686C97C1188FA3BD00BE6D42 /* sc_10.png */; };
 		686C97CD188FA3BD00BE6D42 /* sc_11.png in Resources */ = {isa = PBXBuildFile; fileRef = 686C97C2188FA3BD00BE6D42 /* sc_11.png */; };
 		686C97CF188FA9CC00BE6D42 /* bc.png in Resources */ = {isa = PBXBuildFile; fileRef = 686C97CE188FA9CC00BE6D42 /* bc.png */; };
+		C54BA9E518996C4D0030D93B /* GoldFifteen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C54BA9DF18996C4D0030D93B /* GoldFifteen.jpg */; };
+		C54BA9E618996C4D0030D93B /* GoldFive.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C54BA9E018996C4D0030D93B /* GoldFive.jpg */; };
+		C54BA9E818996C4D0030D93B /* GoldTen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C54BA9E218996C4D0030D93B /* GoldTen.jpg */; };
+		C54BA9E918996C4D0030D93B /* GoldTwenty.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C54BA9E318996C4D0030D93B /* GoldTwenty.jpg */; };
+		C54BA9EA18996C4D0030D93B /* GoldTwo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C54BA9E418996C4D0030D93B /* GoldTwo.jpg */; };
 		E81E3BF31898554000449AA8 /* Creature.m in Sources */ = {isa = PBXBuildFile; fileRef = E81E3BF21898554000449AA8 /* Creature.m */; };
 /* End PBXBuildFile section */
 
@@ -135,6 +140,11 @@
 		686C97C1188FA3BD00BE6D42 /* sc_10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sc_10.png; sourceTree = "<group>"; };
 		686C97C2188FA3BD00BE6D42 /* sc_11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sc_11.png; sourceTree = "<group>"; };
 		686C97CE188FA9CC00BE6D42 /* bc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bc.png; sourceTree = "<group>"; };
+		C54BA9DF18996C4D0030D93B /* GoldFifteen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = GoldFifteen.jpg; sourceTree = "<group>"; };
+		C54BA9E018996C4D0030D93B /* GoldFive.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = GoldFive.jpg; sourceTree = "<group>"; };
+		C54BA9E218996C4D0030D93B /* GoldTen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = GoldTen.jpg; sourceTree = "<group>"; };
+		C54BA9E318996C4D0030D93B /* GoldTwenty.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = GoldTwenty.jpg; sourceTree = "<group>"; };
+		C54BA9E418996C4D0030D93B /* GoldTwo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = GoldTwo.jpg; sourceTree = "<group>"; };
 		E81E3BF11898554000449AA8 /* Creature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Creature.h; sourceTree = "<group>"; };
 		E81E3BF21898554000449AA8 /* Creature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Creature.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -258,6 +268,7 @@
 				686C97B7188F9F8800BE6D42 /* special creatures */,
 				686C979F188F976F00BE6D42 /* citadels */,
 				686C977B188F861C00BE6D42 /* rack.png */,
+				C54BA9EB18996C610030D93B /* Golds */,
 				686C9779188F820800BE6D42 /* bowl.png */,
 				686C9777188F6B3C00BE6D42 /* board.png */,
 				686C97A0188F977F00BE6D42 /* terrains */,
@@ -312,6 +323,18 @@
 				686C97C2188FA3BD00BE6D42 /* sc_11.png */,
 			);
 			name = "special creatures";
+			sourceTree = "<group>";
+		};
+		C54BA9EB18996C610030D93B /* Golds */ = {
+			isa = PBXGroup;
+			children = (
+				C54BA9E418996C4D0030D93B /* GoldTwo.jpg */,
+				C54BA9E318996C4D0030D93B /* GoldTwenty.jpg */,
+				C54BA9E218996C4D0030D93B /* GoldTen.jpg */,
+				C54BA9DF18996C4D0030D93B /* GoldFifteen.jpg */,
+				C54BA9E018996C4D0030D93B /* GoldFive.jpg */,
+			);
+			name = Golds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -391,6 +414,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				686C97331888A88500BE6D42 /* InfoPlist.strings in Resources */,
+				C54BA9E518996C4D0030D93B /* GoldFifteen.jpg in Resources */,
 				686C97C7188FA3BD00BE6D42 /* sc_5.png in Resources */,
 				686C97C4188FA3BD00BE6D42 /* sc_2.png in Resources */,
 				686C97C6188FA3BD00BE6D42 /* sc_4.png in Resources */,
@@ -402,11 +426,13 @@
 				686C9788188F8D1000BE6D42 /* citadel.png in Resources */,
 				686C97CB188FA3BD00BE6D42 /* sc_9.png in Resources */,
 				686C978D188F8D1000BE6D42 /* tower.png in Resources */,
+				C54BA9E918996C4D0030D93B /* GoldTwenty.jpg in Resources */,
 				686C97C8188FA3BD00BE6D42 /* sc_6.png in Resources */,
 				686C97C9188FA3BD00BE6D42 /* sc_7.png in Resources */,
 				686C9773188F693B00BE6D42 /* swamp.png in Resources */,
 				686C976F188F693B00BE6D42 /* jungle.png in Resources */,
 				686C97461888A88500BE6D42 /* Images.xcassets in Resources */,
+				C54BA9E818996C4D0030D93B /* GoldTen.jpg in Resources */,
 				686C9778188F6B3C00BE6D42 /* board.png in Resources */,
 				686C976C188F693B00BE6D42 /* desert.png in Resources */,
 				686C978E188F8D1000BE6D42 /* towerN.png in Resources */,
@@ -416,12 +442,14 @@
 				686C976D188F693B00BE6D42 /* forest.png in Resources */,
 				686C97C3188FA3BD00BE6D42 /* sc_1.png in Resources */,
 				686C97CA188FA3BD00BE6D42 /* sc_8.png in Resources */,
+				C54BA9EA18996C4D0030D93B /* GoldTwo.jpg in Resources */,
 				686C9787188F8D1000BE6D42 /* castleN.png in Resources */,
 				686C97CD188FA3BD00BE6D42 /* sc_11.png in Resources */,
 				686C977C188F861C00BE6D42 /* rack.png in Resources */,
 				686C978A188F8D1000BE6D42 /* keep.png in Resources */,
 				686C97CF188FA9CC00BE6D42 /* bc.png in Resources */,
 				686C973C1888A88500BE6D42 /* Main.storyboard in Resources */,
+				C54BA9E618996C4D0030D93B /* GoldFive.jpg in Resources */,
 				686C9789188F8D1000BE6D42 /* citadelN.png in Resources */,
 				686C977A188F820800BE6D42 /* bowl.png in Resources */,
 				686C97C5188FA3BD00BE6D42 /* sc_3.png in Resources */,
