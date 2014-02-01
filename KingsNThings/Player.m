@@ -22,11 +22,11 @@
 
 }
 
-- (id)initWithBank: (Bank *) myBank
+- (id)init
 {
     self = [super init];
     if (self) {
-        bank = myBank;
+        bank = [[Bank alloc] initWithOneGolds:0 twoGolds:0 fivesGolds:0 tenGolds:1 fifteenGolds:0 twentyGolds:0];
         stageOfBuilding = 1;
         [self updateIncome];
     }
@@ -48,6 +48,9 @@
 
 - (Bank *) getBank{
     return bank;
+}
+- (int) getBankBalance{
+    return [bank getBalance];
 }
 
 - (void) updateIncome{

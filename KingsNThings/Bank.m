@@ -42,6 +42,23 @@
     }
     return self;
 }
+
+- (id) initWithOneGolds: (int) ones twoGolds: (int) twos fivesGolds: (int) fives tenGolds: (int) tens fifteenGolds: (int) fifteens twentyGolds: (int) twentys{
+    
+    if ( self = [super init] )
+    {
+        [self setOneGold:ones];
+        [self setTwoGold:twos];
+        [self setFiveGold:fives];
+        [self setTenGold:tens];
+        [self setFifteenGold:fifteens];
+        [self setTwentyGold:twentys];
+        [self updateBalance];
+        
+        
+    }
+    return self;
+}
 /*- (id)initWithBoard:
 {
     self = [super init];

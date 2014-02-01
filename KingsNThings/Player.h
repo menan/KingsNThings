@@ -11,6 +11,5 @@
 
 @interface Player : NSObject
 
-- (id)initWithBank: (Bank *) myBank;
-
+- (int) getBankBalance;
 @end
