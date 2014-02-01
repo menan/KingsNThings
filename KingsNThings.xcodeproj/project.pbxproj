@@ -21,7 +21,6 @@
 		686C973C1888A88500BE6D42 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 686C973A1888A88500BE6D42 /* Main.storyboard */; };
 		686C973F1888A88500BE6D42 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 686C973E1888A88500BE6D42 /* ViewController.m */; };
 		686C97421888A88500BE6D42 /* MyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 686C97411888A88500BE6D42 /* MyScene.m */; };
-		686C97441888A88500BE6D42 /* Spaceship.png in Resources */ = {isa = PBXBuildFile; fileRef = 686C97431888A88500BE6D42 /* Spaceship.png */; };
 		686C97461888A88500BE6D42 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 686C97451888A88500BE6D42 /* Images.xcassets */; };
 		686C974D1888A88500BE6D42 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686C974C1888A88500BE6D42 /* XCTest.framework */; };
 		686C974E1888A88600BE6D42 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686C97261888A88500BE6D42 /* Foundation.framework */; };
@@ -59,6 +58,15 @@
 		686C97CC188FA3BD00BE6D42 /* sc_10.png in Resources */ = {isa = PBXBuildFile; fileRef = 686C97C1188FA3BD00BE6D42 /* sc_10.png */; };
 		686C97CD188FA3BD00BE6D42 /* sc_11.png in Resources */ = {isa = PBXBuildFile; fileRef = 686C97C2188FA3BD00BE6D42 /* sc_11.png */; };
 		686C97CF188FA9CC00BE6D42 /* bc.png in Resources */ = {isa = PBXBuildFile; fileRef = 686C97CE188FA9CC00BE6D42 /* bc.png */; };
+		68EF3313189CB0FD00A93480 /* battle.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 68EF330E189CB0FD00A93480 /* battle.jpg */; };
+		68EF3314189CB0FD00A93480 /* p_gray.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 68EF330F189CB0FD00A93480 /* p_gray.jpg */; };
+		68EF3315189CB0FD00A93480 /* p_green.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 68EF3310189CB0FD00A93480 /* p_green.jpg */; };
+		68EF3316189CB0FD00A93480 /* p_red.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 68EF3311189CB0FD00A93480 /* p_red.jpg */; };
+		68EF3317189CB0FD00A93480 /* p_yellow.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 68EF3312189CB0FD00A93480 /* p_yellow.jpg */; };
+		68EF331A189CB52F00A93480 /* GoldOne.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 68EF3319189CB52F00A93480 /* GoldOne.jpg */; };
+		68EF331D189CCEF700A93480 /* NSMutableArrayShuffling.m in Sources */ = {isa = PBXBuildFile; fileRef = 68EF331C189CCEF700A93480 /* NSMutableArrayShuffling.m */; };
+		68EF3320189CD51A00A93480 /* GamePlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 68EF331F189CD51A00A93480 /* GamePlay.m */; };
+		68EF3322189CD80300A93480 /* dice.png in Resources */ = {isa = PBXBuildFile; fileRef = 68EF3321189CD80300A93480 /* dice.png */; };
 		C54BA9E518996C4D0030D93B /* GoldFifteen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C54BA9DF18996C4D0030D93B /* GoldFifteen.jpg */; };
 		C54BA9E618996C4D0030D93B /* GoldFive.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C54BA9E018996C4D0030D93B /* GoldFive.jpg */; };
 		C54BA9E818996C4D0030D93B /* GoldTen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C54BA9E218996C4D0030D93B /* GoldTen.jpg */; };
@@ -102,7 +110,6 @@
 		686C973E1888A88500BE6D42 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		686C97401888A88500BE6D42 /* MyScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyScene.h; sourceTree = "<group>"; };
 		686C97411888A88500BE6D42 /* MyScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyScene.m; sourceTree = "<group>"; };
-		686C97431888A88500BE6D42 /* Spaceship.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Spaceship.png; sourceTree = "<group>"; };
 		686C97451888A88500BE6D42 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		686C974B1888A88500BE6D42 /* KingsNThingsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KingsNThingsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		686C974C1888A88500BE6D42 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -140,6 +147,17 @@
 		686C97C1188FA3BD00BE6D42 /* sc_10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sc_10.png; sourceTree = "<group>"; };
 		686C97C2188FA3BD00BE6D42 /* sc_11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sc_11.png; sourceTree = "<group>"; };
 		686C97CE188FA9CC00BE6D42 /* bc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bc.png; sourceTree = "<group>"; };
+		68EF330E189CB0FD00A93480 /* battle.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = battle.jpg; sourceTree = "<group>"; };
+		68EF330F189CB0FD00A93480 /* p_gray.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = p_gray.jpg; sourceTree = "<group>"; };
+		68EF3310189CB0FD00A93480 /* p_green.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = p_green.jpg; sourceTree = "<group>"; };
+		68EF3311189CB0FD00A93480 /* p_red.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = p_red.jpg; sourceTree = "<group>"; };
+		68EF3312189CB0FD00A93480 /* p_yellow.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = p_yellow.jpg; sourceTree = "<group>"; };
+		68EF3319189CB52F00A93480 /* GoldOne.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = GoldOne.jpg; sourceTree = "<group>"; };
+		68EF331B189CCEF700A93480 /* NSMutableArrayShuffling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSMutableArrayShuffling.h; path = KingsNThings/NSMutableArrayShuffling.h; sourceTree = "<group>"; };
+		68EF331C189CCEF700A93480 /* NSMutableArrayShuffling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSMutableArrayShuffling.m; path = KingsNThings/NSMutableArrayShuffling.m; sourceTree = "<group>"; };
+		68EF331E189CD51A00A93480 /* GamePlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePlay.h; sourceTree = "<group>"; };
+		68EF331F189CD51A00A93480 /* GamePlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePlay.m; sourceTree = "<group>"; };
+		68EF3321189CD80300A93480 /* dice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dice.png; sourceTree = "<group>"; };
 		C54BA9DF18996C4D0030D93B /* GoldFifteen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = GoldFifteen.jpg; sourceTree = "<group>"; };
 		C54BA9E018996C4D0030D93B /* GoldFive.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = GoldFive.jpg; sourceTree = "<group>"; };
 		C54BA9E218996C4D0030D93B /* GoldTen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = GoldTen.jpg; sourceTree = "<group>"; };
@@ -177,6 +195,8 @@
 		686C971A1888A88500BE6D42 = {
 			isa = PBXGroup;
 			children = (
+				68EF331B189CCEF700A93480 /* NSMutableArrayShuffling.h */,
+				68EF331C189CCEF700A93480 /* NSMutableArrayShuffling.m */,
 				686C972E1888A88500BE6D42 /* KingsNThings */,
 				686C97521888A88600BE6D42 /* KingsNThingsTests */,
 				686C97251888A88500BE6D42 /* Frameworks */,
@@ -208,17 +228,16 @@
 		686C972E1888A88500BE6D42 /* KingsNThings */ = {
 			isa = PBXGroup;
 			children = (
+				686C973A1888A88500BE6D42 /* Main.storyboard */,
+				686C97451888A88500BE6D42 /* Images.xcassets */,
+				686C972F1888A88500BE6D42 /* Supporting Files */,
 				686C9762188F693B00BE6D42 /* images */,
 				686C97371888A88500BE6D42 /* AppDelegate.h */,
 				686C97381888A88500BE6D42 /* AppDelegate.m */,
-				686C973A1888A88500BE6D42 /* Main.storyboard */,
 				686C973D1888A88500BE6D42 /* ViewController.h */,
 				686C973E1888A88500BE6D42 /* ViewController.m */,
 				686C97401888A88500BE6D42 /* MyScene.h */,
 				686C97411888A88500BE6D42 /* MyScene.m */,
-				686C97431888A88500BE6D42 /* Spaceship.png */,
-				686C97451888A88500BE6D42 /* Images.xcassets */,
-				686C972F1888A88500BE6D42 /* Supporting Files */,
 				6832A14A1897734100476D5D /* Player.h */,
 				6832A14B1897734100476D5D /* Player.m */,
 				6832A14D1897735900476D5D /* Terrain.h */,
@@ -229,6 +248,8 @@
 				6832A1541897754B00476D5D /* Bank.m */,
 				E81E3BF11898554000449AA8 /* Creature.h */,
 				E81E3BF21898554000449AA8 /* Creature.m */,
+				68EF331E189CD51A00A93480 /* GamePlay.h */,
+				68EF331F189CD51A00A93480 /* GamePlay.m */,
 			);
 			path = KingsNThings;
 			sourceTree = "<group>";
@@ -265,6 +286,8 @@
 		686C9762188F693B00BE6D42 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				68EF3321189CD80300A93480 /* dice.png */,
+				68EF3318189CB10200A93480 /* markers */,
 				686C97B7188F9F8800BE6D42 /* special creatures */,
 				686C979F188F976F00BE6D42 /* citadels */,
 				686C977B188F861C00BE6D42 /* rack.png */,
@@ -325,12 +348,25 @@
 			name = "special creatures";
 			sourceTree = "<group>";
 		};
+		68EF3318189CB10200A93480 /* markers */ = {
+			isa = PBXGroup;
+			children = (
+				68EF330E189CB0FD00A93480 /* battle.jpg */,
+				68EF330F189CB0FD00A93480 /* p_gray.jpg */,
+				68EF3310189CB0FD00A93480 /* p_green.jpg */,
+				68EF3311189CB0FD00A93480 /* p_red.jpg */,
+				68EF3312189CB0FD00A93480 /* p_yellow.jpg */,
+			);
+			name = markers;
+			sourceTree = "<group>";
+		};
 		C54BA9EB18996C610030D93B /* Golds */ = {
 			isa = PBXGroup;
 			children = (
 				C54BA9E418996C4D0030D93B /* GoldTwo.jpg */,
 				C54BA9E318996C4D0030D93B /* GoldTwenty.jpg */,
 				C54BA9E218996C4D0030D93B /* GoldTen.jpg */,
+				68EF3319189CB52F00A93480 /* GoldOne.jpg */,
 				C54BA9DF18996C4D0030D93B /* GoldFifteen.jpg */,
 				C54BA9E018996C4D0030D93B /* GoldFive.jpg */,
 			);
@@ -426,11 +462,14 @@
 				686C9788188F8D1000BE6D42 /* citadel.png in Resources */,
 				686C97CB188FA3BD00BE6D42 /* sc_9.png in Resources */,
 				686C978D188F8D1000BE6D42 /* tower.png in Resources */,
+				68EF3314189CB0FD00A93480 /* p_gray.jpg in Resources */,
 				C54BA9E918996C4D0030D93B /* GoldTwenty.jpg in Resources */,
 				686C97C8188FA3BD00BE6D42 /* sc_6.png in Resources */,
 				686C97C9188FA3BD00BE6D42 /* sc_7.png in Resources */,
+				68EF3315189CB0FD00A93480 /* p_green.jpg in Resources */,
 				686C9773188F693B00BE6D42 /* swamp.png in Resources */,
 				686C976F188F693B00BE6D42 /* jungle.png in Resources */,
+				68EF331A189CB52F00A93480 /* GoldOne.jpg in Resources */,
 				686C97461888A88500BE6D42 /* Images.xcassets in Resources */,
 				C54BA9E818996C4D0030D93B /* GoldTen.jpg in Resources */,
 				686C9778188F6B3C00BE6D42 /* board.png in Resources */,
@@ -438,19 +477,22 @@
 				686C978E188F8D1000BE6D42 /* towerN.png in Resources */,
 				686C9786188F8D1000BE6D42 /* castle.png in Resources */,
 				686C9771188F693B00BE6D42 /* plains.png in Resources */,
-				686C97441888A88500BE6D42 /* Spaceship.png in Resources */,
 				686C976D188F693B00BE6D42 /* forest.png in Resources */,
 				686C97C3188FA3BD00BE6D42 /* sc_1.png in Resources */,
 				686C97CA188FA3BD00BE6D42 /* sc_8.png in Resources */,
 				C54BA9EA18996C4D0030D93B /* GoldTwo.jpg in Resources */,
+				68EF3322189CD80300A93480 /* dice.png in Resources */,
 				686C9787188F8D1000BE6D42 /* castleN.png in Resources */,
 				686C97CD188FA3BD00BE6D42 /* sc_11.png in Resources */,
+				68EF3316189CB0FD00A93480 /* p_red.jpg in Resources */,
 				686C977C188F861C00BE6D42 /* rack.png in Resources */,
 				686C978A188F8D1000BE6D42 /* keep.png in Resources */,
 				686C97CF188FA9CC00BE6D42 /* bc.png in Resources */,
 				686C973C1888A88500BE6D42 /* Main.storyboard in Resources */,
 				C54BA9E618996C4D0030D93B /* GoldFive.jpg in Resources */,
 				686C9789188F8D1000BE6D42 /* citadelN.png in Resources */,
+				68EF3317189CB0FD00A93480 /* p_yellow.jpg in Resources */,
+				68EF3313189CB0FD00A93480 /* battle.jpg in Resources */,
 				686C977A188F820800BE6D42 /* bowl.png in Resources */,
 				686C97C5188FA3BD00BE6D42 /* sc_3.png in Resources */,
 			);
@@ -475,6 +517,8 @@
 				686C97421888A88500BE6D42 /* MyScene.m in Sources */,
 				686C973F1888A88500BE6D42 /* ViewController.m in Sources */,
 				686C97391888A88500BE6D42 /* AppDelegate.m in Sources */,
+				68EF331D189CCEF700A93480 /* NSMutableArrayShuffling.m in Sources */,
+				68EF3320189CD51A00A93480 /* GamePlay.m in Sources */,
 				6832A14F1897735900476D5D /* Terrain.m in Sources */,
 				6832A1551897754B00476D5D /* Bank.m in Sources */,
 				686C97351888A88500BE6D42 /* main.m in Sources */,

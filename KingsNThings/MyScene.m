@@ -19,7 +19,7 @@
         
         gameBoard = [[Board alloc] initWithScene:self atPoint:CGPointMake(0,225) withSize:CGSizeMake(size.width, 576.0f)];
         [gameBoard draw];
-        nonMovables = @[@"board", @"bowl", @"rack"];
+        nonMovables = [gameBoard getNonMovables];
     }
     return self;
 }
@@ -31,18 +31,42 @@
     
     SKNode *node = [self nodeAtPoint:positionInScene];
     
-    if ([node.name isEqualToString:@"One"]) {
-        
+    if ([node.name isEqualToString:@"Gold 1"]) {
         [gameBoard updateBankBalance:1];
-        
-    [gameBoard drawPlayerGold:@"GoldOne.jpg" andPoint:(CGPoint)positionInScene];
-        
-        NSLog(@"Button pressed");
+        [gameBoard drawPlayerGold:@"GoldOne.jpg" withName:@"My Gold 1" andPoint:(CGPoint)positionInScene];
+        [node removeFromParent];
+//        NSLog(@"Button pressed");
     }
-    
-    
+    else if ([node.name isEqualToString:@"Gold 2"]){
+        [gameBoard updateBankBalance:2];
+        [gameBoard drawPlayerGold:@"GoldTwo.jpg" withName:@"My Gold 2" andPoint:(CGPoint)positionInScene];
+        [node removeFromParent];
+    }
+    else if ([node.name isEqualToString:@"Gold 5"]){
+        [gameBoard updateBankBalance:5];
+        [gameBoard drawPlayerGold:@"GoldFive.jpg" withName:@"My Gold 5" andPoint:(CGPoint)positionInScene];
+        [node removeFromParent];
+    }
+    else if ([node.name isEqualToString:@"Gold 10"]){
+        [gameBoard updateBankBalance:10];
+        [gameBoard drawPlayerGold:@"GoldTen.jpg" withName:@"My Gold 10" andPoint:(CGPoint)positionInScene];
+        [node removeFromParent];
+    }
+    else if ([node.name isEqualToString:@"Gold 15"]){
+        [gameBoard updateBankBalance:15];
+        [gameBoard drawPlayerGold:@"GoldFifteen.jpg" withName:@"My Gold 15" andPoint:(CGPoint)positionInScene];
+        [node removeFromParent];
+    }
+    else if ([node.name isEqualToString:@"Gold 20"]){
+        [gameBoard updateBankBalance:20];
+        [gameBoard drawPlayerGold:@"GoldTwenty.jpg" withName:@"My Gold 20" andPoint:(CGPoint)positionInScene];
+        [node removeFromParent];
+    }
+    else if ([node.name isEqualToString:@"dice"]){
+        [gameBoard rollDice];
+    }
     else
-    [self selectNodeForTouch:positionInScene];
+        [self selectNodeForTouch:positionInScene];
     
 }
 - (void)selectNodeForTouch:(CGPoint)touchLocation {

@@ -41,6 +41,7 @@
 - (void) draw{
     SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:imageName];
     [sprite setName:name];
+    sprite.size = CGSizeMake(36,36);
     [sprite setPosition:point];
     [board addChild:sprite];
 }

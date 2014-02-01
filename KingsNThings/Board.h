@@ -17,5 +17,7 @@
 - (SKSpriteNode *) getBoard;
 - (void) resetText;
 -(void) updateBankBalance:(NSInteger)goldNum;
--(void)drawPlayerGold:(NSString*)goldType andPoint:(CGPoint)location;
+- (NSArray *) getNonMovables;
+-(void)drawPlayerGold:(NSString*)goldType withName:(NSString *)name andPoint:(CGPoint)location;
+- (void) rollDice;
 @end
