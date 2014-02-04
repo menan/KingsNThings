@@ -7,12 +7,11 @@
 //
 
 #import "Player.h"
-#import "Terrain.h"
 
 @implementation Player{
     int income;
     int orderOfPlay;
-    int stageOfBuilding;
+    Stage stageOfBuilding;
     Bank* bank;
     
     NSMutableArray* armies;
@@ -21,25 +20,33 @@
     NSMutableArray* treasures;
 
 }
-
 - (id)init
 {
     self = [super init];
     if (self) {
         bank = [[Bank alloc] initWithOneGolds:0 twoGolds:0 fivesGolds:0 tenGolds:1 fifteenGolds:0 twentyGolds:0];
-        stageOfBuilding = 1;
+        stageOfBuilding = Tower;
+        territories = [[NSMutableArray alloc] init];
+        specialCharacters = [[NSMutableArray alloc] init];
+        armies = [[NSMutableArray alloc] init];
+        treasures = [[NSMutableArray alloc] init];
         [self updateIncome];
     }
     return self;
 }
 
-- (void) setTerritory: (Terrain *) territory{
+- (BOOL) setTerritory: (Terrain *) territory{
+    NSLog(@"Adding territory: %@", territory.type);
     if ([territories count] < 3){
         [territories addObject:territory];
+        NSLog(@"player territory is set for : %@", territory.node.name);
         [self updateIncome];
+        return YES;
     }
-    else
+    else{
+        return NO;
         NSLog(@"3 territories set already :)");
+    }
 }
 
 - (void) updateBank: (Bank *) myBank{
@@ -51,6 +58,10 @@
 }
 - (int) getBankBalance{
     return [bank getBalance];
+}
+
+- (Stage) getStage{
+    return stageOfBuilding;
 }
 
 - (void) updateIncome{

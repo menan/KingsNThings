@@ -72,7 +72,6 @@
 - (void)selectNodeForTouch:(CGPoint)touchLocation {
     //1
     SKSpriteNode *touchedNode = (SKSpriteNode *)[self nodeAtPoint:touchLocation];
-    
     //2
 	if(![_selectedNode isEqual:touchedNode]) {
 		[_selectedNode removeAllActions];
@@ -82,8 +81,10 @@
 		_selectedNode = touchedNode;
         if ([nonMovables containsObject: [_selectedNode name]])
             [gameBoard resetText];
-        else
-            [gameBoard.textLabel setText:[touchedNode name]];
+        else{
+            [gameBoard nodeTapped:touchedNode];
+//            [gameBoard.textLabel setText:[touchedNode name]];
+        }
             
 		//3
 		if([nonMovables containsObject: [_selectedNode name]] == NO) {
@@ -113,9 +114,10 @@ float degToRad(float degree) {
 - (void)panForTranslation:(CGPoint)translation {
     CGPoint position = [_selectedNode position];
     if([nonMovables containsObject: [_selectedNode name]] == NO) {
-        [_selectedNode setPosition:CGPointMake(position.x + translation.x, position.y + translation.y)];
+        [gameBoard nodeMoving:_selectedNode to:CGPointMake(position.x + translation.x, position.y + translation.y)];
     }
 }
+
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
 	UITouch *touch = [touches anyObject];
 	CGPoint positionInScene = [touch locationInNode:self];
@@ -126,43 +128,13 @@ float degToRad(float degree) {
 	[self panForTranslation:translation];
 }
 
-- (void)handlePanFrom:(UIPanGestureRecognizer *)recognizer {
-    NSLog(@"move changed: %d",recognizer.state);
-	if (recognizer.state == UIGestureRecognizerStateBegan) {
-        
-        CGPoint touchLocation = [recognizer locationInView:recognizer.view];
-        
-        touchLocation = [self convertPointFromView:touchLocation];
-        
-        [self selectNodeForTouch:touchLocation];
-        
-        
-    } else if (recognizer.state == UIGestureRecognizerStateChanged) {
-        
-        CGPoint translation = [recognizer translationInView:recognizer.view];
-        translation = CGPointMake(translation.x, -translation.y);
-        [self panForTranslation:translation];
-        [recognizer setTranslation:CGPointZero inView:recognizer.view];
-        
-    } else if (recognizer.state == UIGestureRecognizerStateEnded) {
-        
-        if (![nonMovables containsObject: [_selectedNode name]] == NO) {
-            float scrollDuration = 0.2;
-            CGPoint velocity = [recognizer velocityInView:recognizer.view];
-            CGPoint pos = [_selectedNode position];
-            CGPoint p = mult(velocity, scrollDuration);
-            
-            CGPoint newPos = CGPointMake(pos.x + p.x, pos.y + p.y);
-            newPos = [self boundLayerPos:newPos];
-            [_selectedNode removeAllActions];
-            
-            SKAction *moveTo = [SKAction moveTo:newPos duration:scrollDuration];
-            [moveTo setTimingMode:SKActionTimingEaseOut];
-            [_selectedNode runAction:moveTo];
-        }
-        
-    }
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+	UITouch *touch = [touches anyObject];
+	CGPoint positionInScene = [touch locationInNode:self];
+    [gameBoard nodeMoved:_selectedNode nodes:[self nodesAtPoint:positionInScene]];
+    _selectedNode = NULL;
 }
+
 CGPoint mult(const CGPoint v, const CGFloat s) {
 	return CGPointMake(v.x*s, v.y*s);
 }

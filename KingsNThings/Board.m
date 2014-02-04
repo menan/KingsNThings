@@ -16,6 +16,8 @@
 @implementation Board{
     NSArray * nonMovables;
     
+    NSArray *terrainNames;
+    
     NSMutableArray *terrains;
     NSMutableArray *creatures;
     
@@ -49,13 +51,24 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         playersCount = 4;
         rollValue = 0;
         nonMovables = @[@"board", @"bowl", @"rack", @"Gold 1", @"Gold 2", @"Gold 5", @"Gold 10", @"Gold 15", @"Gold 20", @"My Gold 1", @"My Gold 2", @"My Gold 5", @"My Gold 10", @"My Gold 15", @"My Gold 20", @"dice"];
+        terrainNames = @[@"Desert", @"Forest", @"Frozen Waste", @"Jungle", @"Mountains", @"Plains", @"Sea", @"Swamp"];
+        
         terrains = [[NSMutableArray alloc] init];
+        players = [[NSMutableArray alloc] init];
         bank = [[Bank alloc]init];
         
-        Player *player = [[Player alloc] init];
+        Player *player1 = [[Player alloc] init];
+        Player *player2 = [[Player alloc] init];
+        Player *player3 = [[Player alloc] init];
+        Player *player4 = [[Player alloc] init];
         
-        [players addObject:player];
-        NSLog(@"player 1 balance: %d", [player getBankBalance]);
+        [players addObject:player1];
+        [players addObject:player2];
+        [players addObject:player3];
+        [players addObject:player4];
+        
+        
+        NSLog(@"player 1 balance: %d and stage of building: %d", [player1 getBankBalance], [player1 getStage]);
         
     }
     return self;
@@ -436,12 +449,6 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     diceLabel.text = [NSString stringWithFormat:@"%d",r];
     rollValue = r;
     
-    for (Terrain *terrain in terrains) {
-        NSLog(@"Terrain Name: %@, position: %f,%f",terrain.node.name, terrain.node.position.x, terrain.node.position.y );
-    }
-    
-    
-    
 }
 
 - (void) hardCodeTerrains{
@@ -504,5 +511,76 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     }
 }
 
+- (Terrain *) findTerrainAt:(CGPoint) thisPoint{
+    for (Terrain * terrain in terrains) {
+//        NSLog(@"finding terrain at location: %f, %f <==> %f,%f",thisPoint.x, thisPoint.y, terrain.node.position.x, terrain.node.position.y);
+        if (terrain.node.position.x == thisPoint.x && terrain.node.position.y == thisPoint.y) {
+            NSLog(@"Found!: terrain: %@", terrain.type);
+            return terrain;
+        }
+    }
+    return NULL;
+}
+
+- (void) nodeTapped:(SKSpriteNode*) node{
+    [textLabel setText:[node name]];
+}
+- (void) nodeMoving:(SKSpriteNode*) node to:(CGPoint) movedTo{
+    [node setPosition:movedTo];
+}
+
+- (void) nodeMoved:(SKSpriteNode *)node nodes:(NSArray *)nodes{
+    node.colorBlendFactor = 0;
+    [self resetText];
+    CGPoint terrainPoint;
+    for (SKSpriteNode *nodeTerrain in nodes) {
+        if ([terrainNames containsObject:nodeTerrain.name]) {
+            terrainPoint = nodeTerrain.position;
+        }
+    }
+    
+    if ([node.name isEqualToString:@"Player 1"]) {
+        Player *p = (Player *)[players objectAtIndex:0];
+        if ([p setTerritory:[self findTerrainAt:terrainPoint]]){
+            NSLog(@"set territory");
+            node.name = @"bowl";
+        }
+        else{
+            [node setPosition:CGPointMake(380.0f, 25.0f)];
+        }
+    }
+    else if ([node.name isEqualToString:@"Player 2"]) {
+        Player *p = (Player *)[players objectAtIndex:1];
+        if ([p setTerritory:[self findTerrainAt:terrainPoint]]){
+            NSLog(@"set territory");
+            node.name = @"bowl";
+        }
+        else{
+            [node setPosition:CGPointMake(380.0f + 43.0f, 25.0f)];
+        }
+    }
+    else if ([node.name isEqualToString:@"Player 3"]) {
+        Player *p = (Player *)[players objectAtIndex:2];
+        if ([p setTerritory:[self findTerrainAt:terrainPoint]]){
+            NSLog(@"set territory");
+            node.name = @"bowl";
+        }
+        else{
+            [node setPosition:CGPointMake(380.0f  + 86.0f, 25.0f)];
+        }
+    }
+    else if ([node.name isEqualToString:@"Player 4"]) {
+        Player *p = (Player *)[players objectAtIndex:3];
+        if ([p setTerritory:[self findTerrainAt:terrainPoint]]){
+            NSLog(@"set territory");
+            node.name = @"bowl";
+        }
+        else{
+            [node setPosition:CGPointMake(380.0f + 129.0f, 25.0f)];
+        }
+    }
+//    NSLog(@"%@ Moved to : %f,%f", node.name, node.position.x, node.position.y);
+    
+}
 
 @end
