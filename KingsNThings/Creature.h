@@ -10,6 +10,7 @@
 #import <SpriteKit/SpriteKit.h>
 
 @interface Creature : NSObject
+@property (nonatomic, strong) SKSpriteNode* node;
 
 - (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image andCreatureName: (NSString *) cName withCombatValue: (int) value forTerrainType: (NSString *) terrain isSpecial:(BOOL) special andCombatType:(NSString *) cType;
 - (id) initWithBoard:(SKSpriteNode *)aBoard atPoint:(CGPoint)aPoint fromString:(NSString *)string;
