@@ -11,6 +11,7 @@
 #import "Creature.h"
 #import "Bank.h"
 #import "Player.h"
+#import "GamePlay.h"
 #import "NSMutableArrayShuffling.h"
 
 @implementation Board{
@@ -21,13 +22,12 @@
     NSMutableArray *terrains;
     NSMutableArray *creatures;
     
-    NSMutableArray *players;
-    
     SKSpriteNode *board;
     SKScene *scene;
     CGPoint point;
     CGSize size;
     Bank *bank;
+    GamePlay *game;
     
     SKLabelNode* balanceLabel;
     SKLabelNode* balanceText;
@@ -54,21 +54,9 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         terrainNames = @[@"Desert", @"Forest", @"Frozen Waste", @"Jungle", @"Mountains", @"Plains", @"Sea", @"Swamp"];
         
         terrains = [[NSMutableArray alloc] init];
-        players = [[NSMutableArray alloc] init];
         bank = [[Bank alloc]init];
         
-        Player *player1 = [[Player alloc] init];
-        Player *player2 = [[Player alloc] init];
-        Player *player3 = [[Player alloc] init];
-        Player *player4 = [[Player alloc] init];
-        
-        [players addObject:player1];
-        [players addObject:player2];
-        [players addObject:player3];
-        [players addObject:player4];
-        
-        
-        NSLog(@"player 1 balance: %d and stage of building: %d", [player1 getBankBalance], [player1 getStage]);
+        game = [[GamePlay alloc] initWith4Players];
         
     }
     return self;
@@ -540,8 +528,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     }
     
     if ([node.name isEqualToString:@"Player 1"]) {
-        Player *p = (Player *)[players objectAtIndex:0];
-        if ([p setTerritory:[self findTerrainAt:terrainPoint]]){
+        if ([game.player1 setTerritory:[self findTerrainAt:terrainPoint]]){
             NSLog(@"set territory");
             node.name = @"bowl";
         }
@@ -550,8 +537,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         }
     }
     else if ([node.name isEqualToString:@"Player 2"]) {
-        Player *p = (Player *)[players objectAtIndex:1];
-        if ([p setTerritory:[self findTerrainAt:terrainPoint]]){
+        if ([game.player2 setTerritory:[self findTerrainAt:terrainPoint]]){
             NSLog(@"set territory");
             node.name = @"bowl";
         }
@@ -560,8 +546,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         }
     }
     else if ([node.name isEqualToString:@"Player 3"]) {
-        Player *p = (Player *)[players objectAtIndex:2];
-        if ([p setTerritory:[self findTerrainAt:terrainPoint]]){
+        if ([game.player3 setTerritory:[self findTerrainAt:terrainPoint]]){
             NSLog(@"set territory");
             node.name = @"bowl";
         }
@@ -570,8 +555,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         }
     }
     else if ([node.name isEqualToString:@"Player 4"]) {
-        Player *p = (Player *)[players objectAtIndex:3];
-        if ([p setTerritory:[self findTerrainAt:terrainPoint]]){
+        if ([game.player4 setTerritory:[self findTerrainAt:terrainPoint]]){
             NSLog(@"set territory");
             node.name = @"bowl";
         }
