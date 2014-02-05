@@ -20,4 +20,7 @@
 - (NSArray *) getNonMovables;
 -(void)drawPlayerGold:(NSString*)goldType withName:(NSString *)name andPoint:(CGPoint)location;
 - (void) rollDice;
+- (void) nodeTapped:(SKSpriteNode*) node;
+- (void) nodeMoved:(SKSpriteNode *)node nodes:(NSArray *)nodes;
+- (void) nodeMoving:(SKSpriteNode*) node to:(CGPoint) modTo;
 @end

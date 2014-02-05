@@ -16,6 +16,8 @@
 @implementation Board{
     NSArray * nonMovables;
     
+    NSArray *terrainNames;
+    
     NSMutableArray *terrains;
     NSMutableArray *creatures;
     
@@ -49,13 +51,24 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         playersCount = 4;
         rollValue = 0;
         nonMovables = @[@"board", @"bowl", @"rack", @"Gold 1", @"Gold 2", @"Gold 5", @"Gold 10", @"Gold 15", @"Gold 20", @"My Gold 1", @"My Gold 2", @"My Gold 5", @"My Gold 10", @"My Gold 15", @"My Gold 20", @"dice"];
+        terrainNames = @[@"Desert", @"Forest", @"Frozen Waste", @"Jungle", @"Mountains", @"Plains", @"Sea", @"Swamp"];
+        
         terrains = [[NSMutableArray alloc] init];
+        players = [[NSMutableArray alloc] init];
         bank = [[Bank alloc]init];
         
-        Player *player = [[Player alloc] init];
+        Player *player1 = [[Player alloc] init];
+        Player *player2 = [[Player alloc] init];
+        Player *player3 = [[Player alloc] init];
+        Player *player4 = [[Player alloc] init];
         
-        [players addObject:player];
-        NSLog(@"player 1 balance: %d", [player getBankBalance]);
+        [players addObject:player1];
+        [players addObject:player2];
+        [players addObject:player3];
+        [players addObject:player4];
+        
+        
+        NSLog(@"player 1 balance: %d and stage of building: %d", [player1 getBankBalance], [player1 getStage]);
         
     }
     return self;
@@ -82,8 +95,10 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
     [self drawDice:CGPointMake(25.0f, 25.0f)];
     
-    [self initTerrains:CGPointMake(45.0f, (size.height) - 40)];
-    [self initTerrains:CGPointMake(130.0f, (size.height) - 40)];
+//    [self initTerrains:CGPointMake(45.0f, (size.height) - 40)];
+//    [self initTerrains:CGPointMake(130.0f, (size.height) - 40)];
+    
+    [self hardCodeTerrains];
     
     [self drawBowlwithThings:CGPointMake(450.0f, (size.height) - 40)];
     
@@ -114,12 +129,13 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 
 - (void) initTerrains:(CGPoint) tPoint{
     
-    [terrains removeAllObjects];
+    NSLog(@"Placing terrains at : %f,%f", tPoint.x, tPoint.y );
+//    [terrains removeAllObjects];
     // 2) Loading the images
     NSArray *images = @[@"desert", @"forest", @"frozenWaste", @"jungle", @"mountains", @"plains", @"sea", @"swamp"];
     NSArray *imageNames = @[@"Desert", @"Forest", @"Frozen Waste", @"Jungle", @"Mountains", @"Plains", @"Sea", @"Swamp"];
     
-    for (int i = 0; i <= playersCount; i++) {
+    for (int i = 0; i <= 2; i++) {
         for(int i = 0; i < [imageNames count]; ++i) {
             NSString *image = [images objectAtIndex:i];
             NSString *imageName = [imageNames objectAtIndex:i];
@@ -132,6 +148,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     [terrains shuffle];
     [terrains shuffle];
     [terrains shuffle];
+    
     for (Terrain * terrain in terrains) {
         [terrain draw];
     }
@@ -221,7 +238,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 }
 - (void) drawMarkers:(CGPoint) aPoint{
     
-    for (int i = 0; i <= 2; i++) {
+    for (int i = 0; i <= 5; i++) {
         
         SKSpriteNode *player1 = [SKSpriteNode spriteNodeWithImageNamed:@"p_red.jpg"];
         [player1 setName:@"Player 1"];
@@ -431,7 +448,139 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     int r = (arc4random() % 10) + 2;
     diceLabel.text = [NSString stringWithFormat:@"%d",r];
     rollValue = r;
+    
 }
 
+- (void) hardCodeTerrains{
+    
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(303.000000,213.500000) imageNamed:@"Plains" andTerrainName:@"Plains"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(303.750000,356.750000) imageNamed:@"Mountains" andTerrainName:@"Mountains"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(426.250000,283.250000) imageNamed:@"Plains" andTerrainName:@"Plains"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(57.750000,359.000000) imageNamed:@"Desert" andTerrainName:@"Desert"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(301.000000,72.500000) imageNamed:@"Mountains" andTerrainName:@"Mountains"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(366.000000,391.250000) imageNamed:@"Plains" andTerrainName:@"Plains"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(238.500000,38.000000) imageNamed:@"Desert" andTerrainName:@"Desert"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(242.250000,322.250000) imageNamed:@"Forest" andTerrainName:@"Forest"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(117.750000,110.750000) imageNamed:@"Jungle" andTerrainName:@"Jungle"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(57.000000,145.250000) imageNamed:@"Mountains" andTerrainName:@"Mountains"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(424.750000,141.500000) imageNamed:@"frozenWaste" andTerrainName:@"Frozen Waste"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(180.250000,287.750000) imageNamed:@"Swamp" andTerrainName:@"Swamp"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(244.000000,465.500000) imageNamed:@"Jungle" andTerrainName:@"Jungle"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(363.250000,177.500000) imageNamed:@"Desert" andTerrainName:@"Desert"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(57.000000,288.500000) imageNamed:@"frozenWaste" andTerrainName:@"Frozen Waste"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(365.500000,320.000000) imageNamed:@"frozenWaste" andTerrainName:@"Frozen Waste"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(177.750000,74.000000) imageNamed:@"Plains" andTerrainName:@"Plains"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(241.500000,250.250000) imageNamed:@"frozenWaste" andTerrainName:@"Frozen Waste"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(118.500000,323.750000) imageNamed:@"Jungle" andTerrainName:@"Jungle"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(426.000000,212.750000) imageNamed:@"Forest" andTerrainName:@"Forest"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(302.500000,143.750000) imageNamed:@"Swamp" andTerrainName:@"Swamp"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(118.000000,181.250000) imageNamed:@"Plains" andTerrainName:@"Plains"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(179.500000,216.500000) imageNamed:@"Forest" andTerrainName:@"Forest"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(364.500000,248.750000) imageNamed:@"Swamp" andTerrainName:@"Swamp"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(180.250000,358.250000) imageNamed:@"Plains" andTerrainName:@"Plains"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(242.250000,394.250000) imageNamed:@"frozenWaste" andTerrainName:@"Frozen Waste"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(427.500000,354.500000) imageNamed:@"Forest" andTerrainName:@"Forest"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(239.500000,109.250000) imageNamed:@"Forest" andTerrainName:@"Forest"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(241.000000,179.750000) imageNamed:@"Sea" andTerrainName:@"Sea"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(118.000000,252.500000) imageNamed:@"Mountains" andTerrainName:@"Mountains"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(178.500000,145.250000) imageNamed:@"Desert" andTerrainName:@"Desert"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(363.000000,106.250000) imageNamed:@"Jungle" andTerrainName:@"Jungle"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(56.500000,217.250000) imageNamed:@"Forest" andTerrainName:@"Forest"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(181.500000,430.250000) imageNamed:@"Mountains" andTerrainName:@"Mountains"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(303.250000,284.750000) imageNamed:@"Jungle" andTerrainName:@"Jungle"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(119.250000,395.750000) imageNamed:@"Swamp" andTerrainName:@"Swamp"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(305.250000,428.750000) imageNamed:@"Swamp" andTerrainName:@"Swamp"]];
+    
+    
+    
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(130,536) imageNamed:@"Sea" andTerrainName:@"Sea"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(130,536) imageNamed:@"Swamp" andTerrainName:@"Swamp"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(45,536) imageNamed:@"Jungle" andTerrainName:@"Jungle"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(45,536) imageNamed:@"Mountains" andTerrainName:@"Mountains"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(45,536) imageNamed:@"Desert" andTerrainName:@"Desert"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(45,536) imageNamed:@"Desert" andTerrainName:@"Desert"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(45,536) imageNamed:@"frozenWaste" andTerrainName:@"Frozen Waste"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(45,536) imageNamed:@"Sea" andTerrainName:@"Sea"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(45,536) imageNamed:@"Sea" andTerrainName:@"Sea"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(45,536) imageNamed:@"Sea" andTerrainName:@"Sea"]];
+    [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(45,536) imageNamed:@"Sea" andTerrainName:@"Sea"]];
+    
+    
+    for (Terrain * terrain in terrains) {
+        [terrain draw];
+    }
+}
+
+- (Terrain *) findTerrainAt:(CGPoint) thisPoint{
+    for (Terrain * terrain in terrains) {
+//        NSLog(@"finding terrain at location: %f, %f <==> %f,%f",thisPoint.x, thisPoint.y, terrain.node.position.x, terrain.node.position.y);
+        if (terrain.node.position.x == thisPoint.x && terrain.node.position.y == thisPoint.y) {
+            NSLog(@"Found!: terrain: %@", terrain.type);
+            return terrain;
+        }
+    }
+    return NULL;
+}
+
+- (void) nodeTapped:(SKSpriteNode*) node{
+    [textLabel setText:[node name]];
+}
+- (void) nodeMoving:(SKSpriteNode*) node to:(CGPoint) movedTo{
+    [node setPosition:movedTo];
+}
+
+- (void) nodeMoved:(SKSpriteNode *)node nodes:(NSArray *)nodes{
+    node.colorBlendFactor = 0;
+    [self resetText];
+    CGPoint terrainPoint;
+    for (SKSpriteNode *nodeTerrain in nodes) {
+        if ([terrainNames containsObject:nodeTerrain.name]) {
+            terrainPoint = nodeTerrain.position;
+        }
+    }
+    
+    if ([node.name isEqualToString:@"Player 1"]) {
+        Player *p = (Player *)[players objectAtIndex:0];
+        if ([p setTerritory:[self findTerrainAt:terrainPoint]]){
+            NSLog(@"set territory");
+            node.name = @"bowl";
+        }
+        else{
+            [node setPosition:CGPointMake(380.0f, 25.0f)];
+        }
+    }
+    else if ([node.name isEqualToString:@"Player 2"]) {
+        Player *p = (Player *)[players objectAtIndex:1];
+        if ([p setTerritory:[self findTerrainAt:terrainPoint]]){
+            NSLog(@"set territory");
+            node.name = @"bowl";
+        }
+        else{
+            [node setPosition:CGPointMake(380.0f + 43.0f, 25.0f)];
+        }
+    }
+    else if ([node.name isEqualToString:@"Player 3"]) {
+        Player *p = (Player *)[players objectAtIndex:2];
+        if ([p setTerritory:[self findTerrainAt:terrainPoint]]){
+            NSLog(@"set territory");
+            node.name = @"bowl";
+        }
+        else{
+            [node setPosition:CGPointMake(380.0f  + 86.0f, 25.0f)];
+        }
+    }
+    else if ([node.name isEqualToString:@"Player 4"]) {
+        Player *p = (Player *)[players objectAtIndex:3];
+        if ([p setTerritory:[self findTerrainAt:terrainPoint]]){
+            NSLog(@"set territory");
+            node.name = @"bowl";
+        }
+        else{
+            [node setPosition:CGPointMake(380.0f + 129.0f, 25.0f)];
+        }
+    }
+//    NSLog(@"%@ Moved to : %f,%f", node.name, node.position.x, node.position.y);
+    
+}
 
 @end

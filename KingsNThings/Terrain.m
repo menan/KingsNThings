@@ -11,8 +11,9 @@
 @implementation Terrain{
     CGPoint point;
     SKSpriteNode *board;
+    
 }
-@synthesize type,imageName,flipped,position;
+@synthesize type,imageName,flipped,position,node;
 
 - (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image andTerrainName: (NSString *) name
 {
@@ -28,10 +29,10 @@
 }
 
 - (void) draw{
-    SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:imageName];
-    [sprite setName:type];
-    sprite.size = CGSizeMake(88,88);
-    [sprite setPosition:point];
-    [board addChild:sprite];
+    node = [SKSpriteNode spriteNodeWithImageNamed:imageName];
+    [node setName:type];
+    node.size = CGSizeMake(88,88);
+    [node setPosition:point];
+    [board addChild:node];
 }
 @end

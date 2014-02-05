@@ -10,6 +10,7 @@
 #import <SpriteKit/SpriteKit.h>
 
 @interface Creature : NSObject
+@property (nonatomic, strong) SKSpriteNode* node;
 
 @property int combatValue;
 @property BOOL special;

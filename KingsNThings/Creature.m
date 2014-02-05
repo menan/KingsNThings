@@ -28,6 +28,8 @@
 
 @synthesize combatValue,special, bluff, combatType;
 
+@synthesize node;
+
 - (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image andCreatureName: (NSString *) cName withCombatValue: (int) value forTerrainType: (NSString *) terrain isSpecial:(BOOL) iSpecial andCombatType:(NSString *) cType
 {
     self = [super init];
@@ -114,19 +116,19 @@
 }
 
 - (void) draw{
-    SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:imageName];
-    [sprite setName:name];
-    sprite.size = CGSizeMake(36,36);
-    [sprite setPosition:point];
+    node = [SKSpriteNode spriteNodeWithImageNamed:imageName];
+    [node setName:name];
+    node.size = CGSizeMake(36,36);
+    [node setPosition:point];
     if (inBowl && special == NO) {
-        sprite.color = [SKColor blackColor];
-        sprite.colorBlendFactor = .85;
+        node.color = [SKColor blackColor];
+        node.colorBlendFactor = .85;
     }
     else{
         
-        sprite.color = [SKColor grayColor];
-        sprite.colorBlendFactor = 0;
+        node.color = [SKColor grayColor];
+        node.colorBlendFactor = 0;
     }
-    [board addChild:sprite];
+    [board addChild:node];
 }
 @end
