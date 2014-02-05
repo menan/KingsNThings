@@ -12,7 +12,7 @@
 
 @implementation GamePlay
 
-@synthesize player1,player2,player3,player4;
+@synthesize player1,player2,player3,player4,oneDice,secondDice;
 
 -(id) initWith4Players{
     
@@ -134,47 +134,99 @@
     
 }
 
-/*player 1 army 1 : Old Dragon
-Giant Spider
+-(void) combatPhase:(Player *)attacker withArmy:(NSMutableArray*)attackerArmy andPlayer:(Player*)defender withArmy:(NSMutableArray*)defenderArmy{
+    
+    /*NSInteger attackerMagic = 0,defenderMagic =0;
+    NSInteger attackerRanged = 0,defenderRanged = 0;
+    NSInteger attackerMelee = 0,defenderMelee = 0;*/
+    NSMutableArray* attackerRolledDice = [[NSMutableArray alloc]init];
+    NSMutableArray* defenderRolledDice = [[NSMutableArray alloc]init];
+    
+    NSMutableArray* attackerMagicCreature = [[NSMutableArray alloc]init];
+    NSMutableArray* defenderMagicCreature = [[NSMutableArray alloc]init];
+    NSMutableArray* attackerRangedCreature = [[NSMutableArray alloc]init];
+    NSMutableArray* defenderRangedCreature = [[NSMutableArray alloc]init];
+    NSMutableArray* attackerMeleeCreature = [[NSMutableArray alloc]init];
+    NSMutableArray* defenderMeleeCreature = [[NSMutableArray alloc]init];
+    
+    NSInteger attackerNumberOfHits = 0 , defenderNumberOfHits = 0;
+    
+    for(Creature *creature in attackerArmy)
+    {
+        if([[creature combatType] isEqualToString:@"Magic" ])
+            [attackerMagicCreature addObject:creature];
+        else if ([[creature combatType] isEqualToString:@"Ranged"])
+            [attackerRangedCreature addObject:creature];
+        else
+            [attackerMeleeCreature addObject:creature];
+        
+    }
+    
+    for(Creature *creature in defenderArmy)
+    {
+        if([[creature combatType] isEqualToString:@"Magic" ])
+            [defenderMagicCreature addObject:creature];
+        else if ([[creature combatType] isEqualToString:@"Ranged"])
+            [defenderRangedCreature addObject:creature];
 
-Elephant
-
-Brown Knight
-Giant
-
-Dwarves
- 
- player 1 army 2:
- Skeletons
- ￼  Watusi
-  Goblins
-  Ogre
- 
- player 2 army 1:
- Pterodactyl Warriors
- 
- Sandworm
-
- Green Knight
- 
- Dervish
-
- Crocodiles
- 
- Nomads
- 
- Druid
-
- Walking Tree
-
- Crawling Vines
- 
- Bandits
- 
- player 2 army 2: 
-
- */
-
+        else
+            [defenderMeleeCreature addObject:creature];
+        
+    }
+    
+    // now keep fighting until one loses
+    //while ([attackerArmy count] !=0 && [defenderArmy count] != 0 ){
+        
+        for(int i = 0 ; i < [attackerMagicCreature count]; i++){
+            
+            NSLog(@"Player atacker roll dice for %d ",[attackerMagicCreature count]);
+            
+            [attackerRolledDice addObject:[NSNumber numberWithInteger:[self oneDice]]];
+        }
+        
+        
+        for(int i = 0 ; i < [defenderMagicCreature count]; i++){
+            
+            NSLog(@"Player defender roll dice for %d ",[defenderMagicCreature count]);
+            
+            [defenderRolledDice addObject:[NSNumber numberWithInteger:[self oneDice]]];
+        }
+        
+        for(int i = 0 ; i < [attackerMagicCreature count] ; i++){
+                                           
+        if([[attackerMagicCreature objectAtIndex: i] combatValue] >= [[attackerRolledDice objectAtIndex:i] integerValue] )
+            
+                attackerNumberOfHits += 1;
+        
+        
+            }
+        
+        NSLog(@"Attacker can apply %d hits, in Magic round",attackerNumberOfHits);
+        
+    
+        for(int i = 0 ; i < [defenderMagicCreature count] ; i++){
+            
+            if([[defenderMagicCreature objectAtIndex: i] combatValue] >= [[defenderRolledDice objectAtIndex:i] integerValue] )
+                
+                    defenderNumberOfHits += 1;
+       }
+    
+        NSLog(@"defender can apply %d hits, in Magic round",attackerNumberOfHits);
+    
+        
+        
+    
+    
+    
+    
+    
+    //}//end while
+        
+        
+    }//end function
+    
+    
+    
 
 
 @end
