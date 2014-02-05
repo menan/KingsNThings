@@ -11,7 +11,6 @@
 @implementation Player{
     int income;
     int orderOfPlay;
-    int stageOfBuilding;
     Stage stageOfBuilding;
     Bank* bank;
     
@@ -37,7 +36,6 @@
         territories = [[NSMutableArray alloc] init];
         specialCharacters = [[NSMutableArray alloc] init];
         armies = [[NSMutableArray alloc] init];
-        treasures = [[NSMutableArray alloc] init];
         [self updateIncome];
     }
     return self;

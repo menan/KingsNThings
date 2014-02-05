@@ -176,6 +176,7 @@
 		68EF341C189CE6EF00A93480 /* -n Watersanke -t Swamp -a 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 68EF33A2189CE6EF00A93480 /* -n Watersanke -t Swamp -a 1.jpg */; };
 		68EF341D189CE6EF00A93480 /* -n Will_O_Wisp -t Swamp -s Magic -a 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 68EF33A3189CE6EF00A93480 /* -n Will_O_Wisp -t Swamp -s Magic -a 2.jpg */; };
 		68EF341E189CE6EF00A93480 /* -n Winged Pirhana -t Swamp -s Fly -a 3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 68EF33A4189CE6EF00A93480 /* -n Winged Pirhana -t Swamp -s Fly -a 3.jpg */; };
+		68EF342018A2BB4A00A93480 /* -n Greathunter -t Plains -s Range -a 4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 68EF341F18A2BB4A00A93480 /* -n Greathunter -t Plains -s Range -a 4.jpg */; };
 		C54BA9E518996C4D0030D93B /* GoldFifteen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C54BA9DF18996C4D0030D93B /* GoldFifteen.jpg */; };
 		C54BA9E618996C4D0030D93B /* GoldFive.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C54BA9E018996C4D0030D93B /* GoldFive.jpg */; };
 		C54BA9E818996C4D0030D93B /* GoldTen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C54BA9E218996C4D0030D93B /* GoldTen.jpg */; };
@@ -406,6 +407,7 @@
 		68EF33A2189CE6EF00A93480 /* -n Watersanke -t Swamp -a 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Watersanke -t Swamp -a 1.jpg"; sourceTree = "<group>"; };
 		68EF33A3189CE6EF00A93480 /* -n Will_O_Wisp -t Swamp -s Magic -a 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Will_O_Wisp -t Swamp -s Magic -a 2.jpg"; sourceTree = "<group>"; };
 		68EF33A4189CE6EF00A93480 /* -n Winged Pirhana -t Swamp -s Fly -a 3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Winged Pirhana -t Swamp -s Fly -a 3.jpg"; sourceTree = "<group>"; };
+		68EF341F18A2BB4A00A93480 /* -n Greathunter -t Plains -s Range -a 4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Greathunter -t Plains -s Range -a 4.jpg"; sourceTree = "<group>"; };
 		C54BA9DF18996C4D0030D93B /* GoldFifteen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = GoldFifteen.jpg; sourceTree = "<group>"; };
 		C54BA9E018996C4D0030D93B /* GoldFive.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = GoldFive.jpg; sourceTree = "<group>"; };
 		C54BA9E218996C4D0030D93B /* GoldTen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = GoldTen.jpg; sourceTree = "<group>"; };
@@ -757,6 +759,7 @@
 			children = (
 				68EF337A189CE6EF00A93480 /* -n Buffalo Herd -t Plains -a 3.jpg */,
 				68EF337B189CE6EF00A93480 /* -n Buffalo Herd -t Plains -a 4.jpg */,
+				68EF341F18A2BB4A00A93480 /* -n Greathunter -t Plains -s Range -a 4.jpg */,
 				68EF337C189CE6EF00A93480 /* -n Centaur -t Plains -a 2.jpg */,
 				68EF337D189CE6EF00A93480 /* -n Dragonfly -t Plains -s Fly -a 2.jpg */,
 				68EF337E189CE6EF00A93480 /* -n Eagles -t Plains -s Fly -a 2.jpg */,
@@ -990,6 +993,7 @@
 				68EF33BC189CE6EF00A93480 /* -n Elves -c 2 -t Forest -s Range -a 2.jpg in Resources */,
 				C59BE62518A054A100EC48E0 /* -n Pygmies -t Jungle -a 2.jpg in Resources */,
 				68EF3408189CE6EF00A93480 /* -n Wolf Pack -t Plains -a 3.jpg in Resources */,
+				68EF342018A2BB4A00A93480 /* -n Greathunter -t Plains -s Range -a 4.jpg in Resources */,
 				68EF3419189CE6EF00A93480 /* -n Swamp Rat -t Swamp -a 1.jpg in Resources */,
 				686C976E188F693B00BE6D42 /* frozenWaste.png in Resources */,
 				686C97CC188FA3BD00BE6D42 /* sc_10.png in Resources */,
