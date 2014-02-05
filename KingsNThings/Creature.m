@@ -11,11 +11,11 @@
 @implementation Creature{
     CGPoint point;
     SKSpriteNode *board;
-    NSString* combatType;
+   // NSString* combatType;
     NSString* terrainType;
-    int combatValue;
-    BOOL special;
-    BOOL bluff;
+    //int combatValue;
+    //BOOL special;
+    //BOOL bluff;
     BOOL inBowl;
     int position;
     NSString* imageName;
@@ -25,6 +25,8 @@
     int numberofTimes;
 
 }
+
+@synthesize combatValue,special, bluff, combatType;
 
 - (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image andCreatureName: (NSString *) cName withCombatValue: (int) value forTerrainType: (NSString *) terrain isSpecial:(BOOL) iSpecial andCombatType:(NSString *) cType
 {
@@ -58,6 +60,23 @@
     return self;
 }
 
+-(id)initWithImage:(NSString*)image{
+    self = [super init];
+    if (self) {
+       // point = aPoint;
+        //board = aBoard;
+        imageName = [NSString stringWithFormat:@"%@.jpg",image];
+        bluff = NO;
+        inBowl = NO;
+        numberofTimes = 1;
+        [self setValuesFromString:image];
+    }
+    return self;
+    
+    
+}
+
+
 - (void) setValuesFromString:(NSString *) values{
     NSMutableArray *array = [[values componentsSeparatedByString:@"-"] mutableCopy];
     [array removeObjectAtIndex:0];
@@ -72,7 +91,12 @@
             terrainType = [trimmed substringFromIndex:2];
         }
         else if ([trimmed hasPrefix:@"s"]){
-            symbol = [trimmed substringFromIndex:2];
+            if(![trimmed hasPrefix:@"a"])
+            { symbol = @"Melee";
+              combatValue = [[trimmed substringFromIndex:2 ]integerValue];
+            }
+            else
+                symbol = [trimmed substringFromIndex:2];
         }
         else if ([trimmed hasPrefix:@"a"]){
             combatValue = [[trimmed substringFromIndex:2] integerValue];
@@ -83,7 +107,9 @@
         else{
             NSLog(@"something else occured: %@",trimmed);
         }
+        
     }
+    
     
 }
 

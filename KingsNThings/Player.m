@@ -8,6 +8,7 @@
 
 #import "Player.h"
 #import "Terrain.h"
+#import "Creature.h"
 
 @implementation Player{
     int income;
@@ -15,12 +16,17 @@
     int stageOfBuilding;
     Bank* bank;
     
-    NSMutableArray* armies;
+    //NSMutableArray* armies; // collection of armies
+    //NSMutableArray* singleArmy; // single armies (eg stack one )
     NSMutableArray* territories;
     NSMutableArray* specialCharacters;
-    NSMutableArray* treasures;
+    NSMutableArray* specialIncome;
+    NSMutableArray* buildings;
+  
+    
 
 }
+@synthesize armies,singleArmy,playingOrder;
 
 - (id)init
 {
@@ -32,14 +38,30 @@
     }
     return self;
 }
-
-- (void) setTerritory: (Terrain *) territory{
-    if ([territories count] < 3){
-        [territories addObject:territory];
+-(id) initWithArmy:(NSArray *)army{
+    
+    self = [super init];
+    if (self) {
+        
+        bank = [[Bank alloc] initWithOneGolds:0 twoGolds:0 fivesGolds:0 tenGolds:1 fifteenGolds:0 twentyGolds:0];
+        
+        stageOfBuilding = 1;
+        
+        
         [self updateIncome];
     }
-    else
-        NSLog(@"3 territories set already :)");
+    return self;
+ 
+}
+
+- (void) setTerritory: (Terrain *) territory{
+    //if ([territories count] < 3){
+        [territories addObject:territory];
+        [self updateIncome];
+   // }
+   // else
+        //NSLog(@"3 territories set already :)");
+     NSLog(@"territory %@ set already :)",[territory type]);
 }
 
 - (void) updateBank: (Bank *) myBank{
@@ -54,6 +76,7 @@
 }
 
 - (void) updateIncome{
+    // add combat values of buildings and special income counters
     income = territories.count + specialCharacters.count;
 }
 
@@ -63,6 +86,11 @@
 
 - (NSMutableArray *) getArmies{
     return armies;
+}
+
+-(void) constructArmy:(NSMutableArray *) army{
+    
+    [armies addObject:army];
 }
 
 @end

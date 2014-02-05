@@ -22,9 +22,7 @@
     NSInteger fifteenGold;
     NSInteger twentyGold;
     NSInteger balance;
-    
-    //UIButton* oneGoldB,*twoGoldB,*fiveGoldB,*tenGoldB,*fifteenGoldB,*twentyGoldB;
-    
+       
 }
 
 @property NSInteger oneGold;
@@ -35,17 +33,11 @@
 @property NSInteger twentyGold;
 
 
-/*@property (nonatomic, strong) UIButton *oneGoldB;
-@property (nonatomic, strong) UIButton *twoGoldB;
-@property (nonatomic, strong) UIButton *fiveGoldB;
-@property (nonatomic, strong) UIButton *tenGoldB;
-@property (nonatomic, strong) UIButton *fifteenGoldB;
-@property (nonatomic, strong) UIButton *twentyGoldB;*/
 
 - (void) updateBalance;
 - (NSInteger)getBalance;
 
-- (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image;
+//- (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image;
 - (id) initWithOneGolds: (int) ones twoGolds: (int) twos fivesGolds: (int) fives tenGolds: (int) tens fifteenGolds: (int) fifteens twentyGolds: (int) twentys;
 
 //- (id)initWithPlayer: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image;
