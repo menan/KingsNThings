@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface specialIncome : NSObject
+@interface SpecialIncome : NSObject
 
 @end
+

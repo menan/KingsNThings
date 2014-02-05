@@ -62,7 +62,23 @@
     return self;
 }
 
--(id)initWithImage:(NSString*)image{
+
+- (id) initWithBoard:(SKSpriteNode *)aBoard atPoint:(CGPoint)aPoint fromString:(NSString *)string isSpecial: (BOOL) _special{
+    self = [super init];
+    if (self) {
+        point = aPoint;
+        board = aBoard;
+        imageName = [NSString stringWithFormat:@"%@.jpg",string];
+        bluff = NO;
+        inBowl = YES;
+        numberofTimes = 1;
+        special = _special;
+        [self setValuesFromString:string];
+    }
+    return self;
+}
+
+- (id) initWithImage:(NSString*)image{
     self = [super init];
     if (self) {
        // point = aPoint;
@@ -85,7 +101,6 @@
     
     for(NSString *value in array){
         NSString *trimmed = [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-//        NSLog(@"parsing string : %@",trimmed);
         if ([trimmed hasPrefix:@"n"]){
             name = [trimmed substringFromIndex:2];
         }
@@ -94,8 +109,9 @@
         }
         else if ([trimmed hasPrefix:@"s"]){
             if(![trimmed hasPrefix:@"a"])
-            { symbol = @"Melee";
-              combatValue = [[trimmed substringFromIndex:2 ]integerValue];
+            {
+                symbol = @"Melee";
+                combatValue = [[trimmed substringFromIndex:2 ]integerValue];
             }
             else
                 symbol = [trimmed substringFromIndex:2];
@@ -118,7 +134,7 @@
 - (void) draw{
     node = [SKSpriteNode spriteNodeWithImageNamed:imageName];
     [node setName:name];
-    node.size = CGSizeMake(36,36);
+    node.size = CGSizeMake(38,38);
     [node setPosition:point];
     if (inBowl && special == NO) {
         node.color = [SKColor blackColor];

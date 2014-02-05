@@ -88,14 +88,15 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
     [self hardCodeTerrains];
     
-    [self drawBowlwithThings:CGPointMake(450.0f, (size.height) - 40)];
-    
-    [self drawRack:CGPointMake(620.0f, (size.height) - 55)];
-    [self drawRack:CGPointMake(620.0f, (size.height) - 150)];
-    [self drawRack:CGPointMake(620.0f, (size.height) - 240)];
-    [self drawRack:CGPointMake(620.0f, (size.height) - 330)];
-    
     [self drawMarkers:CGPointMake(380.0f, 25.0f)];
+    
+    [self drawBowlwithThings:CGPointMake(450.0f, (size.height) - 120)];
+    
+//    [self drawRack:CGPointMake(620.0f, (size.height) - 55)];
+//    [self drawRack:CGPointMake(620.0f, (size.height) - 150)];
+//    [self drawRack:CGPointMake(620.0f, (size.height) - 240)];
+//    [self drawRack:CGPointMake(620.0f, (size.height) - 330)];
+    
     [self drawCitadels:CGPointMake(23.0f, (size.height) - 100)];
     
     [self drawSpecialCreatures:CGPointMake(160.0f, (size.height) - 20)];
@@ -226,7 +227,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 }
 - (void) drawMarkers:(CGPoint) aPoint{
     
-    for (int i = 0; i <= 5; i++) {
+    for (int i = 0; i <= 10; i++) {
         
         SKSpriteNode *player1 = [SKSpriteNode spriteNodeWithImageNamed:@"p_red.jpg"];
         [player1 setName:@"Player 1"];
@@ -249,7 +250,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         [board addChild:player3];
         
         SKSpriteNode *player4 = [SKSpriteNode spriteNodeWithImageNamed:@"p_gray.jpg"];
-        [player4 setName:@"Player 3"];
+        [player4 setName:@"Player 4"];
         player4.size = CGSizeMake(40,40);
         [player4 setPosition:CGPointMake(aPoint.x + 129, aPoint.y )];
         [board addChild:player4];
@@ -259,45 +260,64 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 }
 
 - (void) drawSpecialCreatures:(CGPoint) aPoint{
-    NSArray *names = @[@"Desert Master", @"Sir Lance-A-Lot", @"Forest King", @"Dwarf King", @"Master Thief", @"Arch Mage"];
-//    [creatures removeAllObjects];
+//    NSArray *names = @[@"Desert Master", @"Sir Lance-A-Lot", @"Forest King", @"Dwarf King", @"Master Thief", @"Arch Mage"];
+    NSArray *namesString = @[@"-n Arch Cleric -a 5.jpg",@"-n Forest King -a 4.jpg",@"-n Master Theif -a 4.jpg",@"-n Arch Mage -a 6.jpg",@"-n Ghaog II -s Fly -a 6.jpg",@"-n Mountain King -a 4.jpg",@"-n Assassin Primus -a 4.jpg",@"-n Grand Duke -a 4.jpg",@"-n Plains Lord -a 4.jpg",@"-n Baron Munchausen -a 4.jpg",@"-n Greathunter -t Plains -s Range -a 4.jpg",@"-n Sir Lancealot -s Charge -a 5.jpg",@"-n Deerhunter -a 4.jpg",@"-n Ice Lord -a 4.jpg",@"-n Swamp King -a 4.jpg",@"-n Desert Master -a 4.jpg",@"-n Jungle Lord -a 4.jpg",@"-n Swordmaster -a 4.jpg",@"-n Dwarf King -a 5.jpg",@"-n Lord Of Eagles -s Fly -a 5.jpg",@"-n Warlord -a 5.jpg",@"-n Elfe Lord -s Range -a 6.jpg",@"-n Marksman -s Range -a 2 -a 5.jpg"];
+    
+    
     int i;
-    for (i = 0; i < names.count; i++) {
-        int myint = i + 1;
-        NSString *imageName = [NSString stringWithFormat:@"sc_%d",myint];
-        NSString *name = [names objectAtIndex:i];
+    for (i = 0; i <= 11; i++) {
+//        int myint = i + 1;
+//        NSString *imageName = [NSString stringWithFormat:@"sc_%d",myint];
+        NSString *name = [namesString objectAtIndex:i];
         
         
         float imageSize = 36;
         float offsetFraction = aPoint.x + ((imageSize + 1) * (i + 1));
-        Creature* creature = [[Creature alloc] initWithBoard:board atPoint:CGPointMake(offsetFraction, aPoint.y) imageNamed:imageName andCreatureName:name withCombatValue:0 forTerrainType:@"" isSpecial:YES andCombatType:@"melee"];
+        Creature* creature = [[Creature alloc] initWithBoard:board atPoint:CGPointMake(offsetFraction, aPoint.y) fromString:name isSpecial:YES];
         [creatures addObject:creature];
         [creature draw];
         
     }
-    NSArray *names2 = @[@"Arch Cleric", @"Assassin Primus", @"Elf Lord", @"Mountain King", @"Grand Duke"];
-    
-    for (int j = 0; j < names2.count; j++) {
-        int myint = j + names2.count;
-        NSString *imageName = [NSString stringWithFormat:@"sc_%d",myint];
-        NSString *name = [names2 objectAtIndex:j];
+    for (int j = 12; j <= 22; j++) {
+//        int myint = i + 1;
+//        NSString *imageName = [NSString stringWithFormat:@"sc_%d",myint];
+        NSString *name = [namesString objectAtIndex:j];
+        
+        int num = j - namesString.count/2;
         
         float imageSize = 36;
-        float offsetFraction = aPoint.x + ((imageSize + 1) * (j + 1));
-        Creature* creature = [[Creature alloc] initWithBoard:board atPoint:CGPointMake(offsetFraction, aPoint.y - 37) imageNamed:imageName andCreatureName:name withCombatValue:0 forTerrainType:@"" isSpecial:YES andCombatType:@"melee"];
+        float offsetFraction = aPoint.x + ((imageSize + 1) * (num + 1));
+        Creature* creature = [[Creature alloc] initWithBoard:board atPoint:CGPointMake(offsetFraction, aPoint.y - 37) fromString:name isSpecial:YES];
         [creatures addObject:creature];
         [creature draw];
+        
     }
     
     
-    NSString *imageName = @"bc";
-    NSString *name = @"Black Cloud";
     
-    float imageSize = 36;
-    float offsetFraction = aPoint.x + ((imageSize + 1) * 6);
-    Creature* creature = [[Creature alloc] initWithBoard:board atPoint:CGPointMake(offsetFraction, aPoint.y - 37) imageNamed:imageName andCreatureName:name withCombatValue:0 forTerrainType:@"" isSpecial:YES andCombatType:@"melee"];
-    [creatures addObject:creature];
-    [creature draw];
+//    NSArray *names2 = @[@"Arch Cleric", @"Assassin Primus", @"Elf Lord", @"Mountain King", @"Grand Duke"];
+//    
+//    for (int j = 0; j < names2.count; j++) {
+//        int myint = j + names2.count;
+//        NSString *imageName = [NSString stringWithFormat:@"sc_%d",myint];
+//        NSString *name = [names2 objectAtIndex:j];
+//        
+//        float imageSize = 36;
+//        float offsetFraction = aPoint.x + ((imageSize + 1) * (j + 1));
+//        Creature* creature = [[Creature alloc] initWithBoard:board atPoint:CGPointMake(offsetFraction, aPoint.y - 37) imageNamed:imageName andCreatureName:name withCombatValue:0 forTerrainType:@"" isSpecial:YES andCombatType:@"melee"];
+//        [creatures addObject:creature];
+//        [creature draw];
+//    }
+//    
+    
+//    NSString *imageName = @"bc";
+//    NSString *name = @"Black Cloud";
+//    
+//    float imageSize = 36;
+//    float offsetFraction = aPoint.x + ((imageSize + 1) * 6);
+//    Creature* creature = [[Creature alloc] initWithBoard:board atPoint:CGPointMake(offsetFraction, aPoint.y - 37) imageNamed:imageName andCreatureName:name withCombatValue:0 forTerrainType:@"" isSpecial:YES andCombatType:@"melee"];
+//    [creatures addObject:creature];
+//    [creature draw];
     
     
     
@@ -495,6 +515,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
     
     for (Terrain * terrain in terrains) {
+        terrain.node.name = @"bowl";
         [terrain draw];
     }
 }
@@ -520,44 +541,50 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 - (void) nodeMoved:(SKSpriteNode *)node nodes:(NSArray *)nodes{
     node.colorBlendFactor = 0;
     [self resetText];
-    CGPoint terrainPoint;
+    CGPoint terrainPoint = CGPointMake(0, 0);
+    BOOL terrainLocated = NO;
     for (SKSpriteNode *nodeTerrain in nodes) {
         if ([terrainNames containsObject:nodeTerrain.name]) {
             terrainPoint = nodeTerrain.position;
+            terrainLocated = YES;
         }
     }
-    
-    if ([node.name isEqualToString:@"Player 1"]) {
+    float sizeNode = 28;
+    if (terrainLocated && [node.name isEqualToString:@"Player 1"]) {
         if ([game.player1 setTerritory:[self findTerrainAt:terrainPoint]]){
             NSLog(@"set territory");
             node.name = @"bowl";
+            [node setSize:CGSizeMake(sizeNode, sizeNode)];
         }
         else{
             [node setPosition:CGPointMake(380.0f, 25.0f)];
         }
     }
-    else if ([node.name isEqualToString:@"Player 2"]) {
+    else if (terrainLocated && [node.name isEqualToString:@"Player 2"]) {
         if ([game.player2 setTerritory:[self findTerrainAt:terrainPoint]]){
             NSLog(@"set territory");
             node.name = @"bowl";
+            [node setSize:CGSizeMake(sizeNode, sizeNode)];
         }
         else{
             [node setPosition:CGPointMake(380.0f + 43.0f, 25.0f)];
         }
     }
-    else if ([node.name isEqualToString:@"Player 3"]) {
+    else if (terrainLocated && [node.name isEqualToString:@"Player 3"]) {
         if ([game.player3 setTerritory:[self findTerrainAt:terrainPoint]]){
             NSLog(@"set territory");
             node.name = @"bowl";
+            [node setSize:CGSizeMake(sizeNode, sizeNode)];
         }
         else{
             [node setPosition:CGPointMake(380.0f  + 86.0f, 25.0f)];
         }
     }
-    else if ([node.name isEqualToString:@"Player 4"]) {
+    else if (terrainLocated && [node.name isEqualToString:@"Player 4"]) {
         if ([game.player4 setTerritory:[self findTerrainAt:terrainPoint]]){
             NSLog(@"set territory");
             node.name = @"bowl";
+            [node setSize:CGSizeMake(sizeNode, sizeNode)];
         }
         else{
             [node setPosition:CGPointMake(380.0f + 129.0f, 25.0f)];

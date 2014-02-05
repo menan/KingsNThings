@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 Tinrit. All rights reserved.
 //
 
-#import "specialIncome.h"
+#import "SpecialIncome.h"
 
-@implementation specialIncome
+@implementation SpecialIncome
 
 @end
