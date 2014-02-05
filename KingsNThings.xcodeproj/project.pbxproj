@@ -212,6 +212,7 @@
 		C59BE64718A0554100EC48E0 /* -n Silver Mine -t Mountain -a 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C59BE63718A0554100EC48E0 /* -n Silver Mine -t Mountain -a 2.jpg */; };
 		C59BE64818A0554100EC48E0 /* -n Threasure Chest -t Treasure -a 20.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C59BE63818A0554100EC48E0 /* -n Threasure Chest -t Treasure -a 20.jpg */; };
 		C59BE64918A0554100EC48E0 /* -n Timberland -t Forest -a 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C59BE63918A0554100EC48E0 /* -n Timberland -t Forest -a 1.jpg */; };
+		C5ADEED618A2B76100BD68C6 /* dice_2.png in Resources */ = {isa = PBXBuildFile; fileRef = C5ADEED518A2B76000BD68C6 /* dice_2.png */; };
 		E81E3BF31898554000449AA8 /* Creature.m in Sources */ = {isa = PBXBuildFile; fileRef = E81E3BF21898554000449AA8 /* Creature.m */; };
 /* End PBXBuildFile section */
 
@@ -444,6 +445,7 @@
 		C59BE63718A0554100EC48E0 /* -n Silver Mine -t Mountain -a 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Silver Mine -t Mountain -a 2.jpg"; sourceTree = "<group>"; };
 		C59BE63818A0554100EC48E0 /* -n Threasure Chest -t Treasure -a 20.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Threasure Chest -t Treasure -a 20.jpg"; sourceTree = "<group>"; };
 		C59BE63918A0554100EC48E0 /* -n Timberland -t Forest -a 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Timberland -t Forest -a 1.jpg"; sourceTree = "<group>"; };
+		C5ADEED518A2B76000BD68C6 /* dice_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dice_2.png; sourceTree = "<group>"; };
 		E81E3BF11898554000449AA8 /* Creature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Creature.h; sourceTree = "<group>"; };
 		E81E3BF21898554000449AA8 /* Creature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Creature.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -569,6 +571,7 @@
 		686C9762188F693B00BE6D42 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				C5ADEED518A2B76000BD68C6 /* dice_2.png */,
 				C59BE62918A0554100EC48E0 /* Income */,
 				68EF3323189CE6EF00A93480 /* defenders */,
 				68EF3321189CD80300A93480 /* dice.png */,
@@ -1112,6 +1115,7 @@
 				C59BE63E18A0554100EC48E0 /* -n Emerald -t Treasure -a 10.jpg in Resources */,
 				68EF33F7189CE6EF00A93480 /* -n Centaur -t Plains -a 2.jpg in Resources */,
 				68EF33A7189CE6EF00A93480 /* -n Dervish -c 2 -t Desert -s Magic -a 2.jpg in Resources */,
+				C5ADEED618A2B76100BD68C6 /* dice_2.png in Resources */,
 				68EF341D189CE6EF00A93480 /* -n Will_O_Wisp -t Swamp -s Magic -a 2.jpg in Resources */,
 				68EF3409189CE6EF00A93480 /* -s-Tribesmen -t Plains -s Range -a 1.jpg in Resources */,
 				68EF33BD189CE6EF00A93480 /* -n Elves -t Forest -s Range -a 3.jpg in Resources */,

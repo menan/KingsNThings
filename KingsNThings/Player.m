@@ -36,6 +36,7 @@
         territories = [[NSMutableArray alloc] init];
         specialCharacters = [[NSMutableArray alloc] init];
         armies = [[NSMutableArray alloc] init];
+        specialIncome = [[NSMutableArray alloc] init];
         [self updateIncome];
     }
     return self;
