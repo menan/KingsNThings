@@ -11,7 +11,6 @@
 @implementation Player{
     int income;
     int orderOfPlay;
-    //int stageOfBuilding;
     Stage stageOfBuilding;
     Bank* bank;
     
