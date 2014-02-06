@@ -61,6 +61,8 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         creaturesInBowl = 0;
         dicesClicked = 0;
         
+        
+        
     }
     return self;
 }
@@ -421,10 +423,10 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     float bankLeft = 590.0f;
     
     balanceLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
-    balanceLabel.text = @"Balance";
+    balanceLabel.text = @"Bank";
     balanceLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
     balanceLabel.fontSize = 15;
-    balanceLabel.position = CGPointMake(bankLeft,(size.height) - 520.0f);
+    balanceLabel.position = CGPointMake(bankLeft,(size.height) - 410.0f);
 
     
     NSString *balance = [NSString stringWithFormat: @"$%d", [bank getBalance]];
@@ -432,21 +434,21 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     balanceText.text = balance;
     balanceText.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
     balanceText.fontSize = 15;
-    balanceText.position = CGPointMake(bankLeft,(size.height - balanceLabel.frame.size.height) - 520.0f);
+    balanceText.position = CGPointMake(bankLeft + 120,(size.height - balanceLabel.frame.size.height) - 450.0f);
     
     
     SKLabelNode *myStash = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     myStash.text = @"My Stash";
     myStash.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
     myStash.fontSize = 15;
-    myStash.position = CGPointMake(bankLeft + 120,(size.height - balanceLabel.frame.size.height) - 400.0f);
+    myStash.position = CGPointMake(bankLeft - 10,(size.height - balanceLabel.frame.size.height) - 270.0f);
     [board addChild:myStash];
     
     myBalance = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     myBalance.text = [NSString stringWithFormat: @"$%d", [game.player1 getBankBalance]];
     myBalance.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
     myBalance.fontSize = 15;
-    myBalance.position = CGPointMake(bankLeft + 120,(size.height - balanceLabel.frame.size.height) - 475.0f);
+    myBalance.position = CGPointMake(bankLeft + 120,(size.height - balanceLabel.frame.size.height) - 320.0f);
     [board addChild:myBalance];
     [self drawPlayerGold];
     
@@ -458,26 +460,86 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 
 -(void)drawPlayerGold:(NSString*)goldType withName:(NSString *)name{
     
+    float margin = - 120.0f;
     
-    SKSpriteNode *gold = [SKSpriteNode spriteNodeWithImageNamed:goldType];
-    [gold setName:name];
-    gold.size = CGSizeMake(40,41);
-    [gold setPosition:CGPointMake(710.0f,(size.height) - 450.0f)];
-    [board addChild:gold];
+    CGPoint myGold1 = CGPointMake(535.0f, (size.height) - 435 - margin);
+    CGPoint myGold2 = CGPointMake(585.0f, (size.height) - 435 - margin);
+    CGPoint myGold5 = CGPointMake(635.0f, (size.height) - 435 - margin);
+    CGPoint myGold10 = CGPointMake(535.0f, (size.height) - 481 - margin);
+    CGPoint myGold15 = CGPointMake(585.0f, (size.height) - 481 - margin);
+    CGPoint myGold20 = CGPointMake(635.0f, (size.height) - 481 - margin);
+
+    if ([name isEqualToString:@"My Gold 1"]) {
+        
+        SKSpriteNode *gold = [SKSpriteNode spriteNodeWithImageNamed:goldType];
+        [gold setName:name];
+        gold.size = CGSizeMake(40,41);
+        [gold setPosition:myGold1];
+        [board addChild:gold];
+    }
+    else if ([name isEqualToString:@"My Gold 2"]) {
+        
+        SKSpriteNode *gold = [SKSpriteNode spriteNodeWithImageNamed:goldType];
+        [gold setName:name];
+        gold.size = CGSizeMake(40,41);
+        [gold setPosition:myGold2];
+        [board addChild:gold];
+    }
+    else if ([name isEqualToString:@"My Gold 5"]) {
+        
+        SKSpriteNode *gold = [SKSpriteNode spriteNodeWithImageNamed:goldType];
+        [gold setName:name];
+        gold.size = CGSizeMake(40,41);
+        [gold setPosition:myGold5];
+        [board addChild:gold];
+    }
+    else if ([name isEqualToString:@"My Gold 10"]) {
+        
+        SKSpriteNode *gold = [SKSpriteNode spriteNodeWithImageNamed:goldType];
+        [gold setName:name];
+        gold.size = CGSizeMake(40,41);
+        [gold setPosition:myGold10];
+        [board addChild:gold];
+    }
+    else if ([name isEqualToString:@"My Gold 15"]) {
+        
+        SKSpriteNode *gold = [SKSpriteNode spriteNodeWithImageNamed:goldType];
+        [gold setName:name];
+        gold.size = CGSizeMake(40,41);
+        [gold setPosition:myGold15];
+        [board addChild:gold];
+    }
+    else if ([name isEqualToString:@"My Gold 20"]) {
+        
+        SKSpriteNode *gold = [SKSpriteNode spriteNodeWithImageNamed:goldType];
+        [gold setName:name];
+        gold.size = CGSizeMake(40,41);
+        [gold setPosition:myGold20];
+        [board addChild:gold];
+    }
+    
     
     
 }
 
 - (void)drawPlayerGold{
-    float x = 710;
-    float y = (size.height) - 450.0f;
+    float margin = - 120.0f;
+    
+    CGPoint myGold1 = CGPointMake(535.0f, (size.height) - 435 - margin);
+    CGPoint myGold2 = CGPointMake(585.0f, (size.height) - 435 - margin);
+    CGPoint myGold5 = CGPointMake(635.0f, (size.height) - 435 - margin);
+    CGPoint myGold10 = CGPointMake(535.0f, (size.height) - 481 - margin);
+    CGPoint myGold15 = CGPointMake(585.0f, (size.height) - 481 - margin);
+    CGPoint myGold20 = CGPointMake(635.0f, (size.height) - 481 - margin);
+    
+    
     
     for (int i = 0; i <[[game.player1 bank] oneGold]; i++) {
         
         SKSpriteNode *gold = [SKSpriteNode spriteNodeWithImageNamed:@"GoldOne.jpg"];
         [gold setName:@"My Gold 1"];
         gold.size = CGSizeMake(40,41);
-        [gold setPosition:CGPointMake(710.0f,(size.height) - 450.0f)];
+        [gold setPosition:myGold1];
         [board addChild:gold];
     }
     for (int i = 0; i <[[game.player1 bank] twoGold]; i++) {
@@ -485,7 +547,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         SKSpriteNode *gold = [SKSpriteNode spriteNodeWithImageNamed:@"GoldTwo.jpg"];
         [gold setName:@"My Gold 2"];
         gold.size = CGSizeMake(40,41);
-        [gold setPosition:CGPointMake(710.0f,(size.height) - 450.0f)];
+        [gold setPosition:myGold2];
         [board addChild:gold];
     }
     for (int i = 0; i <[[game.player1 bank] fiveGold]; i++) {
@@ -493,7 +555,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         SKSpriteNode *gold = [SKSpriteNode spriteNodeWithImageNamed:@"GoldFive.jpg"];
         [gold setName:@"My Gold 5"];
         gold.size = CGSizeMake(40,41);
-        [gold setPosition:CGPointMake(710.0f,(size.height) - 450.0f)];
+        [gold setPosition:myGold5];
         [board addChild:gold];
     }
     for (int i = 0; i <[[game.player1 bank] tenGold]; i++) {
@@ -501,7 +563,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         SKSpriteNode *gold = [SKSpriteNode spriteNodeWithImageNamed:@"GoldTen.jpg"];
         [gold setName:@"My Gold 10"];
         gold.size = CGSizeMake(40,41);
-        [gold setPosition:CGPointMake(710.0f,(size.height) - 450.0f)];
+        [gold setPosition:myGold10];
         [board addChild:gold];
     }
     for (int i = 0; i <[[game.player1 bank] fifteenGold]; i++) {
@@ -509,7 +571,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         SKSpriteNode *gold = [SKSpriteNode spriteNodeWithImageNamed:@"GoldFifteen.jpg"];
         [gold setName:@"My Gold 15"];
         gold.size = CGSizeMake(40,41);
-        [gold setPosition:CGPointMake(710.0f,(size.height) - 450.0f)];
+        [gold setPosition:myGold15];
         [board addChild:gold];
     }
     for (int i = 0; i <[[game.player1 bank] twentyGold]; i++) {
@@ -517,7 +579,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         SKSpriteNode *gold = [SKSpriteNode spriteNodeWithImageNamed:@"GoldTwenty.jpg"];
         [gold setName:@"My Gold 20"];
         gold.size = CGSizeMake(40,41);
-        [gold setPosition:CGPointMake(710.0f,(size.height) - 450.0f)];
+        [gold setPosition:myGold20];
         [board addChild:gold];
     }
     
