@@ -7,6 +7,7 @@
 //
 
 #import "Player.h"
+#import "Creature.h"
 
 @implementation Player{
     int income;
@@ -58,13 +59,20 @@
         
         bank = [[Bank alloc] initWithOneGolds:0 twoGolds:0 fivesGolds:0 tenGolds:1 fifteenGolds:0 twentyGolds:0];
         
-        stageOfBuilding = 1;
+        stageOfBuilding = Tower;
         
         
-        [self updateIncome];
     }
     return self;
  
+}
+
+- (void) depositGold:(int) goldType{
+    [bank depositGold:goldType];
+}
+
+- (BOOL) withdrawGold:(int) goldType{
+    return [bank depositGold:goldType];
 }
 
 - (BOOL) setTerritory: (Terrain *) territory{
@@ -72,12 +80,9 @@
     BOOL result = NO;
     if(territory != Nil){
     NSLog(@"Adding territory: %@", territory.type);
-    
-    if ([territories count] < 3){
-        
+    if ([territories count] <= 10){
         [territories addObject:territory];
-        NSLog(@"player territory is set for : %@", territory.node.name);
-        
+        NSLog(@"player territory is set for : %@ %d", territory.node.name, [territories count]);
         [self updateIncome];
         result =  YES;
     }
@@ -106,7 +111,19 @@
 
 - (void) updateIncome{
     // add combat values of buildings and special income counters
-    income = territories.count + specialCharacters.count;
+    income = territories.count + specialCharacters.count + (stageOfBuilding + 1) + [self getSpecialCreatureIncome];
+    NSLog(@"Income is %d", income);
+}
+
+- (int) getSpecialCreatureIncome{
+    int _income = 0;
+    for(Creature *army in armies){
+        if (army.special){
+            _income++;
+        }
+    }
+    
+    return _income;
 }
 
 - (NSMutableArray *) getTerritories{
@@ -119,7 +136,8 @@
 
 -(void) constructArmy:(NSMutableArray *) army{
     
-    [armies addObject:army];
+    [armies addObjectsFromArray:army];
+    [self updateIncome];
 }
 
 @end

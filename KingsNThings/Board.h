@@ -19,7 +19,6 @@
 - (void) resetText;
 -(void) updateBankBalance:(NSInteger)goldNum;
 - (NSArray *) getNonMovables;
--(void)drawPlayerGold:(NSString*)goldType withName:(NSString *)name andPoint:(CGPoint)location;
 - (void) rollDiceOne;
 -(void) rollDiceTwo;
 - (void) drawHardCodeThings:(NSArray*)army withPoint:(CGPoint) aPoint;
