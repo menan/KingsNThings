@@ -28,8 +28,6 @@
     /* Called when a touch begins */
     UITouch *touch = [touches anyObject];
     CGPoint positionInScene = [touch locationInNode:self];
-    
-//    SKNode *node = [self nodeAtPoint:positionInScene];
     [self selectNodeForTouch:positionInScene];
     
 }

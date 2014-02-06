@@ -13,7 +13,7 @@
     SKSpriteNode *board;
     
 }
-@synthesize type,imageName,flipped,position,node;
+@synthesize type,imageName,flipped,position,node,belongsToP1,belongsToP2,belongsToP3,belongsToP4,hasArmyOnIt;
 
 - (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image andTerrainName: (NSString *) name
 {
@@ -24,6 +24,11 @@
         imageName = image;
         type = name;
         flipped = YES;
+        belongsToP1 = NO;
+        belongsToP2 =NO;
+        belongsToP3 = NO;
+        belongsToP4 = NO;
+        hasArmyOnIt = NO;
     }
     return self;
 }

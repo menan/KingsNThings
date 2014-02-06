@@ -13,7 +13,7 @@
 @property (nonatomic, strong) NSString* type;
 @property (nonatomic, strong) NSString* imageName;
 @property (nonatomic, strong) SKSpriteNode* node;
-    @property BOOL flipped;
+    @property BOOL flipped,belongsToP1,belongsToP2,belongsToP3,belongsToP4, hasArmyOnIt;
     @property int position;
 
 - (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image andTerrainName: (NSString *) name;

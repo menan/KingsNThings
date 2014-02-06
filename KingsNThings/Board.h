@@ -11,6 +11,7 @@
 
 @interface Board : NSObject
 @property SKLabelNode* textLabel;
+@property NSInteger dicesClicked;
 
 - (id)initWithScene: (SKScene *) aScene atPoint: (CGPoint) aPoint withSize: (CGSize) aSize;
 - (void)draw;
@@ -18,7 +19,8 @@
 - (void) resetText;
 -(void) updateBankBalance:(NSInteger)goldNum;
 - (NSArray *) getNonMovables;
-- (void) rollDice;
+- (void) rollDiceOne;
+-(void) rollDiceTwo;
 - (void) nodeTapped:(SKSpriteNode*) node;
 - (void) nodeMoved:(SKSpriteNode *)node nodes:(NSArray *)nodes;
 - (void) nodeMoving:(SKSpriteNode*) node to:(CGPoint) modTo;
