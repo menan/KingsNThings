@@ -23,5 +23,6 @@
 
 -(id) initWith4Players;
 -(void) combatPhase:(Player *)attacker withArmy:(NSMutableArray*)attackerArmy andPlayer:(Player*)defender withArmy:(NSMutableArray*)defenderArmy;
-//- (BOOL) initiateGoldCollection;
+- (Player *) findPlayerByTerrain:(Terrain *) terrain;
+
 @end

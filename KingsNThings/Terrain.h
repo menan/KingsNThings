@@ -10,6 +10,7 @@
 #import <SpriteKit/SpriteKit.h>
 
 @interface Terrain : NSObject
+
 @property (nonatomic, strong) NSString* type;
 @property (nonatomic, strong) NSString* imageName;
 @property (nonatomic, strong) SKSpriteNode* node;

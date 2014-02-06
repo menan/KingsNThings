@@ -36,6 +36,16 @@
     
 }
 
+
+- (Player *) findPlayerByTerrain:(Terrain *) terrain{
+    for (Player *p in players) {
+        if ([[p getTerritories] containsObject:terrain]) {
+            return p;
+        }
+    }
+    return NULL;
+}
+
 -(void) setPlayerArmy{
     
     NSArray *p1Stack1 = @[ @"-n Old Dragon -s Fly -s Magic -a 4",@"-n Elephant -t Jungle -s Charge -a 4",@"-n Giant Spider -t Desert -a 1",@"-n Brown Knight -t Mountain -s Charge -a 4",@"-n Giant -t Mountain -s Range -a 4",@"-n Dwarves -t Mountain -s Range -a 2"];

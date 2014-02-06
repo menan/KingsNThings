@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Bank.h"
 #import "Terrain.h"
+#import "Building.h"
 
 @interface Player : NSObject
 
@@ -18,19 +19,14 @@
 @property NSArray *p1Stack1,*p1Stack2,*p2Stack1,*p3Stack1,*p3Stack2,*p3Stack3,*p4Stack1,*p4Stack2,*p4Stack3;
 @property Bank* bank;
 
-typedef enum Stage : NSUInteger {
-    Tower,
-    Keep,
-    Castle,
-    Citadel
-}Stage;
-//- (void) depositGold:(int) goldType;
-//- (BOOL) withdrawGold:(int) goldType;
+
+- (BOOL) setBuilding: (Building *) building;
 - (BOOL) setTerritory: (Terrain *) territory;
+- (NSMutableArray *) getTerritories;
 - (int) getBankBalance;
 - (id) initWithArmy;
 - (void) constructArmy:(NSMutableArray *) army;
-- (Stage) getStage;
+//- (Stage) getStage;
 - (Bank *) getBank;
 - (int) getIncome;
 @end

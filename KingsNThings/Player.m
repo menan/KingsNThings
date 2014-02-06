@@ -12,7 +12,6 @@
 @implementation Player{
 //    int income;
     int orderOfPlay;
-    Stage stageOfBuilding;
     
     //NSMutableArray* armies; // collection of armies
     //NSMutableArray* singleArmy; // single armies (eg stack one )
@@ -33,7 +32,7 @@
     self = [super init];
     if (self) {
         bank = [[Bank alloc] initWithOneGolds:0 twoGolds:0 fivesGolds:0 tenGolds:1 fifteenGolds:0 twentyGolds:0];
-        stageOfBuilding = Tower;
+        buildings = [[NSMutableArray alloc] init];
         territories = [[NSMutableArray alloc] init];
         specialCharacters = [[NSMutableArray alloc] init];
         armies = [[NSMutableArray alloc] init];
@@ -57,8 +56,7 @@
         
         bank = [[Bank alloc] initWithOneGolds:0 twoGolds:0 fivesGolds:0 tenGolds:1 fifteenGolds:0 twentyGolds:0];
         
-        stageOfBuilding = Tower;
-        
+        buildings = [[NSMutableArray alloc] init];
         territories = [[NSMutableArray alloc] init];
         specialCharacters = [[NSMutableArray alloc] init];
         armies = [[NSMutableArray alloc] init];
@@ -69,19 +67,12 @@
  
 }
 
-//- (void) depositGold:(int) goldType{
-//    [bank depositGold:goldType andCount:1];
-//}
-//
-//- (BOOL) withdrawGold:(int) goldType{
-//    return [bank depositGold:goldType];
-//}
 
 - (BOOL) setTerritory: (Terrain *) territory{
     
     BOOL result = NO;
     if(territory != Nil){
-    NSLog(@"Adding territory: %@", territory.type);
+//    NSLog(@"Adding territory: %@", territory.type);
     if ([territories count] <= 10){
         [territories addObject:territory];
         NSLog(@"player territory is set for : %@ %d", territory.node.name, [territories count]);
@@ -106,11 +97,9 @@
     return [bank getBalance];
 }
 
-- (Stage) getStage{
-    return stageOfBuilding;
+- (void) addBuildings{
+    
 }
-
-
 
 - (int) getSpecialCreatureIncome{
     int sIncome = 0;
@@ -123,10 +112,24 @@
     return sIncome;
 }
 
+- (int) getBuildingIncome{
+    int i = 0;
+    for (Building *b in buildings) {
+        i += (b.stage + 1);
+    }
+    return i;
+}
+
+- (BOOL) setBuilding: (Building *) building{
+    NSLog(@"Just added building %d", building.stage);
+    [buildings addObject:building];
+    return YES;
+}
 
 - (int) getIncome{
-    return (territories.count + (stageOfBuilding + 1) + [self getSpecialCreatureIncome]);
+    return (territories.count + [self getBuildingIncome] + [self getSpecialCreatureIncome]);
 }
+
 - (NSMutableArray *) getTerritories{
     return territories;
 }
