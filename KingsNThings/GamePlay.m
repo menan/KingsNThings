@@ -20,11 +20,11 @@
     if(self){
        
         
-        player1 = [[Player alloc] init];
-        player2 = [[Player alloc] init];
-        player3 = [[Player alloc] init];
-        player4 = [[Player alloc] init];
-        [self setPlayerArmy];
+        player1 = [[Player alloc] initWithArmy];
+        player2 = [[Player alloc] initWithArmy];
+        player3 = [[Player alloc] initWithArmy];
+        player4 = [[Player alloc] initWithArmy];
+        //[self setPlayerArmy];
         
     }
     

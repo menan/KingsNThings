@@ -213,7 +213,6 @@
 		C5ADEED618A2B76100BD68C6 /* dice_2.png in Resources */ = {isa = PBXBuildFile; fileRef = C5ADEED518A2B76000BD68C6 /* dice_2.png */; };
 		C5ADEED818A2C02500BD68C6 /* -n Great Hunter -t Plains -s Range -a 4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C5ADEED718A2C02500BD68C6 /* -n Great Hunter -t Plains -s Range -a 4.jpg */; };
 		C5ADEEDA18A2F29A00BD68C6 /* -n Giant Snake -t Swamp -a 3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C5ADEED918A2F29A00BD68C6 /* -n Giant Snake -t Swamp -a 3.jpg */; };
-		C5ADEEDD18A300E900BD68C6 /* Node.m in Sources */ = {isa = PBXBuildFile; fileRef = C5ADEEDC18A300E900BD68C6 /* Node.m */; };
 		E81E3BF31898554000449AA8 /* Creature.m in Sources */ = {isa = PBXBuildFile; fileRef = E81E3BF21898554000449AA8 /* Creature.m */; };
 /* End PBXBuildFile section */
 
@@ -447,8 +446,6 @@
 		C5ADEED518A2B76000BD68C6 /* dice_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dice_2.png; sourceTree = "<group>"; };
 		C5ADEED718A2C02500BD68C6 /* -n Great Hunter -t Plains -s Range -a 4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Great Hunter -t Plains -s Range -a 4.jpg"; sourceTree = "<group>"; };
 		C5ADEED918A2F29A00BD68C6 /* -n Giant Snake -t Swamp -a 3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Giant Snake -t Swamp -a 3.jpg"; sourceTree = "<group>"; };
-		C5ADEEDB18A300E900BD68C6 /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
-		C5ADEEDC18A300E900BD68C6 /* Node.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Node.m; sourceTree = "<group>"; };
 		E81E3BF11898554000449AA8 /* Creature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Creature.h; sourceTree = "<group>"; };
 		E81E3BF21898554000449AA8 /* Creature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Creature.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -538,8 +535,6 @@
 				E81E3BF21898554000449AA8 /* Creature.m */,
 				68EF331E189CD51A00A93480 /* GamePlay.h */,
 				68EF331F189CD51A00A93480 /* GamePlay.m */,
-				C5ADEEDB18A300E900BD68C6 /* Node.h */,
-				C5ADEEDC18A300E900BD68C6 /* Node.m */,
 			);
 			path = KingsNThings;
 			sourceTree = "<group>";
@@ -1155,7 +1150,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C5ADEEDD18A300E900BD68C6 /* Node.m in Sources */,
 				6832A1521897736700476D5D /* Board.m in Sources */,
 				686C97421888A88500BE6D42 /* MyScene.m in Sources */,
 				686C973F1888A88500BE6D42 /* ViewController.m in Sources */,

@@ -11,7 +11,7 @@
 
 @interface Board : NSObject
 @property SKLabelNode* textLabel;
-@property NSInteger dicesClicked;
+@property NSInteger dicesClicked,creaturesInBowl;
 
 - (id)initWithScene: (SKScene *) aScene atPoint: (CGPoint) aPoint withSize: (CGSize) aSize;
 - (void)draw;
@@ -22,6 +22,8 @@
 -(void)drawPlayerGold:(NSString*)goldType withName:(NSString *)name andPoint:(CGPoint)location;
 - (void) rollDiceOne;
 -(void) rollDiceTwo;
+- (void) drawHardCodeThings:(NSArray*)army withPoint:(CGPoint) aPoint;
+
 - (void) nodeTapped:(SKSpriteNode*) node;
 - (void) nodeMoved:(SKSpriteNode *)node nodes:(NSArray *)nodes;
 - (void) nodeMoving:(SKSpriteNode*) node to:(CGPoint) modTo;

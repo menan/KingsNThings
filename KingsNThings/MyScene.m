@@ -9,6 +9,7 @@
 #import "MyScene.h"
 #import "Board.h"
 
+
 @implementation MyScene{
     NSArray * nonMovables;
     Board *gameBoard;
@@ -76,6 +77,8 @@
      [gameBoard setDicesClicked:([gameBoard dicesClicked] +1)];
         [gameBoard rollDiceTwo];
     }
+   
+    
     else
         [self selectNodeForTouch:positionInScene];
     
