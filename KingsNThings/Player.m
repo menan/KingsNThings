@@ -13,7 +13,6 @@
 //    int income;
     int orderOfPlay;
     Stage stageOfBuilding;
-    Bank* bank;
     
     //NSMutableArray* armies; // collection of armies
     //NSMutableArray* singleArmy; // single armies (eg stack one )
@@ -27,7 +26,7 @@
 
 }
 
-@synthesize armies,singleArmy,playingOrder,p1Stack1,p1Stack2,p2Stack1,p3Stack1,p3Stack2,p3Stack3,p4Stack1,p4Stack2,p4Stack3;
+@synthesize armies,singleArmy,playingOrder,p1Stack1,p1Stack2,p2Stack1,p3Stack1,p3Stack2,p3Stack3,p4Stack1,p4Stack2,p4Stack3, bank;
 
 - (id)init
 {
@@ -110,6 +109,7 @@
 - (Stage) getStage{
     return stageOfBuilding;
 }
+
 
 
 - (int) getSpecialCreatureIncome{

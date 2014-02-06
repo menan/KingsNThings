@@ -17,6 +17,7 @@
 @property Player *player4;
 @property NSInteger oneDice;
 @property NSInteger secondDice;
+@property NSMutableArray *players;
 
 @property BOOL goldCollectionCompleted;
 

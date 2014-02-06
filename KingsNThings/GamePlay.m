@@ -12,10 +12,10 @@
 #import "Bank.h"
 
 @implementation GamePlay{
-    NSMutableArray *players;
+    
 }
 
-@synthesize player1,player2,player3,player4,oneDice,secondDice,goldCollectionCompleted;
+@synthesize player1,player2,player3,player4,oneDice,secondDice,goldCollectionCompleted, players;
 
 -(id) initWith4Players{
     

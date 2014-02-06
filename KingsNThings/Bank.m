@@ -13,12 +13,7 @@
 
 
 
-@synthesize oneGold;
-@synthesize twoGold;
-@synthesize fiveGold;
-@synthesize tenGold;
-@synthesize fifteenGold;
-@synthesize twentyGold;
+@synthesize oneGold, twoGold, fiveGold, tenGold, fifteenGold, twentyGold;
 
 - (id) init
 {
@@ -115,28 +110,30 @@
     int twos = 0;
     int ones = 0;
     
-    if (income <= 20) {
+    //income <= 4
+    
+    if (income >= 20) {
         twentys = income / 20;
         income = income % 20;
     }
-    if (income <= 15) {
+    if (income >= 15) {
         fifteens = income / 15;
         income = income % 15;
     }
-    if (income <= 10) {
+    if (income >= 10) {
         tens = income / 10;
         income = income % 10;
     }
     
-    if (income <= 5) {
+    if (income >= 5) {
         fives = income / 5;
         income = income % 5;
     }
-    if (income <= 2) {
+    if (income >= 2) {
         twos = income / 2;
         income = income % 2;
     }
-    if (income <= 1) {
+    if (income >= 1) {
         ones = income / 1;
         income = income % 1;
     }
@@ -148,12 +145,14 @@
     fifteenGold += fifteens;
     twentyGold += twentys;
     
+//    NSLog(@"Deposition= ones: %d, twos: %d, fives: %d, tens: %d and balance: %d ", ones, twos, fives, tens,[self getBalance]);
+    
     return [self getBalance];
 }
 
 
 - (BOOL) withdraw:(int) amount{
-    if ([self getBalance] <= amount){
+    if ([self getBalance] >= amount){
         
         int income = amount;
         int twentys = 0;
@@ -163,28 +162,29 @@
         int twos = 0;
         int ones = 0;
         
-        if (income <= 20) {
+        
+        if (income >= 20) {
             twentys = income / 20;
             income = income % 20;
         }
-        if (income <= 15) {
+        if (income >= 15) {
             fifteens = income / 15;
             income = income % 15;
         }
-        if (income <= 10) {
+        if (income >= 10) {
             tens = income / 10;
             income = income % 10;
         }
         
-        if (income <= 5) {
+        if (income >= 5) {
             fives = income / 5;
             income = income % 5;
         }
-        if (income <= 2) {
+        if (income >= 2) {
             twos = income / 2;
             income = income % 2;
         }
-        if (income <= 1) {
+        if (income >= 1) {
             ones = income / 1;
             income = income % 1;
         }
@@ -195,6 +195,9 @@
         tenGold -= tens;
         fifteenGold -= fifteens;
         twentyGold -= twentys;
+        
+        
+//        NSLog(@"Withdrawal= ones: %d, twos: %d, fives: %d, tens: %d and balance: %d ", ones, twos, fives, tens,[self getBalance]);
         
         return YES;
     }

@@ -467,7 +467,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     float x = 710;
     float y = (size.height) - 450.0f;
     
-    for (int i = 0; i <[[game.player1 getBank] oneGold]; i++) {
+    for (int i = 0; i <[[game.player1 bank] oneGold]; i++) {
         
         SKSpriteNode *gold = [SKSpriteNode spriteNodeWithImageNamed:@"GoldOne.jpg"];
         [gold setName:@"My Gold 1"];
@@ -475,7 +475,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         [gold setPosition:CGPointMake(710.0f,(size.height) - 450.0f)];
         [board addChild:gold];
     }
-    for (int i = 0; i <[[game.player1 getBank] twoGold]; i++) {
+    for (int i = 0; i <[[game.player1 bank] twoGold]; i++) {
         
         SKSpriteNode *gold = [SKSpriteNode spriteNodeWithImageNamed:@"GoldTwo.jpg"];
         [gold setName:@"My Gold 2"];
@@ -483,7 +483,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         [gold setPosition:CGPointMake(710.0f,(size.height) - 450.0f)];
         [board addChild:gold];
     }
-    for (int i = 0; i <[[game.player1 getBank] fiveGold]; i++) {
+    for (int i = 0; i <[[game.player1 bank] fiveGold]; i++) {
         
         SKSpriteNode *gold = [SKSpriteNode spriteNodeWithImageNamed:@"GoldFive.jpg"];
         [gold setName:@"My Gold 5"];
@@ -491,7 +491,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         [gold setPosition:CGPointMake(710.0f,(size.height) - 450.0f)];
         [board addChild:gold];
     }
-    for (int i = 0; i <[[game.player1 getBank] tenGold]; i++) {
+    for (int i = 0; i <[[game.player1 bank] tenGold]; i++) {
         
         SKSpriteNode *gold = [SKSpriteNode spriteNodeWithImageNamed:@"GoldTen.jpg"];
         [gold setName:@"My Gold 10"];
@@ -499,7 +499,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         [gold setPosition:CGPointMake(710.0f,(size.height) - 450.0f)];
         [board addChild:gold];
     }
-    for (int i = 0; i <[[game.player1 getBank] fifteenGold]; i++) {
+    for (int i = 0; i <[[game.player1 bank] fifteenGold]; i++) {
         
         SKSpriteNode *gold = [SKSpriteNode spriteNodeWithImageNamed:@"GoldFifteen.jpg"];
         [gold setName:@"My Gold 15"];
@@ -507,7 +507,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         [gold setPosition:CGPointMake(710.0f,(size.height) - 450.0f)];
         [board addChild:gold];
     }
-    for (int i = 0; i <[[game.player1 getBank] twentyGold]; i++) {
+    for (int i = 0; i <[[game.player1 bank] twentyGold]; i++) {
         
         SKSpriteNode *gold = [SKSpriteNode spriteNodeWithImageNamed:@"GoldTwenty.jpg"];
         [gold setName:@"My Gold 20"];
@@ -521,7 +521,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 -(void)updateBankBalance:(NSInteger)goldNum
 {
     if ([bank withdrawGold:goldNum andCount:1]){
-        [[game.player1 getBank] depositGold:goldNum andCount:1];
+        [[game.player1 bank] depositGold:goldNum andCount:1];
         balanceText.text = [NSString stringWithFormat: @"$%d", [bank getBalance]];
         myBalance.text = [NSString stringWithFormat: @"$%d", [game.player1 getBankBalance]];
     }
@@ -765,23 +765,18 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 - (BOOL) initiateGoldCollection{
     
     if (!game.goldCollectionCompleted && [bank getBalance] >= [game.player1 getIncome] + [game.player2 getIncome] + [game.player3 getIncome] + [game.player4 getIncome]) {
-        [bank withdraw:[game.player1 getIncome]];
-        [[game.player1 getBank] deposit:[game.player1 getIncome]];
-        NSLog(@"Player 1 gained %d Golds", [game.player1 getIncome]);
+//        NSLog(@"bank balance before collection phase started:%d", [bank getBalance]);
         
-        [bank withdraw:[game.player2 getIncome]];
-        [[game.player1 getBank] deposit:[game.player2 getIncome]];
-        NSLog(@"Player 2 gained %d Golds", [game.player2 getIncome]);
+        for(Player * p in game.players){
+            
+            [bank withdraw:[p getIncome]];
+            [p.bank deposit:[p getIncome]];
+            
+            NSLog(@"Player balance %d after deposition and income was %d", [p.bank getBalance], [p getIncome]);
+            
+        }
         
-        
-        [bank withdraw:[game.player3 getIncome]];
-        [[game.player1 getBank] deposit:[game.player3 getIncome]];
-        NSLog(@"Player 3 gained %d Golds", [game.player3 getIncome]);
-        
-        
-        [bank withdraw:[game.player4 getIncome]];
-        [[game.player1 getBank] deposit:[game.player4 getIncome]];
-        NSLog(@"Player 4 gained %d Golds", [game.player4 getIncome]);
+        NSLog(@"bank balance after collection phase completed:%d", [bank getBalance]);
         
         game.goldCollectionCompleted = YES;
         return YES;
