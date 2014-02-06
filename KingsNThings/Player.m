@@ -60,19 +60,23 @@
         
         stageOfBuilding = Tower;
         
+        territories = [[NSMutableArray alloc] init];
+        specialCharacters = [[NSMutableArray alloc] init];
+        armies = [[NSMutableArray alloc] init];
+        specialIncome = [[NSMutableArray alloc] init];
         
     }
     return self;
  
 }
 
-- (void) depositGold:(int) goldType{
-    [bank depositGold:goldType];
-}
-
-- (BOOL) withdrawGold:(int) goldType{
-    return [bank depositGold:goldType];
-}
+//- (void) depositGold:(int) goldType{
+//    [bank depositGold:goldType andCount:1];
+//}
+//
+//- (BOOL) withdrawGold:(int) goldType{
+//    return [bank depositGold:goldType];
+//}
 
 - (BOOL) setTerritory: (Terrain *) territory{
     
@@ -121,7 +125,7 @@
 
 
 - (int) getIncome{
-    return territories.count + specialCharacters.count + (stageOfBuilding + 1) + [self getSpecialCreatureIncome];
+    return (territories.count + (stageOfBuilding + 1) + [self getSpecialCreatureIncome]);
 }
 - (NSMutableArray *) getTerritories{
     return territories;

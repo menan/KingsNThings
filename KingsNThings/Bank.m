@@ -52,25 +52,25 @@
     return self;
 }
 //deposit only one type of gold at a time please.
-- (int) depositGold:(int) type{
+- (int) depositGold:(int) type andCount:(int) count{
     switch (type) {
         case 1:
-            oneGold++;
+            oneGold += count;
             break;
         case 2:
-            twoGold++;
+            twoGold += count;
             break;
         case 5:
-            fiveGold++;
+            fiveGold += count;
             break;
         case 10:
-            tenGold++;
+            tenGold += count;
             break;
         case 15:
-            fifteenGold++;
+            fifteenGold += count;
             break;
         case 20:
-            twentyGold++;
+            twentyGold += count;
             break;
         default:
             break;
@@ -79,25 +79,25 @@
 }
 
 //deposit only one type of gold at a time please.
-- (BOOL) withdrawGold:(int) type{
+- (BOOL) withdrawGold:(int) type andCount:(int) count{
     switch (type) {
         case 1:
-            oneGold--;
+            oneGold-= count;
             break;
         case 2:
-            twoGold--;
+            twoGold-= count;
             break;
         case 5:
-            fiveGold--;
+            fiveGold-= count;
             break;
         case 10:
-            tenGold--;
+            tenGold-= count;
             break;
         case 15:
-            fifteenGold--;
+            fifteenGold-= count;
             break;
         case 20:
-            twentyGold--;
+            twentyGold-= count;
             break;
         default:
             break;
@@ -105,6 +105,103 @@
     return YES;
 }
 
+
+- (int) deposit:(int) amount{
+    int income = amount;
+    int twentys = 0;
+    int fifteens = 0;
+    int tens = 0;
+    int fives = 0;
+    int twos = 0;
+    int ones = 0;
+    
+    if (income <= 20) {
+        twentys = income / 20;
+        income = income % 20;
+    }
+    if (income <= 15) {
+        fifteens = income / 15;
+        income = income % 15;
+    }
+    if (income <= 10) {
+        tens = income / 10;
+        income = income % 10;
+    }
+    
+    if (income <= 5) {
+        fives = income / 5;
+        income = income % 5;
+    }
+    if (income <= 2) {
+        twos = income / 2;
+        income = income % 2;
+    }
+    if (income <= 1) {
+        ones = income / 1;
+        income = income % 1;
+    }
+    
+    oneGold += ones;
+    twoGold += twos;
+    fiveGold += fives;
+    tenGold += tens;
+    fifteenGold += fifteens;
+    twentyGold += twentys;
+    
+    return [self getBalance];
+}
+
+
+- (BOOL) withdraw:(int) amount{
+    if ([self getBalance] <= amount){
+        
+        int income = amount;
+        int twentys = 0;
+        int fifteens = 0;
+        int tens = 0;
+        int fives = 0;
+        int twos = 0;
+        int ones = 0;
+        
+        if (income <= 20) {
+            twentys = income / 20;
+            income = income % 20;
+        }
+        if (income <= 15) {
+            fifteens = income / 15;
+            income = income % 15;
+        }
+        if (income <= 10) {
+            tens = income / 10;
+            income = income % 10;
+        }
+        
+        if (income <= 5) {
+            fives = income / 5;
+            income = income % 5;
+        }
+        if (income <= 2) {
+            twos = income / 2;
+            income = income % 2;
+        }
+        if (income <= 1) {
+            ones = income / 1;
+            income = income % 1;
+        }
+        
+        oneGold -= ones;
+        twoGold -= twos;
+        fiveGold -= fives;
+        tenGold -= tens;
+        fifteenGold -= fifteens;
+        twentyGold -= twentys;
+        
+        return YES;
+    }
+    else{
+        return NO;
+    }
+}
 
 
 /*- (id)initWithBoard:

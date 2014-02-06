@@ -9,19 +9,19 @@
 #import "GamePlay.h"
 #import "Player.h"
 #import "Creature.h"
+#import "Bank.h"
 
 @implementation GamePlay{
     NSMutableArray *players;
 }
 
-@synthesize player1,player2,player3,player4,oneDice,secondDice;
+@synthesize player1,player2,player3,player4,oneDice,secondDice,goldCollectionCompleted;
 
 -(id) initWith4Players{
     
     self = [super init];
     if(self){
-       
-        
+        goldCollectionCompleted = NO;
         player1 = [[Player alloc] initWithArmy];
         player2 = [[Player alloc] initWithArmy];
         player3 = [[Player alloc] initWithArmy];
@@ -234,15 +234,6 @@
         
 }//end function
     
-    
-- (BOOL) initiateGoldCollection{
-    
-    for (Player *p in players) {
-        [p getIncome];
-    }
-    
-    return YES;
-}
 
 
 @end

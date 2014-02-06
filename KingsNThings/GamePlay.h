@@ -18,7 +18,9 @@
 @property NSInteger oneDice;
 @property NSInteger secondDice;
 
+@property BOOL goldCollectionCompleted;
+
 -(id) initWith4Players;
 -(void) combatPhase:(Player *)attacker withArmy:(NSMutableArray*)attackerArmy andPlayer:(Player*)defender withArmy:(NSMutableArray*)defenderArmy;
-
+//- (BOOL) initiateGoldCollection;
 @end

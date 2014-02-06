@@ -34,8 +34,11 @@
 
 
 - (int)getBalance;
-- (int) depositGold:(int) type;
-- (BOOL) withdrawGold:(int) type;
+- (int) depositGold:(int) type andCount:(int) count;
+- (BOOL) withdrawGold:(int) type andCount:(int) count;
+
+- (int) deposit:(int) amount;
+- (BOOL) withdraw:(int) amount;
 
 //- (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image;
 - (id) initWithOneGolds: (int) ones twoGolds: (int) twos fivesGolds: (int) fives tenGolds: (int) tens fifteenGolds: (int) fifteens twentyGolds: (int) twentys;

@@ -520,8 +520,8 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 
 -(void)updateBankBalance:(NSInteger)goldNum
 {
-    if ([bank withdrawGold:goldNum]){
-        [game.player1 depositGold:goldNum];
+    if ([bank withdrawGold:goldNum andCount:1]){
+        [[game.player1 getBank] depositGold:goldNum andCount:1];
         balanceText.text = [NSString stringWithFormat: @"$%d", [bank getBalance]];
         myBalance.text = [NSString stringWithFormat: @"$%d", [game.player1 getBankBalance]];
     }
@@ -533,6 +533,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     diceOneLabel.text = [NSString stringWithFormat:@"%d",r];
     
     [game setOneDice:r];
+    [self initiateGoldCollection];
     
 }
 - (void) rollDiceTwo{
@@ -760,6 +761,35 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
 }
 
+
+- (BOOL) initiateGoldCollection{
+    
+    if (!game.goldCollectionCompleted && [bank getBalance] >= [game.player1 getIncome] + [game.player2 getIncome] + [game.player3 getIncome] + [game.player4 getIncome]) {
+        [bank withdraw:[game.player1 getIncome]];
+        [[game.player1 getBank] deposit:[game.player1 getIncome]];
+        NSLog(@"Player 1 gained %d Golds", [game.player1 getIncome]);
+        
+        [bank withdraw:[game.player2 getIncome]];
+        [[game.player1 getBank] deposit:[game.player2 getIncome]];
+        NSLog(@"Player 2 gained %d Golds", [game.player2 getIncome]);
+        
+        
+        [bank withdraw:[game.player3 getIncome]];
+        [[game.player1 getBank] deposit:[game.player3 getIncome]];
+        NSLog(@"Player 3 gained %d Golds", [game.player3 getIncome]);
+        
+        
+        [bank withdraw:[game.player4 getIncome]];
+        [[game.player1 getBank] deposit:[game.player4 getIncome]];
+        NSLog(@"Player 4 gained %d Golds", [game.player4 getIncome]);
+        
+        game.goldCollectionCompleted = YES;
+        return YES;
+    }
+    else{
+        return NO;
+    }
+}
 /*-(void) startComabt:
 {
     
