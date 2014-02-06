@@ -58,17 +58,25 @@
 }
 
 - (BOOL) setTerritory: (Terrain *) territory{
+    
+    BOOL result = NO;
+    if(territory != Nil){
     NSLog(@"Adding territory: %@", territory.type);
+    
     if ([territories count] < 3){
+        
         [territories addObject:territory];
         NSLog(@"player territory is set for : %@", territory.node.name);
+        
         [self updateIncome];
-        return YES;
+        result =  YES;
     }
     else{
-        return NO;
+        result =  NO;
         NSLog(@"3 territories set already :)");
     }
+    }
+    return result;
 }
 
 - (void) updateBank: (Bank *) myBank{

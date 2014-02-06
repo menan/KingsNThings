@@ -11,7 +11,7 @@
 @implementation Creature{
     CGPoint point;
     SKSpriteNode *board;
-   // NSString* combatType;
+   NSString* combatType;
     NSString* terrainType;
     //int combatValue;
     //BOOL special;
@@ -19,14 +19,14 @@
     BOOL inBowl;
     int position;
     NSString* imageName;
-    NSString* symbol;
+   
     NSString* name;
     
     int numberofTimes;
 
 }
 
-@synthesize combatValue,special, bluff, combatType;
+@synthesize combatValue,special, bluff, symbol,isFly, isMagic, isMelee, isRanged , isCharge ;
 
 @synthesize node;
 
@@ -40,7 +40,7 @@
         name = cName;
         bluff = NO;
         inBowl = YES;
-        combatType = cType;
+        symbol = cType;
         terrainType = terrain;
         combatValue = value;
         numberofTimes = 1;
@@ -93,11 +93,24 @@
             terrainType = [trimmed substringFromIndex:2];
         }
         else if ([trimmed hasPrefix:@"s"]){
+            
             if(![trimmed hasPrefix:@"a"])
-            { symbol = @"Melee";
+            {
+                isMelee = YES;
+                //symbol = @"Melee";
               combatValue = [[trimmed substringFromIndex:2 ]integerValue];
             }
             else
+                if([[trimmed substringFromIndex:2] isEqualToString:@"Magic"])
+                    isMagic = YES;
+            
+                if ([[trimmed substringFromIndex:2] isEqualToString:@"Ranged"])
+                    isRanged = YES;
+                if([[trimmed substringFromIndex:2] isEqualToString:@"Charge"])
+                    isCharge = YES;
+                if([[trimmed substringFromIndex:2] isEqualToString:@"Fly"])
+                    isCharge = YES;
+            
                 symbol = [trimmed substringFromIndex:2];
         }
         else if ([trimmed hasPrefix:@"a"]){

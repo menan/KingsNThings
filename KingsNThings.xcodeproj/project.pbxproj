@@ -161,7 +161,6 @@
 		68EF340E189CE6EF00A93480 /* -n Ghost -c 4 -t Swamp -s Fly -a 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 68EF3394189CE6EF00A93480 /* -n Ghost -c 4 -t Swamp -s Fly -a 1.jpg */; };
 		68EF340F189CE6EF00A93480 /* -n Giant Lizard -c 2 -t Swamp -a 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 68EF3395189CE6EF00A93480 /* -n Giant Lizard -c 2 -t Swamp -a 2.jpg */; };
 		68EF3410189CE6EF00A93480 /* -n Giant Mosquito -t Swamp -s Fly -a 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 68EF3396189CE6EF00A93480 /* -n Giant Mosquito -t Swamp -s Fly -a 2.jpg */; };
-		68EF3411189CE6EF00A93480 /* -n Giant-Snake -t Swamp -a 3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 68EF3397189CE6EF00A93480 /* -n Giant-Snake -t Swamp -a 3.jpg */; };
 		68EF3412189CE6EF00A93480 /* -n Huge Leech -t Swamp -a 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 68EF3398189CE6EF00A93480 /* -n Huge Leech -t Swamp -a 2.jpg */; };
 		68EF3413189CE6EF00A93480 /* -n Pirates -t Swamp -a 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 68EF3399189CE6EF00A93480 /* -n Pirates -t Swamp -a 2.jpg */; };
 		68EF3414189CE6EF00A93480 /* -n Poison Frog -t Swamp -a 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 68EF339A189CE6EF00A93480 /* -n Poison Frog -t Swamp -a 1.jpg */; };
@@ -213,6 +212,8 @@
 		C59BE64918A0554100EC48E0 /* -n Timberland -t Forest -a 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C59BE63918A0554100EC48E0 /* -n Timberland -t Forest -a 1.jpg */; };
 		C5ADEED618A2B76100BD68C6 /* dice_2.png in Resources */ = {isa = PBXBuildFile; fileRef = C5ADEED518A2B76000BD68C6 /* dice_2.png */; };
 		C5ADEED818A2C02500BD68C6 /* -n Great Hunter -t Plains -s Range -a 4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C5ADEED718A2C02500BD68C6 /* -n Great Hunter -t Plains -s Range -a 4.jpg */; };
+		C5ADEEDA18A2F29A00BD68C6 /* -n Giant Snake -t Swamp -a 3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C5ADEED918A2F29A00BD68C6 /* -n Giant Snake -t Swamp -a 3.jpg */; };
+		C5ADEEDD18A300E900BD68C6 /* Node.m in Sources */ = {isa = PBXBuildFile; fileRef = C5ADEEDC18A300E900BD68C6 /* Node.m */; };
 		E81E3BF31898554000449AA8 /* Creature.m in Sources */ = {isa = PBXBuildFile; fileRef = E81E3BF21898554000449AA8 /* Creature.m */; };
 /* End PBXBuildFile section */
 
@@ -393,7 +394,6 @@
 		68EF3394189CE6EF00A93480 /* -n Ghost -c 4 -t Swamp -s Fly -a 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Ghost -c 4 -t Swamp -s Fly -a 1.jpg"; sourceTree = "<group>"; };
 		68EF3395189CE6EF00A93480 /* -n Giant Lizard -c 2 -t Swamp -a 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Giant Lizard -c 2 -t Swamp -a 2.jpg"; sourceTree = "<group>"; };
 		68EF3396189CE6EF00A93480 /* -n Giant Mosquito -t Swamp -s Fly -a 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Giant Mosquito -t Swamp -s Fly -a 2.jpg"; sourceTree = "<group>"; };
-		68EF3397189CE6EF00A93480 /* -n Giant-Snake -t Swamp -a 3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Giant-Snake -t Swamp -a 3.jpg"; sourceTree = "<group>"; };
 		68EF3398189CE6EF00A93480 /* -n Huge Leech -t Swamp -a 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Huge Leech -t Swamp -a 2.jpg"; sourceTree = "<group>"; };
 		68EF3399189CE6EF00A93480 /* -n Pirates -t Swamp -a 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Pirates -t Swamp -a 2.jpg"; sourceTree = "<group>"; };
 		68EF339A189CE6EF00A93480 /* -n Poison Frog -t Swamp -a 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Poison Frog -t Swamp -a 1.jpg"; sourceTree = "<group>"; };
@@ -446,6 +446,9 @@
 		C59BE63918A0554100EC48E0 /* -n Timberland -t Forest -a 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Timberland -t Forest -a 1.jpg"; sourceTree = "<group>"; };
 		C5ADEED518A2B76000BD68C6 /* dice_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dice_2.png; sourceTree = "<group>"; };
 		C5ADEED718A2C02500BD68C6 /* -n Great Hunter -t Plains -s Range -a 4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Great Hunter -t Plains -s Range -a 4.jpg"; sourceTree = "<group>"; };
+		C5ADEED918A2F29A00BD68C6 /* -n Giant Snake -t Swamp -a 3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Giant Snake -t Swamp -a 3.jpg"; sourceTree = "<group>"; };
+		C5ADEEDB18A300E900BD68C6 /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
+		C5ADEEDC18A300E900BD68C6 /* Node.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Node.m; sourceTree = "<group>"; };
 		E81E3BF11898554000449AA8 /* Creature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Creature.h; sourceTree = "<group>"; };
 		E81E3BF21898554000449AA8 /* Creature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Creature.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -535,6 +538,8 @@
 				E81E3BF21898554000449AA8 /* Creature.m */,
 				68EF331E189CD51A00A93480 /* GamePlay.h */,
 				68EF331F189CD51A00A93480 /* GamePlay.m */,
+				C5ADEEDB18A300E900BD68C6 /* Node.h */,
+				C5ADEEDC18A300E900BD68C6 /* Node.m */,
 			);
 			path = KingsNThings;
 			sourceTree = "<group>";
@@ -796,7 +801,7 @@
 				68EF3394189CE6EF00A93480 /* -n Ghost -c 4 -t Swamp -s Fly -a 1.jpg */,
 				68EF3395189CE6EF00A93480 /* -n Giant Lizard -c 2 -t Swamp -a 2.jpg */,
 				68EF3396189CE6EF00A93480 /* -n Giant Mosquito -t Swamp -s Fly -a 2.jpg */,
-				68EF3397189CE6EF00A93480 /* -n Giant-Snake -t Swamp -a 3.jpg */,
+				C5ADEED918A2F29A00BD68C6 /* -n Giant Snake -t Swamp -a 3.jpg */,
 				68EF3398189CE6EF00A93480 /* -n Huge Leech -t Swamp -a 2.jpg */,
 				68EF3399189CE6EF00A93480 /* -n Pirates -t Swamp -a 2.jpg */,
 				68EF339A189CE6EF00A93480 /* -n Poison Frog -t Swamp -a 1.jpg */,
@@ -956,7 +961,6 @@
 				686C97331888A88500BE6D42 /* InfoPlist.strings in Resources */,
 				68EF33F5189CE6EF00A93480 /* -n Buffalo Herd -t Plains -a 3.jpg in Resources */,
 				68EF33FA189CE6EF00A93480 /* -n Farmers -c 4 -t Plains -a 1.jpg in Resources */,
-				68EF3411189CE6EF00A93480 /* -n Giant-Snake -t Swamp -a 3.jpg in Resources */,
 				68EF33E5189CE6EF00A93480 /* -n Brown Knight -t Mountain -s Charge -a 4.jpg in Resources */,
 				68EF33C3189CE6EF00A93480 /* -n Killer Racoon -t Forest -a 2.jpg in Resources */,
 				C59BE64318A0554100EC48E0 /* -n Peat Bog -t Swamp -a 1.jpg in Resources */,
@@ -1038,6 +1042,7 @@
 				68EF331A189CB52F00A93480 /* GoldOne.jpg in Resources */,
 				68EF33E9189CE6EF00A93480 /* -n Dwarves -t Mountain -s Range -a 3.jpg in Resources */,
 				686C97461888A88500BE6D42 /* Images.xcassets in Resources */,
+				C5ADEEDA18A2F29A00BD68C6 /* -n Giant Snake -t Swamp -a 3.jpg in Resources */,
 				68EF33B6189CE6EF00A93480 /* -n Bandits -t Forest -a 2.jpg in Resources */,
 				C54BA9E818996C4D0030D93B /* GoldTen.jpg in Resources */,
 				68EF33E8189CE6EF00A93480 /* -n Dwarves -t Mountain -s Range -a 2.jpg in Resources */,
@@ -1150,6 +1155,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5ADEEDD18A300E900BD68C6 /* Node.m in Sources */,
 				6832A1521897736700476D5D /* Board.m in Sources */,
 				686C97421888A88500BE6D42 /* MyScene.m in Sources */,
 				686C973F1888A88500BE6D42 /* ViewController.m in Sources */,

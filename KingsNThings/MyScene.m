@@ -62,8 +62,19 @@
         [gameBoard drawPlayerGold:@"GoldTwenty.jpg" withName:@"My Gold 20" andPoint:(CGPoint)positionInScene];
         [node removeFromParent];
     }
-    else if ([node.name isEqualToString:@"dice"]){
-        [gameBoard rollDice];
+    else if ([node.name isEqualToString:@"diceOne"]){
+        if([gameBoard dicesClicked] >= 2){
+        [gameBoard setDicesClicked: 0];
+        }
+        [gameBoard setDicesClicked:([gameBoard dicesClicked] +1)];
+        [gameBoard rollDiceOne];
+    }
+    else if ([node.name isEqualToString:@"diceTwo"]){
+        if([gameBoard dicesClicked] >= 2){
+            [gameBoard setDicesClicked: 0];
+        }
+     [gameBoard setDicesClicked:([gameBoard dicesClicked] +1)];
+        [gameBoard rollDiceTwo];
     }
     else
         [self selectNodeForTouch:positionInScene];

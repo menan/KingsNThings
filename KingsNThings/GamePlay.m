@@ -136,10 +136,10 @@
 
 -(void) combatPhase:(Player *)attacker withArmy:(NSMutableArray*)attackerArmy andPlayer:(Player*)defender withArmy:(NSMutableArray*)defenderArmy{
     
-    /*NSInteger attackerMagic = 0,defenderMagic =0;
+   /* NSInteger attackerMagic = 0,defenderMagic =0;
     NSInteger attackerRanged = 0,defenderRanged = 0;
     NSInteger attackerMelee = 0,defenderMelee = 0;*/
-    NSMutableArray* attackerRolledDice = [[NSMutableArray alloc]init];
+   NSMutableArray* attackerRolledDice = [[NSMutableArray alloc]init];
     NSMutableArray* defenderRolledDice = [[NSMutableArray alloc]init];
     
     NSMutableArray* attackerMagicCreature = [[NSMutableArray alloc]init];
@@ -148,30 +148,35 @@
     NSMutableArray* defenderRangedCreature = [[NSMutableArray alloc]init];
     NSMutableArray* attackerMeleeCreature = [[NSMutableArray alloc]init];
     NSMutableArray* defenderMeleeCreature = [[NSMutableArray alloc]init];
+    NSMutableArray* attackerChargeCreature = [[NSMutableArray alloc]init];
+    NSMutableArray* defenderChargeCreature = [[NSMutableArray alloc]init];
+
     
     NSInteger attackerNumberOfHits = 0 , defenderNumberOfHits = 0;
     
     for(Creature *creature in attackerArmy)
     {
-        if([[creature combatType] isEqualToString:@"Magic" ])
+        if([creature isMagic] )
             [attackerMagicCreature addObject:creature];
-        else if ([[creature combatType] isEqualToString:@"Ranged"])
+        else if ([creature isRanged] )
             [attackerRangedCreature addObject:creature];
-        else
+        else if ([creature isMelee] )
             [attackerMeleeCreature addObject:creature];
-        
+        else if ([creature isCharge] )
+            [attackerChargeCreature addObject:creature];
     }
     
     for(Creature *creature in defenderArmy)
     {
-        if([[creature combatType] isEqualToString:@"Magic" ])
+        if([creature isMagic] )
             [defenderMagicCreature addObject:creature];
-        else if ([[creature combatType] isEqualToString:@"Ranged"])
+        else if ([creature isRanged] )
             [defenderRangedCreature addObject:creature];
 
-        else
+        else if ([creature isMelee])
             [defenderMeleeCreature addObject:creature];
-        
+        else if ([creature isCharge] )
+            [defenderChargeCreature addObject:creature];
     }
     
     // now keep fighting until one loses
