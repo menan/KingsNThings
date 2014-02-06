@@ -799,12 +799,8 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     else{
         
     }
-        
-//    NSLog(@"%@ Moved to : %f,%f", node.name, node.position.x, node.position.y);
-    
-
 }
-//
+
 -(void) hardeCodeArmies{
     
     

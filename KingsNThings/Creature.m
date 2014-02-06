@@ -26,7 +26,7 @@
 
 }
 
-@synthesize combatValue,special, bluff, symbol,isFly, isMagic, isMelee, isRanged , isCharge ;
+@synthesize combatValue,special, bluff, symbol,isFly, isMagic, isMelee, isRanged , isCharge;
 
 @synthesize node;
 
@@ -63,7 +63,7 @@
 }
 
 
-- (id) initWithBoard:(SKSpriteNode *)aBoard atPoint:(CGPoint)aPoint fromString:(NSString *)string isSpecial: (BOOL) _special{
+- (id) initWithBoard:(SKSpriteNode *)aBoard atPoint:(CGPoint)aPoint fromString:(NSString *)string isSpecial: (BOOL) s{
     self = [super init];
     if (self) {
         point = aPoint;
@@ -72,7 +72,7 @@
         bluff = NO;
         inBowl = YES;
         numberofTimes = 1;
-        special = _special;
+        special = s;
         [self setValuesFromString:string];
     }
     return self;
@@ -103,39 +103,31 @@
         NSString *trimmed = [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         if ([trimmed hasPrefix:@"n"]){
             name = [trimmed substringFromIndex:2];
+//            NSLog(@"Name: %@", name);
         }
         else if ([trimmed hasPrefix:@"t"]){
             terrainType = [trimmed substringFromIndex:2];
+//            NSLog(@"terrainType: %@", terrainType);
         }
         else if ([trimmed hasPrefix:@"s"]){
-            
-            if(![trimmed hasPrefix:@"a"])
-            {
-                isMelee = YES;
-                //symbol = @"Melee";
-              combatValue = [[trimmed substringFromIndex:2 ]integerValue];
-            }
-            else
-                if([[trimmed substringFromIndex:2] isEqualToString:@"Magic"])
-                    isMagic = YES;
-            
-                if ([[trimmed substringFromIndex:2] isEqualToString:@"Ranged"])
-                    isRanged = YES;
-                if([[trimmed substringFromIndex:2] isEqualToString:@"Charge"])
-                    isCharge = YES;
-                if([[trimmed substringFromIndex:2] isEqualToString:@"Fly"])
-                    isCharge = YES;
-            
-                symbol = [trimmed substringFromIndex:2];
+            isMagic = [[trimmed substringFromIndex:2] isEqualToString:@"Magic"];
+            isRanged = [[trimmed substringFromIndex:2] isEqualToString:@"Ranged"];
+            isCharge = [[trimmed substringFromIndex:2] isEqualToString:@"Charge"];
+            isFly = [[trimmed substringFromIndex:2] isEqualToString:@"Fly"];
+            isMelee = [[trimmed substringFromIndex:2] isEqualToString:@"Melee"];
+            symbol = [trimmed substringFromIndex:2];
+//            NSLog(@"symbol: %@", symbol);
         }
         else if ([trimmed hasPrefix:@"a"]){
             combatValue = [[trimmed substringFromIndex:2] integerValue];
+//            NSLog(@"combatValue: %d", combatValue);
         }
         else if ([trimmed hasPrefix:@"c"]){
             numberofTimes = [[trimmed substringFromIndex:2] integerValue];
+//            NSLog(@"numberofTimes: %d", numberofTimes);
         }
         else{
-            NSLog(@"something else occured: %@",trimmed);
+//            NSLog(@"something else occured: %@",trimmed);
         }
         
     }
