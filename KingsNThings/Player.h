@@ -29,4 +29,5 @@ typedef enum Stage : NSUInteger {
 -(id) initWithArmy:(NSMutableArray *)army;
 -(void) constructArmy:(NSMutableArray *) army;
 - (Stage) getStage;
+- (Bank *) getBank;
 @end

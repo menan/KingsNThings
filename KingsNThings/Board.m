@@ -33,11 +33,11 @@
     SKLabelNode *myBalance;
     
     SKLabelNode* balanceText;
-    SKLabelNode* diceLabel;
+    
+    SKLabelNode* diceOneLabel;
+    SKLabelNode* diceTwoLabel;
     
     int playersCount;
-    
-    int rollValue;
     
 }
 static NSString * const defaultText = @"KingsNThings - Team24";
@@ -51,7 +51,6 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         size = aSize;
         scene = aScene;
         playersCount = 4;
-        rollValue = 0;
         nonMovables = @[@"board", @"bowl", @"rack", @"Gold 1", @"Gold 2", @"Gold 5", @"Gold 10", @"Gold 15", @"Gold 20", @"My Gold 1", @"My Gold 2", @"My Gold 5", @"My Gold 10", @"My Gold 15", @"My Gold 20", @"diceOne", @"diceTwo"];
         terrainNames = @[@"Desert", @"Forest", @"Frozen Waste", @"Jungle", @"Mountains", @"Plains", @"Sea", @"Swamp"];
         
@@ -195,12 +194,19 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     [board addChild:diceTwo];
     
     
-    diceLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
-    diceLabel.text = @"0";
-    diceLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
-    diceLabel.fontSize = 25;
-    diceLabel.position = CGPointMake(aPoint.x + 80.0f,aPoint.y - 10);
-    [board addChild:diceLabel];
+    diceOneLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    diceOneLabel.text = @"0";
+    diceOneLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
+    diceOneLabel.fontSize = 25;
+    diceOneLabel.position = CGPointMake(aPoint.x,aPoint.y + 30);
+    [board addChild:diceOneLabel];
+    
+    diceTwoLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    diceTwoLabel.text = @"0";
+    diceTwoLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
+    diceTwoLabel.fontSize = 25;
+    diceTwoLabel.position = CGPointMake(aPoint.x + 40.0f,aPoint.y + 30);
+    [board addChild:diceTwoLabel];
     
     
 }
@@ -391,6 +397,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     myBalance.fontSize = 15;
     myBalance.position = CGPointMake(bankLeft + 120,(size.height - balanceLabel.frame.size.height) - 475.0f);
     [board addChild:myBalance];
+    [self drawPlayerGold];
     
     [board addChild:balanceLabel];
     [board addChild:balanceText];
@@ -410,6 +417,61 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
 }
 
+- (void)drawPlayerGold{
+    float x = 710;
+    float y = (size.height) - 450.0f;
+    
+    for (int i = 0; i <[[game.player1 getBank] oneGold]; i++) {
+        
+        SKSpriteNode *gold = [SKSpriteNode spriteNodeWithImageNamed:@"GoldOne.jpg"];
+        [gold setName:@"My Gold 1"];
+        gold.size = CGSizeMake(40,41);
+        [gold setPosition:CGPointMake(710.0f,(size.height) - 450.0f)];
+        [board addChild:gold];
+    }
+    for (int i = 0; i <[[game.player1 getBank] twoGold]; i++) {
+        
+        SKSpriteNode *gold = [SKSpriteNode spriteNodeWithImageNamed:@"GoldTwo.jpg"];
+        [gold setName:@"My Gold 2"];
+        gold.size = CGSizeMake(40,41);
+        [gold setPosition:CGPointMake(710.0f,(size.height) - 450.0f)];
+        [board addChild:gold];
+    }
+    for (int i = 0; i <[[game.player1 getBank] fiveGold]; i++) {
+        
+        SKSpriteNode *gold = [SKSpriteNode spriteNodeWithImageNamed:@"GoldFive.jpg"];
+        [gold setName:@"My Gold 5"];
+        gold.size = CGSizeMake(40,41);
+        [gold setPosition:CGPointMake(710.0f,(size.height) - 450.0f)];
+        [board addChild:gold];
+    }
+    for (int i = 0; i <[[game.player1 getBank] tenGold]; i++) {
+        
+        SKSpriteNode *gold = [SKSpriteNode spriteNodeWithImageNamed:@"GoldTen.jpg"];
+        [gold setName:@"My Gold 10"];
+        gold.size = CGSizeMake(40,41);
+        [gold setPosition:CGPointMake(710.0f,(size.height) - 450.0f)];
+        [board addChild:gold];
+    }
+    for (int i = 0; i <[[game.player1 getBank] fifteenGold]; i++) {
+        
+        SKSpriteNode *gold = [SKSpriteNode spriteNodeWithImageNamed:@"GoldFifteen.jpg"];
+        [gold setName:@"My Gold 15"];
+        gold.size = CGSizeMake(40,41);
+        [gold setPosition:CGPointMake(710.0f,(size.height) - 450.0f)];
+        [board addChild:gold];
+    }
+    for (int i = 0; i <[[game.player1 getBank] twentyGold]; i++) {
+        
+        SKSpriteNode *gold = [SKSpriteNode spriteNodeWithImageNamed:@"GoldTwenty.jpg"];
+        [gold setName:@"My Gold 20"];
+        gold.size = CGSizeMake(40,41);
+        [gold setPosition:CGPointMake(710.0f,(size.height) - 450.0f)];
+        [board addChild:gold];
+    }
+    
+}
+
 -(void)updateBankBalance:(NSInteger)goldNum
 {
     if ([bank withdrawGold:goldNum]){
@@ -422,37 +484,17 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 
 - (void) rollDiceOne{
     int r = (arc4random() % 6) + 1;
-    if(dicesClicked == 2){
-        rollValue += r;
-        diceLabel.text = [NSString stringWithFormat:@"%d",rollValue];
-        //dicesClicked = 0;
-        
-    }
-    else{
-        rollValue = r;
-        diceLabel.text = [NSString stringWithFormat:@"%d",rollValue];
-        //dicesClicked = 0;
-    }
+    diceOneLabel.text = [NSString stringWithFormat:@"%d",r];
     
-    [game setOneDice:rollValue];
+    [game setOneDice:r];
     
 }
 - (void) rollDiceTwo{
     
     int r = (arc4random() % 6) + 1 ;
-    if(dicesClicked == 2){
-        rollValue += r;
-        diceLabel.text = [NSString stringWithFormat:@"%d",rollValue];
-        //dicesClicked = 0;
-    
-    }
-    else{
-        rollValue = r;
-    diceLabel.text = [NSString stringWithFormat:@"%d",rollValue];
-        //dicesClicked = 0;
-    }
+    diceTwoLabel.text = [NSString stringWithFormat:@"%d",r];
    
-    [game setSecondDice:rollValue];
+    [game setSecondDice:r];
     
 }
 
@@ -566,9 +608,9 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     }
     else if (terrainLocated && [node.name isEqualToString:@"Player 2"]) {
         Terrain* temp = [self findTerrainAt:terrainPoint];
-        [temp setBelongsToP2:YES];
 
         if ([game.player2 setTerritory:temp]){
+            [temp setBelongsToP2:YES];
             NSLog(@"set territory");
             node.name = @"bowl";
             [node setSize:CGSizeMake(sizeNode, sizeNode)];

@@ -146,7 +146,7 @@
 - (void) draw{
     node = [SKSpriteNode spriteNodeWithImageNamed:imageName];
     [node setName:name];
-    node.size = CGSizeMake(38,38);
+    node.size = CGSizeMake(37,37);
     [node setPosition:point];
     if (inBowl && special == NO) {
         node.color = [SKColor blackColor];
