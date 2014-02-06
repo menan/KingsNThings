@@ -21,7 +21,6 @@
     NSInteger tenGold;
     NSInteger fifteenGold;
     NSInteger twentyGold;
-    NSInteger balance;
        
 }
 
@@ -34,8 +33,9 @@
 
 
 
-- (void) updateBalance;
-- (NSInteger)getBalance;
+- (int)getBalance;
+- (int) depositGold:(int) type;
+- (BOOL) withdrawGold:(int) type;
 
 //- (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image;
 - (id) initWithOneGolds: (int) ones twoGolds: (int) twos fivesGolds: (int) fives tenGolds: (int) tens fifteenGolds: (int) fifteens twentyGolds: (int) twentys;

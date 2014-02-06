@@ -30,6 +30,8 @@
     GamePlay *game;
     
     SKLabelNode* balanceLabel;
+    SKLabelNode *myBalance;
+    
     SKLabelNode* balanceText;
     SKLabelNode* diceLabel;
     
@@ -260,14 +262,11 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 }
 
 - (void) drawSpecialCreatures:(CGPoint) aPoint{
-//    NSArray *names = @[@"Desert Master", @"Sir Lance-A-Lot", @"Forest King", @"Dwarf King", @"Master Thief", @"Arch Mage"];
     NSArray *namesString = @[@"-n Arch Cleric -a 5.jpg",@"-n Forest King -a 4.jpg",@"-n Master Theif -a 4.jpg",@"-n Arch Mage -a 6.jpg",@"-n Ghaog II -s Fly -a 6.jpg",@"-n Mountain King -a 4.jpg",@"-n Assassin Primus -a 4.jpg",@"-n Grand Duke -a 4.jpg",@"-n Plains Lord -a 4.jpg",@"-n Baron Munchausen -a 4.jpg",@"-n Greathunter -t Plains -s Range -a 4.jpg",@"-n Sir Lancealot -s Charge -a 5.jpg",@"-n Deerhunter -a 4.jpg",@"-n Ice Lord -a 4.jpg",@"-n Swamp King -a 4.jpg",@"-n Desert Master -a 4.jpg",@"-n Jungle Lord -a 4.jpg",@"-n Swordmaster -a 4.jpg",@"-n Dwarf King -a 5.jpg",@"-n Lord Of Eagles -s Fly -a 5.jpg",@"-n Warlord -a 5.jpg",@"-n Elfe Lord -s Range -a 6.jpg",@"-n Marksman -s Range -a 2 -a 5.jpg"];
     
     
     int i;
     for (i = 0; i <= 11; i++) {
-//        int myint = i + 1;
-//        NSString *imageName = [NSString stringWithFormat:@"sc_%d",myint];
         NSString *name = [namesString objectAtIndex:i];
         
         
@@ -279,8 +278,6 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         
     }
     for (int j = 12; j <= 22; j++) {
-//        int myint = i + 1;
-//        NSString *imageName = [NSString stringWithFormat:@"sc_%d",myint];
         NSString *name = [namesString objectAtIndex:j];
         
         int num = j - namesString.count/2;
@@ -294,58 +291,32 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     }
     
     
-    
-//    NSArray *names2 = @[@"Arch Cleric", @"Assassin Primus", @"Elf Lord", @"Mountain King", @"Grand Duke"];
-//    
-//    for (int j = 0; j < names2.count; j++) {
-//        int myint = j + names2.count;
-//        NSString *imageName = [NSString stringWithFormat:@"sc_%d",myint];
-//        NSString *name = [names2 objectAtIndex:j];
-//        
-//        float imageSize = 36;
-//        float offsetFraction = aPoint.x + ((imageSize + 1) * (j + 1));
-//        Creature* creature = [[Creature alloc] initWithBoard:board atPoint:CGPointMake(offsetFraction, aPoint.y - 37) imageNamed:imageName andCreatureName:name withCombatValue:0 forTerrainType:@"" isSpecial:YES andCombatType:@"melee"];
-//        [creatures addObject:creature];
-//        [creature draw];
-//    }
-//    
-    
-//    NSString *imageName = @"bc";
-//    NSString *name = @"Black Cloud";
-//    
-//    float imageSize = 36;
-//    float offsetFraction = aPoint.x + ((imageSize + 1) * 6);
-//    Creature* creature = [[Creature alloc] initWithBoard:board atPoint:CGPointMake(offsetFraction, aPoint.y - 37) imageNamed:imageName andCreatureName:name withCombatValue:0 forTerrainType:@"" isSpecial:YES andCombatType:@"melee"];
-//    [creatures addObject:creature];
-//    [creature draw];
-    
-    
-    
 }
 
 -(void) drawBank
 {
     if([bank getBalance] == 710){
-    
+        
+        //draws 20 of 1s, 2s, 5s and 10s
         for (int i = 0 ; i < 20 ; i++){
     
             SKSpriteNode *one = [bank goldsWithImage:@"GoldOne.jpg"];
             [one setName:@"Gold 1"];
             one.size = CGSizeMake(40,41);
             //one.centerRect = CGRectMake(12.0/430.0,12.0/440.0,4.0/430.0,4.0/440.0);
-            [one setPosition:CGPointMake(535.0f, (size.height) - 420)];
+            [one setPosition:CGPointMake(535.0f, (size.height) - 435)];
             
             SKSpriteNode *two = [bank goldsWithImage:@"GoldTwo.jpg"];
             [two setName:@"Gold 2"];
             two.size = CGSizeMake(40,41);
             //one.centerRect = CGRectMake(12.0/430.0,12.0/440.0,4.0/430.0,4.0/440.0);
-            [two setPosition:CGPointMake(585.0f, (size.height) - 420)];
+            [two setPosition:CGPointMake(585.0f, (size.height) - 435)];
             
             SKSpriteNode *five = [bank goldsWithImage:@"GoldFive.jpg"];
             [five setName:@"Gold 5"];
             five.size = CGSizeMake(40,41);
             //one.centerRect = CGRectMake(12.0/430.0,12.0/440.0,4.0/430.0,4.0/440.0);
-            [five setPosition:CGPointMake(635.0f, (size.height) - 420)];
+            [five setPosition:CGPointMake(635.0f, (size.height) - 435)];
     
             SKSpriteNode *ten = [bank goldsWithImage:@"GoldTen.jpg"];
             [ten setName:@"Gold 10"];
@@ -353,31 +324,30 @@ static NSString * const defaultText = @"KingsNThings - Team24";
             //one.centerRect = CGRectMake(12.0/430.0,12.0/440.0,4.0/430.0,4.0/440.0);
             [ten setPosition:CGPointMake(535.0f, (size.height) - 481)];
             
-            if(i <= 9 ){
-                
-    
-                SKSpriteNode *fifteen = [bank goldsWithImage:@"GoldFifteen.jpg"];
-                [fifteen setName:@"Gold 15"];
-                fifteen.size = CGSizeMake(40,41);
-                //one.centerRect = CGRectMake(12.0/430.0,12.0/440.0,4.0/430.0,4.0/440.0);
-                [fifteen setPosition:CGPointMake(585.0f, (size.height) - 481)];
-    
-                SKSpriteNode *twenty = [bank goldsWithImage:@"GoldTwenty.jpg"];
-                [twenty setName:@"Gold 20"];
-                twenty.size = CGSizeMake(40,41);
-                //one.centerRect = CGRectMake(12.0/430.0,12.0/440.0,4.0/430.0,4.0/440.0);
-                [twenty setPosition:CGPointMake(635.0f, (size.height) - 481)];
-                
-                
-                [board addChild:fifteen];
-                [board addChild:twenty];
-            }
             [board addChild:one];
             [board addChild:two];
             [board addChild:five];
             [board addChild:ten];
         }
-    
+        //draws 10 of 15s and 20s
+        for (int i = 0; i < 10; i++) {
+            
+            SKSpriteNode *fifteen = [bank goldsWithImage:@"GoldFifteen.jpg"];
+            [fifteen setName:@"Gold 15"];
+            fifteen.size = CGSizeMake(40,41);
+            //one.centerRect = CGRectMake(12.0/430.0,12.0/440.0,4.0/430.0,4.0/440.0);
+            [fifteen setPosition:CGPointMake(585.0f, (size.height) - 481)];
+            
+            SKSpriteNode *twenty = [bank goldsWithImage:@"GoldTwenty.jpg"];
+            [twenty setName:@"Gold 20"];
+            twenty.size = CGSizeMake(40,41);
+            //one.centerRect = CGRectMake(12.0/430.0,12.0/440.0,4.0/430.0,4.0/440.0);
+            [twenty setPosition:CGPointMake(635.0f, (size.height) - 481)];
+            
+            
+            [board addChild:fifteen];
+            [board addChild:twenty];
+        }
     }
     
     
@@ -391,7 +361,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     balanceLabel.position = CGPointMake(bankLeft,(size.height) - 520.0f);
 
     
-    NSString *balance = [NSString stringWithFormat: @"%d", (int)[bank getBalance]];
+    NSString *balance = [NSString stringWithFormat: @"$%d", [bank getBalance]];
     balanceText = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     balanceText.text = balance;
     balanceText.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
@@ -406,8 +376,8 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     myStash.position = CGPointMake(bankLeft + 120,(size.height - balanceLabel.frame.size.height) - 400.0f);
     [board addChild:myStash];
     
-    SKLabelNode *myBalance = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
-    myBalance.text = @"0";
+    myBalance = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    myBalance.text = [NSString stringWithFormat: @"$%d", [game.player1 getBankBalance]];
     myBalance.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
     myBalance.fontSize = 15;
     myBalance.position = CGPointMake(bankLeft + 120,(size.height - balanceLabel.frame.size.height) - 475.0f);
@@ -418,38 +388,27 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
 }
 
--(void)drawPlayerGold:(NSString*)goldType withName:(NSString *)name andPoint:(CGPoint)location{
+
+-(void)drawPlayerGold:(NSString*)goldType withName:(NSString *)name{
     
-    SKSpriteNode *gold = [bank goldsWithImage:goldType];
+    
+    SKSpriteNode *gold = [SKSpriteNode spriteNodeWithImageNamed:goldType];
     [gold setName:name];
     gold.size = CGSizeMake(40,41);
-    //one.centerRect = CGRectMake(12.0/430.0,12.0/440.0,4.0/430.0,4.0/440.0);
     [gold setPosition:CGPointMake(710.0f,(size.height) - 450.0f)];
     [board addChild:gold];
     
     
 }
+
 -(void)updateBankBalance:(NSInteger)goldNum
 {
-    if(goldNum == 1)
-        [bank setOneGold:[bank oneGold]-1];
-    else if(goldNum == 2)
-        [bank setTwoGold:[bank twoGold]-1];
-    else if(goldNum == 5)
-        [bank setFiveGold:[bank fiveGold]-1];
-    else if(goldNum == 10)
-        [bank setTenGold:[bank tenGold]-1];
-    else if(goldNum == 15)
-        [bank setFifteenGold:[bank fifteenGold]-1];
-    else if(goldNum == 20)
-        [bank setTwentyGold:[bank twentyGold]-1];
+    if ([bank withdrawGold:goldNum]){
+        [game.player1 depositGold:goldNum];
+        balanceText.text = [NSString stringWithFormat: @"$%d", [bank getBalance]];
+        myBalance.text = [NSString stringWithFormat: @"$%d", [game.player1 getBankBalance]];
+    }
     
-    
-    [bank updateBalance];
-    
-    NSString *balance = [NSString stringWithFormat: @"%d", (int)[bank getBalance]];
-
-    balanceText.text = balance;
 }
 
 - (void) rollDice{
@@ -552,7 +511,6 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     float sizeNode = 28;
     if (terrainLocated && [node.name isEqualToString:@"Player 1"]) {
         if ([game.player1 setTerritory:[self findTerrainAt:terrainPoint]]){
-            NSLog(@"set territory");
             node.name = @"bowl";
             [node setSize:CGSizeMake(sizeNode, sizeNode)];
         }
@@ -562,7 +520,6 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     }
     else if (terrainLocated && [node.name isEqualToString:@"Player 2"]) {
         if ([game.player2 setTerritory:[self findTerrainAt:terrainPoint]]){
-            NSLog(@"set territory");
             node.name = @"bowl";
             [node setSize:CGSizeMake(sizeNode, sizeNode)];
         }
@@ -572,7 +529,6 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     }
     else if (terrainLocated && [node.name isEqualToString:@"Player 3"]) {
         if ([game.player3 setTerritory:[self findTerrainAt:terrainPoint]]){
-            NSLog(@"set territory");
             node.name = @"bowl";
             [node setSize:CGSizeMake(sizeNode, sizeNode)];
         }
@@ -582,7 +538,6 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     }
     else if (terrainLocated && [node.name isEqualToString:@"Player 4"]) {
         if ([game.player4 setTerritory:[self findTerrainAt:terrainPoint]]){
-            NSLog(@"set territory");
             node.name = @"bowl";
             [node setSize:CGSizeMake(sizeNode, sizeNode)];
         }
@@ -590,6 +545,56 @@ static NSString * const defaultText = @"KingsNThings - Team24";
             [node setPosition:CGPointMake(380.0f + 129.0f, 25.0f)];
         }
     }
+    else if ([node.name isEqualToString:@"Gold 1"]) {
+        [self updateBankBalance:1];
+        [self drawPlayerGold:@"GoldOne.jpg" withName:@"My Gold 1"];
+        [node removeFromParent];
+        //        NSLog(@"Button pressed");
+    }
+    else if ([node.name isEqualToString:@"Gold 2"]){
+        [self updateBankBalance:2];
+        [self drawPlayerGold:@"GoldTwo.jpg" withName:@"My Gold 2"];
+        [node removeFromParent];
+    }
+    else if ([node.name isEqualToString:@"Gold 5"]){
+        [self updateBankBalance:5];
+        [self drawPlayerGold:@"GoldFive.jpg" withName:@"My Gold 5"];
+        [node removeFromParent];
+    }
+    else if ([node.name isEqualToString:@"Gold 10"]){
+        [self updateBankBalance:10];
+        [self drawPlayerGold:@"GoldTen.jpg" withName:@"My Gold 10"];
+        [node removeFromParent];
+    }
+    else if ([node.name isEqualToString:@"Gold 15"]){
+        [self updateBankBalance:15];
+        [self drawPlayerGold:@"GoldFifteen.jpg" withName:@"My Gold 15"];
+        [node removeFromParent];
+    }
+    else if ([node.name isEqualToString:@"Gold 20"]){
+        [self updateBankBalance:20];
+        [self drawPlayerGold:@"GoldTwenty.jpg" withName:@"My Gold 20"];
+        [node removeFromParent];
+    }
+    else if ([node.name isEqualToString:@"dice"]){
+        [self rollDice];
+    }
+    else if ([node.name isEqualToString:@"Tower"]){
+        
+    }
+    else if ([node.name isEqualToString:@"Keep"]){
+        
+    }
+    else if ([node.name isEqualToString:@"Castle"]){
+        
+    }
+    else if ([node.name isEqualToString:@"Citadel"]){
+        
+    }
+    else{
+        
+    }
+        
 //    NSLog(@"%@ Moved to : %f,%f", node.name, node.position.x, node.position.y);
     
 }

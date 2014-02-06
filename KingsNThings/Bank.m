@@ -20,12 +20,6 @@
 @synthesize fifteenGold;
 @synthesize twentyGold;
 
-/*20 of 1golds, 2golds,5golds,10golds
- 10 of fifteengold and twentyGold
- 
-  UIButtonTypeSystem
- UIButtonTypeCustom
- */
 - (id) init
 {
     if ( self = [super init] )
@@ -36,7 +30,6 @@
         [self setTenGold:20];
         [self setFifteenGold:10];
         [self setTwentyGold:10];
-        [self updateBalance];
         
         
     }
@@ -53,12 +46,67 @@
         [self setTenGold:tens];
         [self setFifteenGold:fifteens];
         [self setTwentyGold:twentys];
-        [self updateBalance];
         
         
     }
     return self;
 }
+//deposit only one type of gold at a time please.
+- (int) depositGold:(int) type{
+    switch (type) {
+        case 1:
+            oneGold++;
+            break;
+        case 2:
+            twoGold++;
+            break;
+        case 5:
+            fiveGold++;
+            break;
+        case 10:
+            tenGold++;
+            break;
+        case 15:
+            fifteenGold++;
+            break;
+        case 20:
+            twentyGold++;
+            break;
+        default:
+            break;
+    }
+    return [self getBalance];
+}
+
+//deposit only one type of gold at a time please.
+- (BOOL) withdrawGold:(int) type{
+    switch (type) {
+        case 1:
+            oneGold--;
+            break;
+        case 2:
+            twoGold--;
+            break;
+        case 5:
+            fiveGold--;
+            break;
+        case 10:
+            tenGold--;
+            break;
+        case 15:
+            fifteenGold--;
+            break;
+        case 20:
+            twentyGold--;
+            break;
+        default:
+            break;
+    }
+    return YES;
+}
+
+
+
 /*- (id)initWithBoard:
 {
     self = [super init];
@@ -72,15 +120,9 @@
     return self;
 }*/
 
--(void) updateBalance{
-    
-    
-    balance = oneGold + (twoGold * 2) + (fiveGold * 5) + (tenGold * 10) + (fifteenGold * 15) + (twentyGold * 20);
-}
 
-- (NSInteger)getBalance{
-    
-    return balance;
+- (int) getBalance{
+    return oneGold + (twoGold * 2) + (fiveGold * 5) + (tenGold * 10) + (fifteenGold * 15) + (twentyGold * 20);
 }
 
 

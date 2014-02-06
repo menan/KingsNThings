@@ -57,6 +57,14 @@
  
 }
 
+- (void) depositGold:(int) goldType{
+    [bank depositGold:goldType];
+}
+
+- (BOOL) withdrawGold:(int) goldType{
+    return [bank depositGold:goldType];
+}
+
 - (BOOL) setTerritory: (Terrain *) territory{
     NSLog(@"Adding territory: %@", territory.type);
     if ([territories count] <= 10){

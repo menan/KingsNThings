@@ -22,7 +22,8 @@ typedef enum Stage : NSUInteger {
     Castle,
     Citadel
 }Stage;
-
+- (void) depositGold:(int) goldType;
+- (BOOL) withdrawGold:(int) goldType;
 - (BOOL) setTerritory: (Terrain *) territory;
 - (int) getBankBalance;
 -(id) initWithArmy:(NSMutableArray *)army;
