@@ -10,7 +10,7 @@
 #import "Creature.h"
 
 @implementation Player{
-    int income;
+//    int income;
     int orderOfPlay;
     Stage stageOfBuilding;
     Bank* bank;
@@ -39,7 +39,6 @@
         specialCharacters = [[NSMutableArray alloc] init];
         armies = [[NSMutableArray alloc] init];
         specialIncome = [[NSMutableArray alloc] init];
-        [self updateIncome];
     }
     return self;
 }
@@ -83,7 +82,6 @@
     if ([territories count] <= 10){
         [territories addObject:territory];
         NSLog(@"player territory is set for : %@ %d", territory.node.name, [territories count]);
-        [self updateIncome];
         result =  YES;
     }
     else{
@@ -109,23 +107,22 @@
     return stageOfBuilding;
 }
 
-- (void) updateIncome{
-    // add combat values of buildings and special income counters
-    income = territories.count + specialCharacters.count + (stageOfBuilding + 1) + [self getSpecialCreatureIncome];
-    NSLog(@"Income is %d", income);
-}
 
 - (int) getSpecialCreatureIncome{
-    int _income = 0;
+    int sIncome = 0;
     for(Creature *army in armies){
         if (army.special){
-            _income++;
+            sIncome++;
         }
     }
     
-    return _income;
+    return sIncome;
 }
 
+
+- (int) getIncome{
+    return territories.count + specialCharacters.count + (stageOfBuilding + 1) + [self getSpecialCreatureIncome];
+}
 - (NSMutableArray *) getTerritories{
     return territories;
 }
@@ -135,9 +132,7 @@
 }
 
 -(void) constructArmy:(NSMutableArray *) army{
-    
     [armies addObjectsFromArray:army];
-    [self updateIncome];
 }
 
 @end

@@ -99,10 +99,6 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     [self drawHardCodeThings:[game.player1 p1Stack2] withPoint:CGPointMake(450.0f, (size.height) - 40)];
     
     
-    [self drawRack:CGPointMake(620.0f, (size.height) - 55)];
-    [self drawRack:CGPointMake(620.0f, (size.height) - 150)];
-    [self drawRack:CGPointMake(620.0f, (size.height) - 240)];
-    [self drawRack:CGPointMake(620.0f, (size.height) - 330)];
     [self drawBowlwithThings:CGPointMake(450.0f, (size.height) - 120)];
     
 //    [self drawRack:CGPointMake(620.0f, (size.height) - 55)];
@@ -644,9 +640,8 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     {
         
         
-       }
+    }
     
-    if ([node.name isEqualToString:@"Player 1"]) {
     float sizeNode = 28;
     if (terrainLocated && [node.name isEqualToString:@"Player 1"]) {
         
@@ -705,7 +700,6 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         [self updateBankBalance:1];
         [self drawPlayerGold:@"GoldOne.jpg" withName:@"My Gold 1"];
         [node removeFromParent];
-        //        NSLog(@"Button pressed");
     }
     else if ([node.name isEqualToString:@"Gold 2"]){
         [self updateBankBalance:2];
@@ -756,8 +750,9 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         
 //    NSLog(@"%@ Moved to : %f,%f", node.name, node.position.x, node.position.y);
     
-}
 
+}
+//
 -(void) hardeCodeArmies{
     
     

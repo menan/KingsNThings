@@ -10,7 +10,9 @@
 #import "Player.h"
 #import "Creature.h"
 
-@implementation GamePlay
+@implementation GamePlay{
+    NSMutableArray *players;
+}
 
 @synthesize player1,player2,player3,player4,oneDice,secondDice;
 
@@ -24,6 +26,8 @@
         player2 = [[Player alloc] initWithArmy];
         player3 = [[Player alloc] initWithArmy];
         player4 = [[Player alloc] initWithArmy];
+        
+        players = [[NSMutableArray alloc] initWithObjects:player1, player2, player3, player4, nil];
         //[self setPlayerArmy];
         
     }
@@ -228,10 +232,17 @@
     //}//end while
         
         
-    }//end function
+}//end function
     
     
+- (BOOL) initiateGoldCollection{
     
+    for (Player *p in players) {
+        [p getIncome];
+    }
+    
+    return YES;
+}
 
 
 @end

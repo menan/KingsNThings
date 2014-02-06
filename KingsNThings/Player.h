@@ -28,8 +28,9 @@ typedef enum Stage : NSUInteger {
 - (BOOL) withdrawGold:(int) goldType;
 - (BOOL) setTerritory: (Terrain *) territory;
 - (int) getBankBalance;
--(id) initWithArmy;
--(void) constructArmy:(NSMutableArray *) army;
+- (id) initWithArmy;
+- (void) constructArmy:(NSMutableArray *) army;
 - (Stage) getStage;
 - (Bank *) getBank;
+- (int) getIncome;
 @end
