@@ -605,8 +605,6 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     diceOneLabel.text = [NSString stringWithFormat:@"%d",r];
     
     [game setOneDice:r];
-    [self initiateGoldCollection];
-    
 }
 - (void) rollDiceTwo{
     
@@ -711,45 +709,37 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
     if([node.accessibilityValue isEqualToString:@"creatures"])
     {
-        //NSLog(@"creture is moved from bowl");
-        
         Terrain *temp =[self findTerrainAt:terrainPoint];
-        
         if(temp != nil){
-            
-            
             Player *tempPlayer = [game findPlayerByTerrain:temp];
-            Creature *tempCreature = [[Creature alloc] initWithImage:node.name atPoint:node.position];
-            Army *a = [tempPlayer hasCreature:tempCreature];
-            
-            if(a != nil){
+            //checks if any player owns the territory
+            if (tempPlayer != nil) {
+                Creature *tempCreature = [[Creature alloc] initWithImage:node.name atPoint:node.position];
+                Army *a = [tempPlayer hasCreature:tempCreature];
                 
-                [a removeCreature:tempCreature];
+                if(a != nil){
+                    [a removeCreature:tempCreature];
+                }
                 
-            }
-            
-            if( ![temp hasArmyOnIt]){
-                
-                [tempPlayer constructNewArmy:tempCreature atPoint:node.position withTerrain:temp];
-                [temp setHasArmyOnIt:YES];
-                
-                            }
-            else if ([temp hasArmyOnIt]){
-                
-                //NSLog(@"inside temp has army");
-                for(Army *army in [tempPlayer armies]){
-                    
-                    if([army getTerrainLocation] == [temp location]){
-                        [tempPlayer addCreatureToArmy:[[Creature alloc] initWithImage:node.name atPoint:node.position] inArmy:army ];
-                        
+                if( ![temp hasArmyOnIt]){
+                    [tempPlayer constructNewArmy:tempCreature atPoint:node.position withTerrain:temp];
+                    [temp setHasArmyOnIt:YES];
+                }
+                else {
+                    //else would take care of if theres no army :)
+                    for(Army *army in [tempPlayer armies]){
+                        if([army getTerrainLocation] == [temp location]){
+                            [tempPlayer addCreatureToArmy:[[Creature alloc] initWithImage:node.name atPoint:node.position] inArmy:army ];
+                        }
                     }
                 }
+                
+                NSLog(@"Player is %d ",[tempPlayer playingOrder]);
+                [tempPlayer printArmy];
             }
-            
-                    NSLog(@"Player is %d ",[tempPlayer playingOrder]);
-                     [tempPlayer printArmy];
-           
-                    
+            else{
+                [node setPosition:CGPointMake(480.0f, (size.height) - 175.0f)];
+            }
         }
     }//end of if creature
             
@@ -848,7 +838,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         Terrain* t = [self findTerrainAt:terrainPoint];
         Player* owner = [game findPlayerByTerrain:t];
         
-        if (terrainLocated && owner != (id)[NSNull null]) {
+        if (terrainLocated && owner != nil) {
             Building *b = [[Building alloc] initWithStage:Tower andTerrain:t];
             if ([owner setBuilding:b]){
                 node.name = @"bowl";
@@ -865,7 +855,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         Terrain* t = [self findTerrainAt:terrainPoint];
         Player* owner = [game findPlayerByTerrain:t];
         
-        if (terrainLocated && owner != (id)[NSNull null]) {
+        if (terrainLocated && owner != nil) {
             Building *b = [[Building alloc] initWithStage:Keep andTerrain:t];
             if ([owner setBuilding:b]){
                 node.name = @"bowl";
@@ -881,7 +871,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         Terrain* t = [self findTerrainAt:terrainPoint];
         Player* owner = [game findPlayerByTerrain:t];
         
-        if (terrainLocated && owner != (id)[NSNull null]) {
+        if (terrainLocated && owner != nil) {
             Building *b = [[Building alloc] initWithStage:Castle andTerrain:t];
             if ([owner setBuilding:b]){
                 node.name = @"bowl";
@@ -897,7 +887,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         Terrain* t = [self findTerrainAt:terrainPoint];
         Player* owner = [game findPlayerByTerrain:t];
         
-        if (terrainLocated && owner != (id)[NSNull null]) {
+        if (terrainLocated && owner != nil) {
             Building *b = [[Building alloc] initWithStage:Citadel andTerrain:t];
             if ([owner setBuilding:b]){
                 node.name = @"bowl";
