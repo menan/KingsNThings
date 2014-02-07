@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <SpriteKit/SpriteKit.h>
+#import "Player.h"
 
 @interface Terrain : NSObject
 
@@ -15,8 +16,14 @@
 @property (nonatomic, strong) NSString* imageName;
 @property (nonatomic, strong) SKSpriteNode* node;
     @property BOOL flipped,belongsToP1,belongsToP2,belongsToP3,belongsToP4, hasArmyOnIt;
-    @property int position;
+    @property NSInteger position;
+@property NSInteger location;
+@property Player* player;
+
 
 - (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image andTerrainName: (NSString *) name;
-- (void) draw;
+-(void) draw;
+-(void)lkfgj;
+-(Player*) belongsTo;
+
 @end

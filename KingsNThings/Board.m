@@ -13,6 +13,7 @@
 #import "Player.h"
 #import "GamePlay.h"
 #import "NSMutableArrayShuffling.h"
+#import "Army.h"
 
 @implementation Board{
     NSArray * nonMovables;
@@ -95,12 +96,14 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
     [self drawMarkers:CGPointMake(380.0f, 25.0f)];
     
-    [self drawHardCodeThings:[game.player1 p1Stack1] withPoint:CGPointMake(450.0f, (size.height) - 40)];
-    
-    [self drawHardCodeThings:[game.player1 p1Stack2] withPoint:CGPointMake(450.0f, (size.height) - 40)];
-    
-    
     [self drawBowlwithThings:CGPointMake(450.0f, (size.height) - 120)];
+    
+    [self drawHardCodeThings:[game p1Stack1] withPoint:CGPointMake(450.0f, (size.height) - 120)];
+    
+    [self drawHardCodeThings:[game p1Stack2] withPoint:CGPointMake(450.0f, (size.height) - 120)];
+    
+    
+    
     
 //    [self drawRack:CGPointMake(620.0f, (size.height) - 55)];
 //    [self drawRack:CGPointMake(620.0f, (size.height) - 150)];
@@ -165,14 +168,14 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 - (void) drawThings:(CGPoint) aPoint{
 //    NSArray *creatureList = @[@"-n Baby Dragon -t Desert -s Fly -a 3", @"-n Giant Spider -t Desert -a 1", @"-n Sandworm -t Desert -a 3", @"-n Camel Corps -t Desert -a 3", @"-n Giant Wasp -t Desert -s Fly -a 2", @"-n Skletons -c 2 -t Desert -a 1", @"-n Dervish -c 2 -t Desert -s Magic -a 2", @"-n Giant Wasp -t Desert -s Fly -a 4", @"-n Sphinx -t Desert -s Magic -a 4", @"-n Desert Bat -t Desert -s Fly -a 1", @"-n Griffon -t Desert -s Fly -a 2", @"-n Vultures -c 2 -t Desert -s Fly -a 1", @"-n Dust Devil -t Desert -s Fly -a 4", @"-n Nomads -c 2 -t Desert -a 1", @"-n Yellow Knight -t Desert -s Charge -a 3", @"-n Genie -t Desert -s Magic -a 4", @"-n Old Dragon -s Fly -s Magic -a 4", @"-n Bandits -t Forest -a 2", @"-n Elves -t Forest -s Range -a 3", @"-n Pixies -c 2 -t Forest -s Fly -a 1", @"-n Bears -t Forest -a 2", @"-n Flying Squirrel -t Forest -s Fly -a 1", @"-n Unicorn -t Forest -a 4", @"-n Big Foot -t Forest -a 5", @"-n Flying Squirrel -t Forest -s Fly -a 2", @"-n Walking Tree -t Forest -a 5", @"-n Druid -t Forest -s Magic -a 3", @"-n Forester -t Forest -s Range -a 2", @"-n Wild Cat -t Forest -a 2", @"-n Dryad -t Forest -s Magic -a 1", @"-n Great Owl -t Forest -s Fly -a 2", @"-n Wyvern -t Forest -s Fly -a 3", @"-n Elf Mage -t Forest -s Magic -a 2", @"-n Green Knight -t Forest -s Charge -a 4", @"-n Elves -c 2 -t Forest -s Range -a 2", @"-n Killer Racoon -t Forest -a 2", @"-n Bird Of Paradise -t Jungle -s Fly -a 1", @"-n Head Hunter -t Jungle -s Range -a 2", @"-n Crawling Vines -t Jungle -a 6", @"-n Pterodactyl Warriors -c 2 -t Jungle -s Fly -s Range -a 2", @"-n Crocodiles -t Jungle -a 2", @"-n Pygmies -t Jungle -a 2", @"-n Dinasaur -t Jungle -a 4", @"-n Tigers -c 2 -t Jungle -a 3", @"-n Elephant -t Jungle -s Charge -a 4", @"-n Watusi -t Jungle -s 2", @"-n Giant Ape -c 2 -t Jungle -a 5", @"-n Witch Doctor -t Jungle -s Magic -a 2", @"-n Giant Snake -t Jungle -s 3", @"-n Dragon Rider -t Frozen Waste -s Fly -s Range -a 3", @"-n Killer Puffins -t Frozen Waste -s Fly -a 2", @"-n Elk Herd -t Frozen Waste -a 2", @"-n Mammoth -t Frozen Waste -s Charge -a 5", @"-n Eskimos -c 4 -t Frozen Waste -a 2", @"-n North Wind -t Frozen Waste -s Fly -s Magic -a 2", @"-n Ice Bats -t Frozen Waste -s Fly -a 1", @"-n Walrus -t Frozen Waste -a 4", @"-n Ice Giant -t Frozen Waste -s Range -a 5", @"-n White Brea -t Frozen Waste -a 4", @"-n Iceworm -t Frozen Waste -s Magic -a 4", @"-n White Dragon -t Frozen Waste -s Magic -a 5", @"-n Killer Penguins -t Frozen Waste -a 3", @"-n Wolves -t Frozen Waste -a 3", @"-n Brown Dragon -t Mountain -s Fly -a 3", @"-n Gaint Roc -t Mountain -s Fly -a 3", @"-n Little Roc -t Mountain -s Fly -a 2", @"-n Brown Knight -t Mountain -s Charge -a 4", @"-n Giant -t Mountain -s Range -a 4", @"-n Mountain Lion -t Mountain -a 2", @"-n Cyclops -t Mountain -a 5", @"-n Giant Condor -t Mountain -s Fly -a 3", @"-n Mountain Men -c 2 -t Mountain -a 1", @"-n Dwarves -t Mountain -s Charge -a 3", @"-n Goblins -c 4 -t Mountain -a 1", @"-n Orge Mountain -t Mountain -a 2", @"-n Dwarves -t Mountain -s Range -a 2", @"-n Great Eagle -t Mountain -s Fly -a 2", @"-n Troll -t Mountain -a 4", @"-n Dwarves -t Mountain -s Range -a 3", @"-n Great Hawk -t Mountain -s Fly -a 1", @"-n Buffalo Herd -t Plains -a 3", @"-n Giant Beetle -t Plains -s Fly -a 2", @"-n Pegasus -t Plains -s Fly -a 2", @"-n Buffalo Herd -t Plains -a 4", @"-n Great Hawk -t Plains -s Fly -a 2", @"-n Pterodactyl -t Plains -s Fly -a 3", @"-n Centaur -t Plains -a 2", @"-n Greathunter -t Plains -s Range -a 4", @"-n Tribesmen -c 2 -t Plains -a 2", @"-n Dragonfly -t Plains -s Fly -a 2", @"-n Gypsies -t Plains -s Magic -a 1", @"-n Villains -t Plains -a 2", @"-n Eagles -t Plains -s Fly -a 2", @"-n Gypsies -t Plains -s Magic -a 2", @"-n White Knight -t Plains -s Charge -a 3", @"-n Farmers -c 4 -t Plains -a 1", @"-n Hunter -t Plains -s Range -a 1", @"-n Wolf Pack -t Plains -a 3", @"-n Flying Buffalo -t Plains -s Fly -a 2", @"-n Lion Ride -t Plains -a 3", @"-n Tribesmen -c 2 -t Plains -a 2", @"-n Basilisk -t Swamp -s Magic -a 3", @"-n Giant Snake -t Swamp -a 3", @"-n Swamp Gas -t Swamp -s Fly -a 1", @"-n Black Knight -t Swamp -s Charge -a 3", @"-n Huge Leech -t Swamp -a 2", @"-n Swamp Rat -t Swamp -a 1", @"-n Crocodiles -t Swamp -a 2", @"-n Pirates -t Swamp -a 2", @"-n Thing -t Swamp -a 2", @"-n Dark Wizard -t Swamp -s Fly -s Magic -a 1", @"-n Poison Frog -t Swamp -a 1", @"-n Vampire Bat -t Swamp -s Fly -a 4", @"-n Ghost -c 4 -t Swamp -s Fly -a 1", @"-n Spirit -t Swamp -s Magic -a 2", @"-n Watersanke -t Swamp -a 1", @"-n Giant Lizard -c 2 -t Swamp -a 2", @"-n Sprote -t Swamp -s Magic -a 1", @"-n Will_O_Wisp -t Swamp -s Magic -a 2", @"-n Giant Mosquito -t Swamp -s Fly -a 2", @"-n Swamp Beast -t Swamp -a 3", @"-n Winged Pirhana -t Swamp -s Fly -a 3" ];
     
-    NSArray *creatureList = @[@"-n Cyclops -t Mountain -a 5",@"-n Mountain Men -c 2 -t Mountain -a 1",@"-n Goblins -c 4 -t Mountain -a 1"];
+   /* NSArray *creatureList = @[@"-n Cyclops -t Mountain -a 5",@"-n Mountain Men -c 2 -t Mountain -a 1",@"-n Goblins -c 4 -t Mountain -a 1"];
     creatures = [[NSMutableArray alloc] init];
     
     for (NSString *str in creatureList) {
         Creature *creature = [[Creature alloc] initWithBoard:board atPoint:aPoint fromString:str];
         [creature draw];
         [creatures addObject:creature];
-    }
+    }*/
     
     /*
     NSLog(@"creatures count: %d", creatures.count);
@@ -205,17 +208,19 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 - (void) drawHardCodeThings:(NSArray*)army withPoint:(CGPoint) aPoint {
     
        for (NSString *string in army){
+           
                NSString* imageName = [NSString stringWithFormat:@"%@.jpg",string];
-        SKSpriteNode* node = [SKSpriteNode spriteNodeWithImageNamed:imageName];
-        [node setName:imageName];
-           node.accessibilityValue = @"creatures";
-          // [node setGroup:@"creature"];
-        node.size = CGSizeMake(36,36);
-        [node setPosition:aPoint];
-        node.color = [SKColor blackColor];
-         node.colorBlendFactor = .85;
-        [self setCreaturesInBowl:([self creaturesInBowl]+1)];
-        [board addChild:node];
+           
+               SKSpriteNode* node = [SKSpriteNode spriteNodeWithImageNamed:imageName];
+               [node setName:imageName];
+               node.accessibilityValue = @"creatures";
+               // [node setGroup:@"creature"];
+               node.size = CGSizeMake(36,36);
+               [node setPosition:aPoint];
+               node.color = [SKColor blackColor];
+               node.colorBlendFactor = .85;
+               [self setCreaturesInBowl:([self creaturesInBowl]+1)];
+               [board addChild:node];
         
 }
     NSLog(@"number of creatures in Bowl %d",[self creaturesInBowl]);
@@ -332,8 +337,8 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 - (void) drawSpecialCreatures:(CGPoint) aPoint{
     NSArray *namesString = @[@"-n Arch Cleric -a 5.jpg",@"-n Forest King -a 4.jpg",@"-n Master Theif -a 4.jpg",@"-n Arch Mage -a 6.jpg",@"-n Ghaog II -s Fly -a 6.jpg",@"-n Mountain King -a 4.jpg",@"-n Assassin Primus -a 4.jpg",@"-n Grand Duke -a 4.jpg",@"-n Plains Lord -a 4.jpg",@"-n Baron Munchausen -a 4.jpg",@"-n Greathunter -t Plains -s Range -a 4.jpg",@"-n Sir Lancealot -s Charge -a 5.jpg",@"-n Deerhunter -a 4.jpg",@"-n Ice Lord -a 4.jpg",@"-n Swamp King -a 4.jpg",@"-n Desert Master -a 4.jpg",@"-n Jungle Lord -a 4.jpg",@"-n Swordmaster -a 4.jpg",@"-n Dwarf King -a 5.jpg",@"-n Lord Of Eagles -s Fly -a 5.jpg",@"-n Warlord -a 5.jpg",@"-n Elfe Lord -s Range -a 6.jpg",@"-n Marksman -s Range -a 2 -a 5.jpg"];
     
-    
     int i;
+    
     for (i = 0; i <= 11; i++) {
         NSString *name = [namesString objectAtIndex:i];
         
@@ -695,6 +700,8 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     [self resetText];
     CGPoint terrainPoint = CGPointMake(0, 0);
     BOOL terrainLocated = NO;
+    
+    
     for (SKSpriteNode *nodeTerrain in nodes) {
         if ([terrainNames containsObject:nodeTerrain.name]) {
             terrainPoint = nodeTerrain.position;
@@ -704,9 +711,136 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
     if([node.accessibilityValue isEqualToString:@"creatures"])
     {
+        //NSLog(@"creture is moved from bowl");
         
+        Terrain *temp =[self findTerrainAt:terrainPoint];
         
-    }
+        if(temp != nil){
+            NSLog(@"inside temp not nil");
+            
+            Player *tempPlayer = [game findPlayerByTerrain:temp];
+            
+            [tempPlayer constructNewArmy:[[Creature alloc] initWithImage:node.name atPoint:node.position] atPoint:node.position withTerrain:temp];
+            [temp setPlayer:tempPlayer];
+            [tempPlayer printArmy];
+            NSLog(@"Player is %d ",[tempPlayer playingOrder]);
+        }
+        
+           /*
+            
+            if([temp belongsToP1]){
+                NSLog(@"inside temp belongs to p1");
+                if( ![temp hasArmyOnIt]){
+                    NSLog(@"inside temp no hasArmyOnIt");
+                    
+                    
+                    [[game player1] constructNewArmy:[[Creature alloc] initWithImage:node.name atPoint:node.position] atPoint:node.position withTerrain:temp];
+                    
+                    //NSLog(@"Number of armies %d",[[[game player1] armies ] count]);
+            
+                 
+                    //}
+                    [temp setHasArmyOnIt:YES];
+                }
+                else if ([temp hasArmyOnIt]){
+                    
+                    //NSLog(@"inside temp has army");
+                    for(Army *army in [[game player1] armies]){
+                       
+                      if([army getTerrainLocation] == [temp location]){
+                          [[game player1] addCreatureToArmy:[[Creature alloc] initWithImage:node.name atPoint:node.position] inArmy:army ];
+                          
+                        }
+                        
+                    }
+                    
+                    [[game player1] printArmy];
+                }//else temp has army
+            }//end of temp belongs to p1
+    
+            else if([temp belongsToP2]){
+                    //NSLog(@"inside temp belongs to p1");
+                    if( ![temp hasArmyOnIt]){
+                        //NSLog(@"inside temp no hasArmyOnIt");
+                        
+                        
+                        [[game player2] constructNewArmy:[[Creature alloc] initWithImage:node.name atPoint:node.position] atPoint:node.position withTerrain:temp];
+                        [temp setHasArmyOnIt:YES];
+                    }
+                    else if ([temp hasArmyOnIt]){
+                        
+                        //NSLog(@"inside temp has army");
+                        for(Army *army in [[game player2] armies]){
+                          
+                            if([army getTerrainLocation] == [temp location]){
+                                [[game player2] addCreatureToArmy:[[Creature alloc] initWithImage:node.name atPoint:node.position] inArmy:army ];
+                                
+                            }
+                            
+                        }
+                        
+                        
+                    }
+                }
+            
+            else if([temp belongsToP3]){
+                        //NSLog(@"inside temp belongs to p1");
+                        if( ![temp hasArmyOnIt]){
+                           // NSLog(@"inside temp no hasArmyOnIt");
+                            
+                            
+                            [[game player3] constructNewArmy:[[Creature alloc] initWithImage:node.name atPoint:node.position] atPoint:node.position withTerrain:temp];
+                            
+                            
+                            [temp setHasArmyOnIt:YES];
+                        }
+                        else if ([temp hasArmyOnIt]){
+                            
+                            //NSLog(@"inside temp has army");
+                            for(Army *army in [[game player3] armies]){
+                                
+                                if([army getTerrainLocation] == [temp location]){
+                                    [[game player3] addCreatureToArmy:[[Creature alloc] initWithImage:node.name atPoint:node.position] inArmy:army ];
+                                    
+                                }
+                                
+                            }
+                            
+                            
+                        }//end of temp belongs
+            }//
+            
+            else if([temp belongsToP4]){
+                NSLog(@"inside temp belongs to p1");
+                if( ![temp hasArmyOnIt]){
+                    NSLog(@"inside temp no hasArmyOnIt");
+                    
+                    
+                    [[game player4] constructNewArmy:[[Creature alloc] initWithImage:node.name atPoint:node.position] atPoint:node.position withTerrain:temp];
+                  
+                    [temp setHasArmyOnIt:YES];
+                }
+                else if ([temp hasArmyOnIt]){
+                    
+                    //NSLog(@"inside temp has army");
+                    for(Army *army in [[game player4] armies]){
+                     
+                        if([army getTerrainLocation] == [temp location]){
+                            [[game player4] addCreatureToArmy:[[Creature alloc] initWithImage:node.name atPoint:node.position] inArmy:army ];
+                            
+                        }
+                        
+                    }
+                    
+                    [[game player4] printArmy];
+                }//end of temp belongs
+            
+            }
+    
+        }*/
+    }//end of if creature
+            
+      
     
     float sizeNode = 28;
     if (terrainLocated && [node.name isEqualToString:@"Player 1"]) {
@@ -715,6 +849,8 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         
         if ([game.player1 setTerritory:temp]){
             [temp setBelongsToP1:YES];
+            [temp setHasArmyOnIt:NO];
+            
             node.name = @"bowl";
             [node setSize:CGSizeMake(sizeNode, sizeNode)];
         }
@@ -727,6 +863,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 
         if ([game.player2 setTerritory:temp]){
             [temp setBelongsToP2:YES];
+            [temp setHasArmyOnIt:NO];
             node.name = @"bowl";
             [node setSize:CGSizeMake(sizeNode, sizeNode)];
         }
@@ -748,7 +885,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     }
     else if ([node.name isEqualToString:@"Player 4"]) {
         Terrain* temp = [self findTerrainAt:terrainPoint];
-        [temp setBelongsToP1:YES];
+        [temp setBelongsToP4:YES];
         if ([game.player4 setTerritory:temp]){
             node.name = @"bowl";
             [node setSize:CGSizeMake(sizeNode, sizeNode)];
@@ -863,12 +1000,12 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     }
 }
 
--(void) hardeCodeArmies{
+/*-(void) hardeCodeArmies{
     
     
     
     
-}
+}*/
 
 
 - (BOOL) initiateGoldCollection{
