@@ -20,5 +20,6 @@
 -(void) addCreatures:(id) creature;
 -(id) initWithPoint:(CGPoint) aPoint;
 -(NSInteger) getTerrainLocation;
-
+-(void) removeCreature:(id)creature;
+-(BOOL) containCreature:(id)creature;
 @end

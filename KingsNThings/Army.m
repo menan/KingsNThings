@@ -56,4 +56,18 @@
     return [terrain location];
 }
 
+-(void) removeCreature:(id)creature{
+    
+    [creatures removeObject:creature];
+    
+    
+}
+-(BOOL)containCreature:(id)creature{
+    
+    if([creatures containsObject:creature])
+        return YES;
+    else
+        return NO;
+    
+}
 @end

@@ -35,4 +35,6 @@
 -(void) constructNewArmy:(id)creatur atPoint:(CGPoint) aPoint withTerrain:(Terrain*)terrain;
 -(void) addCreatureToArmy:(id)creature inArmy:(Army*)army;
 -(void) printArmy;
+-(Army*) hasCreature:(id)creature;
+
 @end

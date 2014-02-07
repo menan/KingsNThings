@@ -14,7 +14,7 @@
    
     
 }
-@synthesize type,imageName,flipped,position,node,belongsToP1,belongsToP2,belongsToP3,belongsToP4,hasArmyOnIt,location,player;
+@synthesize type,imageName,flipped,position,node,belongsToP1,belongsToP2,belongsToP3,belongsToP4,hasArmyOnIt,location;
 
  static NSInteger counter = 0;
 
@@ -47,9 +47,5 @@
     [board addChild:node];
 }
 
--(Player*) belongsTo{
-    
-    return [self player];
-    
-}
+
 @end

@@ -77,7 +77,7 @@
 
 - (Player *) findPlayerByTerrain:(Terrain *) terrain{
     for (Player *p in players) {
-        if ([[p getTerritories] containsObject:terrain] && [[terrain belongsTo] isEqual:p]) {
+        if ([[p getTerritories] containsObject:terrain]) {
             return p;
         }
     }

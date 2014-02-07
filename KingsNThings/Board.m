@@ -716,128 +716,41 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         Terrain *temp =[self findTerrainAt:terrainPoint];
         
         if(temp != nil){
-            NSLog(@"inside temp not nil");
+            
             
             Player *tempPlayer = [game findPlayerByTerrain:temp];
+            Creature *tempCreature = [[Creature alloc] initWithImage:node.name atPoint:node.position];
+            Army *a = [tempPlayer hasCreature:tempCreature];
             
-            [tempPlayer constructNewArmy:[[Creature alloc] initWithImage:node.name atPoint:node.position] atPoint:node.position withTerrain:temp];
-            [temp setPlayer:tempPlayer];
-            [tempPlayer printArmy];
-            NSLog(@"Player is %d ",[tempPlayer playingOrder]);
-        }
-        
-           /*
-            
-            if([temp belongsToP1]){
-                NSLog(@"inside temp belongs to p1");
-                if( ![temp hasArmyOnIt]){
-                    NSLog(@"inside temp no hasArmyOnIt");
-                    
-                    
-                    [[game player1] constructNewArmy:[[Creature alloc] initWithImage:node.name atPoint:node.position] atPoint:node.position withTerrain:temp];
-                    
-                    //NSLog(@"Number of armies %d",[[[game player1] armies ] count]);
-            
-                 
-                    //}
-                    [temp setHasArmyOnIt:YES];
-                }
-                else if ([temp hasArmyOnIt]){
-                    
-                    //NSLog(@"inside temp has army");
-                    for(Army *army in [[game player1] armies]){
-                       
-                      if([army getTerrainLocation] == [temp location]){
-                          [[game player1] addCreatureToArmy:[[Creature alloc] initWithImage:node.name atPoint:node.position] inArmy:army ];
-                          
-                        }
-                        
-                    }
-                    
-                    [[game player1] printArmy];
-                }//else temp has army
-            }//end of temp belongs to p1
-    
-            else if([temp belongsToP2]){
-                    //NSLog(@"inside temp belongs to p1");
-                    if( ![temp hasArmyOnIt]){
-                        //NSLog(@"inside temp no hasArmyOnIt");
-                        
-                        
-                        [[game player2] constructNewArmy:[[Creature alloc] initWithImage:node.name atPoint:node.position] atPoint:node.position withTerrain:temp];
-                        [temp setHasArmyOnIt:YES];
-                    }
-                    else if ([temp hasArmyOnIt]){
-                        
-                        //NSLog(@"inside temp has army");
-                        for(Army *army in [[game player2] armies]){
-                          
-                            if([army getTerrainLocation] == [temp location]){
-                                [[game player2] addCreatureToArmy:[[Creature alloc] initWithImage:node.name atPoint:node.position] inArmy:army ];
-                                
-                            }
-                            
-                        }
-                        
-                        
-                    }
-                }
-            
-            else if([temp belongsToP3]){
-                        //NSLog(@"inside temp belongs to p1");
-                        if( ![temp hasArmyOnIt]){
-                           // NSLog(@"inside temp no hasArmyOnIt");
-                            
-                            
-                            [[game player3] constructNewArmy:[[Creature alloc] initWithImage:node.name atPoint:node.position] atPoint:node.position withTerrain:temp];
-                            
-                            
-                            [temp setHasArmyOnIt:YES];
-                        }
-                        else if ([temp hasArmyOnIt]){
-                            
-                            //NSLog(@"inside temp has army");
-                            for(Army *army in [[game player3] armies]){
-                                
-                                if([army getTerrainLocation] == [temp location]){
-                                    [[game player3] addCreatureToArmy:[[Creature alloc] initWithImage:node.name atPoint:node.position] inArmy:army ];
-                                    
-                                }
-                                
-                            }
-                            
-                            
-                        }//end of temp belongs
-            }//
-            
-            else if([temp belongsToP4]){
-                NSLog(@"inside temp belongs to p1");
-                if( ![temp hasArmyOnIt]){
-                    NSLog(@"inside temp no hasArmyOnIt");
-                    
-                    
-                    [[game player4] constructNewArmy:[[Creature alloc] initWithImage:node.name atPoint:node.position] atPoint:node.position withTerrain:temp];
-                  
-                    [temp setHasArmyOnIt:YES];
-                }
-                else if ([temp hasArmyOnIt]){
-                    
-                    //NSLog(@"inside temp has army");
-                    for(Army *army in [[game player4] armies]){
-                     
-                        if([army getTerrainLocation] == [temp location]){
-                            [[game player4] addCreatureToArmy:[[Creature alloc] initWithImage:node.name atPoint:node.position] inArmy:army ];
-                            
-                        }
-                        
-                    }
-                    
-                    [[game player4] printArmy];
-                }//end of temp belongs
-            
+            if(a != nil){
+                
+                [a removeCreature:tempCreature];
+                
             }
-    
-        }*/
+            
+            if( ![temp hasArmyOnIt]){
+                
+                [tempPlayer constructNewArmy:tempCreature atPoint:node.position withTerrain:temp];
+                [temp setHasArmyOnIt:YES];
+                
+                            }
+            else if ([temp hasArmyOnIt]){
+                
+                //NSLog(@"inside temp has army");
+                for(Army *army in [tempPlayer armies]){
+                    
+                    if([army getTerrainLocation] == [temp location]){
+                        [tempPlayer addCreatureToArmy:[[Creature alloc] initWithImage:node.name atPoint:node.position] inArmy:army ];
+                        
+                    }
+                }
+            }
+            
+                    NSLog(@"Player is %d ",[tempPlayer playingOrder]);
+                     [tempPlayer printArmy];
+           
+                    
+        }
     }//end of if creature
             
       

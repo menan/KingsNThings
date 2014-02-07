@@ -196,4 +196,23 @@ static NSInteger counter = 0;
     
 }
 
+-(Army*) hasCreature:(id)creature{
+    
+    Army* a;
+    if([armies count] >0){
+        for (int i = 0 ; i<[armies count];i++){
+            //NSLog(@"Army %d , has Creature in army  ",i);
+            if([[armies objectAtIndex:i] containCreature:creature]){
+                a =[armies objectAtIndex:i];
+                break;
+            }
+        }
+        
+    }
+        else
+            a = nil;
+    
+    return a;
+}
+
 @end
