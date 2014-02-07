@@ -13,20 +13,18 @@
     SKSpriteNode *board;
    NSString* combatType;
     NSString* terrainType;
-    //int combatValue;
-    //BOOL special;
-    //BOOL bluff;
+    
     BOOL inBowl;
     int position;
     NSString* imageName;
    
-    NSString* name;
+    //NSString* name;
     
     int numberofTimes;
 
 }
 
-@synthesize combatValue,special, bluff, symbol,isFly, isMagic, isMelee, isRanged , isCharge;
+@synthesize combatValue,special, bluff, symbol,isFly, isMagic, isMelee, isRanged , isCharge,name;
 
 @synthesize node;
 
@@ -78,11 +76,11 @@
     return self;
 }
 
-- (id) initWithImage:(NSString*)image{
+- (id) initWithImage:(NSString*)image atPoint:(CGPoint)aPoint{
     self = [super init];
     if (self) {
-       // point = aPoint;
-        //board = aBoard;
+       point = aPoint;
+        
         imageName = [NSString stringWithFormat:@"%@.jpg",image];
         bluff = NO;
         inBowl = NO;

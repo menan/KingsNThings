@@ -18,8 +18,9 @@
 @property NSInteger oneDice;
 @property NSInteger secondDice;
 @property NSMutableArray *players;
+@property NSArray *p1Stack1,*p1Stack2,*p2Stack1,*p3Stack1,*p3Stack2,*p3Stack3,*p4Stack1,*p4Stack2,*p4Stack3;
 
-@property BOOL goldCollectionCompleted;
+@property BOOL goldCollectionCompleted,goldPhase , movementPhase , thingRecrPahse, comabtPahse;
 
 -(id) initWith4Players;
 -(void) combatPhase:(Player *)attacker withArmy:(NSMutableArray*)attackerArmy andPlayer:(Player*)defender withArmy:(NSMutableArray*)defenderArmy;

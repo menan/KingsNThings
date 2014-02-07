@@ -16,6 +16,9 @@
 }
 
 @synthesize player1,player2,player3,player4,oneDice,secondDice,goldCollectionCompleted, players;
+@synthesize p1Stack1,p1Stack2,p2Stack1,p3Stack1,p3Stack2,p3Stack3,p4Stack1,p4Stack2,p4Stack3,goldPhase , movementPhase , thingRecrPahse, comabtPahse;
+
+
 
 -(id) initWith4Players{
     
@@ -29,6 +32,41 @@
         
         players = [[NSMutableArray alloc] initWithObjects:player1, player2, player3, player4, nil];
         //[self setPlayerArmy];
+        p1Stack1 = [[NSArray alloc]init];
+        
+        p1Stack2  = [[NSArray alloc]init];
+        p1Stack2  = [[NSArray alloc]init];
+        
+        p2Stack1  = [[NSArray alloc]init];
+        
+        p3Stack1  = [[NSArray alloc]init];
+        p3Stack2  = [[NSArray alloc]init];
+        p3Stack3  = [[NSArray alloc]init];
+        
+        p4Stack1  = [[NSArray alloc]init];
+        p4Stack2  = [[NSArray alloc]init];
+        p4Stack3  = [[NSArray alloc]init];
+    
+        goldPhase = NO;
+        movementPhase = NO;
+        thingRecrPahse = NO;
+        comabtPahse = NO;
+        
+        
+        
+        p1Stack1 = @[@"-n Old Dragon -s Fly -s Magic -a 4",@"-n Elephant -t Jungle -s Charge -a 4",@"-n Giant Spider -t Desert -a 1",@"-n Brown Knight -t Mountain -s Charge -a 4",@"-n Giant -t Mountain -s Range -a 4",@"-n Dwarves -t Mountain -s Range -a 2"];
+        
+        
+        
+       
+        p1Stack2 = @[@"-n Skletons -c 2 -t Desert -a 1",@"-n Watusi -t Jungle -s 2",@"-n Goblins -c 4 -t Mountain -a 1",@"-n Orge Mountain -t Mountain -a 2"];
+        p2Stack1 = @[@"-n Pterodactyl Warriors -c 2 -t Jungle -s Fly -s Range -a 2",@"-n Green Knight -t Forest -s Charge -a 4",@"-n Dervish -c 2 -t Desert -s Magic -a 2",@"-n Crocodiles -t Jungle -a 2",@"-n Nomads -c 2 -t Desert -a 1",@"-n Druid -t Forest -s Magic -a 3",@"-n Walking Tree -t Forest -a 5",@"-n Crawling Vines -t Jungle -a 6",@"-n Bandits -t Forest -a 2"];
+        p3Stack1 = @[@"-n Centaur -t Plains -a 2",@"-n Camel Corps -t Desert -a 3",@"-n Farmers -c 4 -t Plains -a 1",@"-n Farmers -c 4 -t Plains -a 1"];
+        p3Stack2 = @[@"-n Genie -t Desert -s Magic -a 4",@"-n Skletons -c 2 -t Desert -a 1",@"-n Pygmies -t Jungle -a 2"];
+        p3Stack3 = @[@"-n Great Hunter -t Plains -s Range -a 4",@"-n Nomads -c 2 -t Desert -a 1",@"-n Witch Doctor -t Jungle -s Magic -a 2"];
+        p4Stack1 = @[@"-n Tribesmen -c 2 -t Plains -a 2",@"-n Giant Lizard -c 2 -t Swamp -a 2",@"-n Villains -t Plains -a 2",@"-n Tigers -c 2 -t Jungle -a 3"];
+        p4Stack2 = @[@"-n Vampire Bat -t Swamp -s Fly -a 4",@"-n Tribesmen -c 2 -t Plains -a 2",@"-n Dark Wizard -t Swamp -s Fly -s Magic -a 1",@"-n Black Knight -t Swamp -s Charge -a 3"];
+        p4Stack3 = @[@"-n Giant Ape -c 2 -t Jungle -a 5",@"-n Buffalo Herd -t Plains -a 3"];
         
     }
     
@@ -45,7 +83,7 @@
     }
     return NULL;
 }
-
+/*
 -(void) setPlayerArmy{
     
     NSArray *p1Stack1 = @[ @"-n Old Dragon -s Fly -s Magic -a 4",@"-n Elephant -t Jungle -s Charge -a 4",@"-n Giant Spider -t Desert -a 1",@"-n Brown Knight -t Mountain -s Charge -a 4",@"-n Giant -t Mountain -s Range -a 4",@"-n Dwarves -t Mountain -s Range -a 2"];
@@ -144,6 +182,12 @@
     [player4 constructArmy:p4S1];
     [player4 constructArmy:p4S2];
     [player4 constructArmy:p4S3];
+    
+    
+}*/
+
+-(void) movementPhase:(Player *)player withArmy:(NSMutableArray*)army{
+    
     
     
 }
