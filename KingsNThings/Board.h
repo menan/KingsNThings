@@ -8,10 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import <SpriteKit/SpriteKit.h>
+#import "GamePlay.h"
 
 @interface Board : NSObject
 @property SKLabelNode* textLabel;
 @property NSInteger dicesClicked,creaturesInBowl;
+@property GamePlay *game;
 
 - (id)initWithScene: (SKScene *) aScene atPoint: (CGPoint) aPoint withSize: (CGSize) aSize;
 - (void)draw;

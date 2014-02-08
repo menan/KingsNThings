@@ -28,13 +28,16 @@
 - (NSMutableArray *) getTerritories;
 - (int) getBankBalance;
 - (id) initWithArmy;
-- (NSMutableArray*)constructArmy;
+
 //- (Stage) getStage;
-- (Bank *) getBank;
-- (int) getIncome;
--(void) constructNewArmy:(id)creatur atPoint:(CGPoint) aPoint withTerrain:(Terrain*)terrain;
+-(Bank *) getBank;
+-(int) getIncome;
+-(Army*) constructNewArmy:(id)creatur atPoint:(CGPoint) aPoint withTerrain:(Terrain*)terrain;
 -(void) addCreatureToArmy:(id)creature inArmy:(Army*)army;
 -(void) printArmy;
 -(Army*) hasCreature:(id)creature;
+-(NSInteger) numberOfArmies;
+- (Army *) getArmyAtIndex:(NSInteger)index;
+-(Army*) findArmyOnTerrain:(Terrain*)terrain;
 
 @end

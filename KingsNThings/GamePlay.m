@@ -10,13 +10,16 @@
 #import "Player.h"
 #import "Creature.h"
 #import "Bank.h"
+#import "MyScene.h"
 
 @implementation GamePlay{
+    MyScene *scene;
     
 }
 
 @synthesize player1,player2,player3,player4,oneDice,secondDice,goldCollectionCompleted, players;
-@synthesize p1Stack1,p1Stack2,p2Stack1,p3Stack1,p3Stack2,p3Stack3,p4Stack1,p4Stack2,p4Stack3,goldPhase , movementPhase , thingRecrPahse, comabtPahse;
+
+@synthesize p1Stack1,p1Stack2,p2Stack1,p3Stack1,p3Stack2,p3Stack3,p4Stack1,p4Stack2,p4Stack3,goldPhase,terrains, isMovementPhase , isThingRecrPahse, isComabtPahse,scene;;
 
 
 
@@ -31,6 +34,9 @@
         player4 = [[Player alloc] initWithArmy];
         
         players = [[NSMutableArray alloc] initWithObjects:player1, player2, player3, player4, nil];
+        terrains = [[NSMutableArray alloc]init];
+        scene = [[MyScene alloc]init];
+        
         //[self setPlayerArmy];
         p1Stack1 = [[NSArray alloc]init];
         
@@ -48,9 +54,9 @@
         p4Stack3  = [[NSArray alloc]init];
     
         goldPhase = NO;
-        movementPhase = NO;
-        thingRecrPahse = NO;
-        comabtPahse = NO;
+        isMovementPhase = NO;
+        isThingRecrPahse = NO;
+        isComabtPahse = NO;
         
         
         
@@ -73,9 +79,18 @@
     return self;
     
 }
-
+-(Terrain*) findTerrainAt:(CGPoint)thisPoint{
+    NSLog(@"FindTerrain");
+for (Terrain *terrain in terrains) {
+    if (terrain.node.position.x == thisPoint.x && terrain.node.position.y == thisPoint.y) {
+        return terrain;
+    }
+}
+return NULL;
+}
 
 - (Player *) findPlayerByTerrain:(Terrain *) terrain{
+    NSLog(@"findPlayer");
     for (Player *p in players) {
         if ([[p getTerritories] containsObject:terrain]) {
             return p;
@@ -185,19 +200,72 @@
     
     
 }*/
-
--(void) movementPhase:(Player *)player withArmy:(NSMutableArray*)army{
+-(Terrain*) findTerrainAtLocation:(NSInteger) location{
     
+    for(Terrain* terr in terrains){
+        
+        if([terr location ] == location )
+            return terr;
+    }
     
+    return NULL;
+}
+-(Player*)findPlayerByOrder:(NSInteger)order{
     
+    for(Player* p in players){
+        if([p playingOrder] == order)
+            return p;
+    }
+    return NULL;
 }
 
--(void) combatPhase:(Player *)attacker withArmy:(NSMutableArray*)attackerArmy andPlayer:(Player*)defender withArmy:(NSMutableArray*)defenderArmy{
+-(void) movementPhase:(Player *)player withArmy:(Army*)army{
+    NSLog(@"inside movementPhase");
     
+    NSLog(@" player is %d",[player playingOrder]);
+    Terrain* terrain = [army terrain];
+    
+    Player *tempPlayer = [self findPlayerByTerrain:terrain];
+    
+    
+    
+    NSLog(@"tempPlayer is %d , player is %d",[tempPlayer playingOrder],[player playingOrder]);
+    
+    if([player isEqual:tempPlayer]){
+        
+        NSLog(@"tinside if players are equal");
+        if([terrain hasArmyOnIt]){
+            Army *a = [player findArmyOnTerrain:terrain];
+            
+            if(([a creaturesInArmy] + [army creaturesInArmy]) > 10)
+                NSLog(@"Invalid move cannot have more than 10 creatures on one terrain");
+            
+        }
+    }
+    
+    else{
+        if([terrain hasArmyOnIt]){
+            
+            Army *a = [tempPlayer findArmyOnTerrain:terrain];
+             NSLog(@"tinside if players are NOT equal");
+            [self combatPhase:player withArmy:army andPlayer:tempPlayer withArmy:a ];
+        }
+    
+    
+    }
+}
+
+
+
+-(void) combatPhase:(Player *)attacker withArmy:(Army*)attackerArmy andPlayer:(Player*)defender withArmy:(Army*)defenderArmy{
+     NSLog(@"tinside Combat phse");
+    
+    [[self scene] transitToCombat:(Army*)attackerArmy andDefender:(Army*)defender];
+  
    /* NSInteger attackerMagic = 0,defenderMagic =0;
     NSInteger attackerRanged = 0,defenderRanged = 0;
     NSInteger attackerMelee = 0,defenderMelee = 0;*/
-   NSMutableArray* attackerRolledDice = [[NSMutableArray alloc]init];
+  /* NSMutableArray* attackerRolledDice = [[NSMutableArray alloc]init];
     NSMutableArray* defenderRolledDice = [[NSMutableArray alloc]init];
     
     NSMutableArray* attackerMagicCreature = [[NSMutableArray alloc]init];
@@ -288,6 +356,7 @@
         
 }//end function
     
-
+*/
+}
 
 @end

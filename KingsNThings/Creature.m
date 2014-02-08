@@ -14,9 +14,9 @@
    NSString* combatType;
     NSString* terrainType;
     
-    BOOL inBowl;
+    //BOOL inBowl;
     int position;
-    NSString* imageName;
+    //NSString* imageName;
    
     //NSString* name;
     
@@ -24,7 +24,7 @@
 
 }
 
-@synthesize combatValue,special, bluff, symbol,isFly, isMagic, isMelee, isRanged , isCharge,name;
+@synthesize combatValue,special, bluff, symbol,isFly, isMagic, isMelee, isRanged , isCharge,name,inBowl,imageName;
 
 @synthesize node;
 

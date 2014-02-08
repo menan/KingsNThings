@@ -227,6 +227,8 @@
 		C59BE64718A0554100EC48E0 /* -n Silver Mine -t Mountain -a 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C59BE63718A0554100EC48E0 /* -n Silver Mine -t Mountain -a 2.jpg */; };
 		C59BE64818A0554100EC48E0 /* -n Threasure Chest -t Treasure -a 20.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C59BE63818A0554100EC48E0 /* -n Threasure Chest -t Treasure -a 20.jpg */; };
 		C59BE64918A0554100EC48E0 /* -n Timberland -t Forest -a 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C59BE63918A0554100EC48E0 /* -n Timberland -t Forest -a 1.jpg */; };
+		C59E4D1018A5E0FE00CCBA0D /* CombatScene.m in Sources */ = {isa = PBXBuildFile; fileRef = C59E4D0F18A5E0FE00CCBA0D /* CombatScene.m */; };
+		C59E4D1418A5F9E800CCBA0D /* combat.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C59E4D1318A5F9E800CCBA0D /* combat.jpg */; };
 		C5ADEED618A2B76100BD68C6 /* dice_2.png in Resources */ = {isa = PBXBuildFile; fileRef = C5ADEED518A2B76000BD68C6 /* dice_2.png */; };
 		C5ADEED818A2C02500BD68C6 /* -n Great Hunter -t Plains -s Range -a 4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C5ADEED718A2C02500BD68C6 /* -n Great Hunter -t Plains -s Range -a 4.jpg */; };
 		C5ADEEDA18A2F29A00BD68C6 /* -n Giant Snake -t Swamp -a 3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C5ADEED918A2F29A00BD68C6 /* -n Giant Snake -t Swamp -a 3.jpg */; };
@@ -485,6 +487,9 @@
 		C59BE63718A0554100EC48E0 /* -n Silver Mine -t Mountain -a 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Silver Mine -t Mountain -a 2.jpg"; sourceTree = "<group>"; };
 		C59BE63818A0554100EC48E0 /* -n Threasure Chest -t Treasure -a 20.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Threasure Chest -t Treasure -a 20.jpg"; sourceTree = "<group>"; };
 		C59BE63918A0554100EC48E0 /* -n Timberland -t Forest -a 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Timberland -t Forest -a 1.jpg"; sourceTree = "<group>"; };
+		C59E4D0E18A5E0FE00CCBA0D /* CombatScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CombatScene.h; sourceTree = "<group>"; };
+		C59E4D0F18A5E0FE00CCBA0D /* CombatScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CombatScene.m; sourceTree = "<group>"; };
+		C59E4D1318A5F9E800CCBA0D /* combat.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = combat.jpg; sourceTree = "<group>"; };
 		C5ADEED518A2B76000BD68C6 /* dice_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dice_2.png; sourceTree = "<group>"; };
 		C5ADEED718A2C02500BD68C6 /* -n Great Hunter -t Plains -s Range -a 4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Great Hunter -t Plains -s Range -a 4.jpg"; sourceTree = "<group>"; };
 		C5ADEED918A2F29A00BD68C6 /* -n Giant Snake -t Swamp -a 3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Giant Snake -t Swamp -a 3.jpg"; sourceTree = "<group>"; };
@@ -571,6 +576,8 @@
 				686C97381888A88500BE6D42 /* AppDelegate.m */,
 				686C973D1888A88500BE6D42 /* ViewController.h */,
 				686C973E1888A88500BE6D42 /* ViewController.m */,
+				C59E4D0E18A5E0FE00CCBA0D /* CombatScene.h */,
+				C59E4D0F18A5E0FE00CCBA0D /* CombatScene.m */,
 				686C97401888A88500BE6D42 /* MyScene.h */,
 				686C97411888A88500BE6D42 /* MyScene.m */,
 				6832A14A1897734100476D5D /* Player.h */,
@@ -627,6 +634,7 @@
 		686C9762188F693B00BE6D42 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				C59E4D1318A5F9E800CCBA0D /* combat.jpg */,
 				C5B312DB18A449E000100A26 /* Golds */,
 				C59BE62918A0554100EC48E0 /* Income */,
 				68EF342118A2EDF100A93480 /* magic */,
@@ -1202,6 +1210,7 @@
 				686C97CF188FA9CC00BE6D42 /* bc.png in Resources */,
 				68EF33A8189CE6EF00A93480 /* -n Desert Bat -t Desert -s Fly -a 1.jpg in Resources */,
 				68EF33FF189CE6EF00A93480 /* -n Gypsies -t Plains -s Magic -a 1.jpg in Resources */,
+				C59E4D1418A5F9E800CCBA0D /* combat.jpg in Resources */,
 				C59BE64118A0554100EC48E0 /* -n Oil Field -t Frozen Waste -a 3.jpg in Resources */,
 				68EF340B189CE6EF00A93480 /* -n Black Knight -t Swamp -s Charge -a 3.jpg in Resources */,
 				686C973C1888A88500BE6D42 /* Main.storyboard in Resources */,
@@ -1268,6 +1277,7 @@
 				68EF3320189CD51A00A93480 /* GamePlay.m in Sources */,
 				6832A14F1897735900476D5D /* Terrain.m in Sources */,
 				6832A1551897754B00476D5D /* Bank.m in Sources */,
+				C59E4D1018A5E0FE00CCBA0D /* CombatScene.m in Sources */,
 				C5B312EA18A4603900100A26 /* Army.m in Sources */,
 				686C97351888A88500BE6D42 /* main.m in Sources */,
 				E81E3BF618A427CE00449AA8 /* Building.m in Sources */,

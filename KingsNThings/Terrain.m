@@ -14,7 +14,7 @@
    
     
 }
-@synthesize type,imageName,flipped,position,node,belongsToP1,belongsToP2,belongsToP3,belongsToP4,hasArmyOnIt,location;
+@synthesize type,imageName,flipped,position,node,hasOwner,belongsToP1,belongsToP2,belongsToP3,belongsToP4,hasArmyOnIt,location;
 
  static NSInteger counter = 0;
 

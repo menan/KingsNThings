@@ -10,7 +10,7 @@
 
 @implementation Army
 
-@synthesize creatures,position,belongsToP1,belongsToP2,belongsToP3,belongsToP4,imageIsDrawn,terrain;
+@synthesize creatures,position,belongsToP1,belongsToP2,belongsToP3,belongsToP4,imageIsDrawn,terrain,image,armyNumber,playerNumber;
 
 
 
@@ -21,7 +21,7 @@
     if(self){
         
         creatures = [[NSMutableArray alloc]init];
-       
+        image = [[SKSpriteNode alloc]init];
         
         
     }
@@ -38,6 +38,7 @@
         
         creatures = [[NSMutableArray alloc]init];
         [self setPosition:aPoint];
+        image = [[SKSpriteNode alloc]init];
         
         
     }
@@ -70,4 +71,52 @@
         return NO;
     
 }
+-(NSInteger) creaturesInArmy{
+    
+    return [creatures count];
+    
+}
+- (void)drawImage:(SKSpriteNode *) aBoard
+{
+    
+    //SKSpriteNode* sprite = [SKSpriteNode spriteNodeWithColor:[SKColor redColor] size:CGSizeMake(128,128)];
+    
+    [self setImage:[SKSpriteNode spriteNodeWithColor:[SKColor blackColor] size:CGSizeMake(36,36)]];
+    image.position = [self position];
+    [image setAccessibilityValue:@"army"];
+    [image setName:[NSString stringWithFormat:@"%i", [self playerNumber]]];
+    [image setAccessibilityLabel:[NSString stringWithFormat:@"%i", [self armyNumber]]];
+    
+    [aBoard addChild:image];
+    
+    NSString* str = @"Army";
+    str = [str stringByAppendingString:[NSString stringWithFormat:@"%i", [self armyNumber]]];
+    [self addDescription: NSLocalizedString(str, @"") toSprite:image];
+    
+    
+}
+
+- (void)addDescription:(NSString *)description toSprite:(SKSpriteNode *)sprite
+{
+    SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Helvetica"];
+    myLabel.text = description;
+    myLabel.fontSize = 14;
+    myLabel.fontColor = [SKColor redColor];
+    myLabel.position = CGPointMake(0,sprite.size.height/2 - 30);
+    
+    [sprite addChild:myLabel];
+}
+/*
+-(void) drawImage:(SKSpriteNode *) aBoard{
+    
+   SKSpriteNode*  node = [SKSpriteNode spriteNodeWithImageNamed:image];
+    [node setName:@"army"];
+    [node setAccessibilityLabel:@"army"];
+    node.size = CGSizeMake(88,88);
+    [node setPosition:point];
+    [board addChild:node];
+    
+    
+}
+ */
 @end

@@ -16,10 +16,15 @@
 @property BOOL belongsToP1,belongsToP2,belongsToP3,belongsToP4, hasArmyOnIt;
 @property BOOL imageIsDrawn;
 @property Terrain* terrain;
+@property SKSpriteNode *image;
+@property NSInteger armyNumber;
+@property NSInteger playerNumber;
 
 -(void) addCreatures:(id) creature;
 -(id) initWithPoint:(CGPoint) aPoint;
 -(NSInteger) getTerrainLocation;
 -(void) removeCreature:(id)creature;
 -(BOOL) containCreature:(id)creature;
+-(NSInteger) creaturesInArmy;
+-(void) drawImage:(SKSpriteNode *) aBoard ;
 @end

@@ -14,9 +14,9 @@
 
 @property int combatValue;
 @property BOOL special;
-@property BOOL bluff, isFly, isMagic, isMelee, isRanged , isCharge ;
+@property BOOL bluff, isFly, isMagic, isMelee, isRanged , isCharge ,inBowl ;
 @property NSString* symbol;
-@property NSString* name;
+@property NSString* name, *imageName;
 
 
 - (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image andCreatureName: (NSString *) cName withCombatValue: (int) value forTerrainType: (NSString *) terrain isSpecial:(BOOL) special andCombatType:(NSString *) cType;

@@ -8,9 +8,13 @@
 
 #import "MyScene.h"
 #import "Board.h"
+#import "CombatScene.h"
+#import "Army.h"
 
 
 @implementation MyScene{
+     SKTransition* transitionDoorsCloseHorizontal;
+    CombatScene* combat;
     NSArray * nonMovables;
     Board *gameBoard;
 }
@@ -21,6 +25,7 @@
         gameBoard = [[Board alloc] initWithScene:self atPoint:CGPointMake(0,225) withSize:CGSizeMake(size.width, 576.0f)];
         [gameBoard draw];
         nonMovables = [gameBoard getNonMovables];
+        [gameBoard.game setScene:self];
     }
     return self;
 }
@@ -36,6 +41,7 @@
     //1
     SKSpriteNode *touchedNode = (SKSpriteNode *)[self nodeAtPoint:touchLocation];
     //2
+    
 	if(![_selectedNode isEqual:touchedNode]) {
 		[_selectedNode removeAllActions];
         _selectedNode.colorBlendFactor = 0;
@@ -46,6 +52,7 @@
             [gameBoard resetText];
         else{
             [gameBoard nodeTapped:touchedNode];
+            
 //            [gameBoard.textLabel setText:[touchedNode name]];
         }
             
@@ -79,6 +86,8 @@ float degToRad(float degree) {
     if([nonMovables containsObject: [_selectedNode name]] == NO) {
         [gameBoard nodeMoving:_selectedNode to:CGPointMake(position.x + translation.x, position.y + translation.y)];
     }
+   
+    
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -100,6 +109,19 @@ float degToRad(float degree) {
 
 CGPoint mult(const CGPoint v, const CGFloat s) {
 	return CGPointMake(v.x*s, v.y*s);
+}
+
+-(void) transitToCombat:(Army*)attacker andDefender:(Army*)defender{
+    NSLog(@"inside transit combat");
+    transitionDoorsCloseHorizontal = [SKTransition doorsCloseHorizontalWithDuration:1];
+    //CGRect screenRect = [[UIScreen mainScreen] bounds];
+    //CIVector  *extent = [CIVector vectorWithX:0  Y:0  Z:screenRect.size.width  W:screenRect.size.height];
+    combat= [[CombatScene alloc] initWithSize:[self size] withAttacker:attacker andDefender:defender];
+    
+    [combat backTo:self];
+    [self.scene.view presentScene:combat transition:transitionDoorsCloseHorizontal];
+    //[self removeUIKitViews];
+    
 }
 -(void)update:(CFTimeInterval)currentTime {
     /* Called before each frame is rendered */

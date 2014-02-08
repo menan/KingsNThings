@@ -72,11 +72,11 @@ static NSInteger counter = 0;
 - (BOOL) setTerritory: (Terrain *) territory{
     
     BOOL result = NO;
-    if(territory != Nil){
+    if(territory != NULL){
 //    NSLog(@"Adding territory: %@", territory.type);
     if ([territories count] <= 10){
         [territories addObject:territory];
-        NSLog(@"player territory is set for : %@ %d", territory.node.name, [territories count]);
+        NSLog(@"player territory is set for : %@ %d , player is %d ", territory.node.name, [territories count],playingOrder);
         result =  YES;
     }
     else{
@@ -135,7 +135,7 @@ static NSInteger counter = 0;
     return territories;
 }
 
-- (NSMutableArray *) getArmyAtIndex:(NSInteger)index{
+- (Army *) getArmyAtIndex:(NSInteger)index{
     
     if([armies count] > 0)
         return [armies objectAtIndex:index];
@@ -143,40 +143,28 @@ static NSInteger counter = 0;
         return nil;
 }
 
-// to construct new army (stack) every time a players drag a creature to new territory
--(NSMutableArray* ) constructArmy{
-    
-    
-    NSMutableArray *ar = [[NSMutableArray alloc]init];
-    
-    return ar;
-  
-
+-(NSInteger) numberOfArmies{
+    return [armies count];
 }
 
--(void) constructNewArmy:(id)creatur atPoint:(CGPoint) aPoint withTerrain:(Terrain*)terrain{
+// to construct new army (stack) every time a players drag a creature to new territory
+-(Army*) constructNewArmy:(id)creatur atPoint:(CGPoint) aPoint withTerrain:(Terrain*)terrain{
     
     Army* arm = [[Army alloc]initWithPoint:aPoint];
     [arm addCreatures:creatur];
     [arm setTerrain:terrain];
+    [arm setArmyNumber:[self numberOfArmies]+1];
+    [arm setPlayerNumber:[self playingOrder]];
+    
     //[arm setPosition:aPoint];
     
     [armies addObject:arm];
      NSLog(@"went in construct New Army");
    
-    
+    return arm;
 }
 
--(void) constructArmy:(id)creatur atIndex:(NSInteger)index {
-    
-    Army * ar = [armies objectAtIndex:index];
-    
-    [ar addCreatures:creatur];
-       
-    //[armies addObject:army];
-    NSLog(@"went in constructArmy");
-    
-}
+
 
 -(void) printArmy{
     
@@ -213,6 +201,19 @@ static NSInteger counter = 0;
             a = nil;
     
     return a;
+}
+
+-(Army*) findArmyOnTerrain:(Terrain*)terrain{
+    Army* a;
+    for (int i = 0 ; i<[armies count];i++){
+        //NSLog(@"Army %d , has Creature in army  ",i);
+        if([[[armies objectAtIndex:i] terrain]isEqual:terrain]){
+            a =[armies objectAtIndex:i];
+            break;
+        }
+    }
+    return a;
+    
 }
 
 @end

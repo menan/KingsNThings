@@ -13,14 +13,14 @@
 #import "Player.h"
 #import "GamePlay.h"
 #import "NSMutableArrayShuffling.h"
-#import "Army.h"
+
 
 @implementation Board{
     NSArray * nonMovables;
     
     NSArray *terrainNames;
     
-    NSMutableArray *terrains;
+    //NSMutableArray *terrain;
     NSMutableArray *creatures;
     
     SKSpriteNode *board;
@@ -55,7 +55,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         nonMovables = @[@"board", @"bowl", @"rack", @"Gold 1", @"Gold 2", @"Gold 5", @"Gold 10", @"Gold 15", @"Gold 20", @"My Gold 1", @"My Gold 2", @"My Gold 5", @"My Gold 10", @"My Gold 15", @"My Gold 20", @"diceOne", @"diceTwo"];
         terrainNames = @[@"Desert", @"Forest", @"Frozen Waste", @"Jungle", @"Mountains", @"Plains", @"Sea", @"Swamp"];
         
-        terrains = [[NSMutableArray alloc] init];
+        //terrains = [[NSMutableArray alloc] init];
         bank = [[Bank alloc]init];
         
         game = [[GamePlay alloc] initWith4Players];
@@ -130,6 +130,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 }
 
 - (void) initTerrains:(CGPoint) tPoint{
+    NSMutableArray* terrains= [[NSMutableArray alloc]init];
     
     NSLog(@"Placing terrains at : %f,%f", tPoint.x, tPoint.y );
 //    [terrains removeAllObjects];
@@ -154,6 +155,8 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     for (Terrain * terrain in terrains) {
         [terrain draw];
     }
+    
+    [game setTerrains:terrains];
 }
 
 - (void) drawBowlwithThings:(CGPoint) aPoint{
@@ -616,7 +619,9 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 }
 
 
+
 - (void) hardCodeTerrains{
+    NSMutableArray* terrains = [game terrains];
     
     [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(303.000000,213.500000) imageNamed:@"Plains" andTerrainName:@"Plains"]];
     [terrains addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(303.750000,356.750000) imageNamed:@"Mountains" andTerrainName:@"Mountains"]];
@@ -678,17 +683,13 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 }
 
 - (Terrain *) findTerrainAt:(CGPoint) thisPoint{
-    for (Terrain * terrain in terrains) {
-        if (terrain.node.position.x == thisPoint.x && terrain.node.position.y == thisPoint.y) {
-            return terrain;
-        }
-    }
-    return NULL;
+    return [game findTerrainAt:thisPoint];
 }
 
 - (void) nodeTapped:(SKSpriteNode*) node{
     [textLabel setText:[node name]];
 }
+
 - (void) nodeMoving:(SKSpriteNode*) node to:(CGPoint) movedTo{
     [node setPosition:movedTo];
 }
@@ -709,12 +710,14 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
     if([node.accessibilityValue isEqualToString:@"creatures"])
     {
+        
         Terrain *temp =[self findTerrainAt:terrainPoint];
         if(temp != nil){
             Player *tempPlayer = [game findPlayerByTerrain:temp];
             //checks if any player owns the territory
             if (tempPlayer != nil) {
                 Creature *tempCreature = [[Creature alloc] initWithImage:node.name atPoint:node.position];
+                
                 Army *a = [tempPlayer hasCreature:tempCreature];
                 
                 if(a != nil){
@@ -722,20 +725,26 @@ static NSString * const defaultText = @"KingsNThings - Team24";
                 }
                 
                 if( ![temp hasArmyOnIt]){
-                    [tempPlayer constructNewArmy:tempCreature atPoint:node.position withTerrain:temp];
+                    
+                    
+                    a = [tempPlayer constructNewArmy:tempCreature atPoint:node.position withTerrain:temp];
+                    [a drawImage:board];
+                    
+                    [node removeFromParent];
+                    
                     [temp setHasArmyOnIt:YES];
                 }
                 else {
                     //else would take care of if theres no army :)
                     for(Army *army in [tempPlayer armies]){
                         if([army getTerrainLocation] == [temp location]){
-                            [tempPlayer addCreatureToArmy:[[Creature alloc] initWithImage:node.name atPoint:node.position] inArmy:army ];
+                            [tempPlayer addCreatureToArmy:tempCreature inArmy:army ];
                         }
                     }
                 }
                 
-                NSLog(@"Player is %d ",[tempPlayer playingOrder]);
-                [tempPlayer printArmy];
+                //NSLog(@"Player is %d ",[tempPlayer playingOrder]);
+                //[tempPlayer printArmy];
             }
             else{
                 [node setPosition:CGPointMake(480.0f, (size.height) - 175.0f)];
@@ -743,10 +752,24 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         }
     }//end of if creature
             
-      
+    else if ([node.accessibilityValue isEqualToString:@"army"]){
+         NSLog(@"army moved");
+        
+        
+        Terrain *temp =[self findTerrainAt:terrainPoint];
+        Player *tempPlayer = [game findPlayerByOrder:[node.name integerValue]];
+        
+        Army* ar = [tempPlayer getArmyAtIndex:[node.accessibilityLabel integerValue]- 1];
+        [ar setTerrain:temp];
+        [ar setPosition:node.position];
+        NSLog(@"army moved player is %d",[tempPlayer playingOrder]);
+        [game movementPhase:tempPlayer withArmy:ar];
+        
+    }
+   
     
     float sizeNode = 28;
-    if (terrainLocated && [node.name isEqualToString:@"Player 1"]) {
+   if (terrainLocated && [node.name isEqualToString:@"Player 1"]) {
         
         Terrain* temp = [self findTerrainAt:terrainPoint];
         
