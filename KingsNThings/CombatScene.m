@@ -26,14 +26,16 @@
         
         
         
-        background = [[SKSpriteNode alloc]initWithImageNamed:@"combat.jpg"];
+        background = [SKSpriteNode spriteNodeWithImageNamed:@"combat.jpg"];
         background.anchorPoint = CGPointZero;
         background.position = CGPointMake(0,225);
         background.size = CGSizeMake(size.width, 576.0f);
-        [background setColorBlendFactor:0.7];
-        self.backgroundColor = [SKColor blackColor];
-        
+       
+        //self.backgroundColor = [SKColor blackColor];
+         [background setColorBlendFactor:0.8];
+        //[background d]
         [self addChild:background];
+        
         //SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
         
         attacker = att;
@@ -50,31 +52,35 @@
 }
 -(void) drawArmies{
     
+    
+    
     SKLabelNode *lableAttaker = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     lableAttaker.text = @"Attacker";
     lableAttaker.fontSize = 18;
-    lableAttaker.position = CGPointMake(254,905);
-    [self addChild:lableAttaker];
+    lableAttaker.position = CGPointMake(221.25, 890.66669);
+    [background addChild:lableAttaker];
     
     SKLabelNode *lableDefender = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     lableDefender.text = @"Defender";
     lableDefender.fontSize = 18;
-    lableDefender.position = CGPointMake(515,905);
-    [self addChild:lableDefender];
+    lableDefender.fontColor = [UIColor whiteColor];
+    lableDefender.position = CGPointMake(134.25, 890.66669);
+    [background addChild:lableDefender];
     int i = 1 ;
+    /*
     for(Creature* creature in [attacker creatures]){
-        SKSpriteNode* node =[[SKSpriteNode alloc]initWithImageNamed:[creature imageName]];
+        SKSpriteNode* node =[SKSpriteNode spriteNodeWithImageNamed:[creature imageName]];
         [node setName:[creature name]];
-        [node setPosition:CGPointMake(lableAttaker.position.x ,lableAttaker.position.y - (80 *i))
+        [node setPosition:CGPointMake(lableAttaker.position.x ,lableAttaker.position.y + (80 *i))
          ];
          node.size = CGSizeMake(50,50);
-        [self addChild:node];
+        [background addChild:node];
         ++i;
         
-        
-    }
+     
+    }*/
     
-    
+   
     
     
 }
@@ -93,7 +99,7 @@
     /*
      MyScene* home = [[MyScene alloc] initWithSize:CGSizeMake(CGRectGetMaxX(self.frame), CGRectGetMaxY(self.frame))];
      [self.scene.view presentScene:home];*/
-    [self.scene.view presentScene:sce];
+    //[self.scene.view presentScene:sce];
     
 }
 

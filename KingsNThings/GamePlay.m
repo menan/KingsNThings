@@ -268,12 +268,13 @@ return NULL;
     
   
         
-    [scene transitToCombat:attackerArmy andDefender:defenderArmy];
+    //[scene transitToCombat:attackerArmy andDefender:defenderArmy];
   
+    
    /* NSInteger attackerMagic = 0,defenderMagic =0;
     NSInteger attackerRanged = 0,defenderRanged = 0;
     NSInteger attackerMelee = 0,defenderMelee = 0;*/
-  /* NSMutableArray* attackerRolledDice = [[NSMutableArray alloc]init];
+   NSMutableArray* attackerRolledDice = [[NSMutableArray alloc]init];
     NSMutableArray* defenderRolledDice = [[NSMutableArray alloc]init];
     
     NSMutableArray* attackerMagicCreature = [[NSMutableArray alloc]init];
@@ -282,44 +283,44 @@ return NULL;
     NSMutableArray* defenderRangedCreature = [[NSMutableArray alloc]init];
     NSMutableArray* attackerMeleeCreature = [[NSMutableArray alloc]init];
     NSMutableArray* defenderMeleeCreature = [[NSMutableArray alloc]init];
-    NSMutableArray* attackerChargeCreature = [[NSMutableArray alloc]init];
-    NSMutableArray* defenderChargeCreature = [[NSMutableArray alloc]init];
+    //NSMutableArray* attackerChargeCreature = [[NSMutableArray alloc]init];
+   // NSMutableArray* defenderChargeCreature = [[NSMutableArray alloc]init];
 
     
     NSInteger attackerNumberOfHits = 0 , defenderNumberOfHits = 0;
     
-    for(Creature *creature in attackerArmy)
+    for(Creature *creature in [attackerArmy creatures])
     {
         if([creature isMagic] )
             [attackerMagicCreature addObject:creature];
         else if ([creature isRanged] )
             [attackerRangedCreature addObject:creature];
-        else if ([creature isMelee] )
+        else if ([creature isMelee] || [creature isCharge] )
             [attackerMeleeCreature addObject:creature];
-        else if ([creature isCharge] )
-            [attackerChargeCreature addObject:creature];
+       
     }
     
-    for(Creature *creature in defenderArmy)
+    for(Creature *creature in [defenderArmy creatures])
     {
         if([creature isMagic] )
             [defenderMagicCreature addObject:creature];
         else if ([creature isRanged] )
             [defenderRangedCreature addObject:creature];
 
-        else if ([creature isMelee])
+        else if ([creature isMelee] || [creature isCharge] )
             [defenderMeleeCreature addObject:creature];
-        else if ([creature isCharge] )
-            [defenderChargeCreature addObject:creature];
+       
     }
     
     // now keep fighting until one loses
     //while ([attackerArmy count] !=0 && [defenderArmy count] != 0 ){
-        
+        //Magic round
+    attackerNumberOfHits = 0;
+    defenderNumberOfHits = 0;
         for(int i = 0 ; i < [attackerMagicCreature count]; i++){
             
             NSLog(@"Player atacker roll dice for %d ",[attackerMagicCreature count]);
-            
+            [self setOneDice: (arc4random() % 6) + 1];
             [attackerRolledDice addObject:[NSNumber numberWithInteger:[self oneDice]]];
         }
         
@@ -327,7 +328,8 @@ return NULL;
         for(int i = 0 ; i < [defenderMagicCreature count]; i++){
             
             NSLog(@"Player defender roll dice for %d ",[defenderMagicCreature count]);
-            
+            [self setOneDice: (arc4random() % 6) + 1];
+
             [defenderRolledDice addObject:[NSNumber numberWithInteger:[self oneDice]]];
         }
         
@@ -352,19 +354,152 @@ return NULL;
     
         NSLog(@"defender can apply %d hits, in Magic round",attackerNumberOfHits);
     
+        //Ranged round
+    attackerNumberOfHits = 0;
+    defenderNumberOfHits = 0;
+    for(int i = 0 ; i < [attackerRangedCreature count]; i++){
+        
+        NSLog(@"Player atacker roll dice for %d ",[attackerRangedCreature count]);
+        [self setOneDice: (arc4random() % 6) + 1];
+        [attackerRolledDice addObject:[NSNumber numberWithInteger:[self oneDice]]];
+    }
+    
+    
+    for(int i = 0 ; i < [defenderRangedCreature count]; i++){
+        
+        NSLog(@"Player defender roll dice for %d ",[defenderRangedCreature count]);
+        [self setOneDice: (arc4random() % 6) + 1];
+        
+        [defenderRolledDice addObject:[NSNumber numberWithInteger:[self oneDice]]];
+    }
+    
+    for(int i = 0 ; i < [attackerRangedCreature count] ; i++){
+        
+        if([[attackerRangedCreature objectAtIndex: i] combatValue] >= [[attackerRolledDice objectAtIndex:i] integerValue] )
+            
+            attackerNumberOfHits += 1;
         
         
+    }
+    
+    NSLog(@"Attacker can apply %d hits, in Ranged round",attackerNumberOfHits);
+    
+    
+    for(int i = 0 ; i < [defenderRangedCreature count] ; i++){
+        
+        if([[defenderRangedCreature objectAtIndex: i] combatValue] >= [[defenderRolledDice objectAtIndex:i] integerValue] )
+            
+            defenderNumberOfHits += 1;
+    }
+    
+    NSLog(@"defender can apply %d hits, in Ranged round",attackerNumberOfHits);
+    
+    
+    //melee round
+    attackerNumberOfHits = 0;
+    defenderNumberOfHits = 0;
+    for(int i = 0 ; i < [attackerMeleeCreature count]; i++){
+        int r = 0;
+        NSLog(@"Player atacker roll dice for %d ",[attackerMeleeCreature count]);
+        if([[attackerMeleeCreature objectAtIndex:i] isCharge]){
+            [self setOneDice: (arc4random() % 6) + 1];
+            [self setSecondDice: (arc4random() % 6) + 1];
+            r = oneDice + secondDice;
+            
+        }
+        else {
+               [self setOneDice: (arc4random() % 6) + 1];
+            r = oneDice;
+            
+        }
+        
+        [attackerRolledDice addObject:[NSNumber numberWithInteger:r]];
+    }
+    
+    
+    for(int i = 0 ; i < [defenderMeleeCreature count]; i++){
+        
+        NSLog(@"Player defender roll dice for %d ",[defenderMeleeCreature count]);
+        int r = 0;
+        if([[defenderMeleeCreature objectAtIndex:i] isCharge]){
+            [self setOneDice: (arc4random() % 6) + 1];
+            [self setSecondDice: (arc4random() % 6) + 1];
+            r = oneDice + secondDice;
+            
+        }
+        else {
+            [self setOneDice: (arc4random() % 6) + 1];
+            r = oneDice;
+            
+        }
+        [self setOneDice: (arc4random() % 6) + 1];
+        
+        [defenderRolledDice addObject:[NSNumber numberWithInteger:r]];
+    }
+    
+    for(int i = 0 ; i < [attackerMeleeCreature count] ; i++){
+        
+        if([[attackerMeleeCreature objectAtIndex: i] isCharge])
+        {
+            int d1 = 0;
+            int d2 = 0;
+            d1 = [[attackerRolledDice objectAtIndex:i] integerValue]/2;
+            d2 = [[attackerRolledDice objectAtIndex:i] integerValue] - d1;
+            if([[attackerMeleeCreature objectAtIndex: i] combatValue] >= d1 )
+                attackerNumberOfHits += 1;
+            if([[attackerMeleeCreature objectAtIndex: i] combatValue] >= d2 )
+                attackerNumberOfHits += 1;
+        }
+        
+        else{
+            if([[attackerMeleeCreature objectAtIndex: i] combatValue] >= [[attackerRolledDice objectAtIndex:i] integerValue] )
+            
+            attackerNumberOfHits += 1;
+        }
+        
+        
+    }
+    
+    NSLog(@"Attacker can apply %d hits, in Melee round",attackerNumberOfHits);
+    
+    
+    for(int i = 0 ; i < [defenderMeleeCreature count] ; i++){
+        
+        if([[defenderMeleeCreature objectAtIndex: i] isCharge])
+        {
+            int d1 = 0;
+            int d2 = 0;
+            d1 = [[defenderRolledDice objectAtIndex:i] integerValue]/2;
+            d2 = [[defenderRolledDice objectAtIndex:i] integerValue] - d1;
+            if([[defenderMeleeCreature objectAtIndex: i] combatValue] >= d1 )
+                defenderNumberOfHits += 1;
+            if([[defenderMeleeCreature objectAtIndex: i] combatValue] >= d2 )
+                defenderNumberOfHits += 1;
+        }
+        
+        else{
+            if([[defenderMeleeCreature objectAtIndex: i] combatValue] >= [[defenderRolledDice objectAtIndex:i] integerValue] )
+                
+                defenderNumberOfHits += 1;
+        }
+    }
+    
+    NSLog(@"defender can apply %d hits, in Melee round",defenderNumberOfHits);
+    
+    
+    //
+    
     
     
     
     
     
     //}//end while
-        
-        
-}//end function
     
-*/
-}
+    
+}//end function
+
+
+//}
 
 @end
