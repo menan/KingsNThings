@@ -25,8 +25,9 @@
         gameBoard = [[Board alloc] initWithScene:self atPoint:CGPointMake(0,225) withSize:CGSizeMake(size.width, 576.0f)];
         [gameBoard draw];
         nonMovables = [gameBoard getNonMovables];
-        [gameBoard.game setScene:self];
+        
     }
+    [gameBoard.game assignScene:self];
     return self;
 }
 
@@ -111,11 +112,12 @@ CGPoint mult(const CGPoint v, const CGFloat s) {
 	return CGPointMake(v.x*s, v.y*s);
 }
 
--(void) transitToCombat:(Army*)attacker andDefender:(Army*)defender{
+-(void) transitToCombat:(id)attacker andDefender:(id)defender{
     NSLog(@"inside transit combat");
     transitionDoorsCloseHorizontal = [SKTransition doorsCloseHorizontalWithDuration:1];
     //CGRect screenRect = [[UIScreen mainScreen] bounds];
     //CIVector  *extent = [CIVector vectorWithX:0  Y:0  Z:screenRect.size.width  W:screenRect.size.height];
+    
     combat= [[CombatScene alloc] initWithSize:[self size] withAttacker:attacker andDefender:defender];
     
     [combat backTo:self];

@@ -35,7 +35,7 @@
         
         players = [[NSMutableArray alloc] initWithObjects:player1, player2, player3, player4, nil];
         terrains = [[NSMutableArray alloc]init];
-        scene = [[MyScene alloc]init];
+       
         
         //[self setPlayerArmy];
         p1Stack1 = [[NSArray alloc]init];
@@ -77,6 +77,11 @@
     }
     
     return self;
+    
+}
+-(void) assignScene:(id)sce{
+    
+    scene = sce;
     
 }
 -(Terrain*) findTerrainAt:(CGPoint)thisPoint{
@@ -258,9 +263,10 @@ return NULL;
 
 
 -(void) combatPhase:(Player *)attacker withArmy:(Army*)attackerArmy andPlayer:(Player*)defender withArmy:(Army*)defenderArmy{
+    
      NSLog(@"tinside Combat phse");
     
-    [[self scene] transitToCombat:(Army*)attackerArmy andDefender:(Army*)defender];
+    [scene transitToCombat:attackerArmy andDefender:defenderArmy];
   
    /* NSInteger attackerMagic = 0,defenderMagic =0;
     NSInteger attackerRanged = 0,defenderRanged = 0;
