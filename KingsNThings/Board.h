@@ -18,6 +18,7 @@
 - (id)initWithScene: (SKScene *) aScene atPoint: (CGPoint) aPoint withSize: (CGSize) aSize;
 - (void)draw;
 - (SKSpriteNode *) getBoard;
+-(GamePlay*)getGamePlay;
 - (void) resetText;
 -(void) updateBankBalance:(NSInteger)goldNum;
 - (NSArray *) getNonMovables;

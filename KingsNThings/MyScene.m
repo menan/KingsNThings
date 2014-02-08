@@ -25,13 +25,14 @@
         gameBoard = [[Board alloc] initWithScene:self atPoint:CGPointMake(0,225) withSize:CGSizeMake(size.width, 576.0f)];
         [gameBoard draw];
         nonMovables = [gameBoard getNonMovables];
-        
+         [[gameBoard getGamePlay] assignScene:self];
     }
-    [gameBoard.game assignScene:self];
+   
     return self;
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [gameBoard.game assignScene:self];
     /* Called when a touch begins */
     UITouch *touch = [touches anyObject];
     CGPoint positionInScene = [touch locationInNode:self];

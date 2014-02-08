@@ -79,8 +79,8 @@
     return self;
     
 }
--(void) assignScene:(id)sce{
-    
+-(void) assignScene:(MyScene*)sce{
+    NSLog(@"inside assignScene");
     scene = sce;
     
 }
@@ -264,8 +264,10 @@ return NULL;
 
 -(void) combatPhase:(Player *)attacker withArmy:(Army*)attackerArmy andPlayer:(Player*)defender withArmy:(Army*)defenderArmy{
     
-     NSLog(@"tinside Combat phse");
+     NSLog(@"inside Combat phase");
     
+  
+        
     [scene transitToCombat:attackerArmy andDefender:defenderArmy];
   
    /* NSInteger attackerMagic = 0,defenderMagic =0;

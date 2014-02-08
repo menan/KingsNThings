@@ -67,6 +67,10 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     }
     return self;
 }
+-(GamePlay*)getGamePlay{
+    return game;
+    
+}
 
 - (SKSpriteNode *) getBoard{
     return board;

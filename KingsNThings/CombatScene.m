@@ -67,6 +67,8 @@
         [node setName:[creature name]];
         [node setPosition:CGPointMake(lableAttaker.position.x ,lableAttaker.position.y - (80 *i))
          ];
+         node.size = CGSizeMake(50,50);
+        [self addChild:node];
         ++i;
         
         
@@ -91,7 +93,7 @@
     /*
      MyScene* home = [[MyScene alloc] initWithSize:CGSizeMake(CGRectGetMaxX(self.frame), CGRectGetMaxY(self.frame))];
      [self.scene.view presentScene:home];*/
-    //[self.scene.view presentScene:sce];
+    [self.scene.view presentScene:sce];
     
 }
 

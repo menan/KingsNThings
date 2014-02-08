@@ -30,5 +30,5 @@
 -(void)movementPhase:(Player *)player withArmy:(Army*)army;
 -(Terrain*) findTerrainAt:(CGPoint)thisPoint;
 -(Player*)findPlayerByOrder:(NSInteger)order;
--(void) assignScene:(id)sce;
+-(void) assignScene:(MyScene*)sce;
 @end
