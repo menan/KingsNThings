@@ -119,9 +119,7 @@ CGPoint mult(const CGPoint v, const CGFloat s) {
     //CGRect screenRect = [[UIScreen mainScreen] bounds];
     //CIVector  *extent = [CIVector vectorWithX:0  Y:0  Z:screenRect.size.width  W:screenRect.size.height];
     
-    combat= [[CombatScene alloc] initWithSize:[self size] withAttacker:attacker andDefender:defender];
-    
-    [combat backTo:self];
+    combat= [[CombatScene alloc] initWithSize:[self size] withAttacker:attacker andDefender:defender andSender:self];
     [self.scene.view presentScene:combat transition:transitionDoorsCloseHorizontal];
     //[self removeUIKitViews];
     

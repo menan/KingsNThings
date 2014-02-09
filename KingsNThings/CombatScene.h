@@ -11,7 +11,5 @@
 
 @interface CombatScene : SKScene
 
--(void)backTo:(id)sc;
--(id)initWithSize:(CGSize)size withAttacker:(Army*)att andDefender:(Army*)def ;
-
+-(id)initWithSize:(CGSize)size withAttacker:(Army*)att andDefender:(Army*)def andSender:(id) sender;
 @end

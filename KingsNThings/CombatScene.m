@@ -21,15 +21,15 @@
     
 }
 
--(id)initWithSize:(CGSize)size withAttacker:(Army*)att andDefender:(Army*)def {
+-(id)initWithSize:(CGSize)size withAttacker:(Army*)att andDefender:(Army*)def andSender:(id) sender {
     if (self = [super initWithSize:size]) {
         
-        
+        sce = sender;
         
         background = [[SKSpriteNode alloc]initWithImageNamed:@"combat.jpg"];
         background.anchorPoint = CGPointZero;
-        background.position = CGPointMake(0,225);
-        background.size = CGSizeMake(size.width, 576.0f);
+        background.position = CGPointMake(0,0);
+        background.size = size;
         [background setColorBlendFactor:0.7];
         self.backgroundColor = [SKColor blackColor];
         
@@ -50,6 +50,20 @@
 }
 -(void) drawArmies{
     
+    SKLabelNode *lblTitle = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    lblTitle.text = @"COMBAT";
+    lblTitle.fontSize = 20;
+    lblTitle.position = CGPointMake(381,976);
+    [self addChild:lblTitle];
+    
+    SKLabelNode *lblDone = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    lblDone.name = @"done";
+    lblDone.text = @"Done";
+    lblDone.fontSize = 20;
+    lblDone.position = CGPointMake(366,48);
+    [self addChild:lblDone];
+    
+    
     SKLabelNode *lableAttaker = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     lableAttaker.text = @"Attacker";
     lableAttaker.fontSize = 18;
@@ -65,12 +79,22 @@
     for(Creature* creature in [attacker creatures]){
         SKSpriteNode* node =[[SKSpriteNode alloc]initWithImageNamed:[creature imageName]];
         [node setName:[creature name]];
-        [node setPosition:CGPointMake(lableAttaker.position.x ,lableAttaker.position.y - (80 *i))
+        [node setPosition:CGPointMake(lableAttaker.position.x ,lableAttaker.position.y - (100 *i))
          ];
-         node.size = CGSizeMake(50,50);
+        node.size = CGSizeMake(50,80);
         [self addChild:node];
         ++i;
         
+    }
+    int j = 1;
+    for(Creature* creature in [defender creatures]){
+        SKSpriteNode* node =[[SKSpriteNode alloc]initWithImageNamed:[creature imageName]];
+        [node setName:[creature name]];
+        [node setPosition:CGPointMake(lableDefender.position.x ,lableDefender.position.y - (100 *j))
+         ];
+        node.size = CGSizeMake(50,80);
+        [self addChild:node];
+        ++i;
         
     }
     
@@ -79,21 +103,16 @@
     
 }
 
--(void)backTo:(MyScene*)sc{
-    
-    sce = sc;
-    
-}
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [touches anyObject];
     CGPoint positionInScene = [touch locationInNode:self];
+    SKSpriteNode *touchedNode = (SKSpriteNode *)[self nodeAtPoint:positionInScene];
+    
     NSLog(@"point are %@  ", NSStringFromCGPoint(positionInScene));
     
-    /*
-     MyScene* home = [[MyScene alloc] initWithSize:CGSizeMake(CGRectGetMaxX(self.frame), CGRectGetMaxY(self.frame))];
-     [self.scene.view presentScene:home];*/
-    [self.scene.view presentScene:sce];
+    if ([touchedNode.name isEqualToString:@"done"])
+        [self.scene.view presentScene:sce];
     
 }
 
