@@ -263,10 +263,10 @@ float degToRad(float degree) {
     else {
         
         if([combat isAttacker])
-            numberOfrolls = ([[combat attackerMeleeCreature] count] + [[combat attackerChargeCreature] count]);
+            numberOfrolls = ([[combat attackerMeleeCreature] count] + [combat attakerChargeCreatures]);
         
         else
-            numberOfrolls = ([[combat defenderMeleeCreature] count] +[[combat defenderChargeCreature] count]);
+            numberOfrolls = ([[combat defenderMeleeCreature] count] +[combat defenderChargeCreatures]);
     }
     
     while ((numberOfrolls > 0) &&

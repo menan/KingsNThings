@@ -26,6 +26,8 @@
 
 @property NSInteger diceOne, diceTwo;
 @property NSMutableArray* attackerRolledDice, *defenderRolledDice;
+@property     NSInteger attakerChargeCreatures ,defenderChargeCreatures;
+
 
 
 
@@ -38,7 +40,6 @@
 -(id) initWithAttacker:(Player*)att andDefender:(Player*)def andAttackerArmy:(id)attArmy andDefenderArmy:(id)defArmy andMainScene:(id)sce;
 -(void) startCombat:(CombatScene*) combatScene;
 -(void)drawScene;
--(void) meleeRound:(CombatScene*) combatScene;
 -(void)updateArmy:(NSString*)creatureName andPlayerType:(NSString*)player;
 
 @end
