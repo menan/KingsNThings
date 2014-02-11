@@ -19,6 +19,8 @@
 @property NSMutableArray* defenderRangedCreature;
 @property NSMutableArray* attackerMeleeCreature;
 @property NSMutableArray* defenderMeleeCreature ;
+@property NSMutableArray* attackerChargeCreature;
+@property NSMutableArray* defenderChargeCreature ;
 
 @property NSInteger attackerNumberOfHits,defenderNumberOfHits;
 

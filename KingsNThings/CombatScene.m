@@ -175,13 +175,15 @@
 - (void) rollDiceOne{
     int r = (arc4random() % 6) + 1;
     diceOneLabel.text = [NSString stringWithFormat:@"%d",r];
-    --numberOfrolls;
+    
     if([combat isAttacker]){
     [[combat attackerRolledDice]addObject:[NSNumber numberWithInt:r]];
+        numberOfrolls -= 1;
         //diceOneLabel.text = @"0";
     }
     else{
         [[combat defenderRolledDice]addObject:[NSNumber numberWithInt:r]];
+        numberOfrolls -= 1;
         //diceOneLabel.text = @"0";
     }
 }
@@ -189,13 +191,15 @@
     
     int r = (arc4random() % 6) + 1 ;
     diceTwoLabel.text = [NSString stringWithFormat:@"%d",r];
-    --numberOfrolls;
+    
     if([combat isAttacker]){
         [[combat attackerRolledDice]addObject:[NSNumber numberWithInt:r]];
+        numberOfrolls -= 1;
         //diceTwoLabel.text = @"0";
     }
     else{
         [[combat defenderRolledDice]addObject:[NSNumber numberWithInt:r]];
+        numberOfrolls -= 1;
         //diceTwoLabel.text = @"0";
     }
 }
@@ -235,14 +239,6 @@ float degToRad(float degree) {
 
 -(void) collectDiceResult{
     
-   /* NSString* str = @"Attacker: roll one dice for ";
-     str = [str stringByAppendingString:[NSString stringWithFormat:@"%i",[[combat attackerMeleeCreature] count]]];
-    str = [str stringByAppendingString:@" times."];
-    
-    [self setInstructionText:str];
-    */
-   
-    
     NSRunLoop *loop = [NSRunLoop currentRunLoop];
     
     if([combat isMagicRound]){
@@ -252,7 +248,6 @@ float degToRad(float degree) {
         
         else 
                 numberOfrolls = [[combat defenderMagicCreature] count];
-            
         
     }
     
@@ -268,10 +263,10 @@ float degToRad(float degree) {
     else {
         
         if([combat isAttacker])
-            numberOfrolls = [[combat attackerMeleeCreature] count];
+            numberOfrolls = ([[combat attackerMeleeCreature] count] + [[combat attackerChargeCreature] count]);
         
         else
-            numberOfrolls = [[combat defenderMeleeCreature] count];
+            numberOfrolls = ([[combat defenderMeleeCreature] count] +[[combat defenderChargeCreature] count]);
     }
     
     while ((numberOfrolls > 0) &&
@@ -334,7 +329,6 @@ float degToRad(float degree) {
         [self rollDiceTwo];
     else if ([touchedNode.accessibilityLabel isEqualToString:@"attacker" ]){
         
-        
         [touchedNode removeFromParent];
         [combat updateArmy:touchedNode.name andPlayerType:@"attacker"];
         [combat setDefenderNumberOfHits:[combat defenderNumberOfHits] -1 ];
@@ -346,7 +340,7 @@ float degToRad(float degree) {
         
         [touchedNode removeFromParent];
         [combat updateArmy:touchedNode.name andPlayerType:@"defender"];
-        [combat setAttackerNumberOfHits:[combat attackerNumberOfHits] -1 ];
+        [combat setAttackerNumberOfHits:([combat attackerNumberOfHits] -1) ];
         [[combat defenderArmy]removeCreatureWithName:touchedNode.name];
         
     }

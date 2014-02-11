@@ -24,6 +24,7 @@
 @property int balance; //to keep track of the paid amount to the bank when paid in 1s
 @property int recruitsRemaining;
 
+
 - (BOOL) setBuilding: (Building *) building;
 - (BOOL) setTerritory: (Terrain *) territory;
 - (NSMutableArray *) getTerritories;
