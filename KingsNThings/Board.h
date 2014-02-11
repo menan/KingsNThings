@@ -11,9 +11,11 @@
 #import "GamePlay.h"
 
 @interface Board : NSObject
-@property SKLabelNode* textLabel;
+@property SKLabelNode* textLabel, *recruitLabel;
 @property NSInteger dicesClicked,creaturesInBowl;
 @property GamePlay *game;
+@property NSArray *disabled;
+@property NSArray *nonMovables;
 
 - (id)initWithScene: (SKScene *) aScene atPoint: (CGPoint) aPoint withSize: (CGSize) aSize;
 - (void)draw;

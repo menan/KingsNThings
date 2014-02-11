@@ -27,25 +27,8 @@
 
 static NSInteger counter = 0;
 
-@synthesize armies,playingOrder,bank,army;
+@synthesize armies,playingOrder,bank,army, balance,recruitsRemaining;
 
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        bank = [[Bank alloc] initWithOneGolds:0 twoGolds:0 fivesGolds:0 tenGolds:1 fifteenGolds:0 twentyGolds:0];
-        buildings = [[NSMutableArray alloc] init];
-        territories = [[NSMutableArray alloc] init];
-        specialCharacters = [[NSMutableArray alloc] init];
-        armies = [[NSMutableArray alloc] init];
-        specialIncome = [[NSMutableArray alloc] init];
-        army = [[Army alloc]init];
-        counter +=1;
-        playingOrder =counter;
-        
-    }
-    return self;
-}
 -(id) initWithArmy{
     
     self = [super init];
@@ -60,7 +43,9 @@ static NSInteger counter = 0;
         armies = [[NSMutableArray alloc] init];
         specialIncome = [[NSMutableArray alloc] init];
         army = [[Army alloc]init];
+        recruitsRemaining = 10;
         counter +=1;
+        balance = 0;
         playingOrder =counter;
         
     }
@@ -91,6 +76,29 @@ static NSInteger counter = 0;
     bank = myBank;
 }
 
+- (void) justPaid:(int) amount{
+    amount = amount + balance;
+    if (amount >= 5) {
+        recruitsRemaining += (int)(amount / 5);
+        balance = amount % 5;
+    }
+    else{
+        balance += amount;
+    }
+}
+- (void) justGotPaid:(int) amount{
+    
+    amount = amount + balance;
+    if (amount >= 5) {
+        recruitsRemaining -= (int)(amount / 5);
+        balance = amount % 5;
+    }
+    else{
+        balance -= amount;
+    }
+}
+
+
 - (Bank *) getBank{
     return bank;
 }
@@ -104,9 +112,11 @@ static NSInteger counter = 0;
 
 - (int) getSpecialCreatureIncome{
     int sIncome = 0;
-    for(Creature *army in armies){
-        if (army.special){
-            sIncome++;
+    for(Army *a in armies){
+        for(Creature *c in a.creatures){
+            if (c.special){
+                sIncome++;
+            }
         }
     }
     
@@ -143,6 +153,8 @@ static NSInteger counter = 0;
         return nil;
 }
 
+
+
 -(NSInteger) numberOfArmies{
     return [armies count];
 }
@@ -150,18 +162,25 @@ static NSInteger counter = 0;
 // to construct new army (stack) every time a players drag a creature to new territory
 -(Army*) constructNewArmy:(id)creatur atPoint:(CGPoint) aPoint withTerrain:(Terrain*)terrain{
     
-    Army* arm = [[Army alloc]initWithPoint:aPoint];
-    [arm addCreatures:creatur];
-    [arm setTerrain:terrain];
-    [arm setArmyNumber:[self numberOfArmies]+1];
-    [arm setPlayerNumber:[self playingOrder]];
-    
-    //[arm setPosition:aPoint];
-    
-    [armies addObject:arm];
-     NSLog(@"went in construct New Army");
+    recruitsRemaining--;
+    if (recruitsRemaining >= 0) {
+        
+        Army* arm = [[Army alloc]initWithPoint:aPoint];
+        [arm addCreatures:creatur];
+        [arm setTerrain:terrain];
+        [arm setArmyNumber:[self numberOfArmies]+1];
+        [arm setPlayerNumber:[self playingOrder]];
+        
+        //[arm setPosition:aPoint];
+        [armies addObject:arm];
+        NSLog(@"went in construct New Army and %d more recruits remaining", recruitsRemaining);
+        return arm;
+    }
+    else{
+        NSLog(@"You don't have anymore recruits left.");
+        return NULL;
+    }
    
-    return arm;
 }
 
 
@@ -177,12 +196,22 @@ static NSInteger counter = 0;
     }
 }
 
--(void) addCreatureToArmy:(id)creature inArmy:(Army*)force{
+-(BOOL) addCreatureToArmy:(id)creature inArmy:(Army*)force{
     
-    [force addCreatures:creature];
-    NSLog(@"CREature is added");
+    recruitsRemaining--;
+    if (recruitsRemaining >= 0) {
+        
+        [force addCreatures:creature];
+        return YES;
+        NSLog(@"Creature is added and %d more recruits remaining", recruitsRemaining);
+    }
+    else{
+        return NO;
+        NSLog(@"You don't have anymore recruits left.");
+    }
     
 }
+
 
 -(Army*) hasCreature:(id)creature{
     

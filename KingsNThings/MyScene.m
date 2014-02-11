@@ -54,19 +54,12 @@
             [gameBoard resetText];
         else{
             [gameBoard nodeTapped:touchedNode];
-            
-//            [gameBoard.textLabel setText:[touchedNode name]];
         }
-            
-		//3
-		if([nonMovables containsObject: [_selectedNode name]] == NO) {
+        
+		if([gameBoard.disabled containsObject: [_selectedNode name]] == NO) {
             _selectedNode.color = [SKColor redColor];
             _selectedNode.colorBlendFactor = 0.5;
-//			SKAction *sequence = [SKAction sequence:@[[SKAction rotateByAngle:degToRad(-4.0f) duration:0.1],
-//													  [SKAction rotateByAngle:0.0 duration:0.1],
-//													  [SKAction rotateByAngle:degToRad(4.0f) duration:0.1]]];
-//			[_selectedNode runAction:[SKAction repeatActionForever:sequence]];
-		}
+        }
 	}
     
 }

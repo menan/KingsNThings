@@ -21,23 +21,24 @@
 //@property NSArray *p1Stack1,*p1Stack2,*p2Stack1,*p3Stack1,*p3Stack2,*p3Stack3,*p4Stack1,*p4Stack2,*p4Stack3;
 @property Bank* bank;
 @property Army* army;
-
+@property int balance; //to keep track of the paid amount to the bank when paid in 1s
+@property int recruitsRemaining;
 
 - (BOOL) setBuilding: (Building *) building;
 - (BOOL) setTerritory: (Terrain *) territory;
 - (NSMutableArray *) getTerritories;
 - (int) getBankBalance;
 - (id) initWithArmy;
-
+- (void) justPaid:(int) amount;
+- (void) justGotPaid:(int) amount;
 //- (Stage) getStage;
 -(Bank *) getBank;
 -(int) getIncome;
 -(Army*) constructNewArmy:(id)creatur atPoint:(CGPoint) aPoint withTerrain:(Terrain*)terrain;
--(void) addCreatureToArmy:(id)creature inArmy:(Army*)army;
+-(BOOL) addCreatureToArmy:(id)creature inArmy:(Army*)army;
 -(void) printArmy;
 -(Army*) hasCreature:(id)creature;
 -(NSInteger) numberOfArmies;
 - (Army *) getArmyAtIndex:(NSInteger)index;
 -(Army*) findArmyOnTerrain:(Terrain*)terrain;
-
 @end
