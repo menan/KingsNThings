@@ -313,18 +313,6 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
     for (int i = 0; i < playersCount; i++) {
         
-        SKSpriteNode *castle = [SKSpriteNode spriteNodeWithImageNamed:@"castle"];
-        [castle setName:@"Castle"];
-        castle.size = CGSizeMake(40,40);
-        [castle setPosition:aPoint];
-        [board addChild:castle];
-        
-        
-        SKSpriteNode *citadel = [SKSpriteNode spriteNodeWithImageNamed:@"citadel"];
-        [citadel setName:@"Citadel"];
-        citadel.size = CGSizeMake(40,40);
-        [citadel setPosition:CGPointMake(aPoint.x, aPoint.y - 43 )];
-        [board addChild:citadel];
         
         SKSpriteNode *tower = [SKSpriteNode spriteNodeWithImageNamed:@"tower"];
         [tower setName:@"Tower"];
@@ -338,6 +326,19 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         keep.size = CGSizeMake(40,40);
         [keep setPosition:CGPointMake(aPoint.x + 43, aPoint.y - 43 )];
         [board addChild:keep];
+        
+        SKSpriteNode *castle = [SKSpriteNode spriteNodeWithImageNamed:@"castle"];
+        [castle setName:@"Castle"];
+        castle.size = CGSizeMake(40,40);
+        [castle setPosition:aPoint];
+        [board addChild:castle];
+        
+        
+        SKSpriteNode *citadel = [SKSpriteNode spriteNodeWithImageNamed:@"citadel"];
+        [citadel setName:@"Citadel"];
+        citadel.size = CGSizeMake(40,40);
+        [citadel setPosition:CGPointMake(aPoint.x, aPoint.y - 43 )];
+        [board addChild:citadel];
     }
     
 }
@@ -652,7 +653,8 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     }
    
     
-    float sizeNode = 28;
+    float sizeNode = 26;
+    float towerSizeNode = sizeNode + 4;
    if (terrainLocated && [node.name isEqualToString:@"Player 1"]) {
         
         Terrain* temp = [self findTerrainAt:terrainPoint];
@@ -663,6 +665,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
             
             node.name = @"bowl";
             [node setSize:CGSizeMake(sizeNode, sizeNode)];
+            [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
         }
         else{
             [node setPosition:CGPointMake(380.0f, 25.0f)];
@@ -676,6 +679,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
             [temp setHasArmyOnIt:NO];
             node.name = @"bowl";
             [node setSize:CGSizeMake(sizeNode, sizeNode)];
+            [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
         }
         else{
             [node setPosition:CGPointMake(380.0f + 43.0f, 25.0f)];
@@ -688,6 +692,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         if ([game.player3 setTerritory:temp]){
             node.name = @"bowl";
             [node setSize:CGSizeMake(sizeNode, sizeNode)];
+            [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
         }
         else{
             [node setPosition:CGPointMake(380.0f  + 86.0f, 25.0f)];
@@ -699,6 +704,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         if ([game.player4 setTerritory:temp]){
             node.name = @"bowl";
             [node setSize:CGSizeMake(sizeNode, sizeNode)];
+            [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
         }
         else{
             [node setPosition:CGPointMake(380.0f + 129.0f, 25.0f)];
@@ -770,7 +776,8 @@ static NSString * const defaultText = @"KingsNThings - Team24";
             Building *b = [[Building alloc] initWithStage:Tower andTerrain:t];
             if ([owner setBuilding:b]){
                 node.name = @"bowl";
-                [node setSize:CGSizeMake(sizeNode, sizeNode)];
+                [node setSize:CGSizeMake(towerSizeNode, towerSizeNode)];
+                [node setPosition:CGPointMake(t.node.position.x - 10, t.node.position.y + 22)];
             }
             else{
                 [node setPosition:CGPointMake(23.0f + 43, (size.height) - 100)];
@@ -787,7 +794,8 @@ static NSString * const defaultText = @"KingsNThings - Team24";
             Building *b = [[Building alloc] initWithStage:Keep andTerrain:t];
             if ([owner setBuilding:b]){
                 node.name = @"bowl";
-                [node setSize:CGSizeMake(sizeNode, sizeNode)];
+                [node setSize:CGSizeMake(towerSizeNode, towerSizeNode)];
+                [node setPosition:CGPointMake(t.node.position.x - 10, t.node.position.y + 17)];
             }
             else{
                 [node setPosition:CGPointMake(23.0f + 43, (size.height) - 100 - 43)];
@@ -803,7 +811,8 @@ static NSString * const defaultText = @"KingsNThings - Team24";
             Building *b = [[Building alloc] initWithStage:Castle andTerrain:t];
             if ([owner setBuilding:b]){
                 node.name = @"bowl";
-                [node setSize:CGSizeMake(sizeNode, sizeNode)];
+                [node setSize:CGSizeMake(towerSizeNode, towerSizeNode)];
+                [node setPosition:CGPointMake(t.node.position.x - 10, t.node.position.y + 12)];
             }
             else{
                 [node setPosition:CGPointMake(23.0f, (size.height) - 100 - 43)];
@@ -819,7 +828,8 @@ static NSString * const defaultText = @"KingsNThings - Team24";
             Building *b = [[Building alloc] initWithStage:Citadel andTerrain:t];
             if ([owner setBuilding:b]){
                 node.name = @"bowl";
-                [node setSize:CGSizeMake(sizeNode, sizeNode)];
+                [node setSize:CGSizeMake(towerSizeNode, towerSizeNode)];
+                [node setPosition:CGPointMake(t.node.position.x - 10, t.node.position.y + 7)];
             }
             else{
                 [node setPosition:CGPointMake(23.0f, (size.height) - 100)];

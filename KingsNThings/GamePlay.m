@@ -80,7 +80,7 @@
     
 }
 -(void) assignScene:(MyScene*)sce{
-    NSLog(@"inside assignScene");
+//    NSLog(@"inside assignScene");
     scene = sce;
     
 }
