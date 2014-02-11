@@ -229,6 +229,7 @@
 		C59BE64918A0554100EC48E0 /* -n Timberland -t Forest -a 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C59BE63918A0554100EC48E0 /* -n Timberland -t Forest -a 1.jpg */; };
 		C59E4D1018A5E0FE00CCBA0D /* CombatScene.m in Sources */ = {isa = PBXBuildFile; fileRef = C59E4D0F18A5E0FE00CCBA0D /* CombatScene.m */; };
 		C59E4D1418A5F9E800CCBA0D /* combat.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C59E4D1318A5F9E800CCBA0D /* combat.jpg */; };
+		C5A92F8118A6EA6C00F92598 /* CombatPhase.m in Sources */ = {isa = PBXBuildFile; fileRef = C5A92F8018A6EA6C00F92598 /* CombatPhase.m */; };
 		C5ADEED618A2B76100BD68C6 /* dice_2.png in Resources */ = {isa = PBXBuildFile; fileRef = C5ADEED518A2B76000BD68C6 /* dice_2.png */; };
 		C5ADEED818A2C02500BD68C6 /* -n Great Hunter -t Plains -s Range -a 4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C5ADEED718A2C02500BD68C6 /* -n Great Hunter -t Plains -s Range -a 4.jpg */; };
 		C5ADEEDA18A2F29A00BD68C6 /* -n Giant Snake -t Swamp -a 3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C5ADEED918A2F29A00BD68C6 /* -n Giant Snake -t Swamp -a 3.jpg */; };
@@ -490,6 +491,8 @@
 		C59E4D0E18A5E0FE00CCBA0D /* CombatScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CombatScene.h; sourceTree = "<group>"; };
 		C59E4D0F18A5E0FE00CCBA0D /* CombatScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CombatScene.m; sourceTree = "<group>"; };
 		C59E4D1318A5F9E800CCBA0D /* combat.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = combat.jpg; sourceTree = "<group>"; };
+		C5A92F7F18A6EA6C00F92598 /* CombatPhase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CombatPhase.h; sourceTree = "<group>"; };
+		C5A92F8018A6EA6C00F92598 /* CombatPhase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CombatPhase.m; sourceTree = "<group>"; };
 		C5ADEED518A2B76000BD68C6 /* dice_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dice_2.png; sourceTree = "<group>"; };
 		C5ADEED718A2C02500BD68C6 /* -n Great Hunter -t Plains -s Range -a 4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Great Hunter -t Plains -s Range -a 4.jpg"; sourceTree = "<group>"; };
 		C5ADEED918A2F29A00BD68C6 /* -n Giant Snake -t Swamp -a 3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Giant Snake -t Swamp -a 3.jpg"; sourceTree = "<group>"; };
@@ -578,6 +581,8 @@
 				686C973E1888A88500BE6D42 /* ViewController.m */,
 				C59E4D0E18A5E0FE00CCBA0D /* CombatScene.h */,
 				C59E4D0F18A5E0FE00CCBA0D /* CombatScene.m */,
+				C5A92F7F18A6EA6C00F92598 /* CombatPhase.h */,
+				C5A92F8018A6EA6C00F92598 /* CombatPhase.m */,
 				686C97401888A88500BE6D42 /* MyScene.h */,
 				686C97411888A88500BE6D42 /* MyScene.m */,
 				6832A14A1897734100476D5D /* Player.h */,
@@ -1284,6 +1289,7 @@
 				6832A14C1897734100476D5D /* Player.m in Sources */,
 				C59BE5F218A052E700EC48E0 /* SpecialIncome.m in Sources */,
 				E81E3BF31898554000449AA8 /* Creature.m in Sources */,
+				C5A92F8118A6EA6C00F92598 /* CombatPhase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

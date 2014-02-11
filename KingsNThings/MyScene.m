@@ -71,9 +71,9 @@
     
 }
 
-float degToRad(float degree) {
+/*float degToRad(float degree) {
 	return degree / 180.0f * M_PI;
-}
+}*/
 - (CGPoint)boundLayerPos:(CGPoint)newPos {
     CGSize winSize = self.size;
     CGPoint retval = newPos;
@@ -113,15 +113,16 @@ CGPoint mult(const CGPoint v, const CGFloat s) {
 	return CGPointMake(v.x*s, v.y*s);
 }
 
--(void) transitToCombat:(id)attacker andDefender:(id)defender{
+-(void) transitToCombat:(id)attacker andDefender:(id)defender andCombatFunction:(id) combatfun{
     NSLog(@"inside transit combat");
     transitionDoorsCloseHorizontal = [SKTransition doorsCloseHorizontalWithDuration:1];
     //CGRect screenRect = [[UIScreen mainScreen] bounds];
     //CIVector  *extent = [CIVector vectorWithX:0  Y:0  Z:screenRect.size.width  W:screenRect.size.height];
     
-    combat= [[CombatScene alloc] initWithSize:[self size] withAttacker:attacker andDefender:defender];
+    combat= [[CombatScene alloc] initWithSize:[self size] withAttacker:attacker andDefender:defender andSender:self andCombat:combatfun];
+             
+             //initWithSize:[self size] withAttacker:attacker andDefender:defender andSender:self ];
     
-    [combat backTo:self];
     [self.scene.view presentScene:combat transition:transitionDoorsCloseHorizontal];
     //[self removeUIKitViews];
     

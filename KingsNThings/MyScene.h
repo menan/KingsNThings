@@ -13,6 +13,6 @@
 @property (nonatomic, strong) SKSpriteNode *board;
 @property (nonatomic, strong) SKSpriteNode *selectedNode;
 @property (nonatomic, strong) SKLabelNode *myLabel;
--(void) transitToCombat:(id)attacker andDefender:(id)defender;
+-(void) transitToCombat:(id)attacker andDefender:(id)defender andCombatFunction:(id)combatfun;
 
 @end

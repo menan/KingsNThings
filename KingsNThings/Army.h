@@ -24,6 +24,7 @@
 -(id) initWithPoint:(CGPoint) aPoint;
 -(NSInteger) getTerrainLocation;
 -(void) removeCreature:(id)creature;
+-(void) removeCreatureWithName:(NSString*)name;
 -(BOOL) containCreature:(id)creature;
 -(NSInteger) creaturesInArmy;
 -(void) drawImage:(SKSpriteNode *) aBoard ;

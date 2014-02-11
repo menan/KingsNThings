@@ -11,7 +11,13 @@
 
 @interface CombatScene : SKScene
 
--(void)backTo:(id)sc;
--(id)initWithSize:(CGSize)size withAttacker:(Army*)att andDefender:(Army*)def ;
+-(id)initWithSize:(CGSize)size withAttacker:(Army*)att andDefender:(Army*)def andSender:(id) sender andCombat:(id)com;
+-(void)setInstructionText:(NSString*)txt;
+-(void)setRoundLable:(NSString*)txt;
+-(void) combatBegins;
+-(void) collectDiceResult;
+-(void) applyHits;
+
+
 
 @end

@@ -1,4 +1,4 @@
-//
+
 //  GamePlay.m
 //  KingsNThings
 //
@@ -11,6 +11,7 @@
 #import "Creature.h"
 #import "Bank.h"
 #import "MyScene.h"
+#import "CombatPhase.h"
 
 @implementation GamePlay{
     MyScene *scene;
@@ -19,8 +20,7 @@
 
 @synthesize player1,player2,player3,player4,oneDice,secondDice,goldCollectionCompleted, players;
 
-@synthesize p1Stack1,p1Stack2,p2Stack1,p3Stack1,p3Stack2,p3Stack3,p4Stack1,p4Stack2,p4Stack3,goldPhase,terrains, isMovementPhase , isThingRecrPahse, isComabtPahse,scene;;
-
+@synthesize p1Stack1,p1Stack2,p2Stack1,p3Stack1,p3Stack2,p3Stack3,p4Stack1,p4Stack2,p4Stack3,goldPhase,terrains, isMovementPhase , isThingRecrPahse, isComabtPahse,scene;
 
 
 -(id) initWith4Players{
@@ -251,9 +251,10 @@ return NULL;
     else{
         if([terrain hasArmyOnIt]){
             
-            Army *a = [tempPlayer findArmyOnTerrain:terrain];
+            Army *defArmy = [tempPlayer findArmyOnTerrain:terrain];
              NSLog(@"tinside if players are NOT equal");
-            [self combatPhase:player withArmy:army andPlayer:tempPlayer withArmy:a ];
+            
+            [self combatPhase:player withArmy:army andPlayer:tempPlayer withArmy:defArmy ];
         }
     
     
@@ -266,14 +267,12 @@ return NULL;
     
      NSLog(@"inside Combat phase");
     
-  
-        
-    //[scene transitToCombat:attackerArmy andDefender:defenderArmy];
-  
+    CombatPhase* combat = [[CombatPhase alloc]initWithAttacker:attacker andDefender:defender andAttackerArmy:attackerArmy andDefenderArmy:defenderArmy andMainScene:scene];
     
-   /* NSInteger attackerMagic = 0,defenderMagic =0;
-    NSInteger attackerRanged = 0,defenderRanged = 0;
-    NSInteger attackerMelee = 0,defenderMelee = 0;*/
+    [combat drawScene];
+    
+   /*
+  
    NSMutableArray* attackerRolledDice = [[NSMutableArray alloc]init];
     NSMutableArray* defenderRolledDice = [[NSMutableArray alloc]init];
     
@@ -317,6 +316,9 @@ return NULL;
         //Magic round
     attackerNumberOfHits = 0;
     defenderNumberOfHits = 0;
+    
+    
+    
         for(int i = 0 ; i < [attackerMagicCreature count]; i++){
             
             NSLog(@"Player atacker roll dice for %d ",[attackerMagicCreature count]);
@@ -499,7 +501,7 @@ return NULL;
     
 }//end function
 
-
-//}
+*/
+}
 
 @end

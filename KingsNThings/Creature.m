@@ -85,6 +85,11 @@
         bluff = NO;
         inBowl = NO;
         numberofTimes = 1;
+        isCharge = NO;
+        isMagic = NO;
+        isMelee = NO;
+        isRanged = NO;
+        isFly = NO;
         [self setValuesFromString:image];
     }
     return self;
@@ -108,11 +113,12 @@
 //            NSLog(@"terrainType: %@", terrainType);
         }
         else if ([trimmed hasPrefix:@"s"]){
+            
             isMagic = [[trimmed substringFromIndex:2] isEqualToString:@"Magic"];
-            isRanged = [[trimmed substringFromIndex:2] isEqualToString:@"Ranged"];
+            isRanged = [[trimmed substringFromIndex:2] isEqualToString:@"Range"];
             isCharge = [[trimmed substringFromIndex:2] isEqualToString:@"Charge"];
             isFly = [[trimmed substringFromIndex:2] isEqualToString:@"Fly"];
-            isMelee = [[trimmed substringFromIndex:2] isEqualToString:@"Melee"];
+            //isMelee = [[trimmed substringFromIndex:2] isEqualToString:@"Melee"];
             symbol = [trimmed substringFromIndex:2];
 //            NSLog(@"symbol: %@", symbol);
         }
@@ -121,13 +127,17 @@
 //            NSLog(@"combatValue: %d", combatValue);
         }
         else if ([trimmed hasPrefix:@"c"]){
+            
             numberofTimes = [[trimmed substringFromIndex:2] integerValue];
 //            NSLog(@"numberofTimes: %d", numberofTimes);
         }
-        else{
+        else {
 //            NSLog(@"something else occured: %@",trimmed);
         }
         
+    }
+    if(!isMagic && !isRanged){
+        isMelee = YES;
     }
     
     

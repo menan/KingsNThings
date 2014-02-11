@@ -7,6 +7,7 @@
 //
 
 #import "Army.h"
+#import "Creature.h"
 
 @implementation Army
 
@@ -45,7 +46,7 @@
     return self;
 }
 
--(void) addCreatures:(id)creature{
+-(void) addCreatures:(Creature*)creature{
     
     [creatures addObject:creature];
     
@@ -60,6 +61,17 @@
 -(void) removeCreature:(id)creature{
     
     [creatures removeObject:creature];
+}
+
+-(void) removeCreatureWithName:(NSString*)name{
+    
+    for(Creature* cre in creatures){
+        
+        if([[cre name] isEqualToString:name]){
+            [self removeCreature:cre];
+            break;
+        }
+    }
     
     
 }
