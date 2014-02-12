@@ -911,6 +911,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
             
             NSLog(@"Player balance %d after deposition and income was %d", [p.bank getBalance], [p getIncome]);
             p.recruitsRemaining = 2;
+            recruitLabel.text = [NSString stringWithFormat: @"%d Recruits Remaining", p.recruitsRemaining];
         }
         
         NSLog(@"bank balance after collection phase completion %d", [bank getBalance]);

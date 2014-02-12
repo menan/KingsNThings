@@ -21,8 +21,8 @@
     {
         [self setOneGold:20];
         [self setTwoGold:20];
-        [self setFiveGold:20];
-        [self setTenGold:16]; // the rest 4 goes to each player to start with 1 of 10s gold
+        [self setFiveGold:12];
+        [self setTenGold:20]; // the rest 4 goes to each player to start with 1 of 10s gold
         [self setFifteenGold:10];
         [self setTwentyGold:10];
         
