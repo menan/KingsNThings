@@ -35,7 +35,7 @@ static NSInteger counter = 0;
     if (self) {
        
         
-        bank = [[Bank alloc] initWithOneGolds:0 twoGolds:0 fivesGolds:0 tenGolds:1 fifteenGolds:0 twentyGolds:0];
+        bank = [[Bank alloc] initWithOneGolds:0 twoGolds:0 fivesGolds:2 tenGolds:0 fifteenGolds:0 twentyGolds:0];
         
         buildings = [[NSMutableArray alloc] init];
         territories = [[NSMutableArray alloc] init];
@@ -78,24 +78,25 @@ static NSInteger counter = 0;
 }
 
 - (void) justPaid:(int) amount{
+    NSLog(@"justPaid Amount : %d, Balance: %d, recruits remaining: %d",amount, balance, recruitsRemaining);
     amount = amount + balance;
     if (amount >= 5) {
         recruitsRemaining += (int)(amount / 5);
         balance = amount % 5;
     }
     else{
-        balance += amount;
+        balance = amount;
     }
 }
 - (void) justGotPaid:(int) amount{
-    
+    NSLog(@"justGotPaid Amount : %d, Balance: %d, recruits remaining: %d",amount, balance, recruitsRemaining);
     amount = amount + balance;
     if (amount >= 5) {
         recruitsRemaining -= (int)(amount / 5);
         balance = amount % 5;
     }
     else{
-        balance -= amount;
+        balance = amount;
     }
 }
 
