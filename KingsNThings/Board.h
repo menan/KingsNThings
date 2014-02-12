@@ -26,7 +26,7 @@
 - (NSArray *) getNonMovables;
 - (void) rollDiceOne;
 -(void) rollDiceTwo;
-- (void) drawHardCodeThings:(NSArray*)army withPoint:(CGPoint) aPoint;
+//- (void) drawHardCodeThings:(NSArray*)army withPoint:(CGPoint) aPoint;
 
 - (void) nodeTapped:(SKSpriteNode*) node;
 - (void) nodeMoved:(SKSpriteNode *)node nodes:(NSArray *)nodes;

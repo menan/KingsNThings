@@ -11,16 +11,17 @@
 #import "MyScene.h"
 #import "CombatScene.h"
 
+
 @implementation CombatPhase{
     
     SKScene* comabtScen;
     MyScene* mainScene;
 }
 
-@synthesize attackerMagicCreature,attackerRangedCreature,attackerMeleeCreature,attackerChargeCreature;
-@synthesize defenderMagicCreature,defenderRangedCreature,defenderMeleeCreature,defenderChargeCreature;
+@synthesize attackerMagicCreature,attackerRangedCreature,attackerMeleeCreature;
+@synthesize defenderMagicCreature,defenderRangedCreature,defenderMeleeCreature;
 @synthesize attackerArmy,defenderArmy;
-@synthesize attacker,defender;
+@synthesize attacker,defender,building;
 @synthesize isMagicRound,isRangedRound,isMeleeRound,isAttacker,isDefender;;
 @synthesize diceOne,diceTwo;
 @synthesize attackerRolledDice, defenderRolledDice,attackerNumberOfHits,defenderNumberOfHits,attakerChargeCreatures,defenderChargeCreatures;
@@ -38,6 +39,7 @@
         
         attacker = att;
         defender = def;
+        building = [defArmy building];
         
         attackerArmy =  attArmy;
         defenderArmy = defArmy;
@@ -45,12 +47,10 @@
         attackerMagicCreature   = [[NSMutableArray alloc]init];
         attackerMeleeCreature   = [[NSMutableArray alloc]init];;
         attackerRangedCreature  = [[NSMutableArray alloc]init];
-        attackerChargeCreature  = [[NSMutableArray alloc]init];
         
         defenderMagicCreature   = [[NSMutableArray alloc]init];
         defenderRangedCreature  = [[NSMutableArray alloc]init];
         defenderMeleeCreature   = [[NSMutableArray alloc]init];
-        defenderChargeCreature  = [[NSMutableArray alloc]init];
         
         attackerRolledDice = [[NSMutableArray alloc]init];
         defenderRolledDice = [[NSMutableArray alloc]init];
@@ -128,7 +128,9 @@
                         
                     }
                     else{
-                        
+                        if([cre isCharge]){
+                            attakerChargeCreatures -=1;
+                        }
                         [attackerMeleeCreature removeObject:cre];
                         break;
                     }
@@ -148,7 +150,9 @@
                     
                 }
                 else{
-                    
+                    if([cre isCharge]){
+                        defenderChargeCreatures -=1;
+                    }
                     [defenderMeleeCreature removeObject:cre];
                     break;
                 }
@@ -165,6 +169,8 @@
     */
     
     NSRunLoop *loop = [NSRunLoop currentRunLoop];
+
+    
     
     
     NSLog(@" at start num of Creatures in Attacker army %d", [attackerArmy creaturesInArmy]);
@@ -183,7 +189,7 @@
             
             if([creature isCharge])
                     attakerChargeCreatures += 1;
-            //NSLog(@"creature is melee");
+      
         }
         
     }
@@ -205,14 +211,7 @@
         }
         
     }
-    /*
-    attakerNumOfMagicCreatures      = [attackerMagicCreature count];
-    defenderNumOfMagicCreatures     = [defenderMagicCreature count];
-    attackerNumOfRangedCreatures    = [attackerRangedCreature count];
-    defenderNumOfRangedCreatures    = [defenderRangedCreature count];
-    attackerNumOfMeleeCreatures     = [attackerMeleeCreature count];
-    defenderNumOfMeleeCreatures     = [defenderMeleeCreature count];
-    */
+    
     
     // now keep fighting until one loses
     
@@ -253,13 +252,21 @@
         }
         
         
-        if([defenderMagicCreature count]> 0){
+        if([defenderMagicCreature count]> 0 || [building isMagic]){
             
             
             isAttacker = NO;
             isDefender = YES;
             NSString* str = @"Defender: roll one dice for \n ";
-            str = [str stringByAppendingString:[NSString stringWithFormat:@"%i",[defenderMagicCreature count]]];
+            if([building isMagic] && ([building combatValue] > 0)){
+                str = [str stringByAppendingString:[NSString stringWithFormat:@"%i",[defenderMagicCreature count]+1]];
+            }
+            else{
+                str = [str stringByAppendingString:[NSString stringWithFormat:@"%i",[defenderMagicCreature count]]];
+            }
+
+
+           
             str = [str stringByAppendingString:@" times."];
             
             [combatScene setInstructionText:str];
@@ -285,8 +292,12 @@
         for(int i = 0 ; i < [defenderMagicCreature count] ; i++){
             
             if([[defenderMagicCreature objectAtIndex: i] combatValue] >= [[defenderRolledDice objectAtIndex:i] integerValue] )
-                
                 defenderNumberOfHits += 1;
+        }
+        if([building isMagic] && ([building combatValue] > 0)){
+            if([building combatValue] >= ([defenderRolledDice count] - 1))
+                defenderNumberOfHits +=1;
+            
         }
         
       
@@ -303,22 +314,8 @@
         
         [combatScene setInstructionText:str];
         [combatScene applyHits];
-        
-       /* if(attackerNumberOfHits > 0){
-            
-            defenderNumOfMagicCreatures     = [defenderMagicCreature count];
-            defenderNumOfRangedCreatures    = [defenderRangedCreature count];
-            defenderNumOfMeleeCreatures     = [defenderMeleeCreature count];
-        }
-        if(defenderNumberOfHits > 0){
-            attakerNumOfMagicCreatures      = [attackerMagicCreature count];
-            attackerNumOfRangedCreatures    = [attackerRangedCreature count];
-            attackerNumOfMeleeCreatures     = [attackerMeleeCreature count];
-            
-            
-        }
-        */
-        NSLog(@"Done Magic");
+  
+        //NSLog(@"Done Magic");
         
         if(([attackerArmy creaturesInArmy] == 0 )|| ([defenderArmy creaturesInArmy] == 0)){
             
@@ -342,7 +339,6 @@
         [combatScene setRoundLable:@"Ranged Round"];
         
         if([attackerRangedCreature count]> 0){
-            //while([attackerRolledDice count] < [attackerMagicCreature count]){
             
             isAttacker = YES;
             isDefender = NO;
@@ -354,19 +350,22 @@
             
             [combatScene collectDiceResult];
             
-            //[combatSctttene setInstructionText:[NSString stringWithString:str]];
-            
-            
         }
         
         
-        if([defenderRangedCreature count] > 0){
-            
-            
+        if([defenderRangedCreature count] > 0 || [building isRanged] ){
+            NSString* str = @"Defender: roll one dice for \n  ";
+
+            if([building isRanged]&& ([building combatValue]>0)){
+                str = [str stringByAppendingString:[NSString stringWithFormat:@"%i",[defenderRangedCreature count]+1]];
+                
+            }
+            else{
+               str = [str stringByAppendingString:[NSString stringWithFormat:@"%i",[defenderRangedCreature count]]];
+            }
             isAttacker = NO;
             isDefender = YES;
-            NSString* str = @"Defender: roll one dice for \n  ";
-            str = [str stringByAppendingString:[NSString stringWithFormat:@"%i",[defenderRangedCreature count]]];
+            
             str = [str stringByAppendingString:@" times."];
             
             [combatScene setInstructionText:str];
@@ -390,10 +389,12 @@
         for(int i = 0 ; i < [defenderRangedCreature count]; i++){
             
             if([[defenderRangedCreature objectAtIndex: i] combatValue] >= [[defenderRolledDice objectAtIndex:i] integerValue] )
-                
-                defenderNumberOfHits += 1;
+                    defenderNumberOfHits += 1;
         }
-        NSLog(@"Ranged,Attacker hits %d , defender hits %d ",attackerNumberOfHits,defenderNumberOfHits);
+        if([building isRanged] && ([building combatValue])){
+            if([building combatValue] >= ([defenderRolledDice count] - 1))
+                defenderNumberOfHits +=1;
+        }
         
         str = @"Attacker: can apply \n ";
         str = [str stringByAppendingString:[NSString stringWithFormat:@"%i",attackerNumberOfHits]];
@@ -407,7 +408,7 @@
         [combatScene setInstructionText:str];
         [combatScene applyHits];
   
-        NSLog(@"Done Ranged");
+     
         if(([attackerArmy creaturesInArmy] == 0 )|| ([defenderArmy creaturesInArmy] == 0)){
             
             break;
@@ -449,12 +450,19 @@
         }
         
         
-        if([defenderMeleeCreature count] > 0 ){
+        if([defenderMeleeCreature count] > 0 || [building isMelee]){
             
             isAttacker = NO;
             isDefender = YES;
-            NSString* str = @"Defender: roll one dice \n for  ";
-            str = [str stringByAppendingString:[NSString stringWithFormat:@"%i",([defenderMeleeCreature count] - defenderChargeCreatures)]];
+            NSString* str = @"Defender: roll one dice for \n  ";
+            
+            if([building isMelee] && ([building combatValue]>0)){
+                str = [str stringByAppendingString:[NSString stringWithFormat:@"%i",([defenderMeleeCreature count] - defenderChargeCreatures)+1]];
+                
+            }
+            else{
+                str = [str stringByAppendingString:[NSString stringWithFormat:@"%i",[defenderMeleeCreature count] - defenderChargeCreatures]];
+            }
             str = [str stringByAppendingString:@" times. two dices for each Charge(C) creatures"];
             str = [str stringByAppendingString:[NSString stringWithFormat:@"%i",defenderChargeCreatures]];
             
@@ -514,11 +522,10 @@
             j++;
         }
         
-        
-        //NSLog(@"Attacker can apply %d hits, in Magic round",attackerNumberOfHits);
-        
-        
-        NSLog(@"Melee ,Attacker hits %d , defender hits %d ",attackerNumberOfHits,defenderNumberOfHits);
+        if([building isMelee] && ([building combatValue]>0)){
+            if([building combatValue] >= ([defenderRolledDice count] - 1))
+                defenderNumberOfHits +=1;
+        }
         
         //Inform player how many hits are applied
         NSString* str2 = @"Attacker: can apply \n ";
@@ -530,16 +537,27 @@
         str2 = [str2 stringByAppendingString:[NSString stringWithFormat:@"%d",defenderNumberOfHits]];
         str2 = [str2 stringByAppendingString:@" hits. \n Choose creature(s) to take the hits"];
         
-        [combatScene setInstructionText:str];
+        [combatScene setInstructionText:str2];
         [combatScene applyHits];
-     
+             
+    }
+    
+    if([attackerArmy creaturesInArmy] > 0){
         
+        [attacker setHasWonCombat:YES];
         
+        [combatScene setInstructionText:@"We have a WINNER "];
+    }
+    else if ([defenderArmy creaturesInArmy] > 0){
+        [defender setHasWonCombat:YES];
+          [combatScene setInstructionText:@"Defender is the winner and may keep the territory "];
+        
+    }
+    else {
+        [combatScene setInstructionText:@"Its a tie , defender keeps terrain"];
     }
     
     
-    NSLog(@" at end num of Creatures in Attacker army %d", [attackerArmy creaturesInArmy]);
-    NSLog(@" at end num of Creatures in Defender army %d", [defenderArmy creaturesInArmy]);
     
 }
 

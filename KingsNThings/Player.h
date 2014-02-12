@@ -23,6 +23,7 @@
 @property Army* army;
 @property int balance; //to keep track of the paid amount to the bank when paid in 1s
 @property int recruitsRemaining;
+@property BOOL hasWonCombat;
 
 
 - (BOOL) setBuilding: (Building *) building;
@@ -42,4 +43,5 @@
 -(NSInteger) numberOfArmies;
 - (Army *) getArmyAtIndex:(NSInteger)index;
 -(Army*) findArmyOnTerrain:(Terrain*)terrain;
+-(Building*) getBuildingOnTerrain:(Terrain*)ter;
 @end

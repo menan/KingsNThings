@@ -95,12 +95,7 @@
     lableDefender.position = CGPointMake(515,905);
     [self addChild:lableDefender];
     
-    /*instructionLable = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
-    
-    instructionLable.fontSize = 18;
-    instructionLable.text = @"trial test";
-    instructionLable.position = CGPointMake(50,650.5f);
-    [self addChild:instructionLable];*/
+   
     
     combatRound = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     combatRound.fontSize = 18;
@@ -130,6 +125,20 @@
         [self addChild:node];
         ++j;
         
+    }
+    
+    NSLog(@"j is in draw %d",j);
+    
+    if([combat building] != nil){
+    
+        NSLog(@"Bulding image name %@",[[combat building] imageName]);
+    SKSpriteNode* node =[[SKSpriteNode alloc]initWithImageNamed: [[combat building] imageName]];
+    [node setName:[combat building].name];
+    [node setAccessibilityLabel:@"building"];
+    [node setPosition:CGPointMake(lableDefender.position.x ,lableDefender.position.y - (100 *j))
+     ];
+    node.size = CGSizeMake(50,80);
+    [self addChild:node];
     }
     
 }
@@ -235,6 +244,61 @@ float degToRad(float degree) {
 	return degree / 180.0f * M_PI;
 }
 */
+-(void) drawNeutralised:(SKNode*)node{
+    
+    
+    if([node.name isEqualToString:@"City"]){
+        SKSpriteNode* n =[[SKSpriteNode alloc]initWithImageNamed: @"-n City -s Neutralised.jpg"];
+        [n setName:node.name];
+        [n setAccessibilityLabel:@"defender"];
+        [n setPosition:node.position];
+        n.size = CGSizeMake(50,80);
+        [self addChild:n];
+        }
+    else if([node.name isEqualToString:@"Village"]){
+                SKSpriteNode* n =[[SKSpriteNode alloc]initWithImageNamed: @"-n Village -s Neutralised.jpg"];
+                [n setName:node.name];
+                [n setAccessibilityLabel:@"defender"];
+                [n setPosition:node.position];
+                n.size = CGSizeMake(50,80);
+                [self addChild:n];
+            }
+    
+    else if ([node.name isEqualToString:@"Tower"]){
+        SKSpriteNode* n =[[SKSpriteNode alloc]initWithImageNamed: @"-n Tower -s Neutralised.jpg"];
+        [n setName:node.name];
+        [n setAccessibilityLabel:@"defender"];
+        [n setPosition:node.position];
+        n.size = CGSizeMake(50,80);
+        [self addChild:n];
+    }
+    
+    else if ([node.name isEqualToString:@"Keep"]){
+        SKSpriteNode* n =[[SKSpriteNode alloc]initWithImageNamed: @"-n Keep -s Neutralised.jpg"];
+        [n setName:node.name];
+        [n setAccessibilityLabel:@"defender"];
+        [n setPosition:node.position];
+        n.size = CGSizeMake(50,80);
+        [self addChild:n];
+    }
+    else if ([node.name isEqualToString:@"Castle"]){
+        SKSpriteNode* n =[[SKSpriteNode alloc]initWithImageNamed: @"-n Castle -s Neutralised.jpg"];
+        [n setName:node.name];
+        [n setAccessibilityLabel:@"defender"];
+        [n setPosition:node.position];
+        n.size = CGSizeMake(50,80);
+        [self addChild:n];
+    }
+    else if ([node.name isEqualToString:@"Citadel"]){
+        SKSpriteNode* n =[[SKSpriteNode alloc]initWithImageNamed: @"-n Citadel -s Neutralised.jpg"];
+        [n setName:node.name];
+        [n setAccessibilityLabel:@"defender"];
+        [n setPosition:node.position];
+        n.size = CGSizeMake(50,80);
+        [self addChild:n];
+    }
+
+}
 
 
 -(void) collectDiceResult{
@@ -246,8 +310,12 @@ float degToRad(float degree) {
         if([combat isAttacker])
                 numberOfrolls = [[combat attackerMagicCreature] count];
         
-        else 
+        else{
+            
                 numberOfrolls = [[combat defenderMagicCreature] count];
+                if([combat building] && [[combat building] isMagic])
+                    numberOfrolls += 1 ;
+        }
         
     }
     
@@ -256,8 +324,14 @@ float degToRad(float degree) {
         if([combat isAttacker])
             numberOfrolls = [[combat attackerRangedCreature] count];
         
-        else
+        else{
             numberOfrolls = [[combat defenderRangedCreature] count];
+            
+           
+            if([combat building] && [[combat building] isRanged])
+                numberOfrolls += 1 ;
+        }
+       
     }
     
     else {
@@ -265,8 +339,13 @@ float degToRad(float degree) {
         if([combat isAttacker])
             numberOfrolls = ([[combat attackerMeleeCreature] count] + [combat attakerChargeCreatures]);
         
-        else
+        else{
             numberOfrolls = ([[combat defenderMeleeCreature] count] +[combat defenderChargeCreatures]);
+            
+           
+            if([combat building] && [[combat building] isMelee])
+                numberOfrolls += 1 ;
+        }
     }
     
     while ((numberOfrolls > 0) &&
@@ -310,7 +389,7 @@ float degToRad(float degree) {
     CGPoint positionInScene = [touch locationInNode:self];
     SKSpriteNode *touchedNode = (SKSpriteNode *)[self nodeAtPoint:positionInScene];
     
-    NSLog(@"point are %@  ", NSStringFromCGPoint(positionInScene));
+    //NSLog(@"point are %@  ", NSStringFromCGPoint(positionInScene));
     
     
     if( [touchedNode.name isEqualToString:@"start"]){
@@ -342,6 +421,24 @@ float degToRad(float degree) {
         [combat updateArmy:touchedNode.name andPlayerType:@"defender"];
         [combat setAttackerNumberOfHits:([combat attackerNumberOfHits] -1) ];
         [[combat defenderArmy]removeCreatureWithName:touchedNode.name];
+        
+    }
+    else if ([touchedNode.accessibilityLabel isEqualToString:@"building"]){
+        
+        [[combat building] setCurrentCombatValue:[[combat building] currentCombatValue] -1] ;
+        if([touchedNode.name isEqualToString:@"Tower"] || [touchedNode.name isEqualToString:@"Keep"] ){
+            [[combat building] setCombatValue:[[combat building] currentCombatValue]];
+            
+        }
+        [combat setAttackerNumberOfHits:([combat attackerNumberOfHits] -1) ];
+        
+        if([[combat building] currentCombatValue] <= 0){
+            [[combat building] setIsNeutralised:YES];
+            [self drawNeutralised:touchedNode];
+            
+        }
+        
+        
         
     }
     

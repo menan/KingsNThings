@@ -8,10 +8,11 @@
 
 #import "Army.h"
 #import "Creature.h"
+#import "Building.h"
 
 @implementation Army
 
-@synthesize creatures,position,belongsToP1,belongsToP2,belongsToP3,belongsToP4,imageIsDrawn,terrain,image,armyNumber,playerNumber;
+@synthesize creatures,position,belongsToP1,belongsToP2,belongsToP3,belongsToP4,imageIsDrawn,terrain,image,armyNumber,playerNumber,building;
 
 
 
@@ -118,6 +119,7 @@
     
     [sprite addChild:myLabel];
 }
+
 /*
 -(void) drawImage:(SKSpriteNode *) aBoard{
     

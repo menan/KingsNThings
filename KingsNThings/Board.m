@@ -20,6 +20,7 @@
     
     //NSMutableArray *terrain;
     NSMutableArray *creatures;
+    NSArray* markers;
     
     SKSpriteNode *board;
     SKScene *scene;
@@ -62,6 +63,8 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         creaturesInBowl = 0;
         dicesClicked = 0;
         
+        markers = @[@"p_yellow.jpg",@"p_grey.jpg",@"p_green.jpg",@"p_red.jpg"];
+        
         
         
     }
@@ -103,9 +106,9 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
     [self drawBowlwithThings:CGPointMake(450.0f, (size.height) - 120)];
     
-    [self drawHardCodeThings:[game p1Stack1] withPoint:CGPointMake(450.0f, (size.height) - 120)];
+    [self drawHradCodedThings:CGPointMake(450.0f, (size.height) - 120)];
     
-    [self drawHardCodeThings:[game p1Stack2] withPoint:CGPointMake(450.0f, (size.height) - 120)];
+    
     
     
     
@@ -221,8 +224,29 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     NSLog(@"number of creatures in Bowl %d",[self creaturesInBowl]);
     */
 }
+// only for iteration 1 demo-- order is very important
+-(void) drawHradCodedThings:(CGPoint)aPoint{
+    NSArray* others = @[@"-n Cyclops -t Mountain -a 5",@"-n Mountain Men -c 2 -t Mountain -a 1",@"-n Goblins -c 4 -t Mountain -a 1",@"-n Giant Condor -t Mountain -s Fly -a 3"];
+    
+    [self drawHardCodeArmy:others withPoint:aPoint];
+    [self drawHardCodeArmy:[game p4Stack3] withPoint: aPoint];
+    [self drawHardCodeArmy:[game p4Stack2] withPoint: aPoint];
+    [self drawHardCodeArmy:[game p4Stack1] withPoint: aPoint];
+    
+    [self drawHardCodeArmy:[game p3Stack3] withPoint:aPoint];
+    [self drawHardCodeArmy:[game p3Stack2] withPoint:aPoint];
+    [self drawHardCodeArmy:[game p3Stack1] withPoint: aPoint];
+ 
+    [self drawHardCodeArmy:[game p2Stack1] withPoint:aPoint];
+  
+    [self drawHardCodeArmy:[game p1Stack2] withPoint: aPoint];
+    [self drawHardCodeArmy:[game p1Stack1] withPoint: aPoint];
+    
+    
+    
+}
 
-- (void) drawHardCodeThings:(NSArray*)army withPoint:(CGPoint) aPoint {
+- (void) drawHardCodeArmy:(NSArray*)army withPoint:(CGPoint) aPoint {
     
        for (NSString *string in army){
            
@@ -326,8 +350,14 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         [citadel setPosition:CGPointMake(aPoint.x, aPoint.y - 43 )];
         [board addChild:citadel];
         
-        SKSpriteNode *tower = [SKSpriteNode spriteNodeWithImageNamed:@"tower"];
+        /*SKSpriteNode *tower = [SKSpriteNode spriteNodeWithImageNamed:@"tower"];
         [tower setName:@"Tower"];
+        tower.size = CGSizeMake(40,40);
+        [tower setPosition:CGPointMake(aPoint.x + 43, aPoint.y)];
+        [board addChild:tower];*/
+        
+        SKSpriteNode* tower = [SKSpriteNode spriteNodeWithImageNamed:@"-n Tower -a 1.jpg"];
+        [tower setName:@"-n Tower -a 1.jpg"];
         tower.size = CGSizeMake(40,40);
         [tower setPosition:CGPointMake(aPoint.x + 43, aPoint.y)];
         [board addChild:tower];
@@ -761,13 +791,14 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     else if ([node.name isEqualToString:@"collection"]){
         [self initiateGoldCollection];
     }
-    else if ([node.name isEqualToString:@"Tower"]){
+    else if ([node.name isEqualToString:@"-n Tower -a 1.jpg"]){
         
         Terrain* t = [self findTerrainAt:terrainPoint];
         Player* owner = [game findPlayerByTerrain:t];
         
         if (terrainLocated && owner != nil) {
-            Building *b = [[Building alloc] initWithStage:Tower andTerrain:t];
+            Building *b = [[Building alloc] initWithImage:node.name atPoint:node.position andStage:Tower andTerrain:t];
+            [t setHasBuilding:YES];
             if ([owner setBuilding:b]){
                 node.name = @"bowl";
                 [node setSize:CGSizeMake(sizeNode, sizeNode)];
@@ -859,6 +890,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
                     [a drawImage:board];
                     [n removeFromParent];
                     [t setHasArmyOnIt:YES];
+                    [self setCreaturesInBowl:creaturesInBowl-1];
                 }
                 else{
                     //must've reached the limit of charecters
@@ -871,6 +903,8 @@ static NSString * const defaultText = @"KingsNThings - Team24";
                     if([army getTerrainLocation] == [t location]){
                         if([tempPlayer addCreatureToArmy:tempCreature inArmy:army ]){
                             recruitLabel.text = [NSString stringWithFormat: @"%d Recruits Remaining", tempPlayer.recruitsRemaining];
+                           [n removeFromParent];
+
                         }
                         else{
                             //must've reached the limit of charecters
@@ -879,6 +913,8 @@ static NSString * const defaultText = @"KingsNThings - Team24";
                     }
                 }
             }
+            
+          
         }
         else{
             [n setPosition:CGPointMake(480.0f, (size.height) - 175.0f)];
@@ -913,10 +949,22 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         return NO;
     }
 }
-/*-(void) startComabt:
-{
+-(void) gamePhases{
+    
+    if([self initiateGoldCollection]){
+        
+        [game setIsThingRecrPahse:YES];
+        textLabel.text = @"Things Recruite Phase";
+        
+    }
     
     
+    
+}
+/*-(void) reDrawArmies:(Player *)winner andBuilding:(Building*)building{
+    
+    SKSpriteNode* node  = [SKSpriteNode spriteNodeWithImageNamed:[markers objectAtIndex:[winner playingOrder]]];
+    [board]
     
     
     

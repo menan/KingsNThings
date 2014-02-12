@@ -27,7 +27,7 @@
 
 static NSInteger counter = 0;
 
-@synthesize armies,playingOrder,bank,army, balance,recruitsRemaining;
+@synthesize armies,playingOrder,bank,army, balance,recruitsRemaining,hasWonCombat;
 
 -(id) initWithArmy{
     
@@ -47,6 +47,7 @@ static NSInteger counter = 0;
         counter +=1;
         balance = 0;
         playingOrder =counter;
+        hasWonCombat = NO;
         
     }
     return self;
@@ -127,6 +128,7 @@ static NSInteger counter = 0;
     int i = 0;
     for (Building *b in buildings) {
         i += (b.stage + 1);
+        // i = [b combatValue];
     }
     return i;
 }
@@ -243,6 +245,19 @@ static NSInteger counter = 0;
     }
     return a;
     
+}
+
+-(Building*) getBuildingOnTerrain:(Terrain*)ter{
+    Building* building;
+    for (Building *b in buildings) {
+        if([[b terrain] isEqual:ter]){
+            building = b;
+            NSLog(@"building is found");
+            break;
+        }
+    }
+    
+    return building;
 }
 
 @end

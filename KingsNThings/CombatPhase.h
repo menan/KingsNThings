@@ -11,6 +11,7 @@
 
 #import "CombatScene.h"
 
+
 @interface CombatPhase : NSObject
 
 @property NSMutableArray* attackerMagicCreature ;
@@ -19,14 +20,14 @@
 @property NSMutableArray* defenderRangedCreature;
 @property NSMutableArray* attackerMeleeCreature;
 @property NSMutableArray* defenderMeleeCreature ;
-@property NSMutableArray* attackerChargeCreature;
-@property NSMutableArray* defenderChargeCreature ;
+
+@property Building* building;
 
 @property NSInteger attackerNumberOfHits,defenderNumberOfHits;
 
 @property NSInteger diceOne, diceTwo;
 @property NSMutableArray* attackerRolledDice, *defenderRolledDice;
-@property     NSInteger attakerChargeCreatures ,defenderChargeCreatures;
+@property NSInteger attakerChargeCreatures ,defenderChargeCreatures;
 
 
 

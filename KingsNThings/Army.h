@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Terrain.h"
+#import "Building.h"
 
 @interface Army : NSObject
 
@@ -19,6 +20,8 @@
 @property SKSpriteNode *image;
 @property NSInteger armyNumber;
 @property NSInteger playerNumber;
+@property Building* building;
+
 
 -(void) addCreatures:(id) creature;
 -(id) initWithPoint:(CGPoint) aPoint;
@@ -28,4 +31,5 @@
 -(BOOL) containCreature:(id)creature;
 -(NSInteger) creaturesInArmy;
 -(void) drawImage:(SKSpriteNode *) aBoard ;
+
 @end
