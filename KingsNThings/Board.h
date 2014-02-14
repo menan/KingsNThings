@@ -22,7 +22,6 @@
 - (SKSpriteNode *) getBoard;
 -(GamePlay*)getGamePlay;
 - (void) resetText;
--(void) updateBankBalance:(NSInteger)goldNum;
 - (NSArray *) getNonMovables;
 - (void) rollDiceOne;
 -(void) rollDiceTwo;

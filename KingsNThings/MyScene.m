@@ -118,7 +118,12 @@ CGPoint mult(const CGPoint v, const CGFloat s) {
     
     [self.scene.view presentScene:combat transition:transitionDoorsCloseHorizontal];
     //[self removeUIKitViews];
+    NSLog(@"combat finished");
     
+}
+
+- (void) startSecondCombat{
+    [gameBoard.game initiateCombat:gameBoard.game.player2];
 }
 -(void)update:(CFTimeInterval)currentTime {
     /* Called before each frame is rendered */

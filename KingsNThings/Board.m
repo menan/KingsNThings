@@ -51,7 +51,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         size = aSize;
         scene = aScene;
         playersCount = 7;
-        nonMovables = @[@"board", @"bowl", @"rack", @"Gold 1", @"Gold 2", @"Gold 5", @"Gold 10", @"Gold 15", @"Gold 20", @"My Gold 1", @"My Gold 2", @"My Gold 5", @"My Gold 10", @"My Gold 15", @"My Gold 20", @"diceOne", @"diceTwo", @"collection", @"labels", @"Bank", @"My Stash", @"P4 Stash", @"P3 Stash", @"P2 Stash", @"balance"];
+        nonMovables = @[@"board", @"bowl", @"rack", @"Gold 1", @"Gold 2", @"Gold 5", @"Gold 10", @"Gold 15", @"Gold 20", @"My Gold 1", @"My Gold 2", @"My Gold 5", @"My Gold 10", @"My Gold 15", @"My Gold 20", @"diceOne", @"diceTwo", @"collection", @"labels", @"Bank", @"My Stash", @"P4 Stash", @"P3 Stash", @"P2 Stash", @"balance",@"battle"];
         disabled = @[@"labels", @"Bank", @"My Stash", @"P4 Stash", @"P3 Stash", @"P2 Stash", @"bowl", @"board"];
         
         terrainNames = @[@"Desert", @"Forest", @"Frozen Waste", @"Jungle", @"Mountains", @"Plains", @"Sea", @"Swamp"];
@@ -314,6 +314,12 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     [goldCollect setPosition:CGPointMake(aPoint.x + 90.0f,aPoint.y)];
     [board addChild:goldCollect];
     
+    SKSpriteNode *battle = [SKSpriteNode spriteNodeWithImageNamed:@"battle.jpg"];
+    [battle setName:@"battle"];
+    battle.size = CGSizeMake(40, 40);
+    [battle setPosition:CGPointMake(aPoint.x + 420.0f,aPoint.y + 50)];
+    [board addChild:battle];
+    
     
     diceOneLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     diceOneLabel.name = @"labels";
@@ -557,14 +563,14 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 }
 
 - (void) rollDiceOne{
-    int r = (arc4random() % 6) + 1;
+    int r = 1; //(arc4random() % 6) + 1;
     diceOneLabel.text = [NSString stringWithFormat:@"%d",r];
     
     [game setOneDice:r];
 }
 - (void) rollDiceTwo{
     
-    int r = (arc4random() % 6) + 1 ;
+    int r = 6; //(arc4random() % 6) + 1 ;
     diceTwoLabel.text = [NSString stringWithFormat:@"%d",r];
    
     [game setSecondDice:r];
@@ -867,17 +873,14 @@ static NSString * const defaultText = @"KingsNThings - Team24";
             }
         }
     }
+    else if ([node.name isEqualToString:@"battle"]){
+        [game initiateCombat:game.player1];
+    }
     else{
         
     }
 }
 
-/*-(void) hardeCodeArmies{
-    
-    
-    
-    
-}*/
 
 - (void) creaturesMoved:(SKSpriteNode *) n AtTerrain:(Terrain *) t{
     

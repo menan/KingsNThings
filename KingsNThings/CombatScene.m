@@ -400,6 +400,7 @@ float degToRad(float degree) {
     if ([touchedNode.name isEqualToString:@"done"]){
          [textView removeFromSuperview];
         [self.scene.view presentScene:sce];
+        [sce startSecondCombat];
        
     }
     else if([touchedNode.name isEqualToString:@"diceOne"])

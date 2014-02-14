@@ -27,7 +27,7 @@
 
 static NSInteger counter = 0;
 
-@synthesize armies,playingOrder,bank,army, balance,recruitsRemaining,hasWonCombat;
+@synthesize armies,playingOrder,bank,army, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat;
 
 -(id) initWithArmy{
     
@@ -42,12 +42,14 @@ static NSInteger counter = 0;
         specialCharacters = [[NSMutableArray alloc] init];
         armies = [[NSMutableArray alloc] init];
         specialIncome = [[NSMutableArray alloc] init];
+        combat = [[NSMutableDictionary alloc] init];
         army = [[Army alloc]init];
         recruitsRemaining = 10;
         counter +=1;
         balance = 0;
         playingOrder =counter;
         hasWonCombat = NO;
+        isWaitingCombat = NO;
         
     }
     return self;

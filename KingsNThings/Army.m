@@ -114,7 +114,7 @@
     SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Helvetica"];
     myLabel.text = description;
     myLabel.fontSize = 14;
-    myLabel.fontColor = [SKColor redColor];
+    myLabel.fontColor = [SKColor greenColor];
     myLabel.position = CGPointMake(0,sprite.size.height/2 - 30);
     
     [sprite addChild:myLabel];

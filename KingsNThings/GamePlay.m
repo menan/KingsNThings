@@ -254,14 +254,30 @@ return NULL;
             
             Army *defArmy = [defender findArmyOnTerrain:terrain];
             if([terrain hasBuilding]){
-            [defArmy setBuilding:[defender getBuildingOnTerrain:terrain]];
+                [defArmy setBuilding:[defender getBuildingOnTerrain:terrain]];
             }
              NSLog(@"tinside if players are NOT equal");
+            player.isWaitingCombat = YES;
+            [player.combat setObject:army forKey:@"withArmy"];
+            [player.combat setObject:defender forKey:@"andPlayer"];
+            [player.combat setObject:defArmy forKey:@"andDefenderArmy"];
             
-            [self combatPhase:player withArmy:army andPlayer:defender withArmy:defArmy ];
+            NSLog(@"combat dictionary: %@",player.combat);
         }
     
     
+    }
+    NSLog(@"combat over");
+}
+
+- (void) initiateCombat: (Player*) p{
+    NSLog(@"Player Playing order: %d", p.playingOrder);
+    if (p.isWaitingCombat) {
+        Army *a = [p.combat objectForKey:@"withArmy"];
+        Player *defender = [p.combat objectForKey:@"andPlayer"];
+        Army *defArmy = [p.combat objectForKey:@"andDefenderArmy"];
+        p.isWaitingCombat = NO;
+        [self combatPhase:p withArmy:a andPlayer:defender withArmy:defArmy ];
     }
 }
 

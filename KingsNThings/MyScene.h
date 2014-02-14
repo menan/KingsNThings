@@ -15,4 +15,5 @@
 @property (nonatomic, strong) SKLabelNode *myLabel;
 -(void) transitToCombat:(id)attacker andDefender:(id)defender andCombatFunction:(id)combatfun;
 
+- (void) startSecondCombat;
 @end
