@@ -77,7 +77,7 @@ static NSInteger counter = 0;
 }
 
 - (void) justPaid:(int) amount{
-    NSLog(@"justPaid Amount : %d, Balance: %d, recruits remaining: %d",amount, balance, recruitsRemaining);
+//    NSLog(@"justPaid Amount : %d, Balance: %d, recruits remaining: %d",amount, balance, recruitsRemaining);
     amount = amount + balance;
     if (amount >= 5) {
         recruitsRemaining += (int)(amount / 5);
@@ -88,7 +88,7 @@ static NSInteger counter = 0;
     }
 }
 - (void) justGotPaid:(int) amount{
-    NSLog(@"justGotPaid Amount : %d, Balance: %d, recruits remaining: %d",amount, balance, recruitsRemaining);
+//    NSLog(@"justGotPaid Amount : %d, Balance: %d, recruits remaining: %d",amount, balance, recruitsRemaining);
     amount = amount + balance;
     if (amount >= 5) {
         recruitsRemaining -= (int)(amount / 5);
