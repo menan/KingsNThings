@@ -8,10 +8,11 @@
 
 #import "Army.h"
 #import "Creature.h"
+#import "Building.h"
 
 @implementation Army
 
-@synthesize creatures,position,belongsToP1,belongsToP2,belongsToP3,belongsToP4,imageIsDrawn,terrain,image,armyNumber,playerNumber;
+@synthesize creatures,position,belongsToP1,belongsToP2,belongsToP3,belongsToP4,imageIsDrawn,terrain,image,armyNumber,playerNumber,building;
 
 
 
@@ -113,11 +114,12 @@
     SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Helvetica"];
     myLabel.text = description;
     myLabel.fontSize = 14;
-    myLabel.fontColor = [SKColor redColor];
+    myLabel.fontColor = [SKColor greenColor];
     myLabel.position = CGPointMake(0,sprite.size.height/2 - 30);
     
     [sprite addChild:myLabel];
 }
+
 /*
 -(void) drawImage:(SKSpriteNode *) aBoard{
     

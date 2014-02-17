@@ -18,9 +18,18 @@ typedef enum Stage : NSUInteger {
     Citadel
 }Stage;
 
-- (id)initWithStage:(Stage) s andTerrain: (Terrain *) t;
-
 @property Stage stage;
 @property Terrain *terrain;
+@property NSInteger combatValue ,currentCombatValue;
+@property BOOL isMagic,isRanged,isMelee;
+@property BOOL isCity,isVillage,isNeutralised;
+@property CGPoint point;
+@property NSString* imageName;
+@property NSString* name;
 
+- (id)initWithStage:(Stage) s andTerrain: (Terrain *) t;
+
+
+
+- (id) initWithImage:(NSString*)image atPoint:(CGPoint)aPoint andStage:(Stage) s andTerrain: (Terrain *) t;
 @end

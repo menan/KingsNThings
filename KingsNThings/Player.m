@@ -27,7 +27,7 @@
 
 static NSInteger counter = 0;
 
-@synthesize armies,playingOrder,bank,army, balance,recruitsRemaining;
+@synthesize armies,playingOrder,bank,army, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat;
 
 -(id) initWithArmy{
     
@@ -35,18 +35,21 @@ static NSInteger counter = 0;
     if (self) {
        
         
-        bank = [[Bank alloc] initWithOneGolds:0 twoGolds:0 fivesGolds:0 tenGolds:1 fifteenGolds:0 twentyGolds:0];
+        bank = [[Bank alloc] initWithOneGolds:0 twoGolds:0 fivesGolds:2 tenGolds:0 fifteenGolds:0 twentyGolds:0];
         
         buildings = [[NSMutableArray alloc] init];
         territories = [[NSMutableArray alloc] init];
         specialCharacters = [[NSMutableArray alloc] init];
         armies = [[NSMutableArray alloc] init];
         specialIncome = [[NSMutableArray alloc] init];
+        combat = [[NSMutableDictionary alloc] init];
         army = [[Army alloc]init];
         recruitsRemaining = 10;
         counter +=1;
         balance = 0;
         playingOrder =counter;
+        hasWonCombat = NO;
+        isWaitingCombat = NO;
         
     }
     return self;
@@ -128,6 +131,7 @@ static NSInteger counter = 0;
     int i = 0;
     for (Building *b in buildings) {
         i += (b.stage + 1);
+        // i = [b combatValue];
     }
     return i;
 }
@@ -244,6 +248,19 @@ static NSInteger counter = 0;
     }
     return a;
     
+}
+
+-(Building*) getBuildingOnTerrain:(Terrain*)ter{
+    Building* building;
+    for (Building *b in buildings) {
+        if([[b terrain] isEqual:ter]){
+            building = b;
+            NSLog(@"building is found");
+            break;
+        }
+    }
+    
+    return building;
 }
 
 @end
