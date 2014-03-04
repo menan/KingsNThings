@@ -2,7 +2,7 @@
 //  Board.m
 //  KingsNThings
 //
-//  Created by Menan Vadivel on 1/28/2014.
+// Created by Areej Ba Salamah and Menan Vadivel on 1/28/2014.
 //  Copyright (c) 2014 Tinrit. All rights reserved.
 //
 
@@ -963,26 +963,4 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         return NO;
     }
 }
--(void) gamePhases{
-    
-    if([self initiateGoldCollection]){
-        
-        [game setIsThingRecrPahse:YES];
-        textLabel.text = @"Things Recruite Phase";
-        
-    }
-    
-    
-    
-}
-/*-(void) reDrawArmies:(Player *)winner andBuilding:(Building*)building{
-    
-    SKSpriteNode* node  = [SKSpriteNode spriteNodeWithImageNamed:[markers objectAtIndex:[winner playingOrder]]];
-    [board]
-    
-    
-    
-    
-}*/
-
 @end

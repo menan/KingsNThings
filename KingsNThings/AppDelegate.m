@@ -2,7 +2,7 @@
 //  AppDelegate.m
 //  KingsNThings
 //
-//  Created by Menan Vadivel on 1/16/2014.
+// Created by Areej Ba Salamah and Menan Vadivel on 1/16/2014.
 //  Copyright (c) 2014 Tinrit. All rights reserved.
 //
 

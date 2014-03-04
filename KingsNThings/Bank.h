@@ -2,7 +2,7 @@
 //  Bank.h
 //  KingsNThings
 //
-//  Created by Menan Vadivel on 1/28/2014.
+// Created by Areej Ba Salamah and Menan Vadivel on 1/28/2014.
 //  Copyright (c) 2014 Tinrit. All rights reserved.
 //
 
@@ -11,9 +11,7 @@
 
 @interface Bank : NSObject
 {
-    /*20 of 1golds, 2golds,5golds,10golds
-     10 of fifteengold and twentyGold
-     */
+    
     
     NSInteger oneGold;
     NSInteger twoGold;
