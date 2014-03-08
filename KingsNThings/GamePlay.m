@@ -35,7 +35,7 @@
         
         
         
-        NSString *type = @"KingsNThingsT242";
+        NSString *type = @"KingsNThingsT244";
         _server = [[Server alloc] initWithProtocol:type];
         _server.delegate = self;
         NSError *error = nil;
