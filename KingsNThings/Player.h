@@ -11,6 +11,7 @@
 #import "Terrain.h"
 #import "Building.h"
 #import "Army.h"
+#import "Server.h"
 
 
 @interface Player : NSObject
@@ -28,13 +29,13 @@
 @property BOOL playerLeft;
 @property NSMutableDictionary * combat;
 
-@property NSNetService *service;
+@property Server *server;
 
 - (BOOL) setBuilding: (Building *) building;
 - (BOOL) setTerritory: (Terrain *) territory;
 - (NSMutableArray *) getTerritories;
 - (int) getBankBalance;
--(id) initWithService: (NSNetService *) aService;
+-(id) initWithServer: (Server *) aServer;
 - (void) justPaid:(int) amount;
 - (void) justGotPaid:(int) amount;
 //- (Stage) getStage;

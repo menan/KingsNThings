@@ -32,7 +32,18 @@
     if(self){
         board = b;
         goldCollectionCompleted = NO;
-        me = [[Player alloc] initWithService:nil];
+        
+        
+        
+        NSString *type = @"KingsNThingsT24";
+        _server = [[Server alloc] initWithProtocol:type];
+        _server.delegate = self;
+        NSError *error = nil;
+        if(![_server start:&error]) {
+            NSLog(@"error = %@", error);
+        }
+        
+        me = [[Player alloc] initWithServer:_server];
         
         players = [[NSMutableArray alloc] initWithObjects:me, nil];
         terrains = [[NSMutableArray alloc]init];
@@ -78,14 +89,6 @@
         p4Stack3 = @[@"-n Giant Ape -c 2 -t Jungle -a 5",@"-n Buffalo Herd -t Plains -a 3"];
         
         
-        NSString *type = @"KingsNThingsT24";
-        _server = [[Server alloc] initWithProtocol:type];
-        _server.delegate = self;
-        NSError *error = nil;
-        if(![_server start:&error]) {
-            NSLog(@"error = %@", error);
-        }
-//        serverBrowserVC.server = _server;
     }
     
     return self;
@@ -333,9 +336,9 @@ return NULL;
     
 }
 
-- (BOOL) removePlayerByService: (NSNetService *) aService{
+- (BOOL) removePlayerByServer: (Server *) thisServer{
     for (Player *p in players) {
-        if ([p.service isEqual:aService]) {
+        if ([p.server isEqual:thisServer]) {
             [p hasLeft:YES];
             return YES;
         }
@@ -348,7 +351,11 @@ return NULL;
     [_server stopBrowser];
 }
 
-
+- (void) sendMessage: (NSString *) message{
+    NSData *data = [message dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *error = nil;
+    [self.server sendData:data error:&error];
+}
 
 #pragma mark Server Delegate Methods
 
@@ -356,7 +363,17 @@ return NULL;
     NSLog(@"Server Started");
     // this is called when the remote side finishes joining with the socket as
     // notification that the other side has made its connection with this side
-    self.server = server;
+//    self.server = server;
+    Player *p = [[Player alloc] initWithServer:server];
+    [players addObject:p];
+    [board drawMarkersForPlayer:players.count -1];
+    [board updateBank];
+    
+    NSString *message = @"Hello";
+    NSData *data = [message dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *error = nil;
+    
+    [server sendData:data error:&error];
 }
 
 - (void)serverStopped:(Server *)server {
@@ -379,6 +396,8 @@ return NULL;
 
 - (void)server:(Server *)server lostConnection:(NSDictionary *)errorDict {
     NSLog(@"Server lost connection %@", errorDict);
+    
+    [self removePlayerByServer:server];
 }
 
 - (void)serviceAdded:(NSNetService *)service moreComing:(BOOL)more {
@@ -392,19 +411,12 @@ return NULL;
         [alert show];
     }
     else{
-        
-        [players addObject:[[Player alloc] initWithService:service]];
-        [services addObject:service];
-        [board drawMarkersForPlayer:players.count -1];
-        [board updateBank];
+        [self.server connectToRemoteService:service];
     }
 }
 
 - (void)serviceRemoved:(NSNetService *)service moreComing:(BOOL)more {
-    [services removeObject:service];
-    BOOL removed = [self removePlayerByService:service];
-    NSLog(@"wtf player left, removed? %d", removed);
-    [board updateBank];
+    NSLog(@"wtf player left, more? %d", more);
 }
 
 
