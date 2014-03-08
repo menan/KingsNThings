@@ -35,7 +35,7 @@
         
         
         
-        NSString *type = @"KingsNThingsT242";
+        NSString *type = @"KingsNThingsT250";
         _server = [[Server alloc] initWithProtocol:type];
         _server.delegate = self;
         NSError *error = nil;
@@ -369,7 +369,9 @@ return NULL;
     // this is called when the remote side finishes joining with the socket as
     // notification that the other side has made its connection with this side
 //    self.server = thisServer;
-    
+    if (!players) {
+        players = [[NSMutableArray alloc] init];
+    }
     Player *p = [[Player alloc] initWithServer:thisServer];
     [players addObject:p];
     [board drawMarkersForPlayer:players.count -1];
