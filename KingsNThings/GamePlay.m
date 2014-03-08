@@ -12,29 +12,31 @@
 #import "Bank.h"
 #import "MyScene.h"
 #import "CombatPhase.h"
+#import "Board.h"
 
 @implementation GamePlay{
     MyScene *scene;
+    NSMutableArray *services;
+    id board;
     
 }
 
-@synthesize player1,player2,player3,player4,oneDice,secondDice,goldCollectionCompleted, players;
+@synthesize me,oneDice,secondDice,goldCollectionCompleted, players;
 
 @synthesize p1Stack1,p1Stack2,p2Stack1,p3Stack1,p3Stack2,p3Stack3,p4Stack1,p4Stack2,p4Stack3,goldPhase,terrains, isMovementPhase , isThingRecrPahse, isComabtPahse,scene;
 
 
--(id) initWith4Players{
+-(id) initWithBoard:(id) b{
     
     self = [super init];
     if(self){
+        board = b;
         goldCollectionCompleted = NO;
-        player1 = [[Player alloc] initWithArmy];
-        player2 = [[Player alloc] initWithArmy];
-        player3 = [[Player alloc] initWithArmy];
-        player4 = [[Player alloc] initWithArmy];
+        me = [[Player alloc] initWithService:nil];
         
-        players = [[NSMutableArray alloc] initWithObjects:player1, player2, player3, player4, nil];
+        players = [[NSMutableArray alloc] initWithObjects:me, nil];
         terrains = [[NSMutableArray alloc]init];
+        services = [[NSMutableArray alloc]init];
        
         
         //[self setPlayerArmy];
@@ -75,6 +77,15 @@
         p4Stack2 = @[@"-n Vampire Bat -t Swamp -s Fly -a 4",@"-n Tribesmen -c 2 -t Plains -a 2",@"-n Dark Wizard -t Swamp -s Fly -s Magic -a 1",@"-n Black Knight -t Swamp -s Charge -a 3"];
         p4Stack3 = @[@"-n Giant Ape -c 2 -t Jungle -a 5",@"-n Buffalo Herd -t Plains -a 3"];
         
+        
+        NSString *type = @"TestingProtocol";
+        _server = [[Server alloc] initWithProtocol:type];
+        _server.delegate = self;
+        NSError *error = nil;
+        if(![_server start:&error]) {
+            NSLog(@"error = %@", error);
+        }
+//        serverBrowserVC.server = _server;
     }
     
     return self;
@@ -322,6 +333,20 @@ return NULL;
     
 }
 
+- (BOOL) removePlayerByService: (NSNetService *) aService{
+    for (Player *p in players) {
+        if ([p.service isEqual:aService]) {
+            [p hasLeft:YES];
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (void) closeConnections{
+    [_server stop];
+    [_server stopBrowser];
+}
 
 
 
@@ -332,12 +357,10 @@ return NULL;
     // this is called when the remote side finishes joining with the socket as
     // notification that the other side has made its connection with this side
     self.server = server;
-    //    [self.navigationController pushViewController:serverRunningVC animated:YES];
 }
 
 - (void)serverStopped:(Server *)server {
     NSLog(@"Server stopped");
-    //    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)server:(Server *)server didNotStart:(NSDictionary *)errorDict {
@@ -356,15 +379,32 @@ return NULL;
 
 - (void)server:(Server *)server lostConnection:(NSDictionary *)errorDict {
     NSLog(@"Server lost connection %@", errorDict);
-    //    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)serviceAdded:(NSNetService *)service moreComing:(BOOL)more {
-    //    [serverBrowserVC addService:service moreComing:more];
+    NSLog(@"found a player tho");
+    if (players.count == 4) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Limit Reached"
+                                                        message:@"Sorry, but this game already has 4 players in it."
+                                                       delegate:self
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
+    else{
+        
+        [players addObject:[[Player alloc] initWithService:service]];
+        [services addObject:service];
+        [board drawMarkersForPlayer:players.count -1];
+        [board updateBank];
+    }
 }
 
 - (void)serviceRemoved:(NSNetService *)service moreComing:(BOOL)more {
-    //    [serverBrowserVC removeService:service moreComing:more];
+    [services removeObject:service];
+    BOOL removed = [self removePlayerByService:service];
+    NSLog(@"wtf player left, removed? %d", removed);
+    [board updateBank];
 }
 
 

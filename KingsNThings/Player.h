@@ -25,14 +25,16 @@
 @property int recruitsRemaining;
 @property BOOL hasWonCombat;
 @property BOOL isWaitingCombat;
+@property BOOL playerLeft;
 @property NSMutableDictionary * combat;
 
+@property NSNetService *service;
 
 - (BOOL) setBuilding: (Building *) building;
 - (BOOL) setTerritory: (Terrain *) territory;
 - (NSMutableArray *) getTerritories;
 - (int) getBankBalance;
-- (id) initWithArmy;
+-(id) initWithService: (NSNetService *) aService;
 - (void) justPaid:(int) amount;
 - (void) justGotPaid:(int) amount;
 //- (Stage) getStage;
@@ -46,4 +48,6 @@
 - (Army *) getArmyAtIndex:(NSInteger)index;
 -(Army*) findArmyOnTerrain:(Terrain*)terrain;
 -(Building*) getBuildingOnTerrain:(Terrain*)ter;
+- (void) hasLeft:(BOOL) left;
+
 @end

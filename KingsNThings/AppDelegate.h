@@ -7,14 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Server.h"
-#import "GamePlay.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>{
-    Server *_server;
-    GamePlay *game;
-}
-
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
 @property (strong, nonatomic) UIWindow *window;
 
 @end

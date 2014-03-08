@@ -59,7 +59,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         //terrains = [[NSMutableArray alloc] init];
         bank = [[Bank alloc]init];
         
-        game = [[GamePlay alloc] initWith4Players];
+        game = [[GamePlay alloc] initWithBoard:self];
         creaturesInBowl = 0;
         dicesClicked = 0;
         
@@ -102,7 +102,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
     [self hardCodeTerrains];
     
-    [self drawMarkers:CGPointMake(360.0f, 25.0f)];
+    [self drawMarkers];
     
     [self drawBowlwithThings:CGPointMake(450.0f, (size.height) - 120)];
     
@@ -378,38 +378,25 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     }
     
 }
-- (void) drawMarkers:(CGPoint) aPoint{
-    
-    for (int i = 0; i <= 10; i++) {
-        
-        SKSpriteNode *player1 = [SKSpriteNode spriteNodeWithImageNamed:@"p_yellow.jpg"];
-        [player1 setName:@"Player 1"];
-        player1.size = CGSizeMake(40,40);
-        [player1 setPosition:aPoint];
-        [board addChild:player1];
-        
-        
-        SKSpriteNode *player2 = [SKSpriteNode spriteNodeWithImageNamed:@"p_gray.jpg"];
-        [player2 setName:@"Player 2"];
-        player2.size = CGSizeMake(40,40);
-        [player2 setPosition:CGPointMake(aPoint.x + 43, aPoint.y )];
-        [board addChild:player2];
-        
-        
-        SKSpriteNode *player3 = [SKSpriteNode spriteNodeWithImageNamed:@"p_green.jpg"];
-        [player3 setName:@"Player 3"];
-        player3.size = CGSizeMake(40,40);
-        [player3 setPosition:CGPointMake(aPoint.x + 86, aPoint.y )];
-        [board addChild:player3];
-        
-        SKSpriteNode *player4 = [SKSpriteNode spriteNodeWithImageNamed:@"p_red.jpg"];
-        [player4 setName:@"Player 4"];
-        player4.size = CGSizeMake(40,40);
-        [player4 setPosition:CGPointMake(aPoint.x + 129, aPoint.y )];
-        [board addChild:player4];
+- (void) drawMarkers{
+    for (int j = 0; j < [[game players] count]; j++) {
+        [self drawMarkersForPlayer:j];
     }
     
+}
+
+- (void) drawMarkersForPlayer:(int) j{
+    CGPoint aPoint = CGPointMake(360.0f, 25.0f);
+    NSArray *images = @[@"p_yellow.jpg",@"p_gray.jpg",@"p_green.jpg",@"p_red.jpg"];
+    float offset = 43;
     
+    for (int i = 0; i <= 10; i++) {
+        SKSpriteNode *playerNode = [SKSpriteNode spriteNodeWithImageNamed:[images objectAtIndex:j]];
+        [playerNode setName:[NSString stringWithFormat:@"Player %d",j + 1]];
+        playerNode.size = CGSizeMake(40,40);
+        [playerNode setPosition:CGPointMake(aPoint.x + (j * offset), aPoint.y )];
+        [board addChild:playerNode];
+    }
 }
 
 - (void) drawSpecialCreatures:(CGPoint) aPoint{
@@ -446,11 +433,22 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 
 - (void) updateBank{
     float left = 600.0f;
+    float offset = 105.0f;
     [self drawBank:bank at:CGPointMake(left, (size.height) - 480) andWithTitle:@"Bank"];
-    [self drawBank:game.player1.bank at:CGPointMake(left, (size.height) - 375) andWithTitle:@"My Stash"];
-    [self drawBank:game.player2.bank at:CGPointMake(left, (size.height) - 270) andWithTitle:@"P2 Stash"];
-    [self drawBank:game.player3.bank at:CGPointMake(left, (size.height) - 165) andWithTitle:@"P3 Stash"];
-    [self drawBank:game.player4.bank at:CGPointMake(left, (size.height) - 60) andWithTitle:@"P4 Stash"];
+    for (int j = 0; j < [[game players] count]; j++) {
+        Player *p = [[game players] objectAtIndex:j];
+        NSLog(@"drawing bank for player %d, left: %d", j, p.playerLeft);
+        NSString *title = [NSString stringWithFormat:@"P%d Stash",j + 1];
+        if (j == 0)
+            title = @"My Stash";
+        if (!p.playerLeft) {
+            [self drawBank:[p getBank] at:CGPointMake(left, (size.height) - 375 + (offset * j)) andWithTitle:title];
+        }
+        else{
+            
+            [[board childNodeWithName:title] removeFromParent];
+        }
+    }
 }
 
 
@@ -546,18 +544,18 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 -(void)withdrawFromBank:(NSInteger)goldNum
 {
     if ([bank withdrawGold:goldNum andCount:1]){
-        [[game.player1 bank] depositGold:goldNum andCount:1];
-        [game.player1 justGotPaid:goldNum];
-        recruitLabel.text = [NSString stringWithFormat: @"%d Recruits Remaining", game.player1.recruitsRemaining];
+        [game.me.bank depositGold:goldNum andCount:1];
+        [game.me justGotPaid:goldNum];
+        recruitLabel.text = [NSString stringWithFormat: @"%d Recruits Remaining", game.me.recruitsRemaining];
     }
     
 }
 -(void)depositToBank:(NSInteger)goldNum
 {
-    if ([game.player1.bank withdrawGold:goldNum andCount:1]){
+    if ([game.me.bank withdrawGold:goldNum andCount:1]){
         [bank depositGold:goldNum andCount:1];
-        [game.player1 justPaid:goldNum];
-        recruitLabel.text = [NSString stringWithFormat: @"%d Recruits Remaining", game.player1.recruitsRemaining];
+        [game.me justPaid:goldNum];
+        recruitLabel.text = [NSString stringWithFormat: @"%d Recruits Remaining", game.me.recruitsRemaining];
     }
     
 }
@@ -695,7 +693,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         
         Terrain* temp = [self findTerrainAt:terrainPoint];
         
-        if ([game.player1 setTerritory:temp]){
+        if ([[[game players] objectAtIndex:0] setTerritory:temp]){
             [temp setBelongsToP1:YES];
             [temp setHasArmyOnIt:NO];
             
@@ -710,7 +708,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     else if (terrainLocated && [node.name isEqualToString:@"Player 2"]) {
         Terrain* temp = [self findTerrainAt:terrainPoint];
 
-        if ([game.player2 setTerritory:temp]){
+        if ([[[game players] objectAtIndex:1] setTerritory:temp]){
             [temp setBelongsToP2:YES];
             [temp setHasArmyOnIt:NO];
             node.name = @"bowl";
@@ -725,7 +723,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         Terrain* temp = [self findTerrainAt:terrainPoint];
         [temp setBelongsToP3:YES];
 
-        if ([game.player3 setTerritory:temp]){
+        if ([[[game players] objectAtIndex:2] setTerritory:temp]){
             node.name = @"bowl";
             [node setSize:CGSizeMake(sizeNode, sizeNode)];
             [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
@@ -737,7 +735,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     else if ([node.name isEqualToString:@"Player 4"]) {
         Terrain* temp = [self findTerrainAt:terrainPoint];
         [temp setBelongsToP4:YES];
-        if ([game.player4 setTerritory:temp]){
+        if ([[[game players] objectAtIndex:3] setTerritory:temp]){
             node.name = @"bowl";
             [node setSize:CGSizeMake(sizeNode, sizeNode)];
             [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
@@ -874,7 +872,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         }
     }
     else if ([node.name isEqualToString:@"battle"]){
-        [game initiateCombat:game.player1];
+        [game initiateCombat:game.me];
     }
     else{
         

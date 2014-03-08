@@ -13,14 +13,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     
-    NSString *type = @"TestingProtocol";
-    _server = [[Server alloc] initWithProtocol:type];
-    _server.delegate = game;
-    NSError *error = nil;
-    if(![_server start:&error]) {
-        NSLog(@"error = %@", error);
-    }
-    game.server = _server;
     
     // Override point for customization after application launch.
     return YES;
@@ -50,9 +42,6 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    [_server stop];
-    [_server stopBrowser];
+    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.}
 }
-
 @end

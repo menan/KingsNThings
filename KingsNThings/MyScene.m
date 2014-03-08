@@ -26,6 +26,8 @@
         [gameBoard draw];
         nonMovables = [gameBoard getNonMovables];
          [[gameBoard getGamePlay] assignScene:self];
+        
+        
     }
    
     return self;
@@ -123,7 +125,7 @@ CGPoint mult(const CGPoint v, const CGFloat s) {
 }
 
 - (void) startSecondCombat{
-    [gameBoard.game initiateCombat:gameBoard.game.player2];
+    [gameBoard.game initiateCombat:[gameBoard.game.players objectAtIndex:2]];
 }
 -(void)update:(CFTimeInterval)currentTime {
     /* Called before each frame is rendered */
