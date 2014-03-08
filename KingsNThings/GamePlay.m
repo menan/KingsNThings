@@ -384,7 +384,7 @@ return NULL;
     //    else{
     
     Player *p = [[Player alloc] initWithServer:nil];
-    [servers addObject:thisServer];
+//    [servers addObject:thisServer];
     [players addObject:p];
     
     NSLog(@"now players: %@",players);
