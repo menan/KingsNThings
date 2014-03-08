@@ -44,7 +44,7 @@
             NSLog(@"error = %@", error);
         }
         
-        me = [[Player alloc] initWithServer:_server];
+        me = [[Player alloc] init];
         players = [[NSMutableArray alloc] init];
         
 //        players = [[NSMutableArray alloc] initWithObjects:me, nil];
