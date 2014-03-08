@@ -35,7 +35,7 @@
 - (BOOL) setTerritory: (Terrain *) territory;
 - (NSMutableArray *) getTerritories;
 - (int) getBankBalance;
--(id) initWithServer: (Server *) aServer;
+-(id) init;
 - (void) justPaid:(int) amount;
 - (void) justGotPaid:(int) amount;
 //- (Stage) getStage;

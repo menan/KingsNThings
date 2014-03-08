@@ -384,6 +384,7 @@ return NULL;
     
     
     Player *p = [[Player alloc] init];
+    p.server = thisServer;
     [players addObject:p];
 //    [board drawMarkersForPlayer:players.count -1];
 //    [board updateBank];
