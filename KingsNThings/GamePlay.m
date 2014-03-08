@@ -35,7 +35,7 @@
         
         
         
-        NSString *type = @"KingsNThingsT24";
+        NSString *type = @"KingsNThingsT242";
         _server = [[Server alloc] initWithProtocol:type];
         _server.delegate = self;
         NSError *error = nil;
@@ -397,8 +397,8 @@ return NULL;
 
 - (void)server:(Server *)server lostConnection:(NSDictionary *)errorDict {
     NSLog(@"Server lost connection %@", errorDict);
-    
     [self removePlayerByServer:server];
+    [self closeConnections];
 }
 
 - (void)serviceAdded:(NSNetService *)service moreComing:(BOOL)more {
