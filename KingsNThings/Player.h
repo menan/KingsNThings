@@ -29,7 +29,8 @@
 @property BOOL playerLeft;
 @property NSMutableDictionary * combat;
 
-@property Server *server;
+@property(nonatomic, retain) Server *server;
+
 
 - (BOOL) setBuilding: (Building *) building;
 - (BOOL) setTerritory: (Terrain *) territory;
