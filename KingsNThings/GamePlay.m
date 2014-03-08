@@ -386,6 +386,8 @@ return NULL;
     Player *p = [[Player alloc] init];
 //    p.server = thisServer;
     [players addObject:p];
+    
+    NSLog(@"now players: %@",players);
 //    [board drawMarkersForPlayer:players.count -1];
 //    [board updateBank];
     
