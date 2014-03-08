@@ -365,7 +365,7 @@ return NULL;
 #pragma mark Server Delegate Methods
 
 - (void)serverRemoteConnectionComplete:(Server *)thisServer {
-    NSLog(@"Server Started");
+    NSLog(@"Server Started, players: %@",players);
     
     // this is called when the remote side finishes joining with the socket as
     // notification that the other side has made its connection with this side
@@ -382,13 +382,13 @@ return NULL;
     //    else{
     
     
-    if (!players) {
-        players = [[NSMutableArray alloc] init];
-    }
-    Player *p = [[Player alloc] initWithServer:thisServer];
-    [players addObject:p];
-    [board drawMarkersForPlayer:players.count -1];
-    [board updateBank];
+//    if (!players) {
+//        players = [[NSMutableArray alloc] init];
+//    }
+//    Player *p = [[Player alloc] initWithServer:thisServer];
+//    [players addObject:p];
+//    [board drawMarkersForPlayer:players.count -1];
+//    [board updateBank];
     
 }
 
