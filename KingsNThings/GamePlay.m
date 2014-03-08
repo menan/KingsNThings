@@ -370,11 +370,11 @@ return NULL;
     [board drawMarkersForPlayer:players.count -1];
     [board updateBank];
     
-    NSString *message = [NSString stringWithFormat:@"Welcome Player %d",players.count - 1];
-    NSData *data = [message dataUsingEncoding:NSUTF8StringEncoding];
-    NSError *error = nil;
-    
-    [thisServer sendData:data error:&error];
+//    NSString *message = [NSString stringWithFormat:@"Welcome Player %d",players.count - 1];
+//    NSData *data = [message dataUsingEncoding:NSUTF8StringEncoding];
+//    NSError *error = nil;
+//    
+//    [thisServer sendData:data error:&error];
 }
 
 - (void)serverStopped:(Server *)server {
