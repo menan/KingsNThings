@@ -387,7 +387,7 @@ return NULL;
 //        players = [[NSMutableArray alloc] init];
 //    }
 //    Player *p = [[Player alloc] initWithServer:thisServer];
-//    [players addObject:p];
+//    [players addObject:p] ;
 //    [board drawMarkersForPlayer:players.count -1];
 //    [board updateBank];
     
