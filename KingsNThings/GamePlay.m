@@ -404,7 +404,7 @@ return NULL;
 }
 
 - (void)serviceAdded:(NSNetService *)service moreComing:(BOOL)more {
-    NSLog(@"found a player tho");
+    NSLog(@"found a player tho: %@", [service name]);
     if (players.count == 4) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Limit Reached"
                                                         message:@"Sorry, but this game already has 4 players in it."
