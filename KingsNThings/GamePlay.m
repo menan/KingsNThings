@@ -383,7 +383,7 @@ return NULL;
     //    }
     //    else{
     
-    Player *p = [[Player alloc] initWithServer:thisServer];
+    Player *p = [[Player alloc] init];
     [players addObject:p];
 //    [board drawMarkersForPlayer:players.count -1];
 //    [board updateBank];
