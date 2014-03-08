@@ -29,14 +29,13 @@
 @property BOOL playerLeft;
 @property NSMutableDictionary * combat;
 
-@property(nonatomic, retain) Server *server;
-
+@property Server *server;
 
 - (BOOL) setBuilding: (Building *) building;
 - (BOOL) setTerritory: (Terrain *) territory;
 - (NSMutableArray *) getTerritories;
 - (int) getBankBalance;
--(id) init;
+-(id) initWithServer: (Server *) aServer;
 - (void) justPaid:(int) amount;
 - (void) justGotPaid:(int) amount;
 //- (Stage) getStage;

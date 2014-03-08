@@ -44,10 +44,10 @@
             NSLog(@"error = %@", error);
         }
         
-        me = [[Player alloc] init];
+        me = [[Player alloc] initWithServer:_server];
         players = [[NSMutableArray alloc] init];
         
-//        players = [[NSMutableArray alloc] initWithObjects:me, nil];
+        players = [[NSMutableArray alloc] initWithObjects:me, nil];
         terrains = [[NSMutableArray alloc]init];
         services = [[NSMutableArray alloc]init];
        
@@ -383,8 +383,8 @@ return NULL;
     //    }
     //    else{
     
-    Player *p = [[Player alloc] init];
-    p.server = self.server;
+    Player *p = [[Player alloc] initWithServer:nil];
+//    p.server = self.server;
     [players addObject:p];
     
     NSLog(@"now players: %@",players);
