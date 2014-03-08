@@ -419,7 +419,7 @@ return NULL;
 }
 
 - (void)serviceRemoved:(NSNetService *)service moreComing:(BOOL)more {
-    NSLog(@"wtf player left, more? %d", more);
+    NSLog(@"wtf player left: %@", [service name]);
 }
 
 
