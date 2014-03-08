@@ -45,7 +45,7 @@
         
         me = [[Player alloc] initWithServer:_server];
         
-        players = [[NSMutableArray alloc] initWithObjects:me, nil];
+//        players = [[NSMutableArray alloc] initWithObjects:me, nil];
         terrains = [[NSMutableArray alloc]init];
         services = [[NSMutableArray alloc]init];
        
@@ -382,11 +382,11 @@ return NULL;
     //    else{
     
     
-//    if (!players) {
-//        players = [[NSMutableArray alloc] init];
-//    }
-//    Player *p = [[Player alloc] initWithServer:thisServer];
-//    [players addObject:p];
+    if (!players) {
+        players = [[NSMutableArray alloc] init];
+    }
+    Player *p = [[Player alloc] initWithServer:thisServer];
+    [players addObject:p];
 //    [board drawMarkersForPlayer:players.count -1];
 //    [board updateBank];
     
