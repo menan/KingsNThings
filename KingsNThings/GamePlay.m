@@ -35,7 +35,7 @@
         
         
         
-        NSString *type = @"KingsNThings21";
+        NSString *type = @"KingsNThings22";
         _server = [[Server alloc] initWithProtocol:type];
         _server.delegate = self;
         NSError *error = nil;
@@ -372,10 +372,10 @@ return NULL;
 //    if (!players) {
 //        players = [[NSMutableArray alloc] init];
 //    }
-    Player *p = [[Player alloc] initWithServer:thisServer];
-    [players addObject:p];
-    [board drawMarkersForPlayer:players.count -1];
-    [board updateBank];
+//    Player *p = [[Player alloc] initWithServer:thisServer];
+//    [players addObject:p];
+//    [board drawMarkersForPlayer:players.count -1];
+//    [board updateBank];
     
 }
 
