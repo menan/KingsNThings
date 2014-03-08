@@ -58,6 +58,7 @@
 		686C97CC188FA3BD00BE6D42 /* sc_10.png in Resources */ = {isa = PBXBuildFile; fileRef = 686C97C1188FA3BD00BE6D42 /* sc_10.png */; };
 		686C97CD188FA3BD00BE6D42 /* sc_11.png in Resources */ = {isa = PBXBuildFile; fileRef = 686C97C2188FA3BD00BE6D42 /* sc_11.png */; };
 		686C97CF188FA9CC00BE6D42 /* bc.png in Resources */ = {isa = PBXBuildFile; fileRef = 686C97CE188FA9CC00BE6D42 /* bc.png */; };
+		68C1C32E18CAD85F003813CA /* Server.m in Sources */ = {isa = PBXBuildFile; fileRef = 68C1C32D18CAD85F003813CA /* Server.m */; };
 		68EF3313189CB0FD00A93480 /* battle.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 68EF330E189CB0FD00A93480 /* battle.jpg */; };
 		68EF3314189CB0FD00A93480 /* p_gray.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 68EF330F189CB0FD00A93480 /* p_gray.jpg */; };
 		68EF3315189CB0FD00A93480 /* p_green.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 68EF3310189CB0FD00A93480 /* p_green.jpg */; };
@@ -329,6 +330,8 @@
 		686C97C1188FA3BD00BE6D42 /* sc_10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sc_10.png; sourceTree = "<group>"; };
 		686C97C2188FA3BD00BE6D42 /* sc_11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sc_11.png; sourceTree = "<group>"; };
 		686C97CE188FA9CC00BE6D42 /* bc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bc.png; sourceTree = "<group>"; };
+		68C1C32C18CAD85F003813CA /* Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Server.h; sourceTree = "<group>"; };
+		68C1C32D18CAD85F003813CA /* Server.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Server.m; sourceTree = "<group>"; };
 		68EF330E189CB0FD00A93480 /* battle.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = battle.jpg; sourceTree = "<group>"; };
 		68EF330F189CB0FD00A93480 /* p_gray.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = p_gray.jpg; sourceTree = "<group>"; };
 		68EF3310189CB0FD00A93480 /* p_green.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = p_green.jpg; sourceTree = "<group>"; };
@@ -597,6 +600,7 @@
 		686C972E1888A88500BE6D42 /* KingsNThings */ = {
 			isa = PBXGroup;
 			children = (
+				68C1C32B18CAD85F003813CA /* Server */,
 				686C973A1888A88500BE6D42 /* Main.storyboard */,
 				686C97451888A88500BE6D42 /* Images.xcassets */,
 				686C972F1888A88500BE6D42 /* Supporting Files */,
@@ -732,6 +736,15 @@
 				686C97C2188FA3BD00BE6D42 /* sc_11.png */,
 			);
 			name = "special creatures";
+			sourceTree = "<group>";
+		};
+		68C1C32B18CAD85F003813CA /* Server */ = {
+			isa = PBXGroup;
+			children = (
+				68C1C32C18CAD85F003813CA /* Server.h */,
+				68C1C32D18CAD85F003813CA /* Server.m */,
+			);
+			path = Server;
 			sourceTree = "<group>";
 		};
 		68EF3318189CB10200A93480 /* markers */ = {
@@ -1340,6 +1353,7 @@
 				686C97391888A88500BE6D42 /* AppDelegate.m in Sources */,
 				68EF331D189CCEF700A93480 /* NSMutableArrayShuffling.m in Sources */,
 				68EF3320189CD51A00A93480 /* GamePlay.m in Sources */,
+				68C1C32E18CAD85F003813CA /* Server.m in Sources */,
 				6832A14F1897735900476D5D /* Terrain.m in Sources */,
 				6832A1551897754B00476D5D /* Bank.m in Sources */,
 				C59E4D1018A5E0FE00CCBA0D /* CombatScene.m in Sources */,
