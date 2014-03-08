@@ -384,7 +384,7 @@ return NULL;
     //    else{
     
     Player *p = [[Player alloc] init];
-//    p.server = thisServer;
+    p.server = self.server;
     [players addObject:p];
     
     NSLog(@"now players: %@",players);
