@@ -33,7 +33,6 @@ static NSInteger counter = 0;
     self = [super init];
     if (self) {
         bank = [[Bank alloc] initWithOneGolds:0 twoGolds:0 fivesGolds:2 tenGolds:0 fifteenGolds:0 twentyGolds:0];
-        server = aServer;
         buildings = [[NSMutableArray alloc] init];
         territories = [[NSMutableArray alloc] init];
         specialCharacters = [[NSMutableArray alloc] init];
@@ -48,6 +47,7 @@ static NSInteger counter = 0;
         hasWonCombat = NO;
         isWaitingCombat = NO;
         playerLeft = NO;
+        server = aServer;
     }
     return self;
  
