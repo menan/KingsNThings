@@ -405,7 +405,7 @@ static void SocketAcceptedConnectionCallBack(CFSocketRef socket,
 
 - (void)_streamEncounteredEnd:(NSStream *)stream {
     // remote side died, tell the delegate then restart my local
-    // service looking for some other server to connect to
+    // service looking for some other server to cownnect to
     [self.delegate server:self lostConnection:nil];
     [self _stopStreams];
     [self _publishNetService];

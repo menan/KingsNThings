@@ -34,7 +34,7 @@
         goldCollectionCompleted = NO;
         
         
-        NSString *type = @"KingsNThings33";
+        NSString *type = @"KingsNThings35";
         
         
         _server = [[Server alloc] initWithProtocol:type];
@@ -387,7 +387,7 @@ return NULL;
 //    Player *p = [[Player alloc] init];
     me.server = thisServer;
 //    [servers addObject:thisServer];
-//    [players addObject:me];
+    [players addObject:me];
     
     NSLog(@"now players: %@",players);
 //    [board drawMarkersForPlayer:players.count -1];
