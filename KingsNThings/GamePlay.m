@@ -382,7 +382,7 @@ return NULL;
     //    }
     //    else{
     
-    if (!players) {
+    if (players == nil) {
         players = [[NSMutableArray alloc] init];
     }
     Player *p = [[Player alloc] initWithServer:thisServer];
