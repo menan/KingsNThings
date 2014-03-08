@@ -78,7 +78,7 @@
         p4Stack3 = @[@"-n Giant Ape -c 2 -t Jungle -a 5",@"-n Buffalo Herd -t Plains -a 3"];
         
         
-        NSString *type = @"TestingProtocol";
+        NSString *type = @"KingsNThingsT24";
         _server = [[Server alloc] initWithProtocol:type];
         _server.delegate = self;
         NSError *error = nil;
