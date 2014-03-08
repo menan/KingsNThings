@@ -2,15 +2,18 @@
 //  GamePlay.h
 //  KingsNThings
 //
-//  Created by Menan Vadivel on 2/1/2014.
+// Created by Areej Ba Salamah and Menan Vadivel on 2/1/2014.
 //  Copyright (c) 2014 Tinrit. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import "Player.h"
 #import "MyScene.h"
+#import "Server.h"
 
-@interface GamePlay : NSObject
+@interface GamePlay : NSObject<ServerDelegate>
+
+@property(nonatomic, retain) Server *server;
 
 @property Player *player1;
 @property Player *player2;

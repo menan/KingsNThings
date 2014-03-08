@@ -2,7 +2,7 @@
 //  Building.h
 //  KingsNThings
 //
-//  Created by Mac5 on 2/6/2014.
+//Created by Areej Ba Salamah and Menan Vadivel on  2/6/2014.
 //  Copyright (c) 2014 Tinrit. All rights reserved.
 //
 

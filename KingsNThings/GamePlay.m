@@ -2,7 +2,7 @@
 //  GamePlay.m
 //  KingsNThings
 //
-//  Created by Menan Vadivel on 2/1/2014.
+// Created by Areej Ba Salamah and Menan Vadivel on 2/1/2014.
 //  Copyright (c) 2014 Tinrit. All rights reserved.
 //
 
@@ -321,5 +321,52 @@ return NULL;
     
     
 }
+
+
+
+
+#pragma mark Server Delegate Methods
+
+- (void)serverRemoteConnectionComplete:(Server *)server {
+    NSLog(@"Server Started");
+    // this is called when the remote side finishes joining with the socket as
+    // notification that the other side has made its connection with this side
+    self.server = server;
+    //    [self.navigationController pushViewController:serverRunningVC animated:YES];
+}
+
+- (void)serverStopped:(Server *)server {
+    NSLog(@"Server stopped");
+    //    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)server:(Server *)server didNotStart:(NSDictionary *)errorDict {
+    NSLog(@"Server did not start %@", errorDict);
+}
+
+- (void)server:(Server *)server didAcceptData:(NSData *)data {
+    NSLog(@"Server did accept data %@", data);
+    NSString *message = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    if(nil != message || [message length] > 0) {
+        NSLog(@"messaged received: %@",message);
+    } else {
+        NSLog(@"no data received");
+    }
+}
+
+- (void)server:(Server *)server lostConnection:(NSDictionary *)errorDict {
+    NSLog(@"Server lost connection %@", errorDict);
+    //    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)serviceAdded:(NSNetService *)service moreComing:(BOOL)more {
+    //    [serverBrowserVC addService:service moreComing:more];
+}
+
+- (void)serviceRemoved:(NSNetService *)service moreComing:(BOOL)more {
+    //    [serverBrowserVC removeService:service moreComing:more];
+}
+
+
 
 @end

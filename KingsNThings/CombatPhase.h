@@ -2,7 +2,7 @@
 //  CombatPhase.h
 //  KingsNThings
 //
-//  Created by aob on 2/8/2014.
+//  Created by Areej Ba Salamah and Menan Vadivel on 2/8/2014.
 //  Copyright (c) 2014 Tinrit. All rights reserved.
 //
 
