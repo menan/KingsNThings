@@ -367,16 +367,29 @@ return NULL;
 
 - (void)serverRemoteConnectionComplete:(Server *)thisServer {
     NSLog(@"Server Started");
+    
     // this is called when the remote side finishes joining with the socket as
     // notification that the other side has made its connection with this side
 //    self.server = thisServer;
-//    if (!players) {
-//        players = [[NSMutableArray alloc] init];
-//    }
-//    Player *p = [[Player alloc] initWithServer:thisServer];
-//    [players addObject:p];
-//    [board drawMarkersForPlayer:players.count -1];
-//    [board updateBank];
+    
+    //    if (players.count == 4) {
+    //        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Limit Reached"
+    //                                                        message:@"Sorry, but this game already has 4 players in it."
+    //                                                       delegate:self
+    //                                              cancelButtonTitle:@"OK"
+    //                                              otherButtonTitles:nil];
+    //        [alert show];
+    //    }
+    //    else{
+    
+    
+    if (!players) {
+        players = [[NSMutableArray alloc] init];
+    }
+    Player *p = [[Player alloc] initWithServer:thisServer];
+    [players addObject:p];
+    [board drawMarkersForPlayer:players.count -1];
+    [board updateBank];
     
 }
 
@@ -406,17 +419,7 @@ return NULL;
 
 - (void)serviceAdded:(NSNetService *)service moreComing:(BOOL)more {
     NSLog(@"found a player tho: %@", [service name]);
-//    if (players.count == 4) {
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Limit Reached"
-//                                                        message:@"Sorry, but this game already has 4 players in it."
-//                                                       delegate:self
-//                                              cancelButtonTitle:@"OK"
-//                                              otherButtonTitles:nil];
-//        [alert show];
-//    }
-//    else{
-        [self.server connectToRemoteService:service];
-//    }
+    [self.server connectToRemoteService:service];
 }
 
 - (void)serviceRemoved:(NSNetService *)service moreComing:(BOOL)more {
