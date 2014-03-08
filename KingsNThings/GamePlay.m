@@ -383,7 +383,7 @@ return NULL;
     //    }
     //    else{
     
-    Player *p = [[Player alloc] initWithServer:nil];
+    Player *p = [[Player alloc] initWithServer:thisServer];
 //    [servers addObject:thisServer];
     [players addObject:p];
     

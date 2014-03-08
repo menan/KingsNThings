@@ -47,7 +47,7 @@ static NSInteger counter = 0;
         hasWonCombat = NO;
         isWaitingCombat = NO;
         playerLeft = NO;
-        server = aServer;
+//        server = aServer;
     }
     return self;
  
