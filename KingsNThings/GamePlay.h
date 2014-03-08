@@ -1,6 +1,7 @@
 //
 //  GamePlay.h
-//  KingsNThings
+//
+
 //
 // Created by Areej Ba Salamah and Menan Vadivel on 2/1/2014.
 //  Copyright (c) 2014 Tinrit. All rights reserved.
@@ -33,4 +34,5 @@
 -(Terrain*) findTerrainAt:(CGPoint)thisPoint;
 -(Player*)findPlayerByOrder:(NSInteger)order;
 -(void) assignScene:(MyScene*)sce;
+- (void) broadCastMessage: (NSString *) message;
 @end

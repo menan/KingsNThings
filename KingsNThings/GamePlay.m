@@ -351,10 +351,15 @@ return NULL;
     [_server stopBrowser];
 }
 
-- (void) sendMessage: (NSString *) message{
-    NSData *data = [message dataUsingEncoding:NSUTF8StringEncoding];
-    NSError *error = nil;
-    [self.server sendData:data error:&error];
+- (void) broadCastMessage: (NSString *) message{
+    int i = 0;
+    for (Player *p in players) {
+        i++;
+        NSData *data = [message dataUsingEncoding:NSUTF8StringEncoding];
+        NSError *error = nil;
+        
+        [p.server sendData:data error:&error];
+    }
 }
 
 #pragma mark Server Delegate Methods
@@ -370,11 +375,6 @@ return NULL;
     [board drawMarkersForPlayer:players.count -1];
     [board updateBank];
     
-//    NSString *message = [NSString stringWithFormat:@"Welcome Player %d",players.count - 1];
-//    NSData *data = [message dataUsingEncoding:NSUTF8StringEncoding];
-//    NSError *error = nil;
-//    
-//    [thisServer sendData:data error:&error];
 }
 
 - (void)serverStopped:(Server *)server {
