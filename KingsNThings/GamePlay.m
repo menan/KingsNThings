@@ -384,10 +384,10 @@ return NULL;
     //    }
     //    else{
     
-    Player *p = [[Player alloc] init];
-    p.server = thisServer;
+//    Player *p = [[Player alloc] init];
+    me.server = thisServer;
 //    [servers addObject:thisServer];
-//    [players addObject:p];
+//    [players addObject:me];
     
     NSLog(@"now players: %@",players);
 //    [board drawMarkersForPlayer:players.count -1];
