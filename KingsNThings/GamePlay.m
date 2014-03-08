@@ -44,7 +44,8 @@
             NSLog(@"error = %@", error);
         }
         
-        me = [[Player alloc] initWithServer:_server];
+        me = [[Player alloc] init];
+        me.server = _server;
         players = [[NSMutableArray alloc] init];
         
         players = [[NSMutableArray alloc] initWithObjects:me, nil];
@@ -383,13 +384,14 @@ return NULL;
     //    }
     //    else{
     
-    Player *p = [[Player alloc] initWithServer:thisServer];
+    Player *p = [[Player alloc] init];
+    p.server = thisServer;
 //    [servers addObject:thisServer];
-    [players addObject:p];
+//    [players addObject:p];
     
     NSLog(@"now players: %@",players);
-    [board drawMarkersForPlayer:players.count -1];
-    [board updateBank];
+//    [board drawMarkersForPlayer:players.count -1];
+//    [board updateBank];
     
 }
 

@@ -28,7 +28,7 @@ static NSInteger counter = 0;
 
 @synthesize armies,playingOrder,bank,army, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat,server,playerLeft;
 
--(id) initWithServer: (Server *) aServer{
+-(id) init{
     
     self = [super init];
     if (self) {
@@ -47,7 +47,6 @@ static NSInteger counter = 0;
         hasWonCombat = NO;
         isWaitingCombat = NO;
         playerLeft = NO;
-//        server = aServer;
     }
     return self;
  
