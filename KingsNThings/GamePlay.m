@@ -16,7 +16,7 @@
 
 @implementation GamePlay{
     MyScene *scene;
-    NSMutableArray *services;
+    NSMutableArray *servers;
     id board;
     
 }
@@ -49,7 +49,7 @@
         
         players = [[NSMutableArray alloc] initWithObjects:me, nil];
         terrains = [[NSMutableArray alloc]init];
-        services = [[NSMutableArray alloc]init];
+        servers = [[NSMutableArray alloc]initWithObjects:_server, nil];
        
         
         //[self setPlayerArmy];
@@ -384,7 +384,7 @@ return NULL;
     //    else{
     
     Player *p = [[Player alloc] initWithServer:nil];
-//    p.server = thisServer;
+    [servers addObject:thisServer];
     [players addObject:p];
     
     NSLog(@"now players: %@",players);
