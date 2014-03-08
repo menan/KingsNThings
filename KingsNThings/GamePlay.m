@@ -34,7 +34,7 @@
         goldCollectionCompleted = NO;
         
         
-        NSString *type = @"KingsNThings29";
+        NSString *type = @"KingsNThings30";
         
         
         _server = [[Server alloc] initWithProtocol:type];
