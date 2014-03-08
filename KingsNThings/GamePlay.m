@@ -34,7 +34,7 @@
         goldCollectionCompleted = NO;
         
         
-        NSString *type = @"KingsNThings22";
+        NSString *type = @"KingsNThings23";
         
         
         _server = [[Server alloc] initWithProtocol:type];
@@ -45,6 +45,7 @@
         }
         
         me = [[Player alloc] initWithServer:_server];
+        players = [[NSMutableArray alloc] init];
         
 //        players = [[NSMutableArray alloc] initWithObjects:me, nil];
         terrains = [[NSMutableArray alloc]init];
@@ -382,9 +383,6 @@ return NULL;
     //    }
     //    else{
     
-    if (players == nil) {
-        players = [[NSMutableArray alloc] init];
-    }
     Player *p = [[Player alloc] initWithServer:thisServer];
     [players addObject:p];
 //    [board drawMarkersForPlayer:players.count -1];
