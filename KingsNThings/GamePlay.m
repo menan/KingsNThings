@@ -20,7 +20,7 @@
 
 @synthesize player1,player2,player3,player4,oneDice,secondDice,goldCollectionCompleted, players;
 
-@synthesize p1Stack1,p1Stack2,p2Stack1,p3Stack1,p3Stack2,p3Stack3,p4Stack1,p4Stack2,p4Stack3,goldPhase,terrains, isMovementPhase , isThingRecrPahse, isComabtPahse,scene;
+@synthesize p1Stack1,p1Stack2,p2Stack1,p3Stack1,p3Stack2,p3Stack3,p4Stack1,p4Stack2,p4Stack3,goldPhase,terrains, isMovementPhase , isThingRecrPahse, isComabtPahse,isInitialPhase ,isConstructionPhase, scene;
 
 
 -(id) initWith4Players{
@@ -57,6 +57,7 @@
         isMovementPhase = NO;
         isThingRecrPahse = NO;
         isComabtPahse = NO;
+        isInitialPhase = YES;
         
         
         

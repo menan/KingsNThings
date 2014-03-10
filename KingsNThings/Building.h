@@ -15,7 +15,8 @@ typedef enum Stage : NSUInteger {
     Tower,
     Keep,
     Castle,
-    Citadel
+    Citadel,
+    NONE
 }Stage;
 
 @property Stage stage;
@@ -26,10 +27,12 @@ typedef enum Stage : NSUInteger {
 @property CGPoint point;
 @property NSString* imageName;
 @property NSString* name;
+@property NSInteger cost;
+@property SKNode *imageNode;
 
 - (id)initWithStage:(Stage) s andTerrain: (Terrain *) t;
 
-
+-(BOOL)checkIfConstructionPossible:(SKNode*)node;
 
 - (id) initWithImage:(NSString*)image atPoint:(CGPoint)aPoint andStage:(Stage) s andTerrain: (Terrain *) t;
 @end
