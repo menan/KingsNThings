@@ -886,6 +886,7 @@ float degToRad(float degree) {
 
 - (void) creaturesMoved:(SKSpriteNode *) n AtTerrain:(Terrain *) t{
     
+    NSLog(@"Node is %@ " , n.name);
     if(t != nil){
         Player *tempPlayer = [game findPlayerByTerrain:t];
         //checks if any player owns the territory
@@ -972,13 +973,13 @@ float degToRad(float degree) {
     float towerSizeNode = sizeNode + 4;
     
     if([game isInitialPhase]){
-        /*if(![node.accessibilityLabel isEqualToString:@"tower"]){
+        if(![node.accessibilityLabel isEqualToString:@"tower"]){
             UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Invalid Move" message: @"na'aa you can't cheat;) first thing to build is tower" delegate: self                                       cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
             
             [error show];
             [node removeFromParent];
-        }*/
-        //else{
+        }
+        else{
             Building *b = [[Building alloc] initWithImage:node.name atPoint:node.position andStage:Tower andTerrain:t];
             [t setHasBuilding:YES];
             if ([owner setBuilding:b]){
@@ -987,15 +988,15 @@ float degToRad(float degree) {
                 [node setSize:CGSizeMake(towerSizeNode, towerSizeNode)];
                 [node setPosition:CGPointMake(t.node.position.x - 10, t.node.position.y + 22)];
             }
-        //}
+        }
     }
-    // else if([game isConstructionPhase]){
+    // /else if([game isConstructionPhase]){
     else{
         if([t hasBuilding]){
             
             Building *currentBuilding = [owner getBuildingOnTerrain:t];
             
-            NSLog(@"Current building %@ ",[currentBuilding.imageNode accessibilityLabel]);
+            NSLog(@"Current building %@ ",[owner getBuildingOnTerrain:t].imageNode);
             
             if([node.name isEqualToString:currentBuilding.imageName]){
                 /*UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Invalid Move" message: @"You can't have two forts of same type on one terrain" delegate: self                                       cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
@@ -1022,6 +1023,7 @@ float degToRad(float degree) {
                             if([[owner bank] getBalance] >= 20){
                                 if ([owner setBuilding:newBuilding]){
                                     [owner removeBuilding:currentBuilding];
+                                    [newBuilding setImageNode:node];
                                     [[currentBuilding imageNode] removeFromParent];
                                     [owner removeBuilding:currentBuilding];
                                     node.name = @"bowl";
@@ -1041,6 +1043,7 @@ float degToRad(float degree) {
                                 if ([owner setBuilding:newBuilding]){
                                     [node setPosition:[[currentBuilding imageNode] position]];
                                     [[currentBuilding imageNode] removeFromParent];
+                                    [newBuilding setImageNode:node];
 
                                     [owner removeBuilding:currentBuilding];
                                     node.name = @"bowl";
@@ -1089,9 +1092,12 @@ float degToRad(float degree) {
 }
 
 -(void) recruiteSpecial:(SKSpriteNode*)node{
+    NSLog(@"Inside recruite special");
     int diOne , diTwo;
     NSRunLoop *loop = [NSRunLoop currentRunLoop];
     Creature* special = [[Creature alloc]initWithImage:node.name atPoint:node.position];
+    
+    // if player want to pay mony before rokling dices
 
     while(([diceOneLabel.text integerValue] == 0 || [diceTwoLabel.text integerValue] == 0 )&& [loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate                                                                                                                                        distantFuture]]){
         
@@ -1100,11 +1106,12 @@ float degToRad(float degree) {
     diTwo = [diceTwoLabel.text integerValue];
     
     if((diOne + diTwo) >= (special.combatValue*2)){
-        
+        // player can add character to army
         
     }
     else {
-        
+        // if player want to pay mony before rokling dices
+        // else return character to its place
         
     }
     

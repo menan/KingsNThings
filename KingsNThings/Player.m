@@ -256,7 +256,7 @@ static NSInteger counter = 0;
         if([[b terrain] isEqual:ter]){
             building = b;
             NSLog(@"building is found %@",building.imageName);
-            return b;
+            //return b;
         }
     }
     
