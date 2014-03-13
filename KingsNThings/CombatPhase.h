@@ -23,11 +23,11 @@
 
 @property Building* building;
 
-@property NSInteger attackerNumberOfHits,defenderNumberOfHits;
+@property int attackerNumberOfHits,defenderNumberOfHits;
 
-@property NSInteger diceOne, diceTwo;
+@property int diceOne, diceTwo;
 @property NSMutableArray* attackerRolledDice, *defenderRolledDice;
-@property NSInteger attakerChargeCreatures ,defenderChargeCreatures;
+@property int attakerChargeCreatures ,defenderChargeCreatures;
 
 
 

@@ -10,11 +10,8 @@
 #import <Foundation/Foundation.h>
 #import "Player.h"
 #import "MyScene.h"
-#import "Server.h"
 
-@interface GamePlay : NSObject<ServerDelegate>
-
-@property(nonatomic, retain) Server *server;
+@interface GamePlay : NSObject
 
 @property Player *me;
 @property MyScene *scene;
@@ -34,5 +31,5 @@
 -(Terrain*) findTerrainAt:(CGPoint)thisPoint;
 -(Player*)findPlayerByOrder:(NSInteger)order;
 -(void) assignScene:(MyScene*)sce;
-- (void) broadCastMessage: (NSString *) message;
+- (void) presentGCTurnViewController:(id)sender;
 @end

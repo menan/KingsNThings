@@ -936,7 +936,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 - (BOOL) initiateGoldCollection{
     int totalIncome = 0;
     
-    [game broadCastMessage:@"Initiating Gold Collection!"];
+    [game presentGCTurnViewController:self];
     
     for(Player * p in game.players){
         totalIncome += [p getIncome];

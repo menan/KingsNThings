@@ -11,6 +11,8 @@
 		6832A14F1897735900476D5D /* Terrain.m in Sources */ = {isa = PBXBuildFile; fileRef = 6832A14E1897735900476D5D /* Terrain.m */; };
 		6832A1521897736700476D5D /* Board.m in Sources */ = {isa = PBXBuildFile; fileRef = 6832A1511897736700476D5D /* Board.m */; };
 		6832A1551897754B00476D5D /* Bank.m in Sources */ = {isa = PBXBuildFile; fileRef = 6832A1541897754B00476D5D /* Bank.m */; };
+		6845A82818D169AA00C057B0 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6845A82718D169AA00C057B0 /* GameKit.framework */; };
+		6845A82D18D171F700C057B0 /* GCTurnBasedMatchHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6845A82C18D171F700C057B0 /* GCTurnBasedMatchHelper.m */; };
 		686C97271888A88500BE6D42 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686C97261888A88500BE6D42 /* Foundation.framework */; };
 		686C97291888A88500BE6D42 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686C97281888A88500BE6D42 /* CoreGraphics.framework */; };
 		686C972B1888A88500BE6D42 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 686C972A1888A88500BE6D42 /* UIKit.framework */; };
@@ -58,7 +60,6 @@
 		686C97CC188FA3BD00BE6D42 /* sc_10.png in Resources */ = {isa = PBXBuildFile; fileRef = 686C97C1188FA3BD00BE6D42 /* sc_10.png */; };
 		686C97CD188FA3BD00BE6D42 /* sc_11.png in Resources */ = {isa = PBXBuildFile; fileRef = 686C97C2188FA3BD00BE6D42 /* sc_11.png */; };
 		686C97CF188FA9CC00BE6D42 /* bc.png in Resources */ = {isa = PBXBuildFile; fileRef = 686C97CE188FA9CC00BE6D42 /* bc.png */; };
-		68C1C32E18CAD85F003813CA /* Server.m in Sources */ = {isa = PBXBuildFile; fileRef = 68C1C32D18CAD85F003813CA /* Server.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		68EF3313189CB0FD00A93480 /* battle.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 68EF330E189CB0FD00A93480 /* battle.jpg */; };
 		68EF3314189CB0FD00A93480 /* p_gray.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 68EF330F189CB0FD00A93480 /* p_gray.jpg */; };
 		68EF3315189CB0FD00A93480 /* p_green.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 68EF3310189CB0FD00A93480 /* p_green.jpg */; };
@@ -277,6 +278,9 @@
 		6832A1511897736700476D5D /* Board.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Board.m; sourceTree = "<group>"; };
 		6832A1531897754B00476D5D /* Bank.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bank.h; sourceTree = "<group>"; };
 		6832A1541897754B00476D5D /* Bank.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bank.m; sourceTree = "<group>"; };
+		6845A82718D169AA00C057B0 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		6845A82B18D171F700C057B0 /* GCTurnBasedMatchHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCTurnBasedMatchHelper.h; sourceTree = "<group>"; };
+		6845A82C18D171F700C057B0 /* GCTurnBasedMatchHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCTurnBasedMatchHelper.m; sourceTree = "<group>"; };
 		686C97231888A88500BE6D42 /* KingsNThings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KingsNThings.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		686C97261888A88500BE6D42 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		686C97281888A88500BE6D42 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -330,8 +334,6 @@
 		686C97C1188FA3BD00BE6D42 /* sc_10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sc_10.png; sourceTree = "<group>"; };
 		686C97C2188FA3BD00BE6D42 /* sc_11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sc_11.png; sourceTree = "<group>"; };
 		686C97CE188FA9CC00BE6D42 /* bc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bc.png; sourceTree = "<group>"; };
-		68C1C32C18CAD85F003813CA /* Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Server.h; sourceTree = "<group>"; };
-		68C1C32D18CAD85F003813CA /* Server.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Server.m; sourceTree = "<group>"; };
 		68EF330E189CB0FD00A93480 /* battle.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = battle.jpg; sourceTree = "<group>"; };
 		68EF330F189CB0FD00A93480 /* p_gray.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = p_gray.jpg; sourceTree = "<group>"; };
 		68EF3310189CB0FD00A93480 /* p_green.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = p_green.jpg; sourceTree = "<group>"; };
@@ -544,6 +546,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6845A82818D169AA00C057B0 /* GameKit.framework in Frameworks */,
 				686C97291888A88500BE6D42 /* CoreGraphics.framework in Frameworks */,
 				686C972B1888A88500BE6D42 /* UIKit.framework in Frameworks */,
 				686C972D1888A88500BE6D42 /* SpriteKit.framework in Frameworks */,
@@ -588,6 +591,7 @@
 		686C97251888A88500BE6D42 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6845A82718D169AA00C057B0 /* GameKit.framework */,
 				686C97261888A88500BE6D42 /* Foundation.framework */,
 				686C97281888A88500BE6D42 /* CoreGraphics.framework */,
 				686C972A1888A88500BE6D42 /* UIKit.framework */,
@@ -600,7 +604,6 @@
 		686C972E1888A88500BE6D42 /* KingsNThings */ = {
 			isa = PBXGroup;
 			children = (
-				68C1C32B18CAD85F003813CA /* Server */,
 				686C973A1888A88500BE6D42 /* Main.storyboard */,
 				686C97451888A88500BE6D42 /* Images.xcassets */,
 				686C972F1888A88500BE6D42 /* Supporting Files */,
@@ -633,6 +636,8 @@
 				68EF331F189CD51A00A93480 /* GamePlay.m */,
 				E81E3BF418A427CE00449AA8 /* Building.h */,
 				E81E3BF518A427CE00449AA8 /* Building.m */,
+				6845A82B18D171F700C057B0 /* GCTurnBasedMatchHelper.h */,
+				6845A82C18D171F700C057B0 /* GCTurnBasedMatchHelper.m */,
 			);
 			path = KingsNThings;
 			sourceTree = "<group>";
@@ -736,15 +741,6 @@
 				686C97C2188FA3BD00BE6D42 /* sc_11.png */,
 			);
 			name = "special creatures";
-			sourceTree = "<group>";
-		};
-		68C1C32B18CAD85F003813CA /* Server */ = {
-			isa = PBXGroup;
-			children = (
-				68C1C32C18CAD85F003813CA /* Server.h */,
-				68C1C32D18CAD85F003813CA /* Server.m */,
-			);
-			path = Server;
 			sourceTree = "<group>";
 		};
 		68EF3318189CB10200A93480 /* markers */ = {
@@ -1077,6 +1073,17 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = Tinrit;
 				TargetAttributes = {
+					686C97221888A88500BE6D42 = {
+						DevelopmentTeam = P7DAG38SF9;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
+							com.apple.InterAppAudio = {
+								enabled = 0;
+							};
+						};
+					};
 					686C974A1888A88500BE6D42 = {
 						TestTargetID = 686C97221888A88500BE6D42;
 					};
@@ -1353,7 +1360,7 @@
 				686C97391888A88500BE6D42 /* AppDelegate.m in Sources */,
 				68EF331D189CCEF700A93480 /* NSMutableArrayShuffling.m in Sources */,
 				68EF3320189CD51A00A93480 /* GamePlay.m in Sources */,
-				68C1C32E18CAD85F003813CA /* Server.m in Sources */,
+				6845A82D18D171F700C057B0 /* GCTurnBasedMatchHelper.m in Sources */,
 				6832A14F1897735900476D5D /* Terrain.m in Sources */,
 				6832A1551897754B00476D5D /* Bank.m in Sources */,
 				C59E4D1018A5E0FE00CCBA0D /* CombatScene.m in Sources */,
@@ -1492,10 +1499,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KingsNThings/KingsNThings-Prefix.pch";
 				INFOPLIST_FILE = "KingsNThings/KingsNThings-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1506,10 +1516,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KingsNThings/KingsNThings-Prefix.pch";
 				INFOPLIST_FILE = "KingsNThings/KingsNThings-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				WRAPPER_EXTENSION = app;
 			};

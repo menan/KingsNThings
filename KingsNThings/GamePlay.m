@@ -13,6 +13,7 @@
 #import "MyScene.h"
 #import "CombatPhase.h"
 #import "Board.h"
+#import "GCTurnBasedMatchHelper.h"
 
 @implementation GamePlay{
     MyScene *scene;
@@ -32,25 +33,12 @@
     if(self){
         board = b;
         goldCollectionCompleted = NO;
-        
-        
-        NSString *type = @"KingsNThings35";
-        
-        
-        _server = [[Server alloc] initWithProtocol:type];
-        _server.delegate = self;
-        NSError *error = nil;
-        if(![_server start:&error]) {
-            NSLog(@"error = %@", error);
-        }
-        
+                
         me = [[Player alloc] init];
-        me.server = _server;
         players = [[NSMutableArray alloc] init];
         
         players = [[NSMutableArray alloc] initWithObjects:me, nil];
         terrains = [[NSMutableArray alloc]init];
-        servers = [[NSMutableArray alloc]initWithObjects:_server, nil];
        
         
         //[self setPlayerArmy];
@@ -339,95 +327,29 @@ return NULL;
     
 }
 
-- (BOOL) removePlayerByServer: (Server *) thisServer{
-    for (Player *p in players) {
-        if ([p.server isEqual:thisServer]) {
-            [p hasLeft:YES];
-            return YES;
+
+
+#pragma GameCenter Functions
+
+
+- (void) presentGCTurnViewController:(id)sender {
+    [[GCTurnBasedMatchHelper sharedInstance] findMatchWithMinPlayers:2 maxPlayers:4 viewController:scene.controller];
+}
+
+- (void) endTurn:(id)sender {
+    GKTurnBasedMatch *currentMatch = [[GCTurnBasedMatchHelper sharedInstance] currentMatch];
+    NSString *text = @"Suppp!!";
+    NSData *data = [text dataUsingEncoding:NSUTF8StringEncoding];
+    
+    [currentMatch endMatchInTurnWithMatchData:data completionHandler:^(NSError *error) {
+        if (error) {
+            NSLog(@"Error ending turn: %@", error);
         }
-    }
-    return NO;
+        else{
+            NSLog(@"Send Turn, %@, participants: %@", data, currentMatch.participants);
+        }
+    }];
 }
-
-- (void) closeConnections{
-    [_server stop];
-    [_server stopBrowser];
-}
-
-- (void) broadCastMessage: (NSString *) message{
-    int i = 0;
-    for (Player *p in players) {
-        i++;
-        NSData *data = [message dataUsingEncoding:NSUTF8StringEncoding];
-        NSError *error = nil;
-        
-        [p.server sendData:data error:&error];
-    }
-}
-
-#pragma mark Server Delegate Methods
-
-- (void)serverRemoteConnectionComplete:(Server *)thisServer {
-    NSLog(@"Server Started, players: %@",thisServer);
-    
-    // this is called when the remote side finishes joining with the socket as
-    // notification that the other side has made its connection with this side
-//    self.server = thisServer;
-    
-    //    if (players.count == 4) {
-    //        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Limit Reached"
-    //                                                        message:@"Sorry, but this game already has 4 players in it."
-    //                                                       delegate:self
-    //                                              cancelButtonTitle:@"OK"
-    //                                              otherButtonTitles:nil];
-    //        [alert show];
-    //    }
-    //    else{
-    
-//    Player *p = [[Player alloc] init];
-    me.server = thisServer;
-//    [servers addObject:thisServer];
-    [players addObject:me];
-    
-    NSLog(@"now players: %@",players);
-//    [board drawMarkersForPlayer:players.count -1];
-//    [board updateBank];
-    
-}
-
-- (void)serverStopped:(Server *)server {
-    NSLog(@"Server stopped");
-}
-
-- (void)server:(Server *)server didNotStart:(NSDictionary *)errorDict {
-    NSLog(@"Server did not start %@", errorDict);
-}
-
-- (void)server:(Server *)server didAcceptData:(NSData *)data {
-    NSLog(@"Server did accept data %@", data);
-    NSString *message = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    if(nil != message || [message length] > 0) {
-        NSLog(@"messaged received: %@",message);
-    } else {
-        NSLog(@"no data received");
-    }
-}
-
-- (void)server:(Server *)server lostConnection:(NSDictionary *)errorDict {
-    NSLog(@"Server lost connection %@", errorDict);
-    [self removePlayerByServer:server];
-    [self closeConnections];
-}
-
-- (void)serviceAdded:(NSNetService *)service moreComing:(BOOL)more {
-    NSLog(@"found a player tho: %@", [service name]);
-    [self.server connectToRemoteService:service];
-}
-
-- (void)serviceRemoved:(NSNetService *)service moreComing:(BOOL)more {
-    NSLog(@"wtf player left: %@", [service name]);
-}
-
 
 
 @end

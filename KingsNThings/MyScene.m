@@ -19,6 +19,7 @@
     Board *gameBoard;
 }
 
+@synthesize controller;
 -(id)initWithSize:(CGSize)size {    
     if (self = [super initWithSize:size]) {
         
@@ -129,6 +130,10 @@ CGPoint mult(const CGPoint v, const CGFloat s) {
 }
 -(void)update:(CFTimeInterval)currentTime {
     /* Called before each frame is rendered */
+}
+
+- (id) getGame{
+    return gameBoard.game;
 }
 
 @end
