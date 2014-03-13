@@ -11,7 +11,6 @@
 #import "Terrain.h"
 #import "Building.h"
 #import "Army.h"
-#import "Server.h"
 
 
 @interface Player : NSObject
@@ -29,7 +28,6 @@
 @property BOOL playerLeft;
 @property NSMutableDictionary * combat;
 
-@property(nonatomic, retain) Server *server;
 
 - (BOOL) setBuilding: (Building *) building;
 - (BOOL) setTerritory: (Terrain *) territory;
