@@ -13,7 +13,10 @@
 @property (nonatomic, strong) SKSpriteNode *board;
 @property (nonatomic, strong) SKSpriteNode *selectedNode;
 @property (nonatomic, strong) SKLabelNode *myLabel;
+@property (nonatomic, strong) UIViewController *controller;
+
 -(void) transitToCombat:(id)attacker andDefender:(id)defender andCombatFunction:(id)combatfun;
 
 - (void) startSecondCombat;
+- (id) getGame;
 @end

@@ -239,7 +239,7 @@
             isAttacker = YES;
             isDefender = NO;
             NSString* str = @"Attacker: roll one dice for \n ";
-            str = [str stringByAppendingString:[NSString stringWithFormat:@"%i",[attackerMagicCreature count]]];
+            str = [str stringByAppendingString:[NSString stringWithFormat:@"%d",[attackerMagicCreature count]]];
             str = [str stringByAppendingString:@" times."];
             
             [combatScene setInstructionText:str];
@@ -259,10 +259,10 @@
             isDefender = YES;
             NSString* str = @"Defender: roll one dice for \n ";
             if([building isMagic] && ([building combatValue] > 0)){
-                str = [str stringByAppendingString:[NSString stringWithFormat:@"%i",[defenderMagicCreature count]+1]];
+                str = [str stringByAppendingString:[NSString stringWithFormat:@"%d",[defenderMagicCreature count]+1]];
             }
             else{
-                str = [str stringByAppendingString:[NSString stringWithFormat:@"%i",[defenderMagicCreature count]]];
+                str = [str stringByAppendingString:[NSString stringWithFormat:@"%d",[defenderMagicCreature count]]];
             }
 
 
@@ -277,8 +277,8 @@
         }
         
         for(int i = 0 ; i < [attackerMagicCreature count] ; i++){
-            
-            if([[attackerMagicCreature objectAtIndex: i] combatValue] >= [[attackerRolledDice objectAtIndex:i] integerValue] ){
+            Creature *c = [attackerMagicCreature objectAtIndex: i];
+            if(c.combatValue >= [[attackerRolledDice objectAtIndex:i] integerValue] ){
                 
                 attackerNumberOfHits += 1;
             }
@@ -290,8 +290,8 @@
         
         
         for(int i = 0 ; i < [defenderMagicCreature count] ; i++){
-            
-            if([[defenderMagicCreature objectAtIndex: i] combatValue] >= [[defenderRolledDice objectAtIndex:i] integerValue] )
+            Creature *c = [defenderMagicCreature objectAtIndex: i];
+            if(c.combatValue >= [[defenderRolledDice objectAtIndex:i] integerValue] )
                 defenderNumberOfHits += 1;
         }
         if([building isMagic] && ([building combatValue] > 0)){
@@ -304,12 +304,12 @@
         
         //Inform player how many hits are applied
         NSString* str = @"Attacker: can apply \n ";
-        str = [str stringByAppendingString:[NSString stringWithFormat:@"%i",attackerNumberOfHits]];
+        str = [str stringByAppendingString:[NSString stringWithFormat:@"%d",attackerNumberOfHits]];
         str = [str stringByAppendingString:@" hits."];
         
         
         str = [str stringByAppendingString:@" \n Defender: can apply \n "];
-        str = [str stringByAppendingString:[NSString stringWithFormat:@"%i",defenderNumberOfHits]];
+        str = [str stringByAppendingString:[NSString stringWithFormat:@"%d",defenderNumberOfHits]];
         str = [str stringByAppendingString:@" hits. \n Choose creature(s) to take the hits"];
         
         [combatScene setInstructionText:str];
@@ -376,8 +376,8 @@
         }
         
         for(int i = 0 ; i < [attackerRangedCreature count] ; i++){
-            
-            if([[attackerRangedCreature objectAtIndex: i] combatValue] >= [[attackerRolledDice objectAtIndex:i] integerValue] ){
+            Creature *c = [attackerRangedCreature objectAtIndex: i];
+            if(c.combatValue >= [[attackerRolledDice objectAtIndex:i] integerValue] ){
                 
                 attackerNumberOfHits += 1;
             }
@@ -387,8 +387,9 @@
         
         
         for(int i = 0 ; i < [defenderRangedCreature count]; i++){
+            Creature *c = [defenderRangedCreature objectAtIndex: i];
             
-            if([[defenderRangedCreature objectAtIndex: i] combatValue] >= [[defenderRolledDice objectAtIndex:i] integerValue] )
+            if(c.combatValue >= [[defenderRolledDice objectAtIndex:i] integerValue] )
                     defenderNumberOfHits += 1;
         }
         if([building isRanged] && ([building combatValue])){
@@ -437,9 +438,9 @@
             
             
             NSString* str = @"Attacker: roll one dice  \n ";
-            str = [str stringByAppendingString:[NSString stringWithFormat:@"%i",([attackerMeleeCreature count] - attakerChargeCreatures)]];
+            str = [str stringByAppendingString:[NSString stringWithFormat:@"%d",([attackerMeleeCreature count] - attakerChargeCreatures)]];
             str = [str stringByAppendingString:@" times. and two dices for each Charge(C) creatures for "];
-            str = [str stringByAppendingString:[NSString stringWithFormat:@"%i %@",attakerChargeCreatures,@"times."]];
+            str = [str stringByAppendingString:[NSString stringWithFormat:@"%d %@",attakerChargeCreatures ,@"times."]];
             
             
             [combatScene setInstructionText:str];
@@ -473,22 +474,22 @@
             
         }
         int j = 0;
-        for(int i = 0 ; i <  [attackerMeleeCreature count]; i++){
+        for(Creature *c in attackerMeleeCreature){
             
-            if([[attackerMeleeCreature objectAtIndex: i] isCharge]){
+            if([c isCharge]){
                 
-                if([[attackerMeleeCreature objectAtIndex: i] combatValue] >= [[attackerRolledDice objectAtIndex:j] integerValue] ){
+                if(c.combatValue >= [[attackerRolledDice objectAtIndex:j] integerValue] ){
                    
                     attackerNumberOfHits += 1;
                     
                 }
-                if([[attackerMeleeCreature objectAtIndex: i] combatValue] >= [[attackerRolledDice objectAtIndex:j+1] integerValue] ){
+                if(c.combatValue >= [[attackerRolledDice objectAtIndex:j+1] integerValue] ){
                         attackerNumberOfHits += 1;
                 }
                 j+=1;
             }
             else{
-                if([[attackerMeleeCreature objectAtIndex: i] combatValue] >= [[attackerRolledDice objectAtIndex:j] integerValue] ){
+                if(c.combatValue >= [[attackerRolledDice objectAtIndex:j] integerValue] ){
                 
                     attackerNumberOfHits += 1;
                 }
@@ -499,21 +500,21 @@
         
         
         j = 0;
-        for(int i = 0 ; i < [defenderMeleeCreature count]  ; i++){
+        for(Creature *c in defenderMeleeCreature){
             
-            if([[defenderMeleeCreature objectAtIndex: i] isCharge]){
-                if([[defenderMeleeCreature objectAtIndex: i] combatValue] >= [[defenderRolledDice objectAtIndex:j] integerValue] ){
+            if([c isCharge]){
+                if(c.combatValue >= [[defenderRolledDice objectAtIndex:j] integerValue] ){
                     
                     defenderNumberOfHits += 1;
                 }
-                if([[defenderMeleeCreature objectAtIndex: i] combatValue] >= [[defenderRolledDice objectAtIndex:j+1] integerValue] ){
+                if(c.combatValue >= [[defenderRolledDice objectAtIndex:j+1] integerValue] ){
                     defenderNumberOfHits += 1;
                 }
                 
                 j+=1;
             }
             else{
-                if([[defenderMeleeCreature objectAtIndex: i] combatValue] >= [[defenderRolledDice objectAtIndex:j] integerValue] ){
+                if([c combatValue] >= [[defenderRolledDice objectAtIndex:j] integerValue] ){
                     
                     defenderNumberOfHits += 1;
                 }

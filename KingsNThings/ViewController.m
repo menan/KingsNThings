@@ -7,25 +7,17 @@
 //
 
 #import "ViewController.h"
-#import "MyScene.h"
+#import "GCTurnBasedMatchHelper.h"
 
 @implementation ViewController
 
+@synthesize scene;
+
+
 - (void)viewDidLoad
 {
+    [self openScene];
     [super viewDidLoad];
-
-    // Configure the view.
-    SKView * skView = (SKView *)self.view;
-    skView.showsFPS = NO;
-    skView.showsNodeCount = NO;
-    
-    // Create and configure the scene.
-    SKScene * scene = [MyScene sceneWithSize:skView.bounds.size];
-    scene.scaleMode = SKSceneScaleModeAspectFill;
-//    [scene setAnchorPoint:CGPointMake(0.0f, 0.0f)];
-    // Present the scene.
-    [skView presentScene:scene];
 }
 
 - (BOOL)shouldAutorotate
@@ -46,10 +38,18 @@
     return YES;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Release any cached data, images, etc that aren't in use.
+- (void) openScene{
+    [[GCTurnBasedMatchHelper sharedInstance] authenticateLocalUser];
+
+    SKView * skView = (SKView *)self.view;
+    skView.showsFPS = NO;
+    skView.showsNodeCount = NO;
+    
+    // Create and configure the scene.
+    scene = [MyScene sceneWithSize:skView.bounds.size];
+    scene.controller = self;
+    scene.scaleMode = SKSceneScaleModeAspectFill;
+    [skView presentScene:scene];
 }
 
 @end

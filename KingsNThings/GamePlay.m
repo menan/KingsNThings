@@ -12,28 +12,32 @@
 #import "Bank.h"
 #import "MyScene.h"
 #import "CombatPhase.h"
+#import "Board.h"
+#import "GCTurnBasedMatchHelper.h"
 
 @implementation GamePlay{
     MyScene *scene;
+    NSMutableArray *servers;
+    id board;
     
 }
 
-@synthesize player1,player2,player3,player4,oneDice,secondDice,goldCollectionCompleted, players;
+@synthesize me,oneDice,secondDice,goldCollectionCompleted, players;
 
 @synthesize p1Stack1,p1Stack2,p2Stack1,p3Stack1,p3Stack2,p3Stack3,p4Stack1,p4Stack2,p4Stack3,goldPhase,terrains, isMovementPhase , isThingRecrPahse, isComabtPahse,isInitialPhase ,isConstructionPhase, scene;
 
 
--(id) initWith4Players{
+-(id) initWithBoard:(id) b{
     
     self = [super init];
     if(self){
+        board = b;
         goldCollectionCompleted = NO;
-        player1 = [[Player alloc] initWithArmy];
-        player2 = [[Player alloc] initWithArmy];
-        player3 = [[Player alloc] initWithArmy];
-        player4 = [[Player alloc] initWithArmy];
+                
+        me = [[Player alloc] init];
+        players = [[NSMutableArray alloc] init];
         
-        players = [[NSMutableArray alloc] initWithObjects:player1, player2, player3, player4, nil];
+        players = [[NSMutableArray alloc] initWithObjects:me, nil];
         terrains = [[NSMutableArray alloc]init];
        
         
@@ -75,6 +79,7 @@
         p4Stack1 = @[@"-n Tribesmen -c 2 -t Plains -a 2",@"-n Giant Lizard -c 2 -t Swamp -a 2",@"-n Villains -t Plains -a 2",@"-n Tigers -c 2 -t Jungle -a 3"];
         p4Stack2 = @[@"-n Vampire Bat -t Swamp -s Fly -a 4",@"-n Tribesmen -c 2 -t Plains -a 2",@"-n Dark Wizard -t Swamp -s Fly -s Magic -a 1",@"-n Black Knight -t Swamp -s Charge -a 3"];
         p4Stack3 = @[@"-n Giant Ape -c 2 -t Jungle -a 5",@"-n Buffalo Herd -t Plains -a 3"];
+        
         
     }
     
@@ -322,5 +327,30 @@ return NULL;
     
     
 }
+
+
+
+#pragma GameCenter Functions
+
+
+- (void) presentGCTurnViewController:(id)sender {
+    [[GCTurnBasedMatchHelper sharedInstance] findMatchWithMinPlayers:2 maxPlayers:4 viewController:scene.controller];
+}
+
+- (void) endTurn:(id)sender {
+    GKTurnBasedMatch *currentMatch = [[GCTurnBasedMatchHelper sharedInstance] currentMatch];
+    NSString *text = @"Suppp!!";
+    NSData *data = [text dataUsingEncoding:NSUTF8StringEncoding];
+    
+    [currentMatch endMatchInTurnWithMatchData:data completionHandler:^(NSError *error) {
+        if (error) {
+            NSLog(@"Error ending turn: %@", error);
+        }
+        else{
+            NSLog(@"Send Turn, %@, participants: %@", data, currentMatch.participants);
+        }
+    }];
+}
+
 
 @end

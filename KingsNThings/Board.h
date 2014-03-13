@@ -19,6 +19,8 @@
 
 - (id)initWithScene: (SKScene *) aScene atPoint: (CGPoint) aPoint withSize: (CGSize) aSize;
 - (void)draw;
+- (void) drawMarkersForPlayer:(int) j;
+- (void) updateBank;
 - (SKSpriteNode *) getBoard;
 -(GamePlay*)getGamePlay;
 - (void) resetText;

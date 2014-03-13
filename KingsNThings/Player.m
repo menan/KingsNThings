@@ -12,7 +12,6 @@
 @implementation Player{
 //    int income;
     int orderOfPlay;
-    
     //NSMutableArray* armies; // collection of armies
     //NSMutableArray* singleArmy; // single armies (eg stack one )
     //NSMutableArray* armies;
@@ -27,16 +26,13 @@
 
 static NSInteger counter = 0;
 
-@synthesize armies,playingOrder,bank,army, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat;
+@synthesize armies,playingOrder,bank,army, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat,playerLeft;
 
--(id) initWithArmy{
+-(id) init{
     
     self = [super init];
     if (self) {
-       
-        
         bank = [[Bank alloc] initWithOneGolds:0 twoGolds:0 fivesGolds:2 tenGolds:0 fifteenGolds:0 twentyGolds:0];
-        
         buildings = [[NSMutableArray alloc] init];
         territories = [[NSMutableArray alloc] init];
         specialCharacters = [[NSMutableArray alloc] init];
@@ -50,7 +46,7 @@ static NSInteger counter = 0;
         playingOrder =counter;
         hasWonCombat = NO;
         isWaitingCombat = NO;
-        
+        playerLeft = NO;
     }
     return self;
  
@@ -271,6 +267,10 @@ static NSInteger counter = 0;
     }
     
     return false;
+}
+
+- (void) hasLeft:(BOOL) left{
+    playerLeft = left;
 }
 
 @end
