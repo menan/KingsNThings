@@ -13,8 +13,8 @@
 @property (nonatomic, strong) SKSpriteNode* node;
 
 @property int combatValue;
-@property BOOL special;
-@property BOOL bluff, isFly, isMagic, isMelee, isRanged , isCharge ,inBowl ;
+@property BOOL isSpecial;
+@property BOOL isBluff, isFly, isMagic, isMelee, isRanged , isCharge ,inBowl ;
 @property NSString* symbol;
 @property NSString* name, *imageName;
 

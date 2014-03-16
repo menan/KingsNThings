@@ -24,7 +24,7 @@
 
 }
 
-@synthesize combatValue,special, bluff, symbol,isFly, isMagic, isMelee, isRanged , isCharge,name,inBowl,imageName;
+@synthesize combatValue,isSpecial, isBluff, symbol,isFly, isMagic, isMelee, isRanged , isCharge,name,inBowl,imageName;
 
 @synthesize node;
 
@@ -36,13 +36,13 @@
         board = aBoard;
         imageName = image;
         name = cName;
-        bluff = NO;
+        isBluff = NO;
         inBowl = YES;
         symbol = cType;
         terrainType = terrain;
         combatValue = value;
         numberofTimes = 1;
-        special = iSpecial;
+       isSpecial = iSpecial;
     }
     return self;
 }
@@ -52,7 +52,7 @@
         point = aPoint;
         board = aBoard;
         imageName = [NSString stringWithFormat:@"%@.jpg",string];
-        bluff = NO;
+       isBluff = NO;
         inBowl = YES;
         numberofTimes = 1;
         [self setValuesFromString:string];
@@ -67,10 +67,10 @@
         point = aPoint;
         board = aBoard;
         imageName = [NSString stringWithFormat:@"%@.jpg",string];
-        bluff = NO;
+       isBluff = NO;
         inBowl = YES;
         numberofTimes = 1;
-        special = s;
+       isSpecial = s;
         [self setValuesFromString:string];
     }
     return self;
@@ -82,7 +82,7 @@
        point = aPoint;
         
         imageName = [NSString stringWithFormat:@"%@.jpg",image];
-        bluff = NO;
+       isBluff = NO;
         inBowl = NO;
         numberofTimes = 1;
         isCharge = NO;
@@ -131,6 +131,10 @@
             numberofTimes = [[trimmed substringFromIndex:2] integerValue];
 //            NSLog(@"numberofTimes: %d", numberofTimes);
         }
+        else if ([trimmed hasPrefix:@"p"]){
+            
+            isSpecial = YES;
+        }
         else {
 //            NSLog(@"something else occured: %@",trimmed);
         }
@@ -148,7 +152,7 @@
     [node setName:name];
     node.size = CGSizeMake(37,37);
     [node setPosition:point];
-    if (inBowl && special == NO) {
+    if (inBowl && isSpecial == NO) {
         node.color = [SKColor blackColor];
         node.colorBlendFactor = .85;
     }

@@ -22,7 +22,8 @@
 
 @property NSArray *p1Stack1,*p1Stack2,*p2Stack1,*p3Stack1,*p3Stack2,*p3Stack3,*p4Stack1,*p4Stack2,*p4Stack3;
 
-@property BOOL goldCollectionCompleted,goldPhase , isMovementPhase , isThingRecrPahse, isComabtPahse,isMagicRound,isRangedRound,isMeleeRound;
+@property BOOL goldCollectionCompleted,goldPhase , isMovementPhase , isThingRecrPahse, isComabtPahse,isInitialPhase,isConstructionPhase;
+
 - (void) initiateCombat: (Player*) p;
 -(id) initWithBoard:(id) b;
 -(void) combatPhase:(Player *)attacker withArmy:(Army*)attackerArmy andPlayer:(Player*)defender withArmy:(Army*)defenderArmy;

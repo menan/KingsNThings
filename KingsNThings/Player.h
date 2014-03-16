@@ -30,6 +30,7 @@
 
 
 - (BOOL) setBuilding: (Building *) building;
+-(BOOL) removeBuilding:(Building*) building;
 - (BOOL) setTerritory: (Terrain *) territory;
 - (NSMutableArray *) getTerritories;
 - (int) getBankBalance;

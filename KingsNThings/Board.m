@@ -118,7 +118,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 //    [self drawRack:CGPointMake(620.0f, (size.height) - 240)];
 //    [self drawRack:CGPointMake(620.0f, (size.height) - 330)];
     
-    [self drawCitadels:CGPointMake(23.0f, (size.height) - 100)];
+    [self drawForts:CGPointMake(23.0f, (size.height) - 100)];
     
     [self drawSpecialCreatures:CGPointMake(160.0f, (size.height) - 20)];
     
@@ -339,7 +339,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
     
 }
-- (void) drawCitadels:(CGPoint) aPoint{
+- (void) drawForts:(CGPoint) aPoint{
     
     for (int i = 0; i < playersCount; i++) {
         
@@ -352,26 +352,34 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         
         SKSpriteNode* tower = [SKSpriteNode spriteNodeWithImageNamed:@"-n Tower -a 1.jpg"];
         [tower setName:@"-n Tower -a 1.jpg"];
+        [tower setAccessibilityValue:@"fort"];
+        [tower setAccessibilityLabel:@"tower"];
         tower.size = CGSizeMake(40,40);
         [tower setPosition:CGPointMake(aPoint.x + 43, aPoint.y)];
         [board addChild:tower];
         
         
-        SKSpriteNode *keep = [SKSpriteNode spriteNodeWithImageNamed:@"keep"];
-        [keep setName:@"Keep"];
+        SKSpriteNode *keep = [SKSpriteNode spriteNodeWithImageNamed:@"-n Keep -a 2.jpg"];
+        [keep setName:@"-n Keep -a 2.jpg"];
+        [keep setAccessibilityValue:@"fort"];
+        [keep setAccessibilityLabel:@"keep"];
         keep.size = CGSizeMake(40,40);
         [keep setPosition:CGPointMake(aPoint.x + 43, aPoint.y - 43 )];
         [board addChild:keep];
         
-        SKSpriteNode *castle = [SKSpriteNode spriteNodeWithImageNamed:@"castle"];
-        [castle setName:@"Castle"];
+        SKSpriteNode *castle = [SKSpriteNode spriteNodeWithImageNamed:@"-n Castle -a 3.jpg"];
+        [castle setName:@"-n Castle -a 3.jpg"];
+        [castle setAccessibilityValue:@"fort"];
+        [castle setAccessibilityLabel:@"castle"];
         castle.size = CGSizeMake(40,40);
         [castle setPosition:aPoint];
         [board addChild:castle];
         
         
-        SKSpriteNode *citadel = [SKSpriteNode spriteNodeWithImageNamed:@"citadel"];
-        [citadel setName:@"Citadel"];
+        SKSpriteNode *citadel = [SKSpriteNode spriteNodeWithImageNamed:@"-n Citadel -a 4.jpg"];
+        [citadel setName:@"-n Citadel -a 4.jpg"];
+        [citadel setAccessibilityValue:@"fort"];
+        [citadel setAccessibilityLabel:@"citadel"];
         citadel.size = CGSizeMake(40,40);
         [citadel setPosition:CGPointMake(aPoint.x, aPoint.y - 43 )];
         [board addChild:citadel];
@@ -400,14 +408,51 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 }
 
 - (void) drawSpecialCreatures:(CGPoint) aPoint{
-    NSArray *namesString = @[@"-n Arch Cleric -a 5.jpg",@"-n Forest King -a 4.jpg",@"-n Master Theif -a 4.jpg",@"-n Arch Mage -a 6.jpg",@"-n Ghaog II -s Fly -a 6.jpg",@"-n Mountain King -a 4.jpg",@"-n Assassin Primus -a 4.jpg",@"-n Grand Duke -a 4.jpg",@"-n Plains Lord -a 4.jpg",@"-n Baron Munchausen -a 4.jpg",@"-n Greathunter -t Plains -s Range -a 4.jpg",@"-n Sir Lancealot -s Charge -a 5.jpg",@"-n Deerhunter -a 4.jpg",@"-n Ice Lord -a 4.jpg",@"-n Swamp King -a 4.jpg",@"-n Desert Master -a 4.jpg",@"-n Jungle Lord -a 4.jpg",@"-n Swordmaster -a 4.jpg",@"-n Dwarf King -a 5.jpg",@"-n Lord Of Eagles -s Fly -a 5.jpg",@"-n Warlord -a 5.jpg",@"-n Elfe Lord -s Range -a 6.jpg",@"-n Marksman -s Range -a 2 -a 5.jpg"];
+    /*NSArray *namesString = @[@"-n Arch Cleric -a 5.jpg",@"-n Forest King -a 4.jpg",@"-n Master Theif -a 4.jpg",@"-n Arch Mage -a 6.jpg",@"-n Ghaog II -s Fly -a 6.jpg",@"-n Mountain King -a 4.jpg",@"-n Assassin Primus -a 4.jpg",@"-n Grand Duke -a 4.jpg",@"-n Plains Lord -a 4.jpg",@"-n Baron Munchausen -a 4.jpg",@"-n Greathunter -t Plains -s Range -a 4.jpg",@"-n Sir Lancealot -s Charge -a 5.jpg",@"-n Deerhunter -a 4.jpg",@"-n Ice Lord -a 4.jpg",@"-n Swamp King -a 4.jpg",@"-n Desert Master -a 4.jpg",@"-n Jungle Lord -a 4.jpg",@"-n Swordmaster -a 4.jpg",@"-n Dwarf King -a 5.jpg",@"-n Lord Of Eagles -s Fly -a 5.jpg",@"-n Warlord -a 5.jpg",@"-n Elfe Lord -s Range -a 6.jpg",@"-n Marksman -s Range -a 2 -a 5.jpg"];*/
     
-    int i;
+     NSArray *namesString = @[@"-n Arch Cleric -s Magic -a 5 -p Special.jpg",@"-n Arch Mage -s Magic -a 6 -p Special.jpg",@"-n Assassin Primus -a 4 -p Special.jpg",@"-n Baron Munchausen -a 4 -p Special.jpg",@"-n Deerhunter -a 4 -p Special.jpg",@"-n Desert Master -a 4 -p Special.jpg",@"-n Dwarf King -a 5 -p Special.jpg",@"-n Elfe Lord -s Range -a 6 -p Special.jpg",@"-n Forest King -a 4 -p Special.jpg",@"-n Ghaog II -s Fly -a 6 -p Special.jpg",@"-n Grand Duke -a 4 -p Special.jpg",@"-n Ice Lord -a 4 -p Special.jpg",@"-n Jungle Lord -a 4 -p Special.jpg",@"-n Lord Of Eagles -s Fly -a 5 -p Special.jpg",@"-n Marksman -s Range -a 2 -a 5 -p Special.jpg",@"-n Master Theif -a 4 -p Special.jpg",@"-n Mountain King -a 4 -p Special.jpg",@"-n Plains Lord -a 4 -p Special.jpg",@"-n Sir Lancealot -s Charge -a 5 -p Special.jpg",@"-n Swamp King -a 4 -p Special.jpg",@"-n Swordmaster -a 4 -p Special.jpg",@"-n Warlord -a 5 -p Special.jpg"];
+    
+    for (int i = 0; i <= 8; i++) {
+        
+        NSString *imageName = [namesString objectAtIndex:i];
+        float imageSize = 36;
+        float offsetFraction = aPoint.x + ((imageSize + 1) * (i + 1));
+   // NSString* imageName = [NSString stringWithFormat:@"%@.jpg",name];
+    
+    SKSpriteNode* node = [SKSpriteNode spriteNodeWithImageNamed:imageName];
+    [node setName:imageName];
+    node.accessibilityValue = @"creature";
+    node.accessibilityLabel = @"special";
+    node.size = CGSizeMake(36,36);
+    [node setPosition:CGPointMake(offsetFraction, aPoint.y)];
+    [board addChild:node];
+    }
+
+    for (int j = 12; j <= 19; j++) {
+        NSString *imageName = [namesString objectAtIndex:j];
+        
+        int num = j - namesString.count/2;
+        
+        float imageSize = 36;
+        
+        float offsetFraction = aPoint.x + ((imageSize + 1) * (num + 1));
+        
+        SKSpriteNode* node = [SKSpriteNode spriteNodeWithImageNamed:imageName];
+        [node setName:imageName];
+        node.accessibilityLabel = @"special";
+        node.accessibilityValue = @"creature";
+        node.size = CGSizeMake(36,36);
+        [node setPosition:CGPointMake(offsetFraction, aPoint.y - 37)];
+        [board addChild:node];
+        
+    }
+    
+   /* int i;
     
     for (i = 0; i <= 8; i++) {
         NSString *name = [namesString objectAtIndex:i];
-        
-        
+    
+    
         float imageSize = 36;
         float offsetFraction = aPoint.x + ((imageSize + 1) * (i + 1));
         Creature* creature = [[Creature alloc] initWithBoard:board atPoint:CGPointMake(offsetFraction, aPoint.y) fromString:name isSpecial:YES];
@@ -427,7 +472,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         [creature draw];
         
     }
-    
+    */
     
 }
 
@@ -644,7 +689,17 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 }
 
 - (void) nodeTapped:(SKSpriteNode*) node{
-    [textLabel setText:[node name]];
+        [textLabel setText:[node name]];
+    if([node.accessibilityLabel isEqualToString:@"special"]){
+        [node removeAllActions];
+        SKAction *sequence = [SKAction sequence:@[[SKAction rotateByAngle:degToRad(-4.0f) duration:0.1],[SKAction rotateByAngle:0.0 duration:0.1],[SKAction rotateByAngle:degToRad(4.0f) duration:0.1]]];
+        [node runAction:[SKAction repeatActionForever:sequence]];
+        [self recruiteSpecial:node];
+        
+    }
+}
+float degToRad(float degree) {
+	return degree / 180.0f * M_PI;
 }
 
 - (void) nodeMoving:(SKSpriteNode*) node to:(CGPoint) movedTo{
@@ -799,81 +854,28 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         [self rollDiceTwo];
     }
     else if ([node.name isEqualToString:@"collection"]){
+        [game setIsInitialPhase:NO];
         [self initiateGoldCollection];
     }
-    else if ([node.name isEqualToString:@"-n Tower -a 1.jpg"]){
+    else if ([node.accessibilityValue isEqualToString:@"fort"]){
         
         Terrain* t = [self findTerrainAt:terrainPoint];
         Player* owner = [game findPlayerByTerrain:t];
         
         if (terrainLocated && owner != nil) {
-            Building *b = [[Building alloc] initWithImage:node.name atPoint:node.position andStage:Tower andTerrain:t];
-            [t setHasBuilding:YES];
-            if ([owner setBuilding:b]){
-                node.name = @"bowl";
-                [node setSize:CGSizeMake(towerSizeNode, towerSizeNode)];
-                [node setPosition:CGPointMake(t.node.position.x - 10, t.node.position.y + 22)];
-            }
-            else{
+            [self constructBuilding:owner withBuilding:node onTerrain:t];
+                    }
+        else{
                 [node setPosition:CGPointMake(23.0f + 43, (size.height) - 100)];
             }
         }
-        
+         else if ([node.name isEqualToString:@"battle"]){
+        [game initiateCombat:game.player1];
     }
-    else if ([node.name isEqualToString:@"Keep"]){
-        
-        Terrain* t = [self findTerrainAt:terrainPoint];
-        Player* owner = [game findPlayerByTerrain:t];
-        
-        if (terrainLocated && owner != nil) {
-            Building *b = [[Building alloc] initWithStage:Keep andTerrain:t];
-            if ([owner setBuilding:b]){
-                node.name = @"bowl";
-                [node setSize:CGSizeMake(towerSizeNode, towerSizeNode)];
-                [node setPosition:CGPointMake(t.node.position.x - 10, t.node.position.y + 17)];
-            }
-            else{
-                [node setPosition:CGPointMake(23.0f + 43, (size.height) - 100 - 43)];
-            }
-        }
-    }
-    else if ([node.name isEqualToString:@"Castle"]){
-        
-        Terrain* t = [self findTerrainAt:terrainPoint];
-        Player* owner = [game findPlayerByTerrain:t];
-        
-        if (terrainLocated && owner != nil) {
-            Building *b = [[Building alloc] initWithStage:Castle andTerrain:t];
-            if ([owner setBuilding:b]){
-                node.name = @"bowl";
-                [node setSize:CGSizeMake(towerSizeNode, towerSizeNode)];
-                [node setPosition:CGPointMake(t.node.position.x - 10, t.node.position.y + 12)];
-            }
-            else{
-                [node setPosition:CGPointMake(23.0f, (size.height) - 100 - 43)];
-            }
-        }
-    }
-    else if ([node.name isEqualToString:@"Citadel"]){
-        
-        Terrain* t = [self findTerrainAt:terrainPoint];
-        Player* owner = [game findPlayerByTerrain:t];
-        
-        if (terrainLocated && owner != nil) {
-            Building *b = [[Building alloc] initWithStage:Citadel andTerrain:t];
-            if ([owner setBuilding:b]){
-                node.name = @"bowl";
-                [node setSize:CGSizeMake(towerSizeNode, towerSizeNode)];
-                [node setPosition:CGPointMake(t.node.position.x - 10, t.node.position.y + 7)];
-            }
-            else{
-                [node setPosition:CGPointMake(23.0f, (size.height) - 100)];
-            }
-        }
-    }
-    else if ([node.name isEqualToString:@"battle"]){
-        [game initiateCombat:game.me];
-    }
+         else if([node.accessibilityLabel isEqualToString:@"special"]){
+             [self recruiteSpecial:node];
+             
+         }
     else{
         
     }
@@ -882,6 +884,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 
 - (void) creaturesMoved:(SKSpriteNode *) n AtTerrain:(Terrain *) t{
     
+    NSLog(@"Node is %@ " , n.name);
     if(t != nil){
         Player *tempPlayer = [game findPlayerByTerrain:t];
         //checks if any player owns the territory
@@ -963,4 +966,155 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         return NO;
     }
 }
+
+// need to be fixed
+-(void) constructBuilding:(Player*)owner withBuilding:(SKSpriteNode*)node onTerrain:(Terrain*)t{
+    float sizeNode = 26;
+    float towerSizeNode = sizeNode + 4;
+    
+    if([game isInitialPhase]){
+        if(![node.accessibilityLabel isEqualToString:@"tower"]){
+            UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Invalid Move" message: @"na'aa you can't cheat;) first thing to build is tower" delegate: self                                       cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
+            
+            [error show];
+            [node removeFromParent];
+        }
+        else{
+            Building *b = [[Building alloc] initWithImage:node.name atPoint:node.position andStage:Tower andTerrain:t];
+            [t setHasBuilding:YES];
+            if ([owner setBuilding:b]){
+                [b setImageNode:node];
+                node.name = @"bowl";
+                [node setSize:CGSizeMake(towerSizeNode, towerSizeNode)];
+                [node setPosition:CGPointMake(t.node.position.x - 10, t.node.position.y + 22)];
+            }
+        }
+    }
+    // /else if([game isConstructionPhase]){
+    else{
+        if([t hasBuilding]){
+            
+            Building *currentBuilding = [owner getBuildingOnTerrain:t];
+            
+            NSLog(@"Current building %@ ",[owner getBuildingOnTerrain:t].imageNode);
+            
+            if([node.name isEqualToString:currentBuilding.imageName]){
+                /*UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Invalid Move" message: @"You can't have two forts of same type on one terrain" delegate: self                                       cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
+                
+                [error show];
+                [node removeFromParent];
+                //[node setPosition:CGPointMake(23.0f + 43, (size.height) - 100)];
+                */
+                return;
+            }
+            else {
+                
+                if([[owner bank] getBalance] >= 5){
+
+                    Building* newBuilding = [[Building alloc] initWithImage:node.name atPoint:node.position andStage:NONE andTerrain:t];
+                    
+                    //Building *currentBuilding = [owner getBuildingOnTerrain:t];
+
+                    NSLog(@"Current building %@ , new Buildign %@",[currentBuilding.imageNode accessibilityLabel],node.accessibilityLabel);
+
+                    if([currentBuilding checkIfConstructionPossible:node]){
+                       
+                        if ([node.accessibilityLabel isEqualToString:@"citadel"]) {
+                            if([[owner bank] getBalance] >= 20){
+                                if ([owner setBuilding:newBuilding]){
+                                    [owner removeBuilding:currentBuilding];
+                                    [newBuilding setImageNode:node];
+                                    [[currentBuilding imageNode] removeFromParent];
+                                    [owner removeBuilding:currentBuilding];
+                                    node.name = @"bowl";
+                                    [node setSize:CGSizeMake(towerSizeNode, towerSizeNode)];
+                                    [node setPosition:CGPointMake(t.node.position.x - 10, t.node.position.y + 7)];
+                                }
+                            }
+                            else{
+                                UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"insufficient Balance" message: @"You do not have enough money to build a Citadel!!" delegate: self                                       cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
+                                
+                                [error show];
+                                [node removeFromParent];
+                            }
+                        }
+                        else{//building other than citadel
+                            
+                                if ([owner setBuilding:newBuilding]){
+                                    [node setPosition:[[currentBuilding imageNode] position]];
+                                    [[currentBuilding imageNode] removeFromParent];
+                                    [newBuilding setImageNode:node];
+
+                                    [owner removeBuilding:currentBuilding];
+                                    node.name = @"bowl";
+                                    [node setSize:CGSizeMake(towerSizeNode, towerSizeNode)];
+                                    //[node setPosition:CGPointMake(t.node.position.x - 10, t.node.position.y + 7)];
+                                }
+                        }
+                    }
+                    else{
+                        UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Invalid Move" message: @"To Build forts you should go from stage to stage:Tower->Keep->Castle->Citadel!!" delegate: self                                       cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
+                        
+                        [error show];
+                        [node removeFromParent];
+
+                    }
+                }
+                else{
+                    UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"insufficient Balance" message: @"You do not have enough money to build a fort!!" delegate: self                                       cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
+                    
+                    [error show];
+                    [node removeFromParent];
+                }
+                
+            }
+        }
+        else{
+            if(![node.accessibilityLabel isEqualToString:@"tower"]){
+                UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Invalid Move" message: @"na'aa you can't cheat;) first thing to build is tower" delegate: self                                       cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
+                
+                [error show];
+                [node removeFromParent];
+            }
+            else{
+                Building *b = [[Building alloc] initWithImage:node.name atPoint:node.position andStage:Tower andTerrain:t];
+                [t setHasBuilding:YES];
+                if ([owner setBuilding:b]){
+                    [b setImageNode:node];
+                    node.name = @"bowl";
+                    [node setSize:CGSizeMake(towerSizeNode, towerSizeNode)];
+                    [node setPosition:CGPointMake(t.node.position.x - 10, t.node.position.y + 22)];
+                }
+            }
+        }
+    }
+
+}
+
+-(void) recruiteSpecial:(SKSpriteNode*)node{
+    NSLog(@"Inside recruite special");
+    int diOne , diTwo;
+    NSRunLoop *loop = [NSRunLoop currentRunLoop];
+    Creature* special = [[Creature alloc]initWithImage:node.name atPoint:node.position];
+    
+    // if player want to pay mony before rokling dices
+
+    while(([diceOneLabel.text integerValue] == 0 || [diceTwoLabel.text integerValue] == 0 )&& [loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate                                                                                                                                        distantFuture]]){
+        
+    }
+    diOne =[diceOneLabel.text integerValue];
+    diTwo = [diceTwoLabel.text integerValue];
+    
+    if((diOne + diTwo) >= (special.combatValue*2)){
+        // player can add character to army
+        
+    }
+    else {
+        // if player want to pay mony before rokling dices
+        // else return character to its place
+        
+    }
+    
+}
+                         
 @end

@@ -114,7 +114,7 @@ static NSInteger counter = 0;
     int sIncome = 0;
     for(Army *a in armies){
         for(Creature *c in a.creatures){
-            if (c.special){
+            if (c.isSpecial){
                 sIncome++;
             }
         }
@@ -251,12 +251,22 @@ static NSInteger counter = 0;
     for (Building *b in buildings) {
         if([[b terrain] isEqual:ter]){
             building = b;
-            NSLog(@"building is found");
-            break;
+            NSLog(@"building is found %@",building.imageName);
+            //return b;
         }
     }
     
     return building;
+}
+-(BOOL) removeBuilding:(Building*) oldBuilding;
+{
+    if([buildings count] > 0){
+     [buildings removeObject:oldBuilding];
+        NSLog(@"Building removed is %@",oldBuilding.imageName);
+        return true;
+    }
+    
+    return false;
 }
 
 - (void) hasLeft:(BOOL) left{
