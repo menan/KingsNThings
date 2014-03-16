@@ -37,7 +37,7 @@
         me = [[Player alloc] init];
         players = [[NSMutableArray alloc] init];
         
-        players = [[NSMutableArray alloc] initWithObjects:me, nil];
+        players = [[NSMutableArray alloc] initWithObjects:me,me,me,me, nil];
         terrains = [[NSMutableArray alloc]init];
        
         
