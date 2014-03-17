@@ -17,7 +17,6 @@
      SKTransition* transitionDoorsCloseHorizontal;
     CombatScene* combat;
     SpecialRecruitmentScene *recruitment;
-    NSArray * nonMovables;
     Board *gameBoard;
 }
 
@@ -27,7 +26,6 @@
         
         gameBoard = [[Board alloc] initWithScene:self atPoint:CGPointMake(0,225) withSize:CGSizeMake(size.width, 576.0f)];
         [gameBoard draw];
-        nonMovables = [gameBoard getNonMovables];
          [[gameBoard getGamePlay] assignScene:self];
         
         
@@ -49,43 +47,25 @@
     SKSpriteNode *touchedNode = (SKSpriteNode *)[self nodeAtPoint:touchLocation];
     //2
     
-	if(![_selectedNode isEqual:touchedNode]) {
-		[_selectedNode removeAllActions];
-        _selectedNode.colorBlendFactor = 0;
-		[_selectedNode runAction:[SKAction rotateToAngle:0.0f duration:0.1]];
+	if([gameBoard canSelectNode:touchedNode]) {
+        if (![_selectedNode isEqual:touchedNode]) {
+            [_selectedNode removeAllActions];
+            _selectedNode.colorBlendFactor = 0;
+        }
         
 		_selectedNode = touchedNode;
         NSLog(@"node tapped: %@",[_selectedNode name]);
-//        if ([nonMovables containsObject: [_selectedNode name]])
-//            [gameBoard resetText];
-//        else{
-//            [gameBoard nodeTapped:touchedNode];
-//        }
         
-		if([gameBoard.disabled containsObject: [_selectedNode name]] == NO) {
-            _selectedNode.color = [SKColor redColor];
-            _selectedNode.colorBlendFactor = 0.5;
-        }
+        _selectedNode.color = [SKColor redColor];
+        _selectedNode.colorBlendFactor = 0.5;
 	}
     
-}
-
-/*float degToRad(float degree) {
-	return degree / 180.0f * M_PI;
-}*/
-- (CGPoint)boundLayerPos:(CGPoint)newPos {
-    CGSize winSize = self.size;
-    CGPoint retval = newPos;
-    retval.x = MIN(retval.x, 0);
-    retval.x = MAX(retval.x, - self.frame.size.width+ winSize.width);
-    retval.y = [self position].y;
-    return retval;
 }
 
 - (void)panForTranslation:(CGPoint)translation {
     CGPoint position = [_selectedNode position];
     CGPoint moveTo = CGPointMake(position.x + translation.x, position.y + translation.y);
-    if([nonMovables containsObject: [_selectedNode name]] == NO) {
+    if([gameBoard canMoveNode:_selectedNode]) {
         [_selectedNode setPosition:moveTo];
     }
    

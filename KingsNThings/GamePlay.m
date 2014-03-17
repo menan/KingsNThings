@@ -123,19 +123,21 @@ return NULL;
     return playersArray;
 }
 
+- (BOOL) recruitmentComplete{
+    
+    BOOL done = YES;
+    int i = 0;
+    for (Player *p in players) {
+        i++;
+        //            NSLog(@"Player %d, done: %d",i, phase);
+        done &= p.recruitsRemaining == 0;
+    }
+    return done;
+}
 
 - (void) checkInitalRecruitmentComplete{
-    NSLog(@"current phase: %d",phase);
     if (phase == Initial) {
-        BOOL done = YES;
-        int i = 0;
-        for (Player *p in players) {
-            i++;
-            NSLog(@"Player %d, done: %d",i, phase);
-            done &= p.recruitsRemaining == 0;
-        }
-        
-        if (done) {
+        if ([self recruitmentComplete]) {
             [self advancePhase:GoldCollection];
         }
     }

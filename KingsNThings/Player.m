@@ -25,7 +25,7 @@
 
 static NSInteger counter = 0;
 
-@synthesize armies,playingOrder,bank,army, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat,playerLeft,movementsRemaining,rack;
+@synthesize armies,playingOrder,bank,army,returnedCreatures, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat,playerLeft,movementsRemaining,rack;
 
 -(id) init{
     
@@ -42,9 +42,10 @@ static NSInteger counter = 0;
         rack = [[NSMutableArray alloc]init];
         recruitsRemaining = 10;
         movementsRemaining = 4;
+        returnedCreatures = 0;
         counter +=1;
         balance = 0;
-        playingOrder =counter;
+        playingOrder = counter;
         hasWonCombat = NO;
         isWaitingCombat = NO;
         playerLeft = NO;
@@ -152,7 +153,13 @@ static NSInteger counter = 0;
         return nil;
 }
 
-
+- (void) returnedACreature{
+    returnedCreatures++;
+    if (returnedCreatures == 2) {
+        recruitsRemaining++;
+        returnedCreatures = 0;
+    }
+}
 
 -(NSInteger) numberOfArmies{
     return [armies count];
@@ -161,24 +168,16 @@ static NSInteger counter = 0;
 // to construct new army (stack) every time a players drag a creature to new territory
 -(Army*) constructNewArmy:(id)creatur atPoint:(CGPoint) aPoint withTerrain:(Terrain*)terrain{
     
-    recruitsRemaining--;
-    if (recruitsRemaining >= 0) {
-        
-        Army* arm = [[Army alloc]initWithPoint:aPoint];
-        [arm addCreatures:creatur];
-        [arm setTerrain:terrain];
-        [arm setArmyNumber:[self numberOfArmies]+1];
-        [arm setPlayerNumber:[self playingOrder]];
-        
-        //[arm setPosition:aPoint];
-        [armies addObject:arm];
-        NSLog(@"went in construct New Army and %d more recruits remaining", recruitsRemaining);
-        return arm;
-    }
-    else{
-        NSLog(@"You don't have anymore recruits left.");
-        return nil;
-    }
+    Army* arm = [[Army alloc]initWithPoint:aPoint];
+    [arm addCreatures:creatur];
+    [arm setTerrain:terrain];
+    [arm setArmyNumber:[self numberOfArmies]+1];
+    [arm setPlayerNumber:[self playingOrder]];
+    
+    //[arm setPosition:aPoint];
+    [armies addObject:arm];
+    NSLog(@"went in construct New Army and %d more recruits remaining", recruitsRemaining);
+    return arm;
    
 }
 
@@ -196,19 +195,9 @@ static NSInteger counter = 0;
 }
 
 -(BOOL) addCreatureToArmy:(id)creature inArmy:(Army*)force{
-    
-    recruitsRemaining--;
-    if (recruitsRemaining >= 0) {
-        
-        [force addCreatures:creature];
-        return YES;
-        NSLog(@"Creature is added and %d more recruits remaining", recruitsRemaining);
-    }
-    else{
-        return NO;
-        NSLog(@"You don't have anymore recruits left.");
-    }
-    
+    [force addCreatures:creature];
+    return YES;
+    NSLog(@"Creature is added and %d more recruits remaining", recruitsRemaining);
 }
 
 
@@ -272,4 +261,15 @@ static NSInteger counter = 0;
     return nil;
 }
 
+- (BOOL) removeCreatureFromRackByName:(NSString *) name{
+    
+    NSLog(@"trying to remove node from rack with name %@",name);
+    for (Creature *c in rack) {
+        if ([c.name isEqualToString:name]) {
+            [rack removeObject:c];
+            return YES;
+        }
+    }
+    return NO;
+}
 @end

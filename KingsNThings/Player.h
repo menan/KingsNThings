@@ -25,6 +25,7 @@
 @property Army* army;
 @property int balance; //to keep track of the paid amount to the bank when paid in 1s
 @property int recruitsRemaining;
+@property int returnedCreatures;
 @property int movementsRemaining;
 @property BOOL hasWonCombat;
 @property BOOL isWaitingCombat;
@@ -33,25 +34,25 @@
 
 
 - (BOOL) setBuilding: (Building *) building;
--(BOOL) removeBuilding:(Building*) building;
+- (BOOL) removeBuilding:(Building*) building;
 - (BOOL) setTerritory: (Terrain *) territory;
 - (NSMutableArray *) getTerritories;
 - (int) getBankBalance;
--(id) init;
+- (id) init;
 - (void) justPaid:(int) amount;
 - (void) justGotPaid:(int) amount;
-//- (Stage) getStage;
--(Bank *) getBank;
--(int) getIncome;
--(Army*) constructNewArmy:(id)creatur atPoint:(CGPoint) aPoint withTerrain:(Terrain*)terrain;
--(BOOL) addCreatureToArmy:(id)creature inArmy:(Army*)army;
--(void) printArmy;
--(Army*) armyByCreature:(id)creature;
--(NSInteger) numberOfArmies;
+- (Bank *) getBank;
+- (int) getIncome;
+- (Army*) constructNewArmy:(id)creatur atPoint:(CGPoint) aPoint withTerrain:(Terrain*)terrain;
+- (BOOL) addCreatureToArmy:(id)creature inArmy:(Army*)army;
+- (void) printArmy;
+- (Army*) armyByCreature:(id)creature;
+- (NSInteger) numberOfArmies;
 - (Army *) getArmyAtIndex:(NSInteger)index;
--(Army*) findArmyOnTerrain:(Terrain*)terrain;
--(Building*) getBuildingOnTerrain:(Terrain*)ter;
+- (Army*) findArmyOnTerrain:(Terrain*)terrain;
+- (Building*) getBuildingOnTerrain:(Terrain*)ter;
 - (void) hasLeft:(BOOL) left;
 - (Creature *) findCreatureOnRackByName:(NSString *) name;
-
+- (BOOL) removeCreatureFromRackByName:(NSString *) name;
+- (void) returnedACreature;
 @end

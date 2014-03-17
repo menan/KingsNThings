@@ -52,4 +52,5 @@ typedef enum {
 - (void) advancePhase: (Phase) p;
 - (void) presentGCTurnViewController:(id)sender;
 - (void) checkInitalRecruitmentComplete;
+- (BOOL) recruitmentComplete;
 @end

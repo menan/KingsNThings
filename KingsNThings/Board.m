@@ -52,7 +52,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         scene = aScene;
         playersCount = 7;
         nonMovables = @[@"board", @"bowl", @"rack", @"Gold 1", @"Gold 2", @"Gold 5", @"Gold 10", @"Gold 15", @"Gold 20", @"My Gold 1", @"My Gold 2", @"My Gold 5", @"My Gold 10", @"My Gold 15", @"My Gold 20", @"diceOne", @"diceTwo", @"collection", @"labels", @"Bank", @"My Stash", @"P4 Stash", @"P3 Stash", @"P2 Stash", @"balance",@"battle"];
-        disabled = @[@"labels", @"Bank", @"My Stash", @"P4 Stash", @"P3 Stash", @"P2 Stash", @"bowl", @"board"];
+        disabled = @[@"labels", @"Bank", @"My Stash", @"P4 Stash", @"P3 Stash", @"P2 Stash", @"bowl", @"board", @"rack"];
         
         terrainNames = @[@"Desert", @"Forest", @"Frozen Waste", @"Jungle", @"Mountains", @"Plains", @"Sea", @"Swamp"];
         
@@ -104,6 +104,13 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
     [self drawMarkers];
     
+    //    [self drawRack:CGPointMake(620.0f, (size.height) - 55)];
+    //    [self drawRack:CGPointMake(620.0f, (size.height) - 150)];
+    [self drawRack:CGPointMake(620.0f, (size.height) - 240)];
+    //    [self drawRack:CGPointMake(620.0f, (size.height) - 330)];
+    
+    
+    
     [self drawBowlwithThings:CGPointMake(450.0f, (size.height) - 120)];
     
 //    [self drawHradCodedThings:CGPointMake(450.0f, (size.height) - 120)];
@@ -112,11 +119,6 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
     
     
-    
-//    [self drawRack:CGPointMake(620.0f, (size.height) - 55)];
-//    [self drawRack:CGPointMake(620.0f, (size.height) - 150)];
-//    [self drawRack:CGPointMake(620.0f, (size.height) - 240)];
-//    [self drawRack:CGPointMake(620.0f, (size.height) - 330)];
     
     [self drawForts:CGPointMake(23.0f, (size.height) - 100)];
     
@@ -139,7 +141,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
     recruitLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     recruitLabel.name = @"labels";
-    recruitLabel.text = @"10 Recruits Remaining";
+    recruitLabel.text = [NSString stringWithFormat:@"%d Recruits Remaining", [game currentPlayer].recruitsRemaining];
     recruitLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeRight;
     recruitLabel.fontSize = 15;
     recruitLabel.position = CGPointMake(point.x + size.width - 5,25);
@@ -195,14 +197,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         [bowl addObject:creature];
     }
     
-    [bowl shuffle];
-    [bowl shuffle];
-    [bowl shuffle];
-    [bowl shuffle];
-    NSLog(@"creatures count: %d", bowl.count);
-    for (Creature * creature in bowl) {
-        [creature draw];
-    }
+    [self redrawCreatures];
     
 //    for (NSString *string in creatureList){
 //        NSString* imageName = [NSString stringWithFormat:@"%@.jpg",string];
@@ -699,8 +694,13 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 }
 
 - (Creature *) findCreatureByName:(NSString *) name{
-    NSLog(@"trying to located node wiht name %@",name);
+    //    NSLog(@"trying to located node wiht name %@",name);
     for (Creature *c in bowl) {
+        if ([c.name isEqualToString:name]) {
+            return c;
+        }
+    }
+    for (Creature *c in [[game currentPlayer] rack]) {
         if ([c.name isEqualToString:name]) {
             return c;
         }
@@ -709,11 +709,19 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 }
 
 - (BOOL) removeCreatureByName:(NSString *) name{
-    NSLog(@"trying to remove node with name %@",name);
     for (Creature *c in bowl) {
         if ([c.name isEqualToString:name]) {
             [bowl removeObject:c];
-            NSLog(@"just removed it");
+            NSLog(@"just removed %@ from the bowl",name);
+            return YES;
+        }
+    }
+    for (Creature *c in [[game currentPlayer] rack]) {
+        if ([c.name isEqualToString:name]) {
+            [bowl removeObject:c];
+            [game currentPlayer].recruitsRemaining++;
+            [self updateRecruitLabel:[game currentPlayer]];
+            NSLog(@"just removed %@ from the player rack",name);
             return YES;
         }
     }
@@ -773,7 +781,11 @@ float degToRad(float degree) {
             Creature *c = [[game currentPlayer] findCreatureOnRackByName:node.name];
             if (c){
                 [bowl addObject:c];
+                [[game currentPlayer] returnedACreature];
+                [self updateRecruitLabel:[game currentPlayer]];
                 [self redrawCreatures];
+                [[game currentPlayer] removeCreatureFromRackByName:node.name];
+                
                 NSLog(@"Added the creature back to the bowl and redrew things.");
             }
             
@@ -928,7 +940,7 @@ float degToRad(float degree) {
         
         if (terrainLocated && owner != nil) {
             [self constructBuilding:owner withBuilding:node onTerrain:t];
-                    }
+        }
         else{
                 [node setPosition:CGPointMake(23.0f + 43, (size.height) - 100)];
             }
@@ -944,13 +956,15 @@ float degToRad(float degree) {
         
     }
 }
-
+- (void) updateRecruitLabel:(Player *) p{
+    recruitLabel.text = [NSString stringWithFormat: @"%d Recruits Remaining", p.recruitsRemaining];
+}
 
 - (void) creaturesMoved:(SKSpriteNode *) n AtTerrain:(Terrain *) t{
     
     NSLog(@"Node is %@ , number of players at the terrain: %d" , n.name, [[game findPlayersByTerrain:t] count]);
     //checks if any player owns the territory and the terrain is found
-    if(t != nil && [[game findPlayersByTerrain:t] count] > 0){
+    if(t && [[game findPlayersByTerrain:t] count] > 0){
         Player *currentPlayer = [[game findPlayersByTerrain:t] objectAtIndex:0];
         Creature *creature = [self findCreatureByName:n.name];
         
@@ -963,7 +977,6 @@ float degToRad(float degree) {
         if(![t hasArmyOnIt]){
             a = [currentPlayer constructNewArmy:creature atPoint:n.position withTerrain:t];
             if (a != nil) {
-                recruitLabel.text = [NSString stringWithFormat: @"%d Recruits Remaining", currentPlayer.recruitsRemaining];
                 [a drawImage:board];
                 [n removeFromParent];
                 [t setHasArmyOnIt:YES];
@@ -979,7 +992,6 @@ float degToRad(float degree) {
             for(Army *army in [currentPlayer armies]){
                 if([army getTerrainLocation] == [t location]){
                     if([currentPlayer addCreatureToArmy:creature inArmy:army ]){
-                        recruitLabel.text = [NSString stringWithFormat: @"%d Recruits Remaining", currentPlayer.recruitsRemaining];
                        [n removeFromParent];
 
                     }
@@ -992,13 +1004,24 @@ float degToRad(float degree) {
         }
     }
     else{
-        [n setPosition:CGPointMake(480.0f, (size.height) - 175.0f)];
         Creature *creature = [self findCreatureByName:n.name];
-        [[game currentPlayer].rack addObject:creature];
+        if (creature && ![[game currentPlayer].rack containsObject:creature]) {
+            [[game currentPlayer].rack addObject:creature];
+        }
+        float offset = ([game currentPlayer].rack.count - 1) * n.size.width;
+        [n setPosition:CGPointMake(540.0f + offset, (size.height) - 225)];
         NSLog(@"terrain is either nil or no players found at the terrain, added to ur rack instead %@",[game currentPlayer].rack);
     }
-    
-    [game checkInitalRecruitmentComplete];
+    Player *currentPlayer;
+    if ([[game findPlayersByTerrain:t] count] == 0) {
+        currentPlayer = [game currentPlayer];
+    }
+    else{
+        currentPlayer = [[game findPlayersByTerrain:t] objectAtIndex:0];
+    }
+    currentPlayer.recruitsRemaining--;
+    [self updateRecruitLabel:currentPlayer];
+    [game checkInitalRecruitmentComplete]; //double checks to see if everyone finished recruiting so that we can move to next phase
     
     
 
@@ -1018,12 +1041,12 @@ float degToRad(float degree) {
             [bank withdraw:[p getIncome]];
             [p.bank deposit:[p getIncome]];
             
-            NSLog(@"Player balance %d after deposition and income was %d", [p.bank getBalance], [p getIncome]);
+//            NSLog(@"Player balance %d after deposition and income was %d", [p.bank getBalance], [p getIncome]);
             p.recruitsRemaining = 2;
             recruitLabel.text = [NSString stringWithFormat: @"%d Recruits Remaining", p.recruitsRemaining];
         }
         
-        NSLog(@"bank balance after collection phase completion %d", [bank getBalance]);
+//        NSLog(@"bank balance after collection phase completion %d", [bank getBalance]);
         [self updateBank];
         
         [game advancePhase:Recruitment];
@@ -1191,7 +1214,20 @@ float degToRad(float degree) {
     
 }
 
+- (BOOL) canMoveNode:(SKSpriteNode*) node{
+    if ([game recruitmentComplete]  && [node.accessibilityValue isEqualToString:@"creatures"] && node.position.x == 450 &&node.position.y == 456)
+        return NO;
+    else
+        return ![nonMovables containsObject: node.name];
+}
 
+- (BOOL) canSelectNode:(SKSpriteNode*) node{
+    NSLog(@"node positoin: %f,%f",node.position.x,node.position.y);
+    if ([game recruitmentComplete] && [node.accessibilityValue isEqualToString:@"creatures"] && node.position.x == 450 &&node.position.y == 456)
+        return NO;
+    else
+        return ![disabled containsObject:node.name];
+}
 
                          
 @end

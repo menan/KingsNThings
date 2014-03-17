@@ -23,11 +23,14 @@
 - (void) drawMarkersForPlayer:(int) j;
 - (void) updateBank;
 - (SKSpriteNode *) getBoard;
--(GamePlay*)getGamePlay;
+- (GamePlay*)getGamePlay;
 - (void) resetText;
 - (NSArray *) getNonMovables;
 - (void) rollDiceOne;
--(void) rollDiceTwo;
+- (void) rollDiceTwo;
 - (void) nodeTapped:(SKSpriteNode*) node;
 - (void) nodeMoved:(SKSpriteNode *)node nodes:(NSArray *)nodes;
+- (void) updateRecruitLabel:(Player *) p;
+- (BOOL) canMoveNode:(SKSpriteNode*) node;
+- (BOOL) canSelectNode:(SKSpriteNode*) node;
 @end
