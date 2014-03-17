@@ -24,9 +24,9 @@
 
 }
 
-static NSInteger counter = 0;
+static int counter = 0;
 
-@synthesize armies,playingOrder,bank,army, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat,playerLeft;
+@synthesize armies,playingOrder,bank,army, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat,playerLeft,hasBuiltCitadel;
 
 -(id) init{
     
@@ -47,6 +47,7 @@ static NSInteger counter = 0;
         hasWonCombat = NO;
         isWaitingCombat = NO;
         playerLeft = NO;
+        hasBuiltCitadel = NO;
     }
     return self;
  

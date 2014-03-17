@@ -51,7 +51,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         size = aSize;
         scene = aScene;
         playersCount = 7;
-        nonMovables = @[@"board", @"bowl", @"rack", @"Gold 1", @"Gold 2", @"Gold 5", @"Gold 10", @"Gold 15", @"Gold 20", @"My Gold 1", @"My Gold 2", @"My Gold 5", @"My Gold 10", @"My Gold 15", @"My Gold 20", @"diceOne", @"diceTwo", @"collection", @"labels", @"Bank", @"My Stash", @"P4 Stash", @"P3 Stash", @"P2 Stash", @"balance",@"battle"];
+        nonMovables = @[@"board", @"bowl", @"rack", @"Gold 1", @"Gold 2", @"Gold 5", @"Gold 10", @"Gold 15", @"Gold 20", @"My Gold 1", @"My Gold 2", @"My Gold 5", @"My Gold 10", @"My Gold 15", @"My Gold 20", @"diceOne", @"diceTwo", @"collection", @"labels", @"Bank", @"My Stash", @"P4 Stash", @"P3 Stash", @"P2 Stash", @"balance",@"battle",@"specialButton"];
         disabled = @[@"labels", @"Bank", @"My Stash", @"P4 Stash", @"P3 Stash", @"P2 Stash", @"bowl", @"board"];
         
         terrainNames = @[@"Desert", @"Forest", @"Frozen Waste", @"Jungle", @"Mountains", @"Plains", @"Sea", @"Swamp"];
@@ -120,7 +120,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
     [self drawForts:CGPointMake(23.0f, (size.height) - 100)];
     
-    [self drawSpecialCreatures:CGPointMake(160.0f, (size.height) - 20)];
+    [self drawSpecialCreatures:CGPointMake(350, (size.height) - 30)];
     
 }
 
@@ -408,8 +408,15 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 }
 
 - (void) drawSpecialCreatures:(CGPoint) aPoint{
-    /*NSArray *namesString = @[@"-n Arch Cleric -a 5.jpg",@"-n Forest King -a 4.jpg",@"-n Master Theif -a 4.jpg",@"-n Arch Mage -a 6.jpg",@"-n Ghaog II -s Fly -a 6.jpg",@"-n Mountain King -a 4.jpg",@"-n Assassin Primus -a 4.jpg",@"-n Grand Duke -a 4.jpg",@"-n Plains Lord -a 4.jpg",@"-n Baron Munchausen -a 4.jpg",@"-n Greathunter -t Plains -s Range -a 4.jpg",@"-n Sir Lancealot -s Charge -a 5.jpg",@"-n Deerhunter -a 4.jpg",@"-n Ice Lord -a 4.jpg",@"-n Swamp King -a 4.jpg",@"-n Desert Master -a 4.jpg",@"-n Jungle Lord -a 4.jpg",@"-n Swordmaster -a 4.jpg",@"-n Dwarf King -a 5.jpg",@"-n Lord Of Eagles -s Fly -a 5.jpg",@"-n Warlord -a 5.jpg",@"-n Elfe Lord -s Range -a 6.jpg",@"-n Marksman -s Range -a 2 -a 5.jpg"];*/
     
+    SKSpriteNode* node = [[SKSpriteNode alloc]initWithImageNamed:@"special_button.png"];
+    node.position = aPoint;
+    [node setName:@"specialButton"];
+    [node setSize:CGSizeMake(260,50)];
+    [board addChild:node];
+    
+    /*NSArray *namesString = @[@"-n Arch Cleric -a 5.jpg",@"-n Forest King -a 4.jpg",@"-n Master Theif -a 4.jpg",@"-n Arch Mage -a 6.jpg",@"-n Ghaog II -s Fly -a 6.jpg",@"-n Mountain King -a 4.jpg",@"-n Assassin Primus -a 4.jpg",@"-n Grand Duke -a 4.jpg",@"-n Plains Lord -a 4.jpg",@"-n Baron Munchausen -a 4.jpg",@"-n Greathunter -t Plains -s Range -a 4.jpg",@"-n Sir Lancealot -s Charge -a 5.jpg",@"-n Deerhunter -a 4.jpg",@"-n Ice Lord -a 4.jpg",@"-n Swamp King -a 4.jpg",@"-n Desert Master -a 4.jpg",@"-n Jungle Lord -a 4.jpg",@"-n Swordmaster -a 4.jpg",@"-n Dwarf King -a 5.jpg",@"-n Lord Of Eagles -s Fly -a 5.jpg",@"-n Warlord -a 5.jpg",@"-n Elfe Lord -s Range -a 6.jpg",@"-n Marksman -s Range -a 2 -a 5.jpg"];*/
+    /*
      NSArray *namesString = @[@"-n Arch Cleric -s Magic -a 5 -p Special.jpg",@"-n Arch Mage -s Magic -a 6 -p Special.jpg",@"-n Assassin Primus -a 4 -p Special.jpg",@"-n Baron Munchausen -a 4 -p Special.jpg",@"-n Deerhunter -a 4 -p Special.jpg",@"-n Desert Master -a 4 -p Special.jpg",@"-n Dwarf King -a 5 -p Special.jpg",@"-n Elfe Lord -s Range -a 6 -p Special.jpg",@"-n Forest King -a 4 -p Special.jpg",@"-n Ghaog II -s Fly -a 6 -p Special.jpg",@"-n Grand Duke -a 4 -p Special.jpg",@"-n Ice Lord -a 4 -p Special.jpg",@"-n Jungle Lord -a 4 -p Special.jpg",@"-n Lord Of Eagles -s Fly -a 5 -p Special.jpg",@"-n Marksman -s Range -a 2 -a 5 -p Special.jpg",@"-n Master Theif -a 4 -p Special.jpg",@"-n Mountain King -a 4 -p Special.jpg",@"-n Plains Lord -a 4 -p Special.jpg",@"-n Sir Lancealot -s Charge -a 5 -p Special.jpg",@"-n Swamp King -a 4 -p Special.jpg",@"-n Swordmaster -a 4 -p Special.jpg",@"-n Warlord -a 5 -p Special.jpg"];
     
     for (int i = 0; i <= 8; i++) {
@@ -473,6 +480,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         
     }
     */
+    
     
 }
 
@@ -870,8 +878,13 @@ float degToRad(float degree) {
             }
         }
          else if ([node.name isEqualToString:@"battle"]){
-        [game initiateCombat:game.player1];
+        [game initiateCombat:game.me];
     }
+         else if ([node.name isEqualToString:@"specialButton"]){
+            
+             
+             [game initiateCombat:game.me];
+         }
          else if([node.accessibilityLabel isEqualToString:@"special"]){
              [self recruiteSpecial:node];
              
@@ -999,17 +1012,22 @@ float degToRad(float degree) {
             NSLog(@"Current building %@ ",[owner getBuildingOnTerrain:t].imageNode);
             
             if([node.name isEqualToString:currentBuilding.imageName]){
-                /*UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Invalid Move" message: @"You can't have two forts of same type on one terrain" delegate: self                                       cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
+                UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Invalid Move" message: @"You can't have two forts of same type on one terrain" delegate: self                                       cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
                 
                 [error show];
                 [node removeFromParent];
                 //[node setPosition:CGPointMake(23.0f + 43, (size.height) - 100)];
-                */
-                return;
+                
+                
             }
             else {
                 
                 if([[owner bank] getBalance] >= 5){
+                    
+                    UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Money deducted" message: @"This operation will automaticlly deduct gold from your bank: 20 Gold for Citadel, 5 Gold for other forts" delegate: self                                       cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
+                    
+                    [error show];
+
 
                     Building* newBuilding = [[Building alloc] initWithImage:node.name atPoint:node.position andStage:NONE andTerrain:t];
                     
@@ -1021,14 +1039,24 @@ float degToRad(float degree) {
                        
                         if ([node.accessibilityLabel isEqualToString:@"citadel"]) {
                             if([[owner bank] getBalance] >= 20){
-                                if ([owner setBuilding:newBuilding]){
-                                    [owner removeBuilding:currentBuilding];
-                                    [newBuilding setImageNode:node];
-                                    [[currentBuilding imageNode] removeFromParent];
-                                    [owner removeBuilding:currentBuilding];
-                                    node.name = @"bowl";
-                                    [node setSize:CGSizeMake(towerSizeNode, towerSizeNode)];
-                                    [node setPosition:CGPointMake(t.node.position.x - 10, t.node.position.y + 7)];
+                                if(![owner hasBuiltCitadel]){
+                                    if ([owner setBuilding:newBuilding]){
+                                        
+                                        [owner removeBuilding:currentBuilding];
+                                        [newBuilding setImageNode:node];
+                                        [[currentBuilding imageNode] removeFromParent];
+                                        [owner removeBuilding:currentBuilding];
+                                        node.name = @"bowl";
+                                        [node setSize:CGSizeMake(towerSizeNode, towerSizeNode)];
+                                        [node setPosition:CGPointMake(t.node.position.x - 10, t.node.position.y + 7)];
+                                        [owner setHasBuiltCitadel:YES];
+                                        
+                                    }
+                                }
+                                else {
+                                    UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Citadel Building" message: @"You cannot build more than one Citadel" delegate: self                                       cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
+                                    
+                                    [error show];
                                 }
                             }
                             else{
@@ -1092,6 +1120,7 @@ float degToRad(float degree) {
 }
 
 -(void) recruiteSpecial:(SKSpriteNode*)node{
+    
     NSLog(@"Inside recruite special");
     int diOne , diTwo;
     NSRunLoop *loop = [NSRunLoop currentRunLoop];

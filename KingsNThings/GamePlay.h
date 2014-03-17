@@ -33,4 +33,5 @@
 -(Player*)findPlayerByOrder:(NSInteger)order;
 -(void) assignScene:(MyScene*)sce;
 - (void) presentGCTurnViewController:(id)sender;
+-(void) specialCharactersRecruiting:(Player*) player;
 @end
