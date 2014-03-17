@@ -147,10 +147,12 @@
 }
 
 - (void) draw{
+    [node removeFromParent]; //makes sure that it removes it to prevent duplications
     node = [SKSpriteNode spriteNodeWithImageNamed:imageName];
-    [node setName:name];
+    node.name = name;
+    node.accessibilityValue = @"creatures";
     node.size = CGSizeMake(37,37);
-    [node setPosition:point];
+    node.position = point;
     if (inBowl && isSpecial == NO) {
         node.color = [SKColor blackColor];
         node.colorBlendFactor = .85;

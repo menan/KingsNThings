@@ -19,7 +19,7 @@
     NSArray *terrainNames;
     
     //NSMutableArray *terrain;
-    NSMutableArray *creatures;
+    NSMutableArray *bowl;
     NSArray* markers;
     
     SKSpriteNode *board;
@@ -106,7 +106,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
     [self drawBowlwithThings:CGPointMake(450.0f, (size.height) - 120)];
     
-    [self drawHradCodedThings:CGPointMake(450.0f, (size.height) - 120)];
+//    [self drawHradCodedThings:CGPointMake(450.0f, (size.height) - 120)];
     
     
     
@@ -177,98 +177,96 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 }
 
 - (void) drawBowlwithThings:(CGPoint) aPoint{
-    SKSpriteNode *bowl = [SKSpriteNode spriteNodeWithImageNamed:@"bowl"];
-    [bowl setName:@"bowl"];
-    [bowl setPosition:aPoint];
-    [board addChild:bowl];
+    SKSpriteNode *bowlNode = [SKSpriteNode spriteNodeWithImageNamed:@"bowl"];
+    [bowlNode setName:@"bowl"];
+    [bowlNode setPosition:aPoint];
+    [board addChild:bowlNode];
     
     [self drawThings:aPoint];
 }
 
 - (void) drawThings:(CGPoint) aPoint{
-//    NSArray *creatureList = @[@"-n Baby Dragon -t Desert -s Fly -a 3", @"-n Giant Spider -t Desert -a 1", @"-n Sandworm -t Desert -a 3", @"-n Camel Corps -t Desert -a 3", @"-n Giant Wasp -t Desert -s Fly -a 2", @"-n Skletons -c 2 -t Desert -a 1", @"-n Dervish -c 2 -t Desert -s Magic -a 2", @"-n Giant Wasp -t Desert -s Fly -a 4", @"-n Sphinx -t Desert -s Magic -a 4", @"-n Desert Bat -t Desert -s Fly -a 1", @"-n Griffon -t Desert -s Fly -a 2", @"-n Vultures -c 2 -t Desert -s Fly -a 1", @"-n Dust Devil -t Desert -s Fly -a 4", @"-n Nomads -c 2 -t Desert -a 1", @"-n Yellow Knight -t Desert -s Charge -a 3", @"-n Genie -t Desert -s Magic -a 4", @"-n Old Dragon -s Fly -s Magic -a 4", @"-n Bandits -t Forest -a 2", @"-n Elves -t Forest -s Range -a 3", @"-n Pixies -c 2 -t Forest -s Fly -a 1", @"-n Bears -t Forest -a 2", @"-n Flying Squirrel -t Forest -s Fly -a 1", @"-n Unicorn -t Forest -a 4", @"-n Big Foot -t Forest -a 5", @"-n Flying Squirrel -t Forest -s Fly -a 2", @"-n Walking Tree -t Forest -a 5", @"-n Druid -t Forest -s Magic -a 3", @"-n Forester -t Forest -s Range -a 2", @"-n Wild Cat -t Forest -a 2", @"-n Dryad -t Forest -s Magic -a 1", @"-n Great Owl -t Forest -s Fly -a 2", @"-n Wyvern -t Forest -s Fly -a 3", @"-n Elf Mage -t Forest -s Magic -a 2", @"-n Green Knight -t Forest -s Charge -a 4", @"-n Elves -c 2 -t Forest -s Range -a 2", @"-n Killer Racoon -t Forest -a 2", @"-n Bird Of Paradise -t Jungle -s Fly -a 1", @"-n Head Hunter -t Jungle -s Range -a 2", @"-n Crawling Vines -t Jungle -a 6", @"-n Pterodactyl Warriors -c 2 -t Jungle -s Fly -s Range -a 2", @"-n Crocodiles -t Jungle -a 2", @"-n Pygmies -t Jungle -a 2", @"-n Dinasaur -t Jungle -a 4", @"-n Tigers -c 2 -t Jungle -a 3", @"-n Elephant -t Jungle -s Charge -a 4", @"-n Watusi -t Jungle -s 2", @"-n Giant Ape -c 2 -t Jungle -a 5", @"-n Witch Doctor -t Jungle -s Magic -a 2", @"-n Giant Snake -t Jungle -s 3", @"-n Dragon Rider -t Frozen Waste -s Fly -s Range -a 3", @"-n Killer Puffins -t Frozen Waste -s Fly -a 2", @"-n Elk Herd -t Frozen Waste -a 2", @"-n Mammoth -t Frozen Waste -s Charge -a 5", @"-n Eskimos -c 4 -t Frozen Waste -a 2", @"-n North Wind -t Frozen Waste -s Fly -s Magic -a 2", @"-n Ice Bats -t Frozen Waste -s Fly -a 1", @"-n Walrus -t Frozen Waste -a 4", @"-n Ice Giant -t Frozen Waste -s Range -a 5", @"-n White Brea -t Frozen Waste -a 4", @"-n Iceworm -t Frozen Waste -s Magic -a 4", @"-n White Dragon -t Frozen Waste -s Magic -a 5", @"-n Killer Penguins -t Frozen Waste -a 3", @"-n Wolves -t Frozen Waste -a 3", @"-n Brown Dragon -t Mountain -s Fly -a 3", @"-n Gaint Roc -t Mountain -s Fly -a 3", @"-n Little Roc -t Mountain -s Fly -a 2", @"-n Brown Knight -t Mountain -s Charge -a 4", @"-n Giant -t Mountain -s Range -a 4", @"-n Mountain Lion -t Mountain -a 2", @"-n Cyclops -t Mountain -a 5", @"-n Giant Condor -t Mountain -s Fly -a 3", @"-n Mountain Men -c 2 -t Mountain -a 1", @"-n Dwarves -t Mountain -s Charge -a 3", @"-n Goblins -c 4 -t Mountain -a 1", @"-n Orge Mountain -t Mountain -a 2", @"-n Dwarves -t Mountain -s Range -a 2", @"-n Great Eagle -t Mountain -s Fly -a 2", @"-n Troll -t Mountain -a 4", @"-n Dwarves -t Mountain -s Range -a 3", @"-n Great Hawk -t Mountain -s Fly -a 1", @"-n Buffalo Herd -t Plains -a 3", @"-n Giant Beetle -t Plains -s Fly -a 2", @"-n Pegasus -t Plains -s Fly -a 2", @"-n Buffalo Herd -t Plains -a 4", @"-n Great Hawk -t Plains -s Fly -a 2", @"-n Pterodactyl -t Plains -s Fly -a 3", @"-n Centaur -t Plains -a 2", @"-n Greathunter -t Plains -s Range -a 4", @"-n Tribesmen -c 2 -t Plains -a 2", @"-n Dragonfly -t Plains -s Fly -a 2", @"-n Gypsies -t Plains -s Magic -a 1", @"-n Villains -t Plains -a 2", @"-n Eagles -t Plains -s Fly -a 2", @"-n Gypsies -t Plains -s Magic -a 2", @"-n White Knight -t Plains -s Charge -a 3", @"-n Farmers -c 4 -t Plains -a 1", @"-n Hunter -t Plains -s Range -a 1", @"-n Wolf Pack -t Plains -a 3", @"-n Flying Buffalo -t Plains -s Fly -a 2", @"-n Lion Ride -t Plains -a 3", @"-n Tribesmen -c 2 -t Plains -a 2", @"-n Basilisk -t Swamp -s Magic -a 3", @"-n Giant Snake -t Swamp -a 3", @"-n Swamp Gas -t Swamp -s Fly -a 1", @"-n Black Knight -t Swamp -s Charge -a 3", @"-n Huge Leech -t Swamp -a 2", @"-n Swamp Rat -t Swamp -a 1", @"-n Crocodiles -t Swamp -a 2", @"-n Pirates -t Swamp -a 2", @"-n Thing -t Swamp -a 2", @"-n Dark Wizard -t Swamp -s Fly -s Magic -a 1", @"-n Poison Frog -t Swamp -a 1", @"-n Vampire Bat -t Swamp -s Fly -a 4", @"-n Ghost -c 4 -t Swamp -s Fly -a 1", @"-n Spirit -t Swamp -s Magic -a 2", @"-n Watersanke -t Swamp -a 1", @"-n Giant Lizard -c 2 -t Swamp -a 2", @"-n Sprote -t Swamp -s Magic -a 1", @"-n Will_O_Wisp -t Swamp -s Magic -a 2", @"-n Giant Mosquito -t Swamp -s Fly -a 2", @"-n Swamp Beast -t Swamp -a 3", @"-n Winged Pirhana -t Swamp -s Fly -a 3" ];
+    NSArray *creatureList = @[@"-n Baby Dragon -t Desert -s Fly -a 3", @"-n Giant Spider -t Desert -a 1", @"-n Sandworm -t Desert -a 3", @"-n Camel Corps -t Desert -a 3", @"-n Giant Wasp -t Desert -s Fly -a 2", @"-n Skletons -c 2 -t Desert -a 1", @"-n Dervish -c 2 -t Desert -s Magic -a 2", @"-n Giant Wasp -t Desert -s Fly -a 4", @"-n Sphinx -t Desert -s Magic -a 4", @"-n Desert Bat -t Desert -s Fly -a 1", @"-n Griffon -t Desert -s Fly -a 2", @"-n Vultures -c 2 -t Desert -s Fly -a 1", @"-n Dust Devil -t Desert -s Fly -a 4", @"-n Nomads -c 2 -t Desert -a 1", @"-n Yellow Knight -t Desert -s Charge -a 3", @"-n Genie -t Desert -s Magic -a 4", @"-n Old Dragon -s Fly -s Magic -a 4", @"-n Bandits -t Forest -a 2", @"-n Elves -t Forest -s Range -a 3", @"-n Pixies -c 2 -t Forest -s Fly -a 1", @"-n Bears -t Forest -a 2", @"-n Flying Squirrel -t Forest -s Fly -a 1", @"-n Unicorn -t Forest -a 4", @"-n Big Foot -t Forest -a 5", @"-n Flying Squirrel -t Forest -s Fly -a 2", @"-n Walking Tree -t Forest -a 5", @"-n Druid -t Forest -s Magic -a 3", @"-n Forester -t Forest -s Range -a 2", @"-n Wild Cat -t Forest -a 2", @"-n Dryad -t Forest -s Magic -a 1", @"-n Great Owl -t Forest -s Fly -a 2", @"-n Wyvern -t Forest -s Fly -a 3", @"-n Elf Mage -t Forest -s Magic -a 2", @"-n Green Knight -t Forest -s Charge -a 4", @"-n Elves -c 2 -t Forest -s Range -a 2", @"-n Killer Racoon -t Forest -a 2", @"-n Bird Of Paradise -t Jungle -s Fly -a 1", @"-n Head Hunter -t Jungle -s Range -a 2", @"-n Crawling Vines -t Jungle -a 6", @"-n Pterodactyl Warriors -c 2 -t Jungle -s Fly -s Range -a 2", @"-n Crocodiles -t Jungle -a 2", @"-n Pygmies -t Jungle -a 2", @"-n Dinasaur -t Jungle -a 4", @"-n Tigers -c 2 -t Jungle -a 3", @"-n Elephant -t Jungle -s Charge -a 4", @"-n Watusi -t Jungle -s 2", @"-n Giant Ape -c 2 -t Jungle -a 5", @"-n Witch Doctor -t Jungle -s Magic -a 2", @"-n Giant Snake -t Jungle -s 3", @"-n Dragon Rider -t Frozen Waste -s Fly -s Range -a 3", @"-n Killer Puffins -t Frozen Waste -s Fly -a 2", @"-n Elk Herd -t Frozen Waste -a 2", @"-n Mammoth -t Frozen Waste -s Charge -a 5", @"-n Eskimos -c 4 -t Frozen Waste -a 2", @"-n North Wind -t Frozen Waste -s Fly -s Magic -a 2", @"-n Ice Bats -t Frozen Waste -s Fly -a 1", @"-n Walrus -t Frozen Waste -a 4", @"-n Ice Giant -t Frozen Waste -s Range -a 5", @"-n White Brea -t Frozen Waste -a 4", @"-n Iceworm -t Frozen Waste -s Magic -a 4", @"-n White Dragon -t Frozen Waste -s Magic -a 5", @"-n Killer Penguins -t Frozen Waste -a 3", @"-n Wolves -t Frozen Waste -a 3", @"-n Brown Dragon -t Mountain -s Fly -a 3", @"-n Gaint Roc -t Mountain -s Fly -a 3", @"-n Little Roc -t Mountain -s Fly -a 2", @"-n Brown Knight -t Mountain -s Charge -a 4", @"-n Giant -t Mountain -s Range -a 4", @"-n Mountain Lion -t Mountain -a 2", @"-n Cyclops -t Mountain -a 5", @"-n Giant Condor -t Mountain -s Fly -a 3", @"-n Mountain Men -c 2 -t Mountain -a 1", @"-n Dwarves -t Mountain -s Charge -a 3", @"-n Goblins -c 4 -t Mountain -a 1", @"-n Orge Mountain -t Mountain -a 2", @"-n Dwarves -t Mountain -s Range -a 2", @"-n Great Eagle -t Mountain -s Fly -a 2", @"-n Troll -t Mountain -a 4", @"-n Dwarves -t Mountain -s Range -a 3", @"-n Great Hawk -t Mountain -s Fly -a 1", @"-n Buffalo Herd -t Plains -a 3", @"-n Giant Beetle -t Plains -s Fly -a 2", @"-n Pegasus -t Plains -s Fly -a 2", @"-n Buffalo Herd -t Plains -a 4", @"-n Great Hawk -t Plains -s Fly -a 2", @"-n Pterodactyl -t Plains -s Fly -a 3", @"-n Centaur -t Plains -a 2", @"-n Greathunter -t Plains -s Range -a 4", @"-n Tribesmen -c 2 -t Plains -a 2", @"-n Dragonfly -t Plains -s Fly -a 2", @"-n Gypsies -t Plains -s Magic -a 1", @"-n Villains -t Plains -a 2", @"-n Eagles -t Plains -s Fly -a 2", @"-n Gypsies -t Plains -s Magic -a 2", @"-n White Knight -t Plains -s Charge -a 3", @"-n Farmers -c 4 -t Plains -a 1", @"-n Hunter -t Plains -s Range -a 1", @"-n Wolf Pack -t Plains -a 3", @"-n Flying Buffalo -t Plains -s Fly -a 2", @"-n Lion Ride -t Plains -a 3", @"-n Tribesmen -c 2 -t Plains -a 2", @"-n Basilisk -t Swamp -s Magic -a 3", @"-n Giant Snake -t Swamp -a 3", @"-n Swamp Gas -t Swamp -s Fly -a 1", @"-n Black Knight -t Swamp -s Charge -a 3", @"-n Huge Leech -t Swamp -a 2", @"-n Swamp Rat -t Swamp -a 1", @"-n Crocodiles -t Swamp -a 2", @"-n Pirates -t Swamp -a 2", @"-n Thing -t Swamp -a 2", @"-n Dark Wizard -t Swamp -s Fly -s Magic -a 1", @"-n Poison Frog -t Swamp -a 1", @"-n Vampire Bat -t Swamp -s Fly -a 4", @"-n Ghost -c 4 -t Swamp -s Fly -a 1", @"-n Spirit -t Swamp -s Magic -a 2", @"-n Watersanke -t Swamp -a 1", @"-n Giant Lizard -c 2 -t Swamp -a 2", @"-n Sprote -t Swamp -s Magic -a 1", @"-n Will_O_Wisp -t Swamp -s Magic -a 2", @"-n Giant Mosquito -t Swamp -s Fly -a 2", @"-n Swamp Beast -t Swamp -a 3", @"-n Winged Pirhana -t Swamp -s Fly -a 3" ];
     
-   /* NSArray *creatureList = @[@"-n Cyclops -t Mountain -a 5",@"-n Mountain Men -c 2 -t Mountain -a 1",@"-n Goblins -c 4 -t Mountain -a 1"];
-    creatures = [[NSMutableArray alloc] init];
+    bowl = [[NSMutableArray alloc] init];
     
     for (NSString *str in creatureList) {
         Creature *creature = [[Creature alloc] initWithBoard:board atPoint:aPoint fromString:str];
-        [creature draw];
-        [creatures addObject:creature];
-    }*/
+        [bowl addObject:creature];
+    }
     
-    /*
-    NSLog(@"creatures count: %d", creatures.count);
-    
-    [creatures shuffle];
-    [creatures shuffle];
-    [creatures shuffle];
-    [creatures shuffle];
-    for (Creature * creature in creatures) {
+    [bowl shuffle];
+    [bowl shuffle];
+    [bowl shuffle];
+    [bowl shuffle];
+    NSLog(@"creatures count: %d", bowl.count);
+    for (Creature * creature in bowl) {
         [creature draw];
     }
-    for (NSString *string in creatureList){
-        NSString* imageName = [NSString stringWithFormat:@"%@.jpg",string];
-        SKSpriteNode* node = [SKSpriteNode spriteNodeWithImageNamed:imageName];
-        [node setName:imageName];
-        node.accessibilityValue = @"creatures";
-        node.size = CGSizeMake(36,36);
-        [node setPosition:aPoint];
-        node.color = [SKColor blackColor];
-        node.colorBlendFactor = .85;
-        [self setCreaturesInBowl:([self creaturesInBowl]+1)];
-        [board addChild:node];
-        
-        
-    }
-    NSLog(@"number of creatures in Bowl %d",[self creaturesInBowl]);
-    */
-}
-// only for iteration 1 demo-- order is very important
--(void) drawHradCodedThings:(CGPoint)aPoint{
-    NSArray* others = @[@"-n Cyclops -t Mountain -a 5",@"-n Mountain Men -c 2 -t Mountain -a 1",@"-n Goblins -c 4 -t Mountain -a 1",@"-n Giant Condor -t Mountain -s Fly -a 3"];
     
-    [self drawHardCodeArmy:others withPoint:aPoint];
-    [self drawHardCodeArmy:[game p4Stack3] withPoint: aPoint];
-    [self drawHardCodeArmy:[game p4Stack2] withPoint: aPoint];
-    [self drawHardCodeArmy:[game p4Stack1] withPoint: aPoint];
-    
-    [self drawHardCodeArmy:[game p3Stack3] withPoint:aPoint];
-    [self drawHardCodeArmy:[game p3Stack2] withPoint:aPoint];
-    [self drawHardCodeArmy:[game p3Stack1] withPoint: aPoint];
- 
-    [self drawHardCodeArmy:[game p2Stack1] withPoint:aPoint];
-  
-    [self drawHardCodeArmy:[game p1Stack2] withPoint: aPoint];
-    [self drawHardCodeArmy:[game p1Stack1] withPoint: aPoint];
-    
-    
+//    for (NSString *string in creatureList){
+//        NSString* imageName = [NSString stringWithFormat:@"%@.jpg",string];
+//        SKSpriteNode* node = [SKSpriteNode spriteNodeWithImageNamed:imageName];
+//        [node setName:imageName];
+//        node.accessibilityValue = @"creatures";
+//        node.size = CGSizeMake(36,36);
+//        [node setPosition:aPoint];
+//        node.color = [SKColor blackColor];
+//        node.colorBlendFactor = .85;
+//        [self setCreaturesInBowl:([self creaturesInBowl]+1)];
+//        [board addChild:node];
+//        
+//        
+//    }
+//    NSLog(@"number of creatures in Bowl %d",[self creaturesInBowl]);
     
 }
 
-- (void) drawHardCodeArmy:(NSArray*)army withPoint:(CGPoint) aPoint {
-    
-       for (NSString *string in army){
-           
-               NSString* imageName = [NSString stringWithFormat:@"%@.jpg",string];
-           
-               SKSpriteNode* node = [SKSpriteNode spriteNodeWithImageNamed:imageName];
-               [node setName:imageName];
-               node.accessibilityValue = @"creatures";
-               // [node setGroup:@"creature"];
-               node.size = CGSizeMake(36,36);
-               [node setPosition:aPoint];
-               node.color = [SKColor blackColor];
-               node.colorBlendFactor = .85;
-               [self setCreaturesInBowl:([self creaturesInBowl]+1)];
-               [board addChild:node];
-           
-           
-        
-}
-    NSLog(@"number of creatures in Bowl %d",[self creaturesInBowl]);
-    
-}
+// only for iteration 1 demo-- order is very important
+//-(void) drawHradCodedThings:(CGPoint)aPoint{
+//    NSArray* others = @[@"-n Cyclops -t Mountain -a 5",@"-n Mountain Men -c 2 -t Mountain -a 1",@"-n Goblins -c 4 -t Mountain -a 1",@"-n Giant Condor -t Mountain -s Fly -a 3"];
+//    
+//    [self drawHardCodeArmy:others withPoint:aPoint];
+//    [self drawHardCodeArmy:[game p4Stack3] withPoint: aPoint];
+//    [self drawHardCodeArmy:[game p4Stack2] withPoint: aPoint];
+//    [self drawHardCodeArmy:[game p4Stack1] withPoint: aPoint];
+//    
+//    [self drawHardCodeArmy:[game p3Stack3] withPoint:aPoint];
+//    [self drawHardCodeArmy:[game p3Stack2] withPoint:aPoint];
+//    [self drawHardCodeArmy:[game p3Stack1] withPoint: aPoint];
+// 
+//    [self drawHardCodeArmy:[game p2Stack1] withPoint:aPoint];
+//  
+//    [self drawHardCodeArmy:[game p1Stack2] withPoint: aPoint];
+//    [self drawHardCodeArmy:[game p1Stack1] withPoint: aPoint];
+//    
+//    
+//    
+//}
+//
+//- (void) drawHardCodeArmy:(NSArray*)army withPoint:(CGPoint) aPoint {
+//    
+//       for (NSString *string in army){
+//           
+//               NSString* imageName = [NSString stringWithFormat:@"%@.jpg",string];
+//           
+//               SKSpriteNode* node = [SKSpriteNode spriteNodeWithImageNamed:imageName];
+//               [node setName:imageName];
+//               node.accessibilityValue = @"creatures";
+//               // [node setGroup:@"creature"];
+//               node.size = CGSizeMake(36,36);
+//               [node setPosition:aPoint];
+//               node.color = [SKColor blackColor];
+//               node.colorBlendFactor = .85;
+//               [self setCreaturesInBowl:([self creaturesInBowl]+1)];
+//               [board addChild:node];
+//           
+//           
+//        
+//       }
+//    NSLog(@"number of creatures in Bowl %d",[self creaturesInBowl]);
+//    
+//}
 
 
 - (NSString *) getNameFromString:(NSString *) values{
@@ -474,6 +472,20 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     }
     */
     
+}
+
+
+//redraws the creatures in the after additions bowl
+- (void) redrawCreatures{
+    
+    [bowl shuffle];
+    [bowl shuffle];
+    [bowl shuffle];
+    [bowl shuffle];
+    NSLog(@"creatures count: %d", bowl.count);
+    for (Creature * creature in bowl) {
+        [creature draw];
+    }
 }
 
 - (void) updateBank{
@@ -686,6 +698,28 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     }
 }
 
+- (Creature *) findCreatureByName:(NSString *) name{
+    NSLog(@"trying to located node wiht name %@",name);
+    for (Creature *c in bowl) {
+        if ([c.name isEqualToString:name]) {
+            return c;
+        }
+    }
+    return nil;
+}
+
+- (BOOL) removeCreatureByName:(NSString *) name{
+    NSLog(@"trying to remove node with name %@",name);
+    for (Creature *c in bowl) {
+        if ([c.name isEqualToString:name]) {
+            [bowl removeObject:c];
+            NSLog(@"just removed it");
+            return YES;
+        }
+    }
+    return NO;
+}
+
 - (Terrain *) findTerrainAt:(CGPoint) thisPoint{
     return [game findTerrainAt:thisPoint];
 }
@@ -722,16 +756,36 @@ float degToRad(float degree) {
         }
     }
     
-    if(terrainLocated && [node.accessibilityValue isEqualToString:@"creatures"])
+    
+    float sizeNode = 26;
+    //    float towerSizeNode = sizeNode + 4;
+    
+    if([node.accessibilityValue isEqualToString:@"creatures"])
     {
-        Terrain *temp = [self findTerrainAt:terrainPoint];
-        [self creaturesMoved:node AtTerrain:temp];
-    }//end of if creature
+        BOOL bowled = NO;
+        for (SKSpriteNode *nodeTerrain in nodes) {
+            if ([nodeTerrain.name isEqualToString:@"bowl"]) { //dude droppped it back in the cup
+                bowled = YES;
+            }
+        }
+        
+        if (bowled) {
+            Creature *c = [[game currentPlayer] findCreatureOnRackByName:node.name];
+            if (c){
+                [bowl addObject:c];
+                [self redrawCreatures];
+                NSLog(@"Added the creature back to the bowl and redrew things.");
+            }
             
-    else if (terrainLocated && [node.accessibilityValue isEqualToString:@"army"]){
+        }
+        else{
+            Terrain *temp = [self findTerrainAt:terrainPoint];
+            [self creaturesMoved:node AtTerrain:temp];
+            [self removeCreatureByName:node.name]; //removes the creature from the bowl, if it got added to the army or rack
+        }
+    }
+    else if ([node.accessibilityValue isEqualToString:@"army"]){
          NSLog(@"army moved");
-        
-        
         Terrain *temp = [self findTerrainAt:terrainPoint];
         Player *tempPlayer = [game findPlayerByOrder:[node.name integerValue]];
         
@@ -742,11 +796,7 @@ float degToRad(float degree) {
         [game movementPhase:tempPlayer withArmy:ar];
         
     }
-   
-    
-    float sizeNode = 26;
-//    float towerSizeNode = sizeNode + 4;
-   if (terrainLocated && [node.name isEqualToString:@"Player 1"]) {
+    else if (terrainLocated && [node.name isEqualToString:@"Player 1"]) {
         
         Terrain* temp = [self findTerrainAt:terrainPoint];
         Player *p = [[game players] objectAtIndex:0];
@@ -902,8 +952,7 @@ float degToRad(float degree) {
     //checks if any player owns the territory and the terrain is found
     if(t != nil && [[game findPlayersByTerrain:t] count] > 0){
         Player *currentPlayer = [[game findPlayersByTerrain:t] objectAtIndex:0];
-        
-        Creature *creature = [[Creature alloc] initWithImage:n.name atPoint:n.position];
+        Creature *creature = [self findCreatureByName:n.name];
         
         Army *a = [currentPlayer armyByCreature:creature];
         
@@ -943,8 +992,10 @@ float degToRad(float degree) {
         }
     }
     else{
-        NSLog(@"terrain is either nil or no players found at the terrain");
         [n setPosition:CGPointMake(480.0f, (size.height) - 175.0f)];
+        Creature *creature = [self findCreatureByName:n.name];
+        [[game currentPlayer].rack addObject:creature];
+        NSLog(@"terrain is either nil or no players found at the terrain, added to ur rack instead %@",[game currentPlayer].rack);
     }
     
     [game checkInitalRecruitmentComplete];

@@ -7,7 +7,6 @@
 //
 
 #import "Player.h"
-#import "Creature.h"
 
 @implementation Player{
 //    int income;
@@ -26,7 +25,7 @@
 
 static NSInteger counter = 0;
 
-@synthesize armies,playingOrder,bank,army, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat,playerLeft,movementsRemaining;
+@synthesize armies,playingOrder,bank,army, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat,playerLeft,movementsRemaining,rack;
 
 -(id) init{
     
@@ -40,6 +39,7 @@ static NSInteger counter = 0;
         specialIncome = [[NSMutableArray alloc] init];
         combat = [[NSMutableDictionary alloc] init];
         army = [[Army alloc]init];
+        rack = [[NSMutableArray alloc]init];
         recruitsRemaining = 10;
         movementsRemaining = 4;
         counter +=1;
@@ -259,6 +259,17 @@ static NSInteger counter = 0;
 
 - (void) hasLeft:(BOOL) left{
     playerLeft = left;
+}
+
+- (Creature *) findCreatureOnRackByName:(NSString *) name{
+    
+    NSLog(@"trying to located node from rack with name %@",name);
+    for (Creature *c in rack) {
+        if ([c.name isEqualToString:name]) {
+            return c;
+        }
+    }
+    return nil;
 }
 
 @end

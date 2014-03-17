@@ -86,10 +86,15 @@
     return self;
     
 }
+
+- (Player *) currentPlayer{
+    return [players objectAtIndex:0];
+}
+
 -(void) assignScene:(MyScene*)sce{
     scene = sce;
-    
 }
+
 -(Terrain*) findTerrainAt:(CGPoint)thisPoint{
 for (Terrain *terrain in terrains) {
     if (terrain.node.position.x == thisPoint.x && terrain.node.position.y == thisPoint.y) {
