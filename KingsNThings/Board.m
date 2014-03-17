@@ -1090,17 +1090,22 @@ float degToRad(float degree) {
             NSLog(@"Current building %@ ",[owner getBuildingOnTerrain:t].imageNode);
             
             if([node.name isEqualToString:currentBuilding.imageName]){
-                /*UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Invalid Move" message: @"You can't have two forts of same type on one terrain" delegate: self                                       cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
+                UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Invalid Move" message: @"You can't have two forts of same type on one terrain" delegate: self                                       cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
                 
                 [error show];
                 [node removeFromParent];
                 //[node setPosition:CGPointMake(23.0f + 43, (size.height) - 100)];
-                */
-                return;
+                
+                
             }
             else {
                 
                 if([[owner bank] getBalance] >= 5){
+                    
+                    UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Money deducted" message: @"This operation will automaticlly deduct gold from your bank: 20 Gold for Citadel, 5 Gold for other forts" delegate: self                                       cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
+                    
+                    [error show];
+
 
                     Building* newBuilding = [[Building alloc] initWithImage:node.name atPoint:node.position andStage:NONE andTerrain:t];
                     
@@ -1112,14 +1117,24 @@ float degToRad(float degree) {
                        
                         if ([node.accessibilityLabel isEqualToString:@"citadel"]) {
                             if([[owner bank] getBalance] >= 20){
-                                if ([owner setBuilding:newBuilding]){
-                                    [owner removeBuilding:currentBuilding];
-                                    [newBuilding setImageNode:node];
-                                    [[currentBuilding imageNode] removeFromParent];
-                                    [owner removeBuilding:currentBuilding];
-                                    node.name = @"bowl";
-                                    [node setSize:CGSizeMake(towerSizeNode, towerSizeNode)];
-                                    [node setPosition:CGPointMake(t.node.position.x - 10, t.node.position.y + 7)];
+                                if(![owner hasBuiltCitadel]){
+                                    if ([owner setBuilding:newBuilding]){
+                                        
+                                        [owner removeBuilding:currentBuilding];
+                                        [newBuilding setImageNode:node];
+                                        [[currentBuilding imageNode] removeFromParent];
+                                        
+                                        node.name = @"bowl";
+                                        [node setSize:CGSizeMake(towerSizeNode, towerSizeNode)];
+                                        [node setPosition:CGPointMake(t.node.position.x - 10, t.node.position.y + 7)];
+                                        [owner setHasBuiltCitadel:YES];
+                                        
+                                    }
+                                }
+                                else {
+                                    UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Citadel Building" message: @"You cannot build more than one Citadel" delegate: self                                       cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
+                                    
+                                    [error show];
                                 }
                             }
                             else{
@@ -1183,6 +1198,7 @@ float degToRad(float degree) {
 }
 
 -(void) recruiteSpecial:(SKSpriteNode*)node{
+    
     NSLog(@"Inside recruite special");
     int diOne , diTwo;
     NSRunLoop *loop = [NSRunLoop currentRunLoop];

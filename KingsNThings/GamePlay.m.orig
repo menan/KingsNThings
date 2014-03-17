@@ -112,6 +112,8 @@ return NULL;
     }
     return NULL;
 }
+<<<<<<< HEAD
+=======
 - (NSMutableArray *) findPlayersByTerrain:(Terrain *) terrain{
     NSMutableArray *playersArray = [[NSMutableArray alloc] init];
     
@@ -123,21 +125,19 @@ return NULL;
     return playersArray;
 }
 
-- (BOOL) recruitmentComplete{
-    
-    BOOL done = YES;
-    int i = 0;
-    for (Player *p in players) {
-        i++;
-        //            NSLog(@"Player %d, done: %d",i, phase);
-        done &= p.recruitsRemaining == 0;
-    }
-    return done;
-}
 
 - (void) checkInitalRecruitmentComplete{
+    NSLog(@"current phase: %d",phase);
     if (phase == Initial) {
-        if ([self recruitmentComplete]) {
+        BOOL done = YES;
+        int i = 0;
+        for (Player *p in players) {
+            i++;
+            NSLog(@"Player %d, done: %d",i, phase);
+            done &= p.recruitsRemaining == 0;
+        }
+        
+        if (done) {
             [self advancePhase:GoldCollection];
         }
     }
@@ -247,6 +247,7 @@ return NULL;
     
 }*/
 
+>>>>>>> 64baa5cc57157e5cdae40b864ba65b801a0daf1b
 
 -(Terrain*) findTerrainAtLocation:(NSInteger) location{
     
