@@ -55,21 +55,18 @@ static NSInteger counter = 0;
 
 
 - (BOOL) setTerritory: (Terrain *) territory{
-    
-    BOOL result = NO;
-    if(territory != NULL){
-//    NSLog(@"Adding territory: %@", territory.type);
-    if ([territories count] <= 10){
-        [territories addObject:territory];
-        NSLog(@"player territory is set for : %@ %d , player is %d ", territory.node.name, [territories count],playingOrder);
-        result =  YES;
+    if(territory != nil){
+    //    NSLog(@"Adding territory: %@", territory.type);
+        if ([territories count] <= 10){
+            [territories addObject:territory];
+            NSLog(@"player territory is set for : %@ %d , player is %d ", territory.node.name, [territories count],playingOrder);
+            return YES;
+        }
+        else{
+            NSLog(@"3 territories set already :)");
+        }
     }
-    else{
-        result =  NO;
-        NSLog(@"3 territories set already :)");
-    }
-    }
-    return result;
+    return NO;
 }
 
 - (void) updateBank: (Bank *) myBank{

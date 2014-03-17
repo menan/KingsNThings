@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <SpriteKit/SpriteKit.h>
 #import "GamePlay.h"
+#import "MyScene.h"
 
 @interface Board : NSObject
 @property SKLabelNode* textLabel, *recruitLabel;
@@ -17,7 +18,7 @@
 @property NSArray *disabled;
 @property NSArray *nonMovables;
 
-- (id)initWithScene: (SKScene *) aScene atPoint: (CGPoint) aPoint withSize: (CGSize) aSize;
+- (id)initWithScene: (MyScene *) aScene atPoint: (CGPoint) aPoint withSize: (CGSize) aSize;
 - (void)draw;
 - (void) drawMarkersForPlayer:(int) j;
 - (void) updateBank;

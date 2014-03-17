@@ -123,7 +123,10 @@ return NULL;
     NSLog(@"current phase: %d",phase);
     if (phase == Initial) {
         BOOL done = YES;
+        int i = 0;
         for (Player *p in players) {
+            i++;
+            NSLog(@"Player %d, done: %d",i, phase);
             done &= p.recruitsRemaining == 0;
         }
         
@@ -314,7 +317,7 @@ return NULL;
 
 -(void) combatPhase:(Player *)attacker withArmy:(Army*)attackerArmy andPlayer:(Player*)defender withArmy:(Army*)defenderArmy{
      NSLog(@"inside Combat phase");
-    CombatPhase* combat = [[CombatPhase alloc]initWithAttacker:attacker andDefender:defender andAttackerArmy:attackerArmy andDefenderArmy:defenderArmy andMainScene:scene];
+    CombatPhase* combat = [[CombatPhase alloc] initWithAttacker:attacker andDefender:defender andAttackerArmy:attackerArmy andDefenderArmy:defenderArmy andMainScene:scene];
     
     [combat drawScene];
     
@@ -331,6 +334,63 @@ return NULL;
     {
         
     }
+}
+
+- (void) useSpecialPowerFor:(Creature *) creature{
+    
+    if (phase != SpecialPower) {
+        NSLog(@"Dont jump ahead, chill");
+        return;
+    }
+    if (creature.isSpecial) {
+        NSLog(@"this aint even special tho");
+        return;
+    }
+    
+    if ([creature.name isEqualToString: @"Assassin Primus"]) {
+        //make an asssasination attempt on the enemy
+        //
+        
+
+    }
+    else if ([creature.name isEqualToString: @"Baron Munchausen"]){
+        //inflicts 1 hit on all forts, villagse, cities in a hex before combat rounds are faought
+    }
+    else if ([creature.name isEqualToString: @"Deerhunter"]){
+        //move through all terrain as 1 movement if its present in the stack
+        //can also leave enemy occupied hex
+    }
+    else if ([creature.name isEqualToString: @"Dwarf King"]){
+        //doubles the income from mines
+    }
+    else if ([creature.name isEqualToString: @"Grand Duke"]){
+        //=Baron Munchausen
+    }
+    else if ([creature.name isEqualToString: @"Marksman"]){
+        //you have to choose 2/5 combat value before the marksman shot
+        //if you choose 2, if you choose 2 and hit, then you choose which enemy counter to eliminate
+        //if you choose 5, battle is fought as usual
+    }
+    else if ([creature.name isEqualToString: @"Master Thief"]){
+        //you steal shit based by comparing the role and combat value
+    }
+    else if ([creature.name isEqualToString: @"Sword Master"]){
+        //when this dude is hit, you roll a dice if its 1/6 he dies or else he comes back for next session
+        //he can only take one hit and survive or else he is eliminated
+    }
+    else if ([creature.name isEqualToString: @"Elf Lord"]){
+        //nothing, but hes powerful apparently
+    }
+    else if ([creature.name hasSuffix:@"Lord"] || [creature.name hasSuffix:@"King"] || [creature.name hasSuffix:@"Master"]){
+        //dude gets to support other creatures in the territory who don't belong in there
+    }
+    else if ([creature.name isEqualToString: @"Warlord"]){
+        //can get one enemy per battle to join forces with him
+    }
+    else{
+        //you aint got no powers :(
+    }
+    
 }
 
 

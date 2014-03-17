@@ -20,7 +20,9 @@ typedef enum {
     Recruitment,
     SpecialRecruitment, //special character recruitment
     Combat,
-    GoldCollection
+    GoldCollection,
+    SpecialPower,
+    RandomEvents
 } Phase;
 
 

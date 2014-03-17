@@ -132,7 +132,6 @@
 //            NSLog(@"numberofTimes: %d", numberofTimes);
         }
         else if ([trimmed hasPrefix:@"p"]){
-            
             isSpecial = YES;
         }
         else {

@@ -23,7 +23,7 @@
     NSArray* markers;
     
     SKSpriteNode *board;
-    SKScene *scene;
+    MyScene *scene;
     CGPoint point;
     CGSize size;
     Bank *bank;
@@ -43,7 +43,7 @@
 static NSString * const defaultText = @"KingsNThings - Team24";
 
 @synthesize textLabel,dicesClicked,creaturesInBowl,recruitLabel,game,disabled,nonMovables;
-- (id)initWithScene: (SKScene *) aScene atPoint: (CGPoint) aPoint withSize: (CGSize) aSize
+- (id)initWithScene: (MyScene *) aScene atPoint: (CGPoint) aPoint withSize: (CGSize) aSize
 {
     self = [super init];
     if (self) {
@@ -1113,6 +1113,12 @@ float degToRad(float degree) {
     int diOne , diTwo;
     NSRunLoop *loop = [NSRunLoop currentRunLoop];
     Creature* special = [[Creature alloc]initWithImage:node.name atPoint:node.position];
+    
+    Player *p = [game.players objectAtIndex:0];
+    
+    [scene transitToRecruitmentScene:special forPlayer:p];
+    
+    // I created a scene for this to make it easier.
     
     // if player want to pay mony before rokling dices
 
