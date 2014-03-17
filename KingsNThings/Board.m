@@ -412,7 +412,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
      NSArray *namesString = @[@"-n Arch Cleric -s Magic -a 5 -p Special.jpg",@"-n Arch Mage -s Magic -a 6 -p Special.jpg",@"-n Assassin Primus -a 4 -p Special.jpg",@"-n Baron Munchausen -a 4 -p Special.jpg",@"-n Deerhunter -a 4 -p Special.jpg",@"-n Desert Master -a 4 -p Special.jpg",@"-n Dwarf King -a 5 -p Special.jpg",@"-n Elfe Lord -s Range -a 6 -p Special.jpg",@"-n Forest King -a 4 -p Special.jpg",@"-n Ghaog II -s Fly -a 6 -p Special.jpg",@"-n Grand Duke -a 4 -p Special.jpg",@"-n Ice Lord -a 4 -p Special.jpg",@"-n Jungle Lord -a 4 -p Special.jpg",@"-n Lord Of Eagles -s Fly -a 5 -p Special.jpg",@"-n Marksman -s Range -a 2 -a 5 -p Special.jpg",@"-n Master Theif -a 4 -p Special.jpg",@"-n Mountain King -a 4 -p Special.jpg",@"-n Plains Lord -a 4 -p Special.jpg",@"-n Sir Lancealot -s Charge -a 5 -p Special.jpg",@"-n Swamp King -a 4 -p Special.jpg",@"-n Swordmaster -a 4 -p Special.jpg",@"-n Warlord -a 5 -p Special.jpg"];
     
-    for (int i = 0; i <= 8; i++) {
+    for (int i = 0; i < namesString.count/2; i++) {
         
         NSString *imageName = [namesString objectAtIndex:i];
         float imageSize = 36;
@@ -428,7 +428,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     [board addChild:node];
     }
 
-    for (int j = 12; j <= 19; j++) {
+    for (int j = namesString.count/2; j < namesString.count; j++) {
         NSString *imageName = [namesString objectAtIndex:j];
         
         int num = j - namesString.count/2;
@@ -480,7 +480,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     float left = 600.0f;
     float offset = 105.0f;
     [self drawBank:bank at:CGPointMake(left, (size.height) - 480) andWithTitle:@"Bank"];
-    for (int j = 0; j < [[game players] count]; j++) {
+    for (int j = 0; j < 1; j++) {
         Player *p = [[game players] objectAtIndex:j];
         NSLog(@"drawing bank for player %d, left: %d", j, p.playerLeft);
         NSString *title = [NSString stringWithFormat:@"P%d Stash",j + 1];
@@ -588,19 +588,21 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 
 -(void)withdrawFromBank:(NSInteger)goldNum
 {
+    Player *p = [game.players objectAtIndex:0];
     if ([bank withdrawGold:goldNum andCount:1]){
-        [game.me.bank depositGold:goldNum andCount:1];
-        [game.me justGotPaid:goldNum];
-        recruitLabel.text = [NSString stringWithFormat: @"%d Recruits Remaining", game.me.recruitsRemaining];
+        [p.bank depositGold:goldNum andCount:1];
+        [p justGotPaid:goldNum];
+        recruitLabel.text = [NSString stringWithFormat: @"%d Recruits Remaining", p.recruitsRemaining];
     }
     
 }
 -(void)depositToBank:(NSInteger)goldNum
 {
-    if ([game.me.bank withdrawGold:goldNum andCount:1]){
+    Player *p = [game.players objectAtIndex:0];
+    if ([p.bank withdrawGold:goldNum andCount:1]){
         [bank depositGold:goldNum andCount:1];
-        [game.me justPaid:goldNum];
-        recruitLabel.text = [NSString stringWithFormat: @"%d Recruits Remaining", game.me.recruitsRemaining];
+        [p justPaid:goldNum];
+        recruitLabel.text = [NSString stringWithFormat: @"%d Recruits Remaining", p.recruitsRemaining];
     }
     
 }
@@ -708,7 +710,7 @@ float degToRad(float degree) {
 
 - (void) nodeMoved:(SKSpriteNode *)node nodes:(NSArray *)nodes{
     node.colorBlendFactor = 0;
-    [self resetText];
+//    [self resetText];
     CGPoint terrainPoint = CGPointMake(0, 0);
     BOOL terrainLocated = NO;
     
@@ -720,13 +722,13 @@ float degToRad(float degree) {
         }
     }
     
-    if([node.accessibilityValue isEqualToString:@"creatures"])
+    if(terrainLocated && [node.accessibilityValue isEqualToString:@"creatures"])
     {
         Terrain *temp = [self findTerrainAt:terrainPoint];
         [self creaturesMoved:node AtTerrain:temp];
     }//end of if creature
             
-    else if ([node.accessibilityValue isEqualToString:@"army"]){
+    else if (terrainLocated && [node.accessibilityValue isEqualToString:@"army"]){
          NSLog(@"army moved");
         
         
@@ -743,12 +745,14 @@ float degToRad(float degree) {
    
     
     float sizeNode = 26;
-    float towerSizeNode = sizeNode + 4;
+//    float towerSizeNode = sizeNode + 4;
    if (terrainLocated && [node.name isEqualToString:@"Player 1"]) {
         
         Terrain* temp = [self findTerrainAt:terrainPoint];
-        
-        if ([[[game players] objectAtIndex:0] setTerritory:temp]){
+        Player *p = [[game players] objectAtIndex:0];
+       
+        if ([p setTerritory:temp]){
+            
             [temp setBelongsToP1:YES];
             [temp setHasArmyOnIt:NO];
             
@@ -762,10 +766,13 @@ float degToRad(float degree) {
     }
     else if (terrainLocated && [node.name isEqualToString:@"Player 2"]) {
         Terrain* temp = [self findTerrainAt:terrainPoint];
-
-        if ([[[game players] objectAtIndex:1] setTerritory:temp]){
+        Player *p = [[game players] objectAtIndex:1];
+        
+        if ([p setTerritory:temp]){
+            
             [temp setBelongsToP2:YES];
             [temp setHasArmyOnIt:NO];
+            
             node.name = @"bowl";
             [node setSize:CGSizeMake(sizeNode, sizeNode)];
             [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
@@ -774,11 +781,14 @@ float degToRad(float degree) {
             [node setPosition:CGPointMake(380.0f + 43.0f, 25.0f)];
         }
     }
-    else if ([node.name isEqualToString:@"Player 3"]) {
+    else if (terrainLocated && [node.name isEqualToString:@"Player 3"]) {
         Terrain* temp = [self findTerrainAt:terrainPoint];
-        [temp setBelongsToP3:YES];
-
-        if ([[[game players] objectAtIndex:2] setTerritory:temp]){
+        Player *p = [[game players] objectAtIndex:2];
+        
+        if ([p setTerritory:temp]){
+            
+            [temp setBelongsToP3:YES];
+            
             node.name = @"bowl";
             [node setSize:CGSizeMake(sizeNode, sizeNode)];
             [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
@@ -787,10 +797,14 @@ float degToRad(float degree) {
             [node setPosition:CGPointMake(380.0f  + 86.0f, 25.0f)];
         }
     }
-    else if ([node.name isEqualToString:@"Player 4"]) {
+    else if (terrainLocated && [node.name isEqualToString:@"Player 4"]) {
         Terrain* temp = [self findTerrainAt:terrainPoint];
-        [temp setBelongsToP4:YES];
-        if ([[[game players] objectAtIndex:3] setTerritory:temp]){
+        Player *p = [[game players] objectAtIndex:3];
+        
+        if ([p setTerritory:temp]){
+            
+            [temp setBelongsToP4:YES];
+            
             node.name = @"bowl";
             [node setSize:CGSizeMake(sizeNode, sizeNode)];
             [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
@@ -870,7 +884,7 @@ float degToRad(float degree) {
             }
         }
          else if ([node.name isEqualToString:@"battle"]){
-        [game initiateCombat:game.player1];
+             [game initiateCombat:[game.players objectAtIndex:0]];
     }
          else if([node.accessibilityLabel isEqualToString:@"special"]){
              [self recruiteSpecial:node];
@@ -884,68 +898,70 @@ float degToRad(float degree) {
 
 - (void) creaturesMoved:(SKSpriteNode *) n AtTerrain:(Terrain *) t{
     
-    NSLog(@"Node is %@ " , n.name);
-    if(t != nil){
-        Player *tempPlayer = [game findPlayerByTerrain:t];
-        //checks if any player owns the territory
-        if (tempPlayer != nil) {
-            Creature *tempCreature = [[Creature alloc] initWithImage:n.name atPoint:n.position];
-            
-            Army *a = [tempPlayer hasCreature:tempCreature];
-            
-            if(a != nil){
-                [a removeCreature:tempCreature];
+    NSLog(@"Node is %@ , number of players at the terrain: %d" , n.name, [[game findPlayersByTerrain:t] count]);
+    //checks if any player owns the territory and the terrain is found
+    if(t != nil && [[game findPlayersByTerrain:t] count] > 0){
+        Player *currentPlayer = [[game findPlayersByTerrain:t] objectAtIndex:0];
+        
+        Creature *creature = [[Creature alloc] initWithImage:n.name atPoint:n.position];
+        
+        Army *a = [currentPlayer armyByCreature:creature];
+        
+        if(a != nil){
+            [a removeCreature:creature];
+        }
+        
+        if(![t hasArmyOnIt]){
+            a = [currentPlayer constructNewArmy:creature atPoint:n.position withTerrain:t];
+            if (a != nil) {
+                recruitLabel.text = [NSString stringWithFormat: @"%d Recruits Remaining", currentPlayer.recruitsRemaining];
+                [a drawImage:board];
+                [n removeFromParent];
+                [t setHasArmyOnIt:YES];
+                [self setCreaturesInBowl:creaturesInBowl-1];
             }
-            
-            if(![t hasArmyOnIt]){
-                a = [tempPlayer constructNewArmy:tempCreature atPoint:n.position withTerrain:t];
-                if (a != nil) {
-                    recruitLabel.text = [NSString stringWithFormat: @"%d Recruits Remaining", tempPlayer.recruitsRemaining];
-                    [a drawImage:board];
-                    [n removeFromParent];
-                    [t setHasArmyOnIt:YES];
-                    [self setCreaturesInBowl:creaturesInBowl-1];
-                }
-                else{
-                    //must've reached the limit of charecters
-                    [n setPosition:CGPointMake(480.0f, (size.height) - 175.0f)];
-                }
+            else{
+                //must've reached the limit of charecters
+                [n setPosition:CGPointMake(480.0f, (size.height) - 175.0f)];
             }
-            else {
-                //else would take care of if theres no army :)
-                for(Army *army in [tempPlayer armies]){
-                    if([army getTerrainLocation] == [t location]){
-                        if([tempPlayer addCreatureToArmy:tempCreature inArmy:army ]){
-                            recruitLabel.text = [NSString stringWithFormat: @"%d Recruits Remaining", tempPlayer.recruitsRemaining];
-                           [n removeFromParent];
+        }
+        else {
+            //else would take care of if theres no army :)
+            for(Army *army in [currentPlayer armies]){
+                if([army getTerrainLocation] == [t location]){
+                    if([currentPlayer addCreatureToArmy:creature inArmy:army ]){
+                        recruitLabel.text = [NSString stringWithFormat: @"%d Recruits Remaining", currentPlayer.recruitsRemaining];
+                       [n removeFromParent];
 
-                        }
-                        else{
-                            //must've reached the limit of charecters
-                            [n setPosition:CGPointMake(480.0f, (size.height) - 175.0f)];
-                        }
+                    }
+                    else{
+                        //must've reached the limit of charecters
+                        [n setPosition:CGPointMake(480.0f, (size.height) - 175.0f)];
                     }
                 }
             }
-            
-          
-        }
-        else{
-            [n setPosition:CGPointMake(480.0f, (size.height) - 175.0f)];
         }
     }
+    else{
+        NSLog(@"terrain is either nil or no players found at the terrain");
+        [n setPosition:CGPointMake(480.0f, (size.height) - 175.0f)];
+    }
+    
+    [game checkInitalRecruitmentComplete];
+    
+    
 
 }
 - (BOOL) initiateGoldCollection{
     int totalIncome = 0;
     
-    [game presentGCTurnViewController:self];
+//    [game presentGCTurnViewController:self];
     
     for(Player * p in game.players){
         totalIncome += [p getIncome];
     }
-    
-    if (!game.goldCollectionCompleted && totalIncome) {
+    //checks if the phase is intial and theres moeny in the bank for everyone before proceeding.
+    if (game.phase == GoldCollection && totalIncome <= [bank getBalance]) {
         for(Player * p in game.players){
             
             [bank withdraw:[p getIncome]];
@@ -957,12 +973,13 @@ float degToRad(float degree) {
         }
         
         NSLog(@"bank balance after collection phase completion %d", [bank getBalance]);
-        textLabel.text = @"Gold Collection Completed.";
         [self updateBank];
-//        game.goldCollectionCompleted = YES;
+        
+        [game advancePhase:Recruitment];
         return YES;
     }
     else{
+        NSLog(@"the stage was neither initial or theres not enough balance in the bank to accomodate gold collection for all users, so it wasnt initiated");
         return NO;
     }
 }
@@ -1116,5 +1133,8 @@ float degToRad(float degree) {
     }
     
 }
+
+
+
                          
 @end

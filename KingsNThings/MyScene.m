@@ -53,11 +53,12 @@
 		[_selectedNode runAction:[SKAction rotateToAngle:0.0f duration:0.1]];
         
 		_selectedNode = touchedNode;
-        if ([nonMovables containsObject: [_selectedNode name]])
-            [gameBoard resetText];
-        else{
-            [gameBoard nodeTapped:touchedNode];
-        }
+        NSLog(@"node tapped: %@",[_selectedNode name]);
+//        if ([nonMovables containsObject: [_selectedNode name]])
+//            [gameBoard resetText];
+//        else{
+//            [gameBoard nodeTapped:touchedNode];
+//        }
         
 		if([gameBoard.disabled containsObject: [_selectedNode name]] == NO) {
             _selectedNode.color = [SKColor redColor];
@@ -81,8 +82,9 @@
 
 - (void)panForTranslation:(CGPoint)translation {
     CGPoint position = [_selectedNode position];
+    CGPoint moveTo = CGPointMake(position.x + translation.x, position.y + translation.y);
     if([nonMovables containsObject: [_selectedNode name]] == NO) {
-        [gameBoard nodeMoving:_selectedNode to:CGPointMake(position.x + translation.x, position.y + translation.y)];
+        [_selectedNode setPosition:moveTo];
     }
    
     

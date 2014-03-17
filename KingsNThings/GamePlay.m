@@ -18,26 +18,25 @@
 @implementation GamePlay{
     MyScene *scene;
     NSMutableArray *servers;
-    id board;
+    Board *board;
     
 }
 
-@synthesize me,oneDice,secondDice,goldCollectionCompleted, players;
+@synthesize me,oneDice,secondDice,players;
 
-@synthesize p1Stack1,p1Stack2,p2Stack1,p3Stack1,p3Stack2,p3Stack3,p4Stack1,p4Stack2,p4Stack3,goldPhase,terrains, isMovementPhase , isThingRecrPahse, isComabtPahse,isInitialPhase ,isConstructionPhase, scene;
+@synthesize p1Stack1,p1Stack2,p2Stack1,p3Stack1,p3Stack2,p3Stack3,p4Stack1,p4Stack2,p4Stack3,goldPhase,terrains, isMovementPhase , isThingRecrPahse, isComabtPahse,isInitialPhase ,isConstructionPhase, scene,phase;
 
 
 -(id) initWithBoard:(id) b{
     
     self = [super init];
     if(self){
-        board = b;
-        goldCollectionCompleted = NO;
-                
-        me = [[Player alloc] init];
+        board = (Board *) b;
+        
+//        me = [[Player alloc] init];
         players = [[NSMutableArray alloc] init];
         
-        players = [[NSMutableArray alloc] initWithObjects:me,me,me,me, nil];
+        players = [[NSMutableArray alloc] initWithObjects:[[Player alloc] init],[[Player alloc] init],[[Player alloc] init],[[Player alloc] init], nil];
         terrains = [[NSMutableArray alloc]init];
        
         
@@ -63,6 +62,7 @@
         isComabtPahse = NO;
         isInitialPhase = YES;
         
+        [self advancePhase:Initial];
         
         
         p1Stack1 = @[@"-n Old Dragon -s Fly -s Magic -a 4",@"-n Elephant -t Jungle -s Charge -a 4",@"-n Giant Spider -t Desert -a 1",@"-n Brown Knight -t Mountain -s Charge -a 4",@"-n Giant -t Mountain -s Range -a 4",@"-n Dwarves -t Mountain -s Range -a 2"];
@@ -87,12 +87,10 @@
     
 }
 -(void) assignScene:(MyScene*)sce{
-//    NSLog(@"inside assignScene");
     scene = sce;
     
 }
 -(Terrain*) findTerrainAt:(CGPoint)thisPoint{
-    NSLog(@"FindTerrain");
 for (Terrain *terrain in terrains) {
     if (terrain.node.position.x == thisPoint.x && terrain.node.position.y == thisPoint.y) {
         return terrain;
@@ -102,7 +100,6 @@ return NULL;
 }
 
 - (Player *) findPlayerByTerrain:(Terrain *) terrain{
-    NSLog(@"findPlayer");
     for (Player *p in players) {
         if ([[p getTerritories] containsObject:terrain]) {
             return p;
@@ -110,6 +107,33 @@ return NULL;
     }
     return NULL;
 }
+- (NSMutableArray *) findPlayersByTerrain:(Terrain *) terrain{
+    NSMutableArray *playersArray = [[NSMutableArray alloc] init];
+    
+    for (Player *p in players) {
+        if ([[p getTerritories] containsObject:terrain]) {
+            [playersArray addObject:p];
+        }
+    }
+    return playersArray;
+}
+
+
+- (void) checkInitalRecruitmentComplete{
+    NSLog(@"current phase: %d",phase);
+    if (phase == Initial) {
+        BOOL done = YES;
+        for (Player *p in players) {
+            done &= p.recruitsRemaining == 0;
+        }
+        
+        if (done) {
+            [self advancePhase:GoldCollection];
+        }
+    }
+}
+
+
 /*
 -(void) setPlayerArmy{
     
@@ -212,6 +236,8 @@ return NULL;
     
     
 }*/
+
+
 -(Terrain*) findTerrainAtLocation:(NSInteger) location{
     
     for(Terrain* terr in terrains){
@@ -222,6 +248,8 @@ return NULL;
     
     return NULL;
 }
+
+
 -(Player*)findPlayerByOrder:(NSInteger)order{
     
     for(Player* p in players){
@@ -231,16 +259,13 @@ return NULL;
     return NULL;
 }
 
+
+
 -(void) movementPhase:(Player *)player withArmy:(Army*)army{
     NSLog(@"inside movementPhase");
-    
     NSLog(@" player is %d",[player playingOrder]);
     Terrain* terrain = [army terrain];
-    
     Player *defender = [self findPlayerByTerrain:terrain];
-    
-    
-    
     NSLog(@"tempPlayer is %d , player is %d",[defender playingOrder],[player playingOrder]);
     
     if([player isEqual:defender]){
@@ -251,10 +276,8 @@ return NULL;
             
             if(([a creaturesInArmy] + [army creaturesInArmy]) > 10)
                 NSLog(@"Invalid move cannot have more than 10 creatures on one terrain");
-            
         }
     }
-    
     else{
         if([terrain hasArmyOnIt]){
             
@@ -270,11 +293,11 @@ return NULL;
             
             NSLog(@"combat dictionary: %@",player.combat);
         }
-    
-    
     }
     NSLog(@"combat over");
 }
+
+
 
 - (void) initiateCombat: (Player*) p{
     NSLog(@"Player Playing order: %d", p.playingOrder);
@@ -290,44 +313,34 @@ return NULL;
 
 
 -(void) combatPhase:(Player *)attacker withArmy:(Army*)attackerArmy andPlayer:(Player*)defender withArmy:(Army*)defenderArmy{
-    
      NSLog(@"inside Combat phase");
-    
-    
     CombatPhase* combat = [[CombatPhase alloc]initWithAttacker:attacker andDefender:defender andAttackerArmy:attackerArmy andDefenderArmy:defenderArmy andMainScene:scene];
     
     [combat drawScene];
     
     if([attacker hasWonCombat]){
         
-        
-        
     }
     else if ([defender hasWonCombat]){
-        
-        
     }
-    
-    
    }
 
 -(void) pahses:(NSString*)pahse{
-    
     NSRunLoop *loop = [NSRunLoop currentRunLoop];
-    while ([loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate
-                                                           distantFuture]])
+    while ([loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]])
     {
-    
-    
-    
-    
-    
+        
     }
-    
-    
-    
 }
 
+
+- (void) advancePhase: (Phase) p{
+    NSLog(@"advancing phase to :%d",p);
+    phase = p;
+    NSArray *phaseText = @[@"Initial Phase", @"Construction Phase", @"Movement Phase",@"Recruitment Phase",@"Special Character Recruitment Phase", @"Combat Phase", @"Gold Collection Phase"];
+    board.textLabel.text = [phaseText objectAtIndex:p];
+    
+}
 
 
 #pragma GameCenter Functions

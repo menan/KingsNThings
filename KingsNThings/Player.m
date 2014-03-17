@@ -26,7 +26,7 @@
 
 static NSInteger counter = 0;
 
-@synthesize armies,playingOrder,bank,army, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat,playerLeft;
+@synthesize armies,playingOrder,bank,army, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat,playerLeft,movementsRemaining;
 
 -(id) init{
     
@@ -41,6 +41,7 @@ static NSInteger counter = 0;
         combat = [[NSMutableDictionary alloc] init];
         army = [[Army alloc]init];
         recruitsRemaining = 10;
+        movementsRemaining = 4;
         counter +=1;
         balance = 0;
         playingOrder =counter;
@@ -179,7 +180,7 @@ static NSInteger counter = 0;
     }
     else{
         NSLog(@"You don't have anymore recruits left.");
-        return NULL;
+        return nil;
     }
    
 }
@@ -214,49 +215,39 @@ static NSInteger counter = 0;
 }
 
 
--(Army*) hasCreature:(id)creature{
-    
-    Army* a;
+-(Army*) armyByCreature:(id)creature{
     if([armies count] >0){
         for (int i = 0 ; i<[armies count];i++){
             //NSLog(@"Army %d , has Creature in army  ",i);
             if([[armies objectAtIndex:i] containCreature:creature]){
-                a =[armies objectAtIndex:i];
-                break;
+                return [armies objectAtIndex:i];
             }
         }
         
     }
-        else
-            a = nil;
     
-    return a;
+    return nil;
 }
 
 -(Army*) findArmyOnTerrain:(Terrain*)terrain{
-    Army* a;
     for (int i = 0 ; i<[armies count];i++){
         //NSLog(@"Army %d , has Creature in army  ",i);
         if([[[armies objectAtIndex:i] terrain]isEqual:terrain]){
-            a =[armies objectAtIndex:i];
-            break;
+            return [armies objectAtIndex:i];
         }
     }
-    return a;
+    return nil;
     
 }
 
 -(Building*) getBuildingOnTerrain:(Terrain*)ter{
-    Building* building;
     for (Building *b in buildings) {
         if([[b terrain] isEqual:ter]){
-            building = b;
-            NSLog(@"building is found %@",building.imageName);
-            //return b;
+            NSLog(@"building is found %@",b.imageName);
+            return b;
         }
     }
-    
-    return building;
+    return nil;
 }
 -(BOOL) removeBuilding:(Building*) oldBuilding;
 {

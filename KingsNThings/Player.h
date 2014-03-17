@@ -23,6 +23,7 @@
 @property Army* army;
 @property int balance; //to keep track of the paid amount to the bank when paid in 1s
 @property int recruitsRemaining;
+@property int movementsRemaining;
 @property BOOL hasWonCombat;
 @property BOOL isWaitingCombat;
 @property BOOL playerLeft;
@@ -43,7 +44,7 @@
 -(Army*) constructNewArmy:(id)creatur atPoint:(CGPoint) aPoint withTerrain:(Terrain*)terrain;
 -(BOOL) addCreatureToArmy:(id)creature inArmy:(Army*)army;
 -(void) printArmy;
--(Army*) hasCreature:(id)creature;
+-(Army*) armyByCreature:(id)creature;
 -(NSInteger) numberOfArmies;
 - (Army *) getArmyAtIndex:(NSInteger)index;
 -(Army*) findArmyOnTerrain:(Terrain*)terrain;
