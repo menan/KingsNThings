@@ -51,5 +51,9 @@ typedef enum {
 - (void) assignScene:(MyScene*)sce;
 - (void) advancePhase: (Phase) p;
 - (void) presentGCTurnViewController:(id)sender;
+<<<<<<< HEAD
+-(void) specialCharactersRecruiting:(Player*) player;
+=======
 - (void) checkInitalRecruitmentComplete;
+>>>>>>> 64baa5cc57157e5cdae40b864ba65b801a0daf1b
 @end

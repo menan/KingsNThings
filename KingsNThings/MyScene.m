@@ -10,11 +10,13 @@
 #import "Board.h"
 #import "CombatScene.h"
 #import "Army.h"
-
+#import "Creature.h"
+#import "SpecialRecruitmentScene.h"
 
 @implementation MyScene{
      SKTransition* transitionDoorsCloseHorizontal;
     CombatScene* combat;
+    SpecialRecruitmentScene *recruitment;
     NSArray * nonMovables;
     Board *gameBoard;
 }
@@ -53,11 +55,12 @@
 		[_selectedNode runAction:[SKAction rotateToAngle:0.0f duration:0.1]];
         
 		_selectedNode = touchedNode;
-        if ([nonMovables containsObject: [_selectedNode name]])
-            [gameBoard resetText];
-        else{
-            [gameBoard nodeTapped:touchedNode];
-        }
+        NSLog(@"node tapped: %@",[_selectedNode name]);
+//        if ([nonMovables containsObject: [_selectedNode name]])
+//            [gameBoard resetText];
+//        else{
+//            [gameBoard nodeTapped:touchedNode];
+//        }
         
 		if([gameBoard.disabled containsObject: [_selectedNode name]] == NO) {
             _selectedNode.color = [SKColor redColor];
@@ -81,8 +84,9 @@
 
 - (void)panForTranslation:(CGPoint)translation {
     CGPoint position = [_selectedNode position];
+    CGPoint moveTo = CGPointMake(position.x + translation.x, position.y + translation.y);
     if([nonMovables containsObject: [_selectedNode name]] == NO) {
-        [gameBoard nodeMoving:_selectedNode to:CGPointMake(position.x + translation.x, position.y + translation.y)];
+        [_selectedNode setPosition:moveTo];
     }
    
     
@@ -109,7 +113,7 @@ CGPoint mult(const CGPoint v, const CGFloat s) {
 	return CGPointMake(v.x*s, v.y*s);
 }
 
--(void) transitToCombat:(id)attacker andDefender:(id)defender andCombatFunction:(id) combatfun{
+- (void) transitToCombat:(id)attacker andDefender:(id)defender andCombatFunction:(id) combatfun{
     NSLog(@"inside transit combat");
     transitionDoorsCloseHorizontal = [SKTransition doorsCloseHorizontalWithDuration:1];
     //CGRect screenRect = [[UIScreen mainScreen] bounds];
@@ -123,6 +127,20 @@ CGPoint mult(const CGPoint v, const CGFloat s) {
     //[self removeUIKitViews];
     NSLog(@"combat finished");
     
+}
+
+- (void) transitToRecruitmentScene: (Creature *) c forPlayer: (Player *) p{
+    recruitment = [[SpecialRecruitmentScene alloc] initWithSize:[self size] andSender:self];
+    
+    recruitment.player = p;
+    recruitment.creature = c;
+    
+    [recruitment drawElements];
+    
+    [self.scene.view presentScene:recruitment transition:transitionDoorsCloseHorizontal];
+    
+    NSLog(@"presenting recruitment view");
+
 }
 
 - (void) startSecondCombat{

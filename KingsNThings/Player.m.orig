@@ -25,7 +25,11 @@
 
 static int counter = 0;
 
-@synthesize armies,playingOrder,bank,army, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat,playerLeft,movementsRemaining,rack,hasBuiltCitadel;
+<<<<<<< HEAD
+@synthesize armies,playingOrder,bank,army, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat,playerLeft,hasBuiltCitadel;
+=======
+@synthesize armies,playingOrder,bank,army, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat,playerLeft,movementsRemaining,rack;
+>>>>>>> 64baa5cc57157e5cdae40b864ba65b801a0daf1b
 
 -(id) init{
     

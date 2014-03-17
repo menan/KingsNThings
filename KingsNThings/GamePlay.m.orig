@@ -112,6 +112,8 @@ return NULL;
     }
     return NULL;
 }
+<<<<<<< HEAD
+=======
 - (NSMutableArray *) findPlayersByTerrain:(Terrain *) terrain{
     NSMutableArray *playersArray = [[NSMutableArray alloc] init];
     
@@ -245,6 +247,7 @@ return NULL;
     
 }*/
 
+>>>>>>> 64baa5cc57157e5cdae40b864ba65b801a0daf1b
 
 -(Terrain*) findTerrainAtLocation:(NSInteger) location{
     

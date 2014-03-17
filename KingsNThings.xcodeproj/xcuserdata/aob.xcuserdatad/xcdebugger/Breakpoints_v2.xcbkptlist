@@ -15,8 +15,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "294"
             endingLineNumber = "294"
-            landmarkName = "-drawRack:"
-            landmarkType = "5">
+            landmarkName = "@implementation Board"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -153,7 +153,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1003"
             endingLineNumber = "1003"
-            landmarkName = "-constructBuilding:withBuilding:onTerrain:"
+            landmarkName = "-creaturesMoved:AtTerrain:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -169,7 +169,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1031"
             endingLineNumber = "1031"
-            landmarkName = "-constructBuilding:withBuilding:onTerrain:"
+            landmarkName = "-initiateGoldCollection"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
