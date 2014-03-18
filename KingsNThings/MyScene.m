@@ -133,5 +133,14 @@ CGPoint mult(const CGPoint v, const CGFloat s) {
 - (id) getGame{
     return gameBoard.game;
 }
++ (void) wiggle: (SKSpriteNode *) node{
+    SKAction *sequence = [SKAction sequence:@[[SKAction scaleBy:1.2 duration:0.1],
+                                              [SKAction scaleBy:1/1.2 duration:0.1]]];
+    [node runAction:[SKAction repeatAction:sequence count:2]];
+}
+
+float degToRad(float degree) {
+	return degree / 180.0f * M_PI;
+}
 
 @end

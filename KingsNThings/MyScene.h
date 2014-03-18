@@ -21,4 +21,5 @@
 - (void) transitToRecruitmentScene: (Creature *) c forPlayer: (Player *) p;
 - (void) startSecondCombat;
 - (id) getGame;
++ (void) wiggle: (SKSpriteNode *) node;
 @end

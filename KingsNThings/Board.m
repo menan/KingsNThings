@@ -732,19 +732,19 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     return [game findTerrainAt:thisPoint];
 }
 
-- (void) nodeTapped:(SKSpriteNode*) node{
-        [textLabel setText:[node name]];
-    if([node.accessibilityLabel isEqualToString:@"special"]){
-        [node removeAllActions];
-        SKAction *sequence = [SKAction sequence:@[[SKAction rotateByAngle:degToRad(-4.0f) duration:0.1],[SKAction rotateByAngle:0.0 duration:0.1],[SKAction rotateByAngle:degToRad(4.0f) duration:0.1]]];
-        [node runAction:[SKAction repeatActionForever:sequence]];
-        [self recruiteSpecial:node];
-        
-    }
-}
-float degToRad(float degree) {
-	return degree / 180.0f * M_PI;
-}
+//- (void) nodeTapped:(SKSpriteNode*) node{
+//        [textLabel setText:[node name]];
+//    if([node.accessibilityLabel isEqualToString:@"special"]){
+//        [node removeAllActions];
+//        SKAction *sequence = [SKAction sequence:@[[SKAction rotateByAngle:degToRad(-4.0f) duration:0.1],[SKAction rotateByAngle:0.0 duration:0.1],[SKAction rotateByAngle:degToRad(4.0f) duration:0.1]]];
+//        [node runAction:[SKAction repeatActionForever:sequence]];
+//        [self recruiteSpecial:node];
+//        
+//    }
+//}
+//float degToRad(float degree) {
+//	return degree / 180.0f * M_PI;
+//}
 
 - (void) nodeMoving:(SKSpriteNode*) node to:(CGPoint) movedTo{
     [node setPosition:movedTo];
@@ -817,6 +817,7 @@ float degToRad(float degree) {
             
             [temp setBelongsToP1:YES];
             [temp setHasArmyOnIt:NO];
+            
             
             node.name = @"bowl";
             [node setSize:CGSizeMake(sizeNode, sizeNode)];
@@ -978,6 +979,7 @@ float degToRad(float degree) {
             a = [currentPlayer constructNewArmy:creature atPoint:n.position withTerrain:t];
             if (a != nil) {
                 [a drawImage:board];
+
                 [n removeFromParent];
                 [t setHasArmyOnIt:YES];
                 [self setCreaturesInBowl:creaturesInBowl-1];
@@ -992,7 +994,8 @@ float degToRad(float degree) {
             for(Army *army in [currentPlayer armies]){
                 if([army getTerrainLocation] == [t location]){
                     if([currentPlayer addCreatureToArmy:creature inArmy:army ]){
-                       [n removeFromParent];
+                        [n removeFromParent];
+                        [MyScene wiggle:army.image];
 
                     }
                     else{
