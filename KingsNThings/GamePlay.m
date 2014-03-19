@@ -218,6 +218,19 @@ return NULL;
                 
                 [board captureHex:player atTerrain:terrain];
             }
+            
+            else{ // random army should appear
+                Army* defender;
+                if(oneDice >0){
+                  defender = [board createRandomArmy:oneDice atPoint:army.position];
+                }
+                else{
+                    defender = [board createRandomArmy:secondDice atPoint:army.position];
+                }
+                
+                
+                
+            }
         }
     }
     NSLog(@"combat over");
