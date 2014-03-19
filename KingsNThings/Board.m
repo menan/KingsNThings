@@ -391,7 +391,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     NSArray *images = @[@"p_yellow.jpg",@"p_gray.jpg",@"p_green.jpg",@"p_red.jpg"];
     float offset = 43;
     
-    for (int i = 0; i <= 10; i++) {
+    for (int i = 0; i <= 50; i++) {
         SKSpriteNode *playerNode = [SKSpriteNode spriteNodeWithImageNamed:[images objectAtIndex:j]];
         [playerNode setName:[NSString stringWithFormat:@"Player %d",j + 1]];
         playerNode.size = CGSizeMake(40,40);
@@ -1108,7 +1108,9 @@ static NSString * const defaultText = @"KingsNThings - Team24";
                     UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Money deducted" message: @"This operation will automaticlly deduct gold from your bank: 20 Gold for Citadel, 5 Gold for other forts" delegate: self                                       cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
                     
                     [error show];
-
+                    
+                    [[owner getBank] withdraw:5];
+                    [self updateBank];
 
                     Building* newBuilding = [[Building alloc] initWithImage:node.name atPoint:node.position andStage:NONE andTerrain:t];
                     
@@ -1157,6 +1159,10 @@ static NSString * const defaultText = @"KingsNThings - Team24";
                                     [owner removeBuilding:currentBuilding];
                                     node.name = @"bowl";
                                     [node setSize:CGSizeMake(towerSizeNode, towerSizeNode)];
+                                    
+                                    [[owner getBank] withdraw:5];
+                                    [self updateBank];
+
                                     //[node setPosition:CGPointMake(t.node.position.x - 10, t.node.position.y + 7)];
                                 }
                         }
@@ -1248,5 +1254,24 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         return ![disabled containsObject:node.name];
 }
 
-                         
+-(void) captureHex:(Player*)player atTerrain:(Terrain*)terrian {
+    
+    //Terrain* temp = [self findTerrainAt:aPoint];
+    
+    if ([player setTerritory:terrian]){
+        NSLog(@"captureHEx");
+        
+        [terrian setHasArmyOnIt:YES];
+        SKSpriteNode* node = [[SKSpriteNode alloc]initWithImageNamed:[markers objectAtIndex:([player playingOrder]-1)]];
+        node.name = @"bowl";
+        //[node setPosition:terrian.point];
+        [node setSize:CGSizeMake(26.0f, 26.0f)];
+        [node setPosition:CGPointMake(terrian.node.position.x + 10, terrian.node.position.y + 22)];
+        [board addChild:node];
+        
+    }
+
+    
+}
+
 @end

@@ -61,6 +61,8 @@
         isThingRecrPahse = NO;
         isComabtPahse = NO;
         isInitialPhase = YES;
+        oneDice = 0;
+        secondDice = 0;
         
         [self advancePhase:Initial];
         
@@ -144,109 +146,6 @@ return NULL;
 }
 
 
-/*
--(void) setPlayerArmy{
-    
-    NSArray *p1Stack1 = @[ @"-n Old Dragon -s Fly -s Magic -a 4",@"-n Elephant -t Jungle -s Charge -a 4",@"-n Giant Spider -t Desert -a 1",@"-n Brown Knight -t Mountain -s Charge -a 4",@"-n Giant -t Mountain -s Range -a 4",@"-n Dwarves -t Mountain -s Range -a 2"];
-    NSArray* p1Stack2 = @[@"-n Skletons -c 2 -t Desert -a 1",@"-n Watusi -t Jungle -s 2",@"-n Goblins -c 4 -t Mountain -a 1",@"-n Orge Mountain -t Mountain -a 2"];
-    NSArray *p2Stack1 = @[@"-n Pterodactyl Warriors -c 2 -t Jungle -s Fly -s Range -a 2",@"-n Green Knight -t Forest -s Charge -a 4",@"-n Dervish -c 2 -t Desert -s Magic -a 2",@"-n Crocodiles -t Jungle -a 2",@"-n Nomads -c 2 -t Desert -a 1",@"-n Druid -t Forest -s Magic -a 3",@"-n Walking Tree -t Forest -a 5",@"-n Crawling Vines -t Jungle -a 6",@"-n Bandits -t Forest -a 2"];
-    NSArray *p3Stack1 = @[@"-n Centaur -t Plains -a 2",@"-n Camel Corps -t Desert -a 3",@"-n Farmers -c 4 -t Plains -a 1",@"-n Farmers -c 4 -t Plains -a 1"];
-    NSArray *p3Stack2 = @[@"-n Genie -t Desert -s Magic -a 4",@"-n Skletons -c 2 -t Desert -a 1",@"-n Pygmies -t Jungle -a 2"];
-    NSArray *p3Stack3 = @[@"-n Great Hunter -t Plains -s Range -a 4",@"-n Nomads -c 2 -t Desert -a 1",@"-n Witch Doctor -t Jungle -s Magic -a 2"];
-    NSArray *p4Stack1 = @[@"-n Tribesmen -c 2 -t Plains -a 2",@"-n Giant Lizard -c 2 -t Swamp -a 2",@"-n Villains -t Plains -a 2",@"-n Tigers -c 2 -t Jungle -a 3"];
-    NSArray *p4Stack2 = @[@"-n Vampire Bat -t Swamp -s Fly -a 4",@"-n Tribesmen -c 2 -t Plains -a 2",@"-n Dark Wizard -t Swamp -s Fly -s Magic -a 1",@"-n Black Knight -t Swamp -s Charge -a 3"];
-    NSArray *p4Stack3 = @[@"-n Giant Ape -c 2 -t Jungle -a 5",@"-n Buffalo Herd -t Plains -a 3"];
-    
-    
-    NSMutableArray *p1S1 = [[NSMutableArray alloc]init];
-    
-    for (NSString *str in p1Stack1) {
-        Creature *creature = [[Creature alloc] initWithImage:str];
-        
-        [p1S1 addObject:creature];
-    }
-    //[p1S1 addObjectsFromArray:p1Stack1];
-    
-    NSMutableArray *p1S2 = [[NSMutableArray alloc]init];
-    for (NSString *str in p1Stack2) {
-         Creature *creature = [[Creature alloc] initWithImage:str];
-        
-        [p1S2 addObject:creature];
-    }
-    //[p1S2 addObjectsFromArray:p1Stack2];
-    
-    NSMutableArray *p2S1 = [[NSMutableArray alloc]init];
-    for (NSString *str in p2Stack1) {
-        Creature *creature = [[Creature alloc] initWithImage:str];
-        
-        [p2S1 addObject:creature];
-    }
-    //[p2S1 addObjectsFromArray:p2Stack1];
-    
-    NSMutableArray *p3S1 = [[NSMutableArray alloc]init];
-    
-    for (NSString *str in p3Stack1) {
-        Creature *creature = [[Creature alloc] initWithImage:str];
-        
-        [p3S1 addObject:creature];
-    }
-    
-    //[p3S1 addObjectsFromArray:p3Stack1];
-    
-    NSMutableArray *p3S2 = [[NSMutableArray alloc]init];
-    for (NSString *str in p3Stack2) {
-        Creature *creature = [[Creature alloc] initWithImage:str];
-        
-        [p3S2 addObject:creature];
-    }
-    //[p3S2 addObjectsFromArray:p3Stack2];
-    
-    NSMutableArray *p3S3 = [[NSMutableArray alloc]init];
-    for (NSString *str in p3Stack3) {
-        Creature *creature = [[Creature alloc] initWithImage:str];
-        
-        [p3S3 addObject:creature];
-    }
-    //[p3S3 addObjectsFromArray:p3Stack3];
-    
-    NSMutableArray *p4S1 = [[NSMutableArray alloc]init];
-    for (NSString *str in p4Stack1) {
-        Creature *creature = [[Creature alloc] initWithImage:str];
-        
-        [p4S1 addObject:creature];
-    }
-    //[p4S1 addObjectsFromArray:p4Stack1];
-    
-    
-    NSMutableArray *p4S2 = [[NSMutableArray alloc]init];
-    for (NSString *str in p4Stack2) {
-        Creature *creature = [[Creature alloc] initWithImage:str];
-        
-        [p4S2 addObject:creature];
-    }
-    //[p4S2 addObjectsFromArray:p4Stack2];
-    
-    NSMutableArray *p4S3 = [[NSMutableArray alloc]init];
-    for (NSString *str in p4Stack3) {
-        Creature *creature = [[Creature alloc] initWithImage:str];
-        
-        [p4S3 addObject:creature];
-    }
-    //[p4S3 addObjectsFromArray:p4Stack3];
-    
-    [player1 constructArmy:p1S1];
-    [player1 constructArmy:p1S2];
-    [player2 constructArmy:p2S1];
-    [player3 constructArmy:p3S1];
-    [player3 constructArmy:p3S2];
-    [player3 constructArmy:p3S3];
-    [player4 constructArmy:p4S1];
-    [player4 constructArmy:p4S2];
-    [player4 constructArmy:p4S3];
-    
-    
-}*/
-
 
 -(Terrain*) findTerrainAtLocation:(NSInteger) location{
     
@@ -302,6 +201,23 @@ return NULL;
             [player.combat setObject:defArmy forKey:@"andDefenderArmy"];
             
             NSLog(@"combat dictionary: %@",player.combat);
+        }
+        
+        else {
+           
+            NSLog(@"Inside explor");
+            
+            NSRunLoop *loop = [NSRunLoop currentRunLoop];
+            
+            while ( (oneDice == 0 || secondDice == 0) && [loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]])
+            {}
+            
+            if (oneDice == 1 || oneDice == 6 || secondDice == 1 || secondDice == 6){
+                
+                [terrain setHasArmyOnIt:NO];
+                
+                [board captureHex:player atTerrain:terrain];
+            }
         }
     }
     NSLog(@"combat over");

@@ -33,4 +33,5 @@
 - (void) updateRecruitLabel:(Player *) p;
 - (BOOL) canMoveNode:(SKSpriteNode*) node;
 - (BOOL) canSelectNode:(SKSpriteNode*) node;
+- (void) captureHex:(Player*) player atTerrain:(Terrain*)terrain;
 @end
