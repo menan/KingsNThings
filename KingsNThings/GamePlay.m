@@ -209,7 +209,7 @@ return NULL;
             
             NSRunLoop *loop = [NSRunLoop currentRunLoop];
             
-            while ( (oneDice == 0 || secondDice == 0) && [loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]])
+            while ( ((oneDice == 0 ) && (secondDice == 0)) && [loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]])
             {}
             
             if (oneDice == 1 || oneDice == 6 || secondDice == 1 || secondDice == 6){
@@ -228,7 +228,12 @@ return NULL;
                     defender = [board createRandomArmy:secondDice atPoint:army.position];
                 }
                 
-                
+                Player* tempDefender = [[Player alloc] init ];
+                [tempDefender setArmy:defender];
+                player.isWaitingCombat = YES;
+                [player.combat setObject:army forKey:@"withArmy"];
+                [player.combat setObject:tempDefender forKey:@"andPlayer"];
+                [player.combat setObject:defender forKey:@"andDefenderArmy"];
                 
             }
         }
