@@ -607,20 +607,23 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     Player *p = [game.players objectAtIndex:0];
     if ([bank withdrawGold:goldNum andCount:1]){
         [p.bank depositGold:goldNum andCount:1];
-        [p justGotPaid:goldNum];
-        recruitLabel.text = [NSString stringWithFormat: @"%d Recruits Remaining", p.recruitsRemaining];
+        if(game.phase == Recruitment){
+            [p justGotPaid:goldNum];
+            recruitLabel.text = [NSString stringWithFormat: @"%d Recruits Remaining", p.recruitsRemaining];
+        }
     }
-    
 }
+
 -(void)depositToBank:(NSInteger)goldNum
 {
     Player *p = [game.players objectAtIndex:0];
     if ([p.bank withdrawGold:goldNum andCount:1]){
         [bank depositGold:goldNum andCount:1];
-        [p justPaid:goldNum];
-        recruitLabel.text = [NSString stringWithFormat: @"%d Recruits Remaining", p.recruitsRemaining];
+        if(game.phase == Recruitment){
+            [p justPaid:goldNum];
+            recruitLabel.text = [NSString stringWithFormat: @"%d Recruits Remaining", p.recruitsRemaining];
+        }
     }
-    
 }
 
 - (void) rollDiceOne{
@@ -1117,9 +1120,6 @@ static NSString * const defaultText = @"KingsNThings - Team24";
                     UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Money deducted" message: @"This operation will automaticlly deduct gold from your bank: 20 Gold for Citadel, 5 Gold for other forts" delegate: self                                       cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
                     
                     [error show];
-                    
-                    [[owner getBank] withdraw:5];
-                    [self updateBank];
 
                     Building* newBuilding = [[Building alloc] initWithImage:node.name atPoint:node.position andStage:NONE andTerrain:t];
                     
@@ -1169,8 +1169,8 @@ static NSString * const defaultText = @"KingsNThings - Team24";
                                     node.name = @"bowl";
                                     [node setSize:CGSizeMake(towerSizeNode, towerSizeNode)];
                                     
-                                    [[owner getBank] withdraw:5];
-                                    [bank deposit:5];
+                                    
+                                    [self depositToBank:5];
                                     [self updateBank];
 
                                     //[node setPosition:CGPointMake(t.node.position.x - 10, t.node.position.y + 7)];
