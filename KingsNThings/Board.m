@@ -27,7 +27,6 @@
     MyScene *scene;
     CGPoint point;
     CGSize size;
-    Bank *bank;
 //    GamePlay *game;
     
     SKLabelNode* balanceLabel;
@@ -43,7 +42,7 @@
 }
 static NSString * const defaultText = @"KingsNThings - Team24";
 
-@synthesize textLabel,dicesClicked,creaturesInBowl,recruitLabel,game,disabled,nonMovables;
+@synthesize textLabel,dicesClicked,creaturesInBowl,recruitLabel,game,disabled,nonMovables,bank;
 - (id)initWithScene: (MyScene *) aScene atPoint: (CGPoint) aPoint withSize: (CGSize) aSize
 {
     self = [super init];
@@ -52,7 +51,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         size = aSize;
         scene = aScene;
         playersCount = 7;
-        nonMovables = @[@"board", @"bowl", @"rack", @"Gold 1", @"Gold 2", @"Gold 5", @"Gold 10", @"Gold 15", @"Gold 20", @"My Gold 1", @"My Gold 2", @"My Gold 5", @"My Gold 10", @"My Gold 15", @"My Gold 20", @"diceOne", @"diceTwo", @"collection", @"labels", @"Bank", @"My Stash", @"P4 Stash", @"P3 Stash", @"P2 Stash", @"balance",@"battle"];
+        nonMovables = @[@"board", @"bowl", @"rack", @"Gold 1", @"Gold 2", @"Gold 5", @"Gold 10", @"Gold 15", @"Gold 20", @"My Gold 1", @"My Gold 2", @"My Gold 5", @"My Gold 10", @"My Gold 15", @"My Gold 20", @"diceOne", @"diceTwo", @"collection", @"labels", @"Bank", @"My Stash", @"P4 Stash", @"P3 Stash", @"P2 Stash", @"balance"];
         disabled = @[@"labels", @"Bank", @"My Stash", @"P4 Stash", @"P3 Stash", @"P2 Stash", @"bowl", @"board", @"rack"];
         
         terrainNames = @[@"Desert", @"Forest", @"Frozen Waste", @"Jungle", @"Mountains", @"Plains", @"Sea", @"Swamp"];
@@ -96,7 +95,6 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     [self updateBank];
     
     
-    [self drawDice:CGPointMake(25.0f, 25.0f)];
     
 //    [self initTerrains:CGPointMake(45.0f, (size.height) - 40)];
 //    [self initTerrains:CGPointMake(130.0f, (size.height) - 40)];
@@ -125,6 +123,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
     [self drawSpecialCreatures:CGPointMake(160.0f, (size.height) - 20)];
     
+    [self drawDice:CGPointMake(25.0f, 25.0f)];
 }
 
 - (void) resetText{
@@ -740,9 +739,6 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     return NO;
 }
 
-- (Terrain *) findTerrainAt:(CGPoint) thisPoint{
-    return [game findTerrainAt:thisPoint];
-}
 
 //- (void) nodeTapped:(SKSpriteNode*) node{
 //        [textLabel setText:[node name]];
@@ -803,14 +799,14 @@ static NSString * const defaultText = @"KingsNThings - Team24";
             
         }
         else{
-            Terrain *temp = [self findTerrainAt:terrainPoint];
+            Terrain *temp = [game findTerrainAt:terrainPoint];
             [self creaturesMoved:node AtTerrain:temp];
             [self removeCreatureByName:node.name]; //removes the creature from the bowl, if it got added to the army or rack
         }
     }
     else if ([node.accessibilityValue isEqualToString:@"army"]){
          NSLog(@"army moved");
-        Terrain *temp = [self findTerrainAt:terrainPoint];
+        Terrain *temp = [game findTerrainAt:terrainPoint];
         Player *tempPlayer = [game findPlayerByOrder:[node.name integerValue]];
         
         Army* ar = [tempPlayer getArmyAtIndex:[node.accessibilityLabel integerValue]- 1];
@@ -822,7 +818,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     }
     else if (terrainLocated && [node.name isEqualToString:@"Player 1"]) {
         
-        Terrain* temp = [self findTerrainAt:terrainPoint];
+        Terrain* temp = [game findTerrainAt:terrainPoint];
         Player *p = [[game players] objectAtIndex:0];
        
         if ([p setTerritory:temp]){
@@ -840,7 +836,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         }
     }
     else if (terrainLocated && [node.name isEqualToString:@"Player 2"]) {
-        Terrain* temp = [self findTerrainAt:terrainPoint];
+        Terrain* temp = [game findTerrainAt:terrainPoint];
         Player *p = [[game players] objectAtIndex:1];
         
         if ([p setTerritory:temp]){
@@ -857,7 +853,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         }
     }
     else if (terrainLocated && [node.name isEqualToString:@"Player 3"]) {
-        Terrain* temp = [self findTerrainAt:terrainPoint];
+        Terrain* temp = [game findTerrainAt:terrainPoint];
         Player *p = [[game players] objectAtIndex:2];
         
         if ([p setTerritory:temp]){
@@ -873,7 +869,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         }
     }
     else if (terrainLocated && [node.name isEqualToString:@"Player 4"]) {
-        Terrain* temp = [self findTerrainAt:terrainPoint];
+        Terrain* temp = [game findTerrainAt:terrainPoint];
         Player *p = [[game players] objectAtIndex:3];
         
         if ([p setTerritory:temp]){
@@ -948,22 +944,33 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     }
     else if ([node.accessibilityValue isEqualToString:@"fort"]){
         
-        Terrain* t = [self findTerrainAt:terrainPoint];
+        Terrain* t = [game findTerrainAt:terrainPoint];
         Player* owner = [game findPlayerByTerrain:t];
         
         if (terrainLocated && owner != nil) {
             [self constructBuilding:owner withBuilding:node onTerrain:t];
         }
         else{
+            [node setPosition:CGPointMake(23.0f + 43, (size.height) - 100)];
+        }
                 [node setPosition:CGPointMake(23.0f + 43, (size.height) - 100)];
-            }
     }
+    
     else if ([node.name isEqualToString:@"battle"]){
              [game initiateCombat:[game.players objectAtIndex:0]];
     }
+
     else if([node.accessibilityLabel isEqualToString:@"special"]){
              [self recruiteSpecial:node];
     }
+    else if ([node.name isEqualToString:@"battle"]){
+        //you can access all players on the current terrain by calling [game findPlayersByTerrain:t] n use them to go at war with each other
+        [game initiateCombat:[game.players objectAtIndex:0]];
+    }
+    else if([node.accessibilityLabel isEqualToString:@"special"]){
+        [self recruiteSpecial:node];
+    }
+
     else if ([node.accessibilityLabel isEqualToString:@"specialIncome"]){
         if([game phase] == Recruitment){
             //[self recruiteSpecialIncome:node onTerrain:t
@@ -1046,6 +1053,8 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     int totalIncome = 0;
     
 //    [game presentGCTurnViewController:self];
+    
+    [game checkBluffForPlayer:[game currentPlayer]];
     
     for(Player * p in game.players){
         totalIncome += [p getIncome];
@@ -1220,33 +1229,14 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 -(void) recruiteSpecial:(SKSpriteNode*)node{
     
     NSLog(@"Inside recruite special");
-    int diOne , diTwo;
-    NSRunLoop *loop = [NSRunLoop currentRunLoop];
+    
     Creature* special = [[Creature alloc]initWithImage:node.name atPoint:node.position];
     
-    Player *p = [game.players objectAtIndex:0];
+    Player *p = [game currentPlayer];
+    
     
     [scene transitToRecruitmentScene:special forPlayer:p];
     
-    // I created a scene for this to make it easier.
-    
-    // if player want to pay mony before rokling dices
-
-    while(([diceOneLabel.text integerValue] == 0 || [diceTwoLabel.text integerValue] == 0 )&& [loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate                                                                                                                                        distantFuture]]){
-        
-    }
-    diOne =[diceOneLabel.text integerValue];
-    diTwo = [diceTwoLabel.text integerValue];
-    
-    if((diOne + diTwo) >= (special.combatValue*2)){
-        // player can add character to army
-        
-    }
-    else {
-        // if player want to pay mony before rokling dices
-        // else return character to its place
-        
-    }
     
 }
 
@@ -1292,28 +1282,22 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     Army *a = [[Army alloc]init];
     SpecialIncome* tempCounter;
     
-    while (number > 0){
-        int index = (arc4random() % [bowl count]);
-        //Creature* cre = [[Creature alloc]initWithImage:[creatureList objectAtIndex:index] atPoint:aPoint];
-        
-        if([[bowl objectAtIndex:index] isKindOfClass:[SpecialIncome class]]){
-            
-            SpecialIncome* temp = [bowl objectAtIndex:index];
-            
-            if(temp.isKeyedToTerrain){
-                
-                if([temp.terrainType isEqualToString:terrain.type]){
-                    [a addCreatures:[bowl objectAtIndex:index]];
-                    number-=1;
-                }
-            }
-        }
-        else{
-          [a addCreatures:[bowl objectAtIndex:index]];
-            number-=1;
-        }
-        
-    }
+    NSMutableIndexSet *picks = [NSMutableIndexSet indexSet];
+    do {
+        [picks addIndex:arc4random() % bowl.count];
+    } while (picks.count != number);
+    
+    //picks stuff randomly from the bowl and then later redraws it to reflect the changes.
+    [picks enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+        NSLog(@"Element at index %ud: %@", idx, [bowl objectAtIndex:idx]);
+        Creature* cre = [[Creature alloc]initWithImage:[bowl objectAtIndex:idx] atPoint:aPoint];
+        [a addCreatures:cre];
+        [bowl removeObject:cre];
+    }];
+    
+    
+    [self redrawCreatures];
+    
     return a;
     
 }

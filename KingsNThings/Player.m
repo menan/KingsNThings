@@ -31,8 +31,7 @@ static int counter = 0;
     
     self = [super init];
     if (self) {
-        bank = [[Bank alloc] initWithOneGolds:0 twoGolds:0 fivesGolds:2 tenGolds:0 fifteenGolds:0 twentyGolds:0];
-        
+        bank = [[Bank alloc] initWithOneGolds:0 twoGolds:0 fivesGolds:5 tenGolds:0 fifteenGolds:0 twentyGolds:0];
         buildings = [[NSMutableArray alloc] init];
         territories = [[NSMutableArray alloc] init];
         specialCharacters = [[NSMutableArray alloc] init];
@@ -60,15 +59,9 @@ static int counter = 0;
 
 - (BOOL) setTerritory: (Terrain *) territory{
     if(territory != nil){
-    //    NSLog(@"Adding territory: %@", territory.type);
-        if ([territories count] <= 10){
-            [territories addObject:territory];
-            NSLog(@"player territory is set for : %@ %d , player is %d ", territory.node.name, [territories count],playingOrder);
-            return YES;
-        }
-        else{
-            NSLog(@"3 territories set already :)");
-        }
+        [territories addObject:territory];
+        NSLog(@"player territory is set for : %@ %d , player is %d ", territory.node.name, [territories count],playingOrder);
+        return YES;
     }
     return NO;
 }

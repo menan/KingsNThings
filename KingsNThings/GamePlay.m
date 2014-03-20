@@ -173,73 +173,102 @@ return NULL;
 -(void) movementPhase:(Player *)player withArmy:(Army*)army{
     NSLog(@"inside movementPhase");
     NSLog(@" player is %d",[player playingOrder]);
-    Terrain* terrain = [army terrain];
+    Terrain* terrain = army.terrain;
     Player *defender = [self findPlayerByTerrain:terrain];
     NSLog(@"tempPlayer is %d , player is %d",[defender playingOrder],[player playingOrder]);
     
-    if([player isEqual:defender]){
+    //to check to see if palyer only moved one hex
+    BOOL validMove = NO;
+    
+    //has to iterate through all terrains because they can be set in different orders for fuk sake lol
+    for (Terrain *t in [player getTerritories]) {
         
-        NSLog(@"tinside if players are equal");
-        if([terrain hasArmyOnIt]){
-            Army *a = [player findArmyOnTerrain:terrain];
+        float dx = [t getAbsoluteX] - [terrain getAbsoluteX];
+        float dy = [t getAbsoluteY] - [terrain getAbsoluteY];
+        
+        float distance = sqrt(dx*dx + dy*dy); //uses pythagorean theorem to caculate the distance
+        
+        if (distance < 75) {
+            validMove = YES;
+        }
+        
+    }
+    
+    
+    if (validMove) {
+        //must be one hex
+        
+        if([player isEqual:defender]){
             
-            if(([a creaturesInArmy] + [army creaturesInArmy]) > 10)
-                NSLog(@"Invalid move cannot have more than 10 creatures on one terrain");
+            NSLog(@"tinside if players are equal");
+            if([terrain hasArmyOnIt]){
+                Army *a = [player findArmyOnTerrain:terrain];
+                
+                if(([a creaturesInArmy] + [army creaturesInArmy]) > 10)
+                    NSLog(@"Invalid move cannot have more than 10 creatures on one terrain");
+            }
+        }
+        else{
+            //dude has army to deal with before he acquires this terrain
+            if([terrain hasArmyOnIt]){
+                
+                Army *defArmy = [defender findArmyOnTerrain:terrain];
+                if([terrain hasBuilding]){
+                    [defArmy setBuilding:[defender getBuildingOnTerrain:terrain]];
+                }
+                NSLog(@"tinside if players are NOT equal");
+                player.isWaitingCombat = YES;
+                [player.combat setObject:army forKey:@"withArmy"];
+                [player.combat setObject:defender forKey:@"andPlayer"];
+                [player.combat setObject:defArmy forKey:@"andDefenderArmy"];
+                
+                NSLog(@"combat dictionary: %@",player.combat);
+            }
+            
+            else {
+                //dude is gonna fight with random creatures on the terrain since theres no one there.
+                
+                NSLog(@"Inside explor");
+                
+                NSRunLoop *loop = [NSRunLoop currentRunLoop];
+                
+                while ( ((oneDice == 0 ) && (secondDice == 0)) && [loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]])
+                {}
+                
+                if (oneDice == 1 || oneDice == 6 || secondDice == 1 || secondDice == 6){
+                    
+                    [terrain setHasArmyOnIt:NO];
+                    
+                    [board captureHex:player atTerrain:terrain];
+                }
+                
+                else{ // random army should appear
+                    Army* defender;
+                    if(oneDice >0){
+                        defender = [board createRandomArmy:oneDice atPoint:army.position];
+                    }
+                    else{
+                        defender = [board createRandomArmy:secondDice atPoint:army.position];
+                    }
+                    
+                    Player* tempDefender = [[Player alloc] init ];
+                    [tempDefender setArmy:defender];
+                    player.isWaitingCombat = YES;
+                    [player.combat setObject:army forKey:@"withArmy"];
+                    [player.combat setObject:tempDefender forKey:@"andPlayer"];
+                    [player.combat setObject:defender forKey:@"andDefenderArmy"];
+                    
+                }
+            }
         }
     }
     else{
-        if([terrain hasArmyOnIt]){
-            
-            Army *defArmy = [defender findArmyOnTerrain:terrain];
-            if([terrain hasBuilding]){
-                [defArmy setBuilding:[defender getBuildingOnTerrain:terrain]];
-            }
-             NSLog(@"tinside if players are NOT equal");
-            player.isWaitingCombat = YES;
-            [player.combat setObject:army forKey:@"withArmy"];
-            [player.combat setObject:defender forKey:@"andPlayer"];
-            [player.combat setObject:defArmy forKey:@"andDefenderArmy"];
-            
-            NSLog(@"combat dictionary: %@",player.combat);
-        }
-        
-        else {
-            oneDice = 0;
-            secondDice = 0;
-            NSLog(@"Inside explor");
-            
-            NSRunLoop *loop = [NSRunLoop currentRunLoop];
-            
-            while ( ((oneDice == 0 ) && (secondDice == 0)) && [loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]])
-            {}
-            
-            if (oneDice == 1 || oneDice == 6 || secondDice == 1 || secondDice == 6){
-                
-                [terrain setHasArmyOnIt:NO];
-                
-                [board captureHex:player atTerrain:terrain];
-            }
-            
-            else{ // random army should appear
-                Army* defender;
-                if(oneDice >0){
-                    
-                  defender = [board createRandomArmy:oneDice atPoint:army.position andTerrain:terrain];
-                }
-                else{
-                    defender = [board createRandomArmy:secondDice atPoint:army.position andTerrain:terrain];
-                }
-                
-                Player* tempDefender = [[Player alloc] init ];
-                [tempDefender setArmy:defender];
-                player.isWaitingCombat = YES;
-                [player.combat setObject:army forKey:@"withArmy"];
-                [player.combat setObject:tempDefender forKey:@"andPlayer"];
-                [player.combat setObject:defender forKey:@"andDefenderArmy"];
-                
-            }
-        }
+        NSLog(@"user must have moved more than one hex, ignored");
+//        float xPos = [terrain getAbsoluteX];
+//        float yPos = [terrain getAbsoluteY];
+//        [army.image setPosition: CGPointMake(xPos, yPos)];
     }
+    
     NSLog(@"combat over");
 }
 
@@ -278,6 +307,49 @@ return NULL;
         
     }
 }
+
+
+
+- (void) checkBluffForPlayer:(Player *) player{
+    //would check for each creatures to see if theyre bluff n add bluff to them
+    NSMutableArray *terrainStrings;
+    
+    for(Terrain *t in [player getTerritories]){
+        if (![terrainStrings containsObject:t.type]) {
+            NSLog(@"adding terrain type %@",t.type);
+            [terrainStrings addObject:t.type];
+        }
+    }
+    for (Army * army in player.armies) {
+        for (Creature *c in army.creatures) {
+            if ([c.name hasSuffix:@"Lord"] || [c.name hasSuffix:@"King"] || [c.name hasSuffix:@"Master"]){
+                //dude gets to support other creatures in the territory who don't belong in there
+                NSString *terrain = [c.name stringByReplacingOccurrencesOfString:@"Lord" withString:@""];
+                terrain = [terrain stringByReplacingOccurrencesOfString:@"King" withString:@""];
+                terrain = [terrain stringByReplacingOccurrencesOfString:@"Master" withString:@""];
+                NSLog(@"Terrain lord was found for terrain: %@",terrain);
+                [terrainStrings addObject:terrain];
+            }
+        }
+    }
+    
+    NSLog(@"terrain strings :%@",terrainStrings);
+    int affected = 0;
+    for (Army * army in player.armies) {
+        for (Creature *c in army.creatures) {
+            if (![terrainStrings containsObject:c.terrainType]) {
+                c.isBluff = YES;
+                affected++;
+            }
+        }
+    }
+    
+    NSLog(@"%d discovered to bluff",affected);
+}
+
+
+
+
 
 - (void) useSpecialPowerFor:(Creature *) creature{
     
@@ -326,6 +398,9 @@ return NULL;
     }
     else if ([creature.name hasSuffix:@"Lord"] || [creature.name hasSuffix:@"King"] || [creature.name hasSuffix:@"Master"]){
         //dude gets to support other creatures in the territory who don't belong in there
+        
+        
+        
     }
     else if ([creature.name isEqualToString: @"Warlord"]){
         //can get one enemy per battle to join forces with him

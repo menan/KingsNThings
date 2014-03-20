@@ -7,11 +7,11 @@
 //
 
 #import "MyScene.h"
-#import "Board.h"
 #import "CombatScene.h"
 #import "Army.h"
 #import "Creature.h"
 #import "SpecialRecruitmentScene.h"
+#import "Board.h"
 
 @implementation MyScene{
      SKTransition* transitionDoorsCloseHorizontal;
@@ -132,6 +132,9 @@ CGPoint mult(const CGPoint v, const CGFloat s) {
 
 - (id) getGame{
     return gameBoard.game;
+}
+- (id) getBoard{
+    return gameBoard;
 }
 + (void) wiggle: (SKSpriteNode *) node{
     SKAction *sequence = [SKAction sequence:@[[SKAction scaleBy:1.2 duration:0.1],

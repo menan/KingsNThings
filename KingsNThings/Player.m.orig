@@ -16,7 +16,7 @@
     //NSMutableArray* armies;
     NSMutableArray* territories;
     NSMutableArray* specialCharacters;
-    NSMutableArray* specialIncome;
+    //NSMutableArray* specialIncome;
     NSMutableArray* buildings;
     
     
@@ -25,30 +25,33 @@
 
 static int counter = 0;
 
-<<<<<<< HEAD
-@synthesize armies,playingOrder,bank,army, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat,playerLeft,hasBuiltCitadel;
-=======
-@synthesize armies,playingOrder,bank,army, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat,playerLeft,movementsRemaining,rack;
->>>>>>> 64baa5cc57157e5cdae40b864ba65b801a0daf1b
+@synthesize armies,playingOrder,bank,army,returnedCreatures, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat,playerLeft,movementsRemaining,rack,hasBuiltCitadel,specialIncome;
 
 -(id) init{
     
     self = [super init];
     if (self) {
+<<<<<<< HEAD
         bank = [[Bank alloc] initWithOneGolds:0 twoGolds:0 fivesGolds:2 tenGolds:0 fifteenGolds:0 twentyGolds:0];
+        
+=======
+        bank = [[Bank alloc] initWithOneGolds:0 twoGolds:0 fivesGolds:5 tenGolds:0 fifteenGolds:0 twentyGolds:0];
+>>>>>>> 448d6c71e47c62ef81341b2e457909f084ab6e91
         buildings = [[NSMutableArray alloc] init];
         territories = [[NSMutableArray alloc] init];
         specialCharacters = [[NSMutableArray alloc] init];
         armies = [[NSMutableArray alloc] init];
         specialIncome = [[NSMutableArray alloc] init];
+        
         combat = [[NSMutableDictionary alloc] init];
         army = [[Army alloc]init];
         rack = [[NSMutableArray alloc]init];
         recruitsRemaining = 10;
         movementsRemaining = 4;
+        returnedCreatures = 0;
         counter +=1;
         balance = 0;
-        playingOrder =counter;
+        playingOrder = counter;
         hasWonCombat = NO;
         isWaitingCombat = NO;
         playerLeft = NO;
@@ -61,15 +64,9 @@ static int counter = 0;
 
 - (BOOL) setTerritory: (Terrain *) territory{
     if(territory != nil){
-    //    NSLog(@"Adding territory: %@", territory.type);
-        if ([territories count] <= 10){
-            [territories addObject:territory];
-            NSLog(@"player territory is set for : %@ %d , player is %d ", territory.node.name, [territories count],playingOrder);
-            return YES;
-        }
-        else{
-            NSLog(@"3 territories set already :)");
-        }
+        [territories addObject:territory];
+        NSLog(@"player territory is set for : %@ %d , player is %d ", territory.node.name, [territories count],playingOrder);
+        return YES;
     }
     return NO;
 }
@@ -157,7 +154,13 @@ static int counter = 0;
         return nil;
 }
 
-
+- (void) returnedACreature{
+    returnedCreatures++;
+    if (returnedCreatures == 2) {
+        recruitsRemaining++;
+        returnedCreatures = 0;
+    }
+}
 
 -(NSInteger) numberOfArmies{
     return [armies count];
@@ -166,24 +169,16 @@ static int counter = 0;
 // to construct new army (stack) every time a players drag a creature to new territory
 -(Army*) constructNewArmy:(id)creatur atPoint:(CGPoint) aPoint withTerrain:(Terrain*)terrain{
     
-    recruitsRemaining--;
-    if (recruitsRemaining >= 0) {
-        
-        Army* arm = [[Army alloc]initWithPoint:aPoint];
-        [arm addCreatures:creatur];
-        [arm setTerrain:terrain];
-        [arm setArmyNumber:[self numberOfArmies]+1];
-        [arm setPlayerNumber:[self playingOrder]];
-        
-        //[arm setPosition:aPoint];
-        [armies addObject:arm];
-        NSLog(@"went in construct New Army and %d more recruits remaining", recruitsRemaining);
-        return arm;
-    }
-    else{
-        NSLog(@"You don't have anymore recruits left.");
-        return nil;
-    }
+    Army* arm = [[Army alloc]initWithPoint:aPoint];
+    [arm addCreatures:creatur];
+    [arm setTerrain:terrain];
+    [arm setArmyNumber:[self numberOfArmies]+1];
+    [arm setPlayerNumber:[self playingOrder]];
+    
+    //[arm setPosition:aPoint];
+    [armies addObject:arm];
+    NSLog(@"went in construct New Army and %d more recruits remaining", recruitsRemaining);
+    return arm;
    
 }
 
@@ -201,19 +196,9 @@ static int counter = 0;
 }
 
 -(BOOL) addCreatureToArmy:(id)creature inArmy:(Army*)force{
-    
-    recruitsRemaining--;
-    if (recruitsRemaining >= 0) {
-        
-        [force addCreatures:creature];
-        return YES;
-        NSLog(@"Creature is added and %d more recruits remaining", recruitsRemaining);
-    }
-    else{
-        return NO;
-        NSLog(@"You don't have anymore recruits left.");
-    }
-    
+    [force addCreatures:creature];
+    return YES;
+    NSLog(@"Creature is added and %d more recruits remaining", recruitsRemaining);
 }
 
 
@@ -275,6 +260,24 @@ static int counter = 0;
         }
     }
     return nil;
+}
+
+- (BOOL) removeCreatureFromRackByName:(NSString *) name{
+    
+    NSLog(@"trying to remove node from rack with name %@",name);
+    for (Creature *c in rack) {
+        if ([c.name isEqualToString:name]) {
+            [rack removeObject:c];
+            return YES;
+        }
+    }
+    return NO;
+}
+
+-(void) addSpecialIncome:(SpecialIncome*)sp{
+    
+    [specialIncome addObject:sp];
+    
 }
 
 @end

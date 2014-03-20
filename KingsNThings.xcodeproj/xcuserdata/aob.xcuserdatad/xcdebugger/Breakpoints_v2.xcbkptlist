@@ -185,7 +185,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1283"
             endingLineNumber = "1283"
-            landmarkName = "-captureHex:atTerrain:"
+            landmarkName = "-createRandomArmy:atPoint:andTerrain:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -201,7 +201,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1282"
             endingLineNumber = "1282"
-            landmarkName = "-captureHex:atTerrain:"
+            landmarkName = "-createRandomArmy:atPoint:andTerrain:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -265,7 +265,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1281"
             endingLineNumber = "1281"
-            landmarkName = "-captureHex:atTerrain:"
+            landmarkName = "-createRandomArmy:atPoint:andTerrain:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
