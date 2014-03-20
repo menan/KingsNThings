@@ -53,4 +53,5 @@ typedef enum {
 - (void) presentGCTurnViewController:(id)sender;
 - (void) checkInitalRecruitmentComplete;
 - (BOOL) recruitmentComplete;
+- (void) checkBluffForPlayer:(Player *) player;
 @end

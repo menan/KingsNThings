@@ -1043,6 +1043,8 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
 //    [game presentGCTurnViewController:self];
     
+    [game checkBluffForPlayer:[game currentPlayer]];
+    
     for(Player * p in game.players){
         totalIncome += [p getIncome];
     }

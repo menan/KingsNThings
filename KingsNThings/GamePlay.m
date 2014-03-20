@@ -299,6 +299,49 @@ return NULL;
     }
 }
 
+
+
+- (void) checkBluffForPlayer:(Player *) player{
+    //would check for each creatures to see if theyre bluff n add bluff to them
+    NSMutableArray *terrainStrings;
+    
+    for(Terrain *t in [player getTerritories]){
+        if (![terrainStrings containsObject:t.type]) {
+            NSLog(@"adding terrain type %@",t.type);
+            [terrainStrings addObject:t.type];
+        }
+    }
+    for (Army * army in player.armies) {
+        for (Creature *c in army.creatures) {
+            if ([c.name hasSuffix:@"Lord"] || [c.name hasSuffix:@"King"] || [c.name hasSuffix:@"Master"]){
+                //dude gets to support other creatures in the territory who don't belong in there
+                NSString *terrain = [c.name stringByReplacingOccurrencesOfString:@"Lord" withString:@""];
+                terrain = [terrain stringByReplacingOccurrencesOfString:@"King" withString:@""];
+                terrain = [terrain stringByReplacingOccurrencesOfString:@"Master" withString:@""];
+                NSLog(@"Terrain lord was found for terrain: %@",terrain);
+                [terrainStrings addObject:terrain];
+            }
+        }
+    }
+    
+    NSLog(@"terrain strings :%@",terrainStrings);
+    int affected = 0;
+    for (Army * army in player.armies) {
+        for (Creature *c in army.creatures) {
+            if (![terrainStrings containsObject:c.terrainType]) {
+                c.isBluff = YES;
+                affected++;
+            }
+        }
+    }
+    
+    NSLog(@"%d discovered to bluff",affected);
+}
+
+
+
+
+
 - (void) useSpecialPowerFor:(Creature *) creature{
     
     if (phase != SpecialPower) {
@@ -346,6 +389,9 @@ return NULL;
     }
     else if ([creature.name hasSuffix:@"Lord"] || [creature.name hasSuffix:@"King"] || [creature.name hasSuffix:@"Master"]){
         //dude gets to support other creatures in the territory who don't belong in there
+        
+        
+        
     }
     else if ([creature.name isEqualToString: @"Warlord"]){
         //can get one enemy per battle to join forces with him

@@ -16,7 +16,7 @@
 @property BOOL isSpecial;
 @property BOOL isBluff, isFly, isMagic, isMelee, isRanged , isCharge ,inBowl ;
 @property NSString* symbol;
-@property NSString* name, *imageName;
+@property NSString* name, *imageName, *terrainType;
 
 
 - (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image andCreatureName: (NSString *) cName withCombatValue: (int) value forTerrainType: (NSString *) terrain isSpecial:(BOOL) special andCombatType:(NSString *) cType;

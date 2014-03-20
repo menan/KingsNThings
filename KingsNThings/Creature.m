@@ -12,7 +12,6 @@
     CGPoint point;
     SKSpriteNode *board;
    NSString* combatType;
-    NSString* terrainType;
     
     //BOOL inBowl;
     int position;
@@ -24,7 +23,7 @@
 
 }
 
-@synthesize combatValue,isSpecial, isBluff, symbol,isFly, isMagic, isMelee, isRanged , isCharge,name,inBowl,imageName;
+@synthesize combatValue,isSpecial, isBluff, symbol,isFly, isMagic, isMelee, isRanged , isCharge,name,inBowl,imageName, terrainType;
 
 @synthesize node;
 
