@@ -117,6 +117,13 @@ static int counter = 0;
     
     return sIncome;
 }
+-(int) getSpecialIncomeValue{
+    int value = 0;
+    for(SpecialIncome* sp in specialIncome){
+        value += [sp goldValue];
+    }
+    return value;
+}
 
 - (int) getBuildingIncome{
     int i = 0;
@@ -134,7 +141,7 @@ static int counter = 0;
 }
 
 - (int) getIncome{
-    return (territories.count + [self getBuildingIncome] + [self getSpecialCreatureIncome]);
+    return (territories.count + [self getBuildingIncome] + [self getSpecialCreatureIncome] + [self getSpecialIncomeValue]);
 }
 
 - (NSMutableArray *) getTerritories{
@@ -176,8 +183,6 @@ static int counter = 0;
     return arm;
    
 }
-
-
 
 -(void) printArmy{
     
@@ -231,6 +236,7 @@ static int counter = 0;
     }
     return nil;
 }
+
 -(BOOL) removeBuilding:(Building*) oldBuilding;
 {
     if([buildings count] > 0){

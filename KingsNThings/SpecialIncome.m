@@ -89,6 +89,7 @@ int position;
             }
             else{
                 isKeyedToTerrain = YES;
+                isTreasure = NO;
                 terrainType = [trimmed substringFromIndex:2];
             }
         }
@@ -110,18 +111,21 @@ int position;
     [node removeFromParent]; //makes sure that it removes it to prevent duplications
     node = [SKSpriteNode spriteNodeWithImageNamed:imageName];
     node.name = name;
-    node.accessibilityValue = @"specialIncome";
+    node.accessibilityLabel = @"specialIncome";
+    if(isTreasure){
+    node.accessibilityValue = @"treasure";
+    }
     node.size = CGSizeMake(37,37);
     node.position = point;
-    /*if (inBowl && isSpecial == NO) {
+    if (inBowl ) {
         node.color = [SKColor blackColor];
         node.colorBlendFactor = .85;
     }
-    else{*/
+    else{
         
         node.color = [SKColor grayColor];
         node.colorBlendFactor = 0;
-    //}
+    }
     [board addChild:node];
 }
 @end

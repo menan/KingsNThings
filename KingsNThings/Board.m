@@ -42,7 +42,7 @@
 }
 static NSString * const defaultText = @"KingsNThings - Team24";
 
-@synthesize textLabel,dicesClicked,creaturesInBowl,recruitLabel,game,disabled,nonMovables,bank;
+@synthesize textLabel,dicesClicked,creaturesInBowl,recruitLabel,game,disabled,nonMovables,bank,bowlLocaiton;
 - (id)initWithScene: (MyScene *) aScene atPoint: (CGPoint) aPoint withSize: (CGSize) aSize
 {
     self = [super init];
@@ -183,7 +183,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     [bowlNode setName:@"bowl"];
     [bowlNode setPosition:aPoint];
     [board addChild:bowlNode];
-    
+    bowlLocaiton = aPoint;
     [self drawThings:aPoint];
 }
 
@@ -953,16 +953,12 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         else{
             [node setPosition:CGPointMake(23.0f + 43, (size.height) - 100)];
         }
-                [node setPosition:CGPointMake(23.0f + 43, (size.height) - 100)];
+                //[node setPosition:CGPointMake(23.0f + 43, (size.height) - 100)];
     }
     
-    else if ([node.name isEqualToString:@"battle"]){
-             [game initiateCombat:[game.players objectAtIndex:0]];
-    }
+    
 
-    else if([node.accessibilityLabel isEqualToString:@"special"]){
-             [self recruiteSpecial:node];
-    }
+   
     else if ([node.name isEqualToString:@"battle"]){
         //you can access all players on the current terrain by calling [game findPlayersByTerrain:t] n use them to go at war with each other
         [game initiateCombat:[game.players objectAtIndex:0]];
@@ -972,6 +968,8 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     }
 
     else if ([node.accessibilityLabel isEqualToString:@"specialIncome"]){
+        Terrain* t = [game findTerrainAt:terrainPoint];
+        [self recruiteSpecialIncome:node onTerrain:t];
         if([game phase] == Recruitment){
             //[self recruiteSpecialIncome:node onTerrain:t
         }
@@ -1083,7 +1081,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     }
 }
 
-// need to be fixed
+
 -(void) constructBuilding:(Player*)owner withBuilding:(SKSpriteNode*)node onTerrain:(Terrain*)t{
     float sizeNode = 26;
     float towerSizeNode = sizeNode + 4;
@@ -1275,14 +1273,19 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
 }
 /*
- ----Not Complete----
+ ----Not Complete ----
+ account for random events and magic
  */
 -(Army*) createRandomArmy:(NSInteger) number atPoint:(CGPoint)aPoint andTerrain:(Terrain*)terrain{
     
     Army *a = [[Army alloc]init];
     SpecialIncome* tempCounter;
+   /**
     
-    NSMutableIndexSet *picks = [NSMutableIndexSet indexSet];
+    Another way of doing this is to pick the things then evaluate them one by one without getting replacment for them
+    */
+    
+    /*NSMutableIndexSet *picks = [NSMutableIndexSet indexSet];
     do {
         [picks addIndex:arc4random() % bowl.count];
     } while (picks.count != number);
@@ -1297,9 +1300,63 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
     
     [self redrawCreatures];
+    */
+    
+    while (number > 0){
+        int index = (arc4random() % [bowl count]);
+        //Creature* cre = [[Creature alloc]initWithImage:[creatureList objectAtIndex:index] atPoint:aPoint];
+        
+        if([[bowl objectAtIndex:index] isKindOfClass:[SpecialIncome class]]){
+            
+            SpecialIncome* temp = [bowl objectAtIndex:index];
+            
+            if(temp.isKeyedToTerrain){
+                if(!tempCounter){
+                    if([temp.terrainType isEqualToString:terrain.type]){ // if thing belongs to terrain
+                        [a addCreatures:[bowl objectAtIndex:index]];
+                        [bowl removeObjectAtIndex:index];
+                        number-=1;
+                        tempCounter = temp;
+                         [self redrawCreatures];
+                    }
+                }
+                else{
+                    if(temp.goldValue > tempCounter.goldValue){
+                        //nothing should be done
+                        [bowl addObject:tempCounter];
+                        [a addCreatures:temp];
+                        [bowl removeObject:tempCounter];
+                        [self redrawCreatures];
+                        number-=1;
+                    }
+                    // else do nothing
+                
+                }
+                
+            }
+            else if (temp.isTreasure){
+                [a addCreatures:[bowl objectAtIndex:index]];
+                [bowl removeObjectAtIndex:index];
+                number-=1;
+                
+                [self redrawCreatures];
+            }
+        }
+        else{// thing is a creature
+            [a addCreatures:[bowl objectAtIndex:index]];
+            [bowl removeObjectAtIndex:index];
+            
+            number-=1;
+            [self redrawCreatures];
+        }
+        
+        //condition for magic thing
+        //random events must be returned to bowl
+    }
     
     return a;
     
+
 }
 -(void) recruiteSpecialIncome:(SKSpriteNode*)node onTerrain:(Terrain*)t{
     SpecialIncome *temp ;
@@ -1311,20 +1368,87 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     }
     
     if([temp isTreasure]){
-    float offset = ([game currentPlayer].rack.count - 1) * node.size.width;
-    [node setPosition:CGPointMake(540.0f + offset, (size.height) - 225)];
-    NSLog(@"Treasurs cannot be added to terrains, added to ur rack instead %@",[game currentPlayer].rack);
+        if(game.currentPlayer.rack.count <10){
+            [[game currentPlayer].rack addObject:temp];
+            float offset = ([game currentPlayer].rack.count - 1) * node.size.width;
+            [node setPosition:CGPointMake(540.0f + offset, (size.height) - 225)];
+            
+            
+            [bowl removeObject:temp];
+            NSLog(@"Treasurs cannot be added to terrains, added to ur rack instead %@",[game currentPlayer].rack);
+        }
+        else{
+            UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Invalid Move" message: @"rack is full" delegate: self                                       cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
+            
+            [error show];
+            [node setPosition:CGPointMake(450.0f, (size.height) - 120)];
+            
+        }
     }
     else{
         if([temp.terrainType isEqualToString:t.type]){
             if([t hasSpecialIncome]){
-                
+                if(game.currentPlayer.rack.count <10){
+                [[game currentPlayer].rack addObject:temp];
+               
+                [bowl removeObject:temp];
+                float offset = ([game currentPlayer].rack.count - 1) * node.size.width;
+
+                [node setPosition:CGPointMake(540.0f + offset, (size.height) - 225)];
+                NSLog(@" the terrain already has sp thing ,, added to ur rack instead %@",[game currentPlayer].rack);
+                [self redrawCreatures];
+                    
+                }
+                else{
+                    UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Invalid Move" message: @"rack is full" delegate: self                                       cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
+                    
+                    [error show];
+                    [node setPosition:CGPointMake(450.0f, (size.height) - 120)];
+                }
             }
             else {
                 [bowl removeObject:temp];
                 [game.currentPlayer addSpecialIncome:temp];
                 [t setHasSpecialIncome:YES];
+                [self redrawCreatures];
+         
             }
+        }
+        else{
+            if(game.currentPlayer.rack.count <10){
+                [[game currentPlayer].rack addObject:temp];
+                float offset = ([game currentPlayer].rack.count - 1) * node.size.width;
+                [node setPosition:CGPointMake(540.0f + offset, (size.height) - 225)];
+                
+                
+                [bowl removeObject:temp];
+                NSLog(@"Treasurs cannot be added to terrains, added to ur rack instead %@",[game currentPlayer].rack);
+            }
+            else{
+                UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Invalid Move" message: @"rack is full" delegate: self                                       cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
+                
+                [error show];
+                [node setPosition:CGPointMake(450.0f, (size.height) - 120)];
+                
+            }
+ 
+        }
+    }
+   
+}
+
+-(void) playTreasure:(SKSpriteNode*)node{
+ 
+    for(SpecialIncome* sp in [game.currentPlayer rack]){
+        if([sp.name isEqualToString:node.name]){
+            
+            [self withdrawFromBank:sp.goldValue];
+            [self updateBank];
+            [bowl addObject:sp];
+            [node removeFromParent];
+            [self redrawCreatures];
+            break;
+            
         }
     }
     

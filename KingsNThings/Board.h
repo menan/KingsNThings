@@ -18,6 +18,7 @@
 @property Bank *bank;
 @property NSArray *disabled;
 @property NSArray *nonMovables;
+@property CGPoint bowlLocaiton;
 
 - (id)initWithScene: (MyScene *) aScene atPoint: (CGPoint) aPoint withSize: (CGSize) aSize;
 - (void)draw;
@@ -38,4 +39,6 @@
 - (Army*) createRandomArmy:(NSInteger) number atPoint:(CGPoint)aPoint;
 - (void) creaturesMoved:(SKSpriteNode *) n AtTerrain:(Terrain *) t;
 - (Army*) createRandomArmy:(NSInteger) number atPoint:(CGPoint)aPoint andTerrain:(Terrain*)terrain;
+- (void) playTreasure:(SKSpriteNode*)node;
+
 @end

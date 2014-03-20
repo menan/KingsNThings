@@ -47,13 +47,16 @@
     SKSpriteNode *touchedNode = (SKSpriteNode *)[self nodeAtPoint:touchLocation];
     //2
     
-	if([gameBoard canSelectNode:touchedNode]) {
-        if (![_selectedNode isEqual:touchedNode]) {
+	if([gameBoard canSelectNode:touchedNode]){
+        if([touchedNode.accessibilityValue isEqualToString:@"treasure"] && !CGPointEqualToPoint(touchLocation,[gameBoard bowlLocaiton])){
+            [gameBoard playTreasure:touchedNode];
+        }
+
+        else if (![_selectedNode isEqual:touchedNode]) {
             [_selectedNode removeAllActions];
             _selectedNode.colorBlendFactor = 0;
         }
-        
-		_selectedNode = touchedNode;
+        		_selectedNode = touchedNode;
         NSLog(@"node tapped: %@",[_selectedNode name]);
         
         _selectedNode.color = [SKColor redColor];
