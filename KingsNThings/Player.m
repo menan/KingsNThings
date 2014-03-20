@@ -58,15 +58,9 @@ static int counter = 0;
 
 - (BOOL) setTerritory: (Terrain *) territory{
     if(territory != nil){
-    //    NSLog(@"Adding territory: %@", territory.type);
-        if ([territories count] <= 10){
-            [territories addObject:territory];
-            NSLog(@"player territory is set for : %@ %d , player is %d ", territory.node.name, [territories count],playingOrder);
-            return YES;
-        }
-        else{
-            NSLog(@"3 territories set already :)");
-        }
+        [territories addObject:territory];
+        NSLog(@"player territory is set for : %@ %d , player is %d ", territory.node.name, [territories count],playingOrder);
+        return YES;
     }
     return NO;
 }

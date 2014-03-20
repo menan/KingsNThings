@@ -22,5 +22,6 @@
 - (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image andTerrainName: (NSString *) name;
 -(void) draw;
 
-
+- (float) getAbsoluteX;
+- (float) getAbsoluteY;
 @end
