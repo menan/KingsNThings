@@ -187,7 +187,7 @@ return NULL;
         float dy = [t getAbsoluteY] - [terrain getAbsoluteY];
         
         float distance = sqrt(dx*dx + dy*dy); //uses pythagorean theorem to caculate the distance
-        NSLog(@"comparison between current terrain and previous terrain is %f",distance);
+//        NSLog(@"comparison between current terrain and previous terrain is %f",distance);
         
         if (distance < 75) {
             validMove = YES;
