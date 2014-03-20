@@ -28,7 +28,7 @@
 - (NSArray *) getNonMovables;
 - (void) rollDiceOne;
 - (void) rollDiceTwo;
-- (void) nodeTapped:(SKSpriteNode*) node;
+//- (void) nodeTapped:(SKSpriteNode*) node;
 - (void) nodeMoved:(SKSpriteNode *)node nodes:(NSArray *)nodes;
 - (void) updateRecruitLabel:(Player *) p;
 - (BOOL) canMoveNode:(SKSpriteNode*) node;
