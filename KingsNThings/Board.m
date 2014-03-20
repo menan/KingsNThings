@@ -27,7 +27,6 @@
     MyScene *scene;
     CGPoint point;
     CGSize size;
-    Bank *bank;
 //    GamePlay *game;
     
     SKLabelNode* balanceLabel;
@@ -43,7 +42,7 @@
 }
 static NSString * const defaultText = @"KingsNThings - Team24";
 
-@synthesize textLabel,dicesClicked,creaturesInBowl,recruitLabel,game,disabled,nonMovables;
+@synthesize textLabel,dicesClicked,creaturesInBowl,recruitLabel,game,disabled,nonMovables,bank;
 - (id)initWithScene: (MyScene *) aScene atPoint: (CGPoint) aPoint withSize: (CGSize) aSize
 {
     self = [super init];
@@ -1218,33 +1217,14 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 -(void) recruiteSpecial:(SKSpriteNode*)node{
     
     NSLog(@"Inside recruite special");
-    int diOne , diTwo;
-    NSRunLoop *loop = [NSRunLoop currentRunLoop];
+    
     Creature* special = [[Creature alloc]initWithImage:node.name atPoint:node.position];
     
-    Player *p = [game.players objectAtIndex:0];
+    Player *p = [game currentPlayer];
+    
     
     [scene transitToRecruitmentScene:special forPlayer:p];
     
-    // I created a scene for this to make it easier.
-    
-    // if player want to pay mony before rokling dices
-
-    while(([diceOneLabel.text integerValue] == 0 || [diceTwoLabel.text integerValue] == 0 )&& [loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate                                                                                                                                        distantFuture]]){
-        
-    }
-    diOne =[diceOneLabel.text integerValue];
-    diTwo = [diceTwoLabel.text integerValue];
-    
-    if((diOne + diTwo) >= (special.combatValue*2)){
-        // player can add character to army
-        
-    }
-    else {
-        // if player want to pay mony before rokling dices
-        // else return character to its place
-        
-    }
     
 }
 

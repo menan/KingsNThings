@@ -9,6 +9,7 @@
 #import "SpecialRecruitmentScene.h"
 #import "MyScene.h"
 #import "Dice.h"
+#import "Board.h"
 
 @implementation SpecialRecruitmentScene{
     SKSpriteNode *background,*diceOne, *diceTwo;
@@ -56,7 +57,7 @@
     
     SKLabelNode *lblDone = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     lblDone.name = @"done";
-    lblDone.text = @"Done";
+    lblDone.text = @"Cancel";
     lblDone.fontSize = 20;
     lblDone.position = CGPointMake(366,48);
     [self addChild:lblDone];
@@ -103,14 +104,18 @@
     int totalRoll = diceOneLabel.text.intValue + diceTwoLabel.text.intValue;
     if (totalRoll >= creature.combatValue * 2) {
         lblCValue.text = [NSString stringWithFormat: @"Congratulation! %@ is all yours :D", creature.name];
-//        [player addCreatureToArmy:<#(id)#> inArmy:<#(Army *)#>]
-        
-        
-        //finish this up for me Areej :)
+        [self grantCreature];
     }
     else{
         int remaining = creature.combatValue * 2 - totalRoll;
         lblCValue.text =  [NSString stringWithFormat: @"oops, now you gotta pay %d gold or forget about %@", remaining * 5, creature.name];
+        
+        SKSpriteNode *goldCollect = [SKSpriteNode spriteNodeWithImageNamed:@"goldCollect"];
+        [goldCollect setName:@"collection"];
+        goldCollect.size = CGSizeMake(40, 60);
+        [goldCollect setPosition:CGPointMake(480,170)];
+        [self addChild:goldCollect];
+        
         
         //to be completed
     }
@@ -147,10 +152,57 @@
         diceTwoLabel.text = roll;
         diceTwo.name = @"";
     }
+    else if ([touchedNode.name isEqualToString:@"collection"]){
+        int totalRoll = diceOneLabel.text.intValue + diceTwoLabel.text.intValue;
+        int remaining = (creature.combatValue * 2 - totalRoll) * 5;
+        
+        Board* board = (Board *) [sender getBoard];
+
+        NSLog(@"User balance before withdrawal %d",[player getBankBalance]);
+        NSLog(@"Bank balance before deposition %d",[board.bank getBalance]);
+        
+        if ([[player bank] withdraw:remaining]) {
+            [board.bank deposit:remaining];
+            
+            NSLog(@"User balance before withdrawal %d",[player getBankBalance]);
+            NSLog(@"Bank balance after deposition %d",[board.bank getBalance]);
+            
+            NSLog(@"so every thing is fine now.");
+            
+            [self grantCreature];
+        }
+        else{
+            
+            UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Insufficient funds" message: @"Unfortunately you don't have enough money to modify this roll" delegate: self                                       cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+            
+            [error show];
+            NSLog(@"Error pulling money out of his bank account. Must be in sufficient funds.");
+        }
+    }
     
     if (rolled == 2) {
         [self doneRolling];
     }
     NSLog(@"just touched");
 }
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        NSLog(@"user pressed OK");
+        [self.scene.view presentScene:sender];
+    }
+
+}
+
+- (void) grantCreature{
+    [self.scene.view presentScene:sender];
+    
+    Board* board = (Board *) [sender getBoard];
+    GamePlay* game = (GamePlay *) [sender getGame];
+    
+    Terrain *temp = [game findTerrainAt:creature.node.position];
+    [board creaturesMoved:creature.node AtTerrain:temp];
+}
+
+
 @end

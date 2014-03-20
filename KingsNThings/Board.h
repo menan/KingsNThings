@@ -15,6 +15,7 @@
 @property SKLabelNode* textLabel, *recruitLabel;
 @property NSInteger dicesClicked,creaturesInBowl;
 @property GamePlay *game;
+@property Bank *bank;
 @property NSArray *disabled;
 @property NSArray *nonMovables;
 
@@ -35,4 +36,5 @@
 - (BOOL) canSelectNode:(SKSpriteNode*) node;
 - (void) captureHex:(Player*) player atTerrain:(Terrain*)terrain;
 - (Army*) createRandomArmy:(NSInteger) number atPoint:(CGPoint)aPoint;
+- (void) creaturesMoved:(SKSpriteNode *) n AtTerrain:(Terrain *) t;
 @end
