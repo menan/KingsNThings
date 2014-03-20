@@ -177,19 +177,26 @@ return NULL;
     Player *defender = [self findPlayerByTerrain:terrain];
     NSLog(@"tempPlayer is %d , player is %d",[defender playingOrder],[player playingOrder]);
     
-    //users previous terrain
-    Terrain * prevTerrain = [[player getTerritories] lastObject];
+    //to check to see if palyer only moved one hex
+    BOOL validMove = NO;
+    
+    //has to iterate through all terrains because they can be set in different orders for fuk sake lol
+    for (Terrain *t in [player getTerritories]) {
+        
+        float dx = [t getAbsoluteX] - [terrain getAbsoluteX];
+        float dy = [t getAbsoluteY] - [terrain getAbsoluteY];
+        
+        float distance = sqrt(dx*dx + dy*dy); //uses pythagorean theorem to caculate the distance
+        NSLog(@"comparison between current terrain and previous terrain is %f",distance);
+        
+        if (distance < 75) {
+            validMove = YES;
+        }
+        
+    }
     
     
-    float dx = [prevTerrain getAbsoluteX] - [terrain getAbsoluteX];
-    float dy = [prevTerrain getAbsoluteY] - [terrain getAbsoluteY];
-    
-    float distance = sqrt(dx*dx + dy*dy); //uses pythagorean theorem to caculate the distance
-    
-    
-    NSLog(@"comparison between current terrain and previous terrain is %f",distance);
-    
-    if (distance < 75.0) {
+    if (validMove) {
         //must be one hex
         
         if([player isEqual:defender]){

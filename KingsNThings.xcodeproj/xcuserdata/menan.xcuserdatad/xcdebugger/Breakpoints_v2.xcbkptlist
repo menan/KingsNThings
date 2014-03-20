@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "KingsNThings/Board.m"
-            timestampString = "416979010.889191"
+            timestampString = "416979637.808256"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1288"
-            endingLineNumber = "1288"
+            startingLineNumber = "1286"
+            endingLineNumber = "1286"
             landmarkName = "-createRandomArmy:atPoint:"
             landmarkType = "5">
          </BreakpointContent>
