@@ -204,7 +204,8 @@ return NULL;
         }
         
         else {
-           
+            oneDice = 0;
+            secondDice = 0;
             NSLog(@"Inside explor");
             
             NSRunLoop *loop = [NSRunLoop currentRunLoop];
@@ -222,10 +223,11 @@ return NULL;
             else{ // random army should appear
                 Army* defender;
                 if(oneDice >0){
-                  defender = [board createRandomArmy:oneDice atPoint:army.position];
+                    
+                  defender = [board createRandomArmy:oneDice atPoint:army.position andTerrain:terrain];
                 }
                 else{
-                    defender = [board createRandomArmy:secondDice atPoint:army.position];
+                    defender = [board createRandomArmy:secondDice atPoint:army.position andTerrain:terrain];
                 }
                 
                 Player* tempDefender = [[Player alloc] init ];

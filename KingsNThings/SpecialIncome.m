@@ -110,7 +110,7 @@ int position;
     [node removeFromParent]; //makes sure that it removes it to prevent duplications
     node = [SKSpriteNode spriteNodeWithImageNamed:imageName];
     node.name = name;
-    node.accessibilityValue = @"creatures";
+    node.accessibilityValue = @"specialIncome";
     node.size = CGSizeMake(37,37);
     node.position = point;
     /*if (inBowl && isSpecial == NO) {

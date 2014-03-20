@@ -14,7 +14,7 @@
    
     
 }
-@synthesize type,imageName,flipped,position,node,hasOwner,belongsToP1,belongsToP2,belongsToP3,belongsToP4,hasArmyOnIt,location,hasBuilding;
+@synthesize type,imageName,flipped,position,node,hasOwner,belongsToP1,belongsToP2,belongsToP3,belongsToP4,hasArmyOnIt,location,hasBuilding,hasSpecialIncome;
 
  static NSInteger counter = 0;
 
@@ -32,6 +32,7 @@
         belongsToP3 = NO;
         belongsToP4 = NO;
         hasArmyOnIt = NO;
+        hasSpecialIncome = NO;
         counter +=1;
         [self setLocation:counter];
     }

@@ -16,7 +16,7 @@
     //NSMutableArray* armies;
     NSMutableArray* territories;
     NSMutableArray* specialCharacters;
-    NSMutableArray* specialIncome;
+    //NSMutableArray* specialIncome;
     NSMutableArray* buildings;
     
     
@@ -25,18 +25,20 @@
 
 static int counter = 0;
 
-@synthesize armies,playingOrder,bank,army,returnedCreatures, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat,playerLeft,movementsRemaining,rack,hasBuiltCitadel;
+@synthesize armies,playingOrder,bank,army,returnedCreatures, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat,playerLeft,movementsRemaining,rack,hasBuiltCitadel,specialIncome;
 
 -(id) init{
     
     self = [super init];
     if (self) {
         bank = [[Bank alloc] initWithOneGolds:0 twoGolds:0 fivesGolds:2 tenGolds:0 fifteenGolds:0 twentyGolds:0];
+        
         buildings = [[NSMutableArray alloc] init];
         territories = [[NSMutableArray alloc] init];
         specialCharacters = [[NSMutableArray alloc] init];
         armies = [[NSMutableArray alloc] init];
         specialIncome = [[NSMutableArray alloc] init];
+        
         combat = [[NSMutableDictionary alloc] init];
         army = [[Army alloc]init];
         rack = [[NSMutableArray alloc]init];
@@ -273,4 +275,11 @@ static int counter = 0;
     }
     return NO;
 }
+
+-(void) addSpecialIncome:(SpecialIncome*)sp{
+    
+    [specialIncome addObject:sp];
+    
+}
+
 @end
