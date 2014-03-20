@@ -389,7 +389,7 @@ float degToRad(float degree) {
     
     
     
-    while ((([combat attackerNumberOfHits] > 0) || ([combat defenderNumberOfHits ] > 0)) &&
+    while ((([combat attackerNumberOfHits] > 0) || ([combat defenderNumberOfHits] > 0)) &&
            ([loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate
                                                            distantFuture]]))
     {
