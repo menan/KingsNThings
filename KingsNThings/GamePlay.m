@@ -173,7 +173,7 @@ return NULL;
 -(void) movementPhase:(Player *)player withArmy:(Army*)army{
     NSLog(@"inside movementPhase");
     NSLog(@" player is %d",[player playingOrder]);
-    Terrain* terrain = [army terrain];
+    Terrain* terrain = army.terrain;
     Player *defender = [self findPlayerByTerrain:terrain];
     NSLog(@"tempPlayer is %d , player is %d",[defender playingOrder],[player playingOrder]);
     
@@ -187,7 +187,6 @@ return NULL;
         float dy = [t getAbsoluteY] - [terrain getAbsoluteY];
         
         float distance = sqrt(dx*dx + dy*dy); //uses pythagorean theorem to caculate the distance
-//        NSLog(@"comparison between current terrain and previous terrain is %f",distance);
         
         if (distance < 75) {
             validMove = YES;
@@ -265,6 +264,9 @@ return NULL;
     }
     else{
         NSLog(@"user must have moved more than one hex, ignored");
+//        float xPos = [terrain getAbsoluteX];
+//        float yPos = [terrain getAbsoluteY];
+//        [army.image setPosition: CGPointMake(xPos, yPos)];
     }
     
     NSLog(@"combat over");

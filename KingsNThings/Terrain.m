@@ -49,11 +49,11 @@
 
 
 - (float) getAbsoluteX{
-    return node.position.x + 25;
+    return node.position.x;
 }
 
 - (float) getAbsoluteY{
-    return node.position.y + 25;
+    return node.position.y;
 }
 
 @end
