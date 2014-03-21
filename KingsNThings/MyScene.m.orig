@@ -2,138 +2,81 @@
 //  MyScene.m
 //  KingsNThings
 //
-//  Created by Menan Vadivel on 1/16/2014.
+// Created by Areej Ba Salamah and Menan Vadivel on 1/16/2014.
 //  Copyright (c) 2014 Tinrit. All rights reserved.
 //
 
 #import "MyScene.h"
+#import "CombatScene.h"
+#import "Army.h"
+#import "Creature.h"
+#import "SpecialRecruitmentScene.h"
 #import "Board.h"
 
-
 @implementation MyScene{
-    NSArray * nonMovables;
+     SKTransition* transitionDoorsCloseHorizontal;
+    CombatScene* combat;
+    SpecialRecruitmentScene *recruitment;
     Board *gameBoard;
 }
 
+@synthesize controller;
 -(id)initWithSize:(CGSize)size {    
     if (self = [super initWithSize:size]) {
         
         gameBoard = [[Board alloc] initWithScene:self atPoint:CGPointMake(0,225) withSize:CGSizeMake(size.width, 576.0f)];
         [gameBoard draw];
-        nonMovables = [gameBoard getNonMovables];
+         [[gameBoard getGamePlay] assignScene:self];
+        
+        
     }
+   
     return self;
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [gameBoard.game assignScene:self];
     /* Called when a touch begins */
     UITouch *touch = [touches anyObject];
     CGPoint positionInScene = [touch locationInNode:self];
-<<<<<<< HEAD
-    
-    SKNode *node = [self nodeAtPoint:positionInScene];
-    
-    if ([node.name isEqualToString:@"Gold 1"]) {
-        [gameBoard updateBankBalance:1];
-        [gameBoard drawPlayerGold:@"GoldOne.jpg" withName:@"My Gold 1" andPoint:(CGPoint)positionInScene];
-        [node removeFromParent];
-//        NSLog(@"Button pressed");
-    }
-    else if ([node.name isEqualToString:@"Gold 2"]){
-        [gameBoard updateBankBalance:2];
-        [gameBoard drawPlayerGold:@"GoldTwo.jpg" withName:@"My Gold 2" andPoint:(CGPoint)positionInScene];
-        [node removeFromParent];
-    }
-    else if ([node.name isEqualToString:@"Gold 5"]){
-        [gameBoard updateBankBalance:5];
-        [gameBoard drawPlayerGold:@"GoldFive.jpg" withName:@"My Gold 5" andPoint:(CGPoint)positionInScene];
-        [node removeFromParent];
-    }
-    else if ([node.name isEqualToString:@"Gold 10"]){
-        [gameBoard updateBankBalance:10];
-        [gameBoard drawPlayerGold:@"GoldTen.jpg" withName:@"My Gold 10" andPoint:(CGPoint)positionInScene];
-        [node removeFromParent];
-    }
-    else if ([node.name isEqualToString:@"Gold 15"]){
-        [gameBoard updateBankBalance:15];
-        [gameBoard drawPlayerGold:@"GoldFifteen.jpg" withName:@"My Gold 15" andPoint:(CGPoint)positionInScene];
-        [node removeFromParent];
-    }
-    else if ([node.name isEqualToString:@"Gold 20"]){
-        [gameBoard updateBankBalance:20];
-        [gameBoard drawPlayerGold:@"GoldTwenty.jpg" withName:@"My Gold 20" andPoint:(CGPoint)positionInScene];
-        [node removeFromParent];
-    }
-    else if ([node.name isEqualToString:@"diceOne"]){
-        if([gameBoard dicesClicked] >= 2){
-        [gameBoard setDicesClicked: 0];
-        }
-        [gameBoard setDicesClicked:([gameBoard dicesClicked] +1)];
-        [gameBoard rollDiceOne];
-    }
-    else if ([node.name isEqualToString:@"diceTwo"]){
-        if([gameBoard dicesClicked] >= 2){
-            [gameBoard setDicesClicked: 0];
-        }
-     [gameBoard setDicesClicked:([gameBoard dicesClicked] +1)];
-        [gameBoard rollDiceTwo];
-    }
-   
-    
-    else
-        [self selectNodeForTouch:positionInScene];
-=======
     [self selectNodeForTouch:positionInScene];
->>>>>>> db0d5c13fe4a1857dd3765d92646d4018fb77347
     
 }
 - (void)selectNodeForTouch:(CGPoint)touchLocation {
     //1
     SKSpriteNode *touchedNode = (SKSpriteNode *)[self nodeAtPoint:touchLocation];
     //2
-	if(![_selectedNode isEqual:touchedNode]) {
-		[_selectedNode removeAllActions];
-        _selectedNode.colorBlendFactor = 0;
-		[_selectedNode runAction:[SKAction rotateToAngle:0.0f duration:0.1]];
-        
-		_selectedNode = touchedNode;
-        if ([nonMovables containsObject: [_selectedNode name]])
-            [gameBoard resetText];
-        else{
-            [gameBoard nodeTapped:touchedNode];
-//            [gameBoard.textLabel setText:[touchedNode name]];
+    
+	if([gameBoard canSelectNode:touchedNode]){
+<<<<<<< HEAD
+        if (![_selectedNode isEqual:touchedNode]) {
+=======
+        if([touchedNode.accessibilityValue isEqualToString:@"treasure"] && !CGPointEqualToPoint(touchLocation,[gameBoard bowlLocaiton])){
+            [gameBoard playTreasure:touchedNode];
         }
-            
-		//3
-		if([nonMovables containsObject: [_selectedNode name]] == NO) {
-            _selectedNode.color = [SKColor redColor];
-            _selectedNode.colorBlendFactor = 0.5;
-//			SKAction *sequence = [SKAction sequence:@[[SKAction rotateByAngle:degToRad(-4.0f) duration:0.1],
-//													  [SKAction rotateByAngle:0.0 duration:0.1],
-//													  [SKAction rotateByAngle:degToRad(4.0f) duration:0.1]]];
-//			[_selectedNode runAction:[SKAction repeatActionForever:sequence]];
-		}
+
+        else if (![_selectedNode isEqual:touchedNode]) {
+>>>>>>> e2c0dabe2e3cb0cc45e0cc4aee245a906e9006a6
+            [_selectedNode removeAllActions];
+            _selectedNode.colorBlendFactor = 0;
+        }
+        		_selectedNode = touchedNode;
+        NSLog(@"node tapped: %@",[_selectedNode name]);
+        
+        _selectedNode.color = [SKColor redColor];
+        _selectedNode.colorBlendFactor = 0.5;
 	}
     
 }
 
-float degToRad(float degree) {
-	return degree / 180.0f * M_PI;
-}
-- (CGPoint)boundLayerPos:(CGPoint)newPos {
-    CGSize winSize = self.size;
-    CGPoint retval = newPos;
-    retval.x = MIN(retval.x, 0);
-    retval.x = MAX(retval.x, - self.frame.size.width+ winSize.width);
-    retval.y = [self position].y;
-    return retval;
-}
-
 - (void)panForTranslation:(CGPoint)translation {
     CGPoint position = [_selectedNode position];
-    if([nonMovables containsObject: [_selectedNode name]] == NO) {
-        [gameBoard nodeMoving:_selectedNode to:CGPointMake(position.x + translation.x, position.y + translation.y)];
+    CGPoint moveTo = CGPointMake(position.x + translation.x, position.y + translation.y);
+    if([gameBoard canMoveNode:_selectedNode]) {
+        [_selectedNode setPosition:moveTo];
     }
+   
+    
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -156,8 +99,58 @@ float degToRad(float degree) {
 CGPoint mult(const CGPoint v, const CGFloat s) {
 	return CGPointMake(v.x*s, v.y*s);
 }
+
+- (void) transitToCombat:(id)attacker andDefender:(id)defender andCombatFunction:(id) combatfun{
+    NSLog(@"inside transit combat");
+    transitionDoorsCloseHorizontal = [SKTransition doorsCloseHorizontalWithDuration:1];
+    //CGRect screenRect = [[UIScreen mainScreen] bounds];
+    //CIVector  *extent = [CIVector vectorWithX:0  Y:0  Z:screenRect.size.width  W:screenRect.size.height];
+    
+    combat= [[CombatScene alloc] initWithSize:[self size] withAttacker:attacker andDefender:defender andSender:self andCombat:combatfun];
+             
+             //initWithSize:[self size] withAttacker:attacker andDefender:defender andSender:self ];
+    
+    [self.scene.view presentScene:combat transition:transitionDoorsCloseHorizontal];
+    //[self removeUIKitViews];
+    NSLog(@"combat finished");
+    
+}
+
+- (void) transitToRecruitmentScene: (Creature *) c forPlayer: (Player *) p{
+    recruitment = [[SpecialRecruitmentScene alloc] initWithSize:[self size] andSender:self];
+    
+    recruitment.player = p;
+    recruitment.creature = c;
+    
+    [recruitment drawElements];
+    
+    [self.scene.view presentScene:recruitment transition:transitionDoorsCloseHorizontal];
+    
+    NSLog(@"presenting recruitment view");
+
+}
+
+- (void) startSecondCombat{
+    [gameBoard.game initiateCombat:[gameBoard.game.players objectAtIndex:2]];
+}
 -(void)update:(CFTimeInterval)currentTime {
     /* Called before each frame is rendered */
+}
+
+- (id) getGame{
+    return gameBoard.game;
+}
+- (id) getBoard{
+    return gameBoard;
+}
++ (void) wiggle: (SKSpriteNode *) node{
+    SKAction *sequence = [SKAction sequence:@[[SKAction scaleBy:1.2 duration:0.1],
+                                              [SKAction scaleBy:1/1.2 duration:0.1]]];
+    [node runAction:[SKAction repeatAction:sequence count:2]];
+}
+
+float degToRad(float degree) {
+	return degree / 180.0f * M_PI;
 }
 
 @end

@@ -113,7 +113,11 @@ int position;
     node.name = name;
     node.accessibilityLabel = @"specialIncome";
     if(isTreasure){
+<<<<<<< HEAD
+    node.accessibilityValue = @"treasure";
+=======
         node.accessibilityValue = @"treasure";
+>>>>>>> e2c0dabe2e3cb0cc45e0cc4aee245a906e9006a6
     }
     node.size = CGSizeMake(37,37);
     node.position = point;
