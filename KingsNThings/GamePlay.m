@@ -63,6 +63,7 @@
         isInitialPhase = YES;
         oneDice = 0;
         secondDice = 0;
+        phase = Initial;
         
         [self advancePhase:Initial];
         
@@ -445,6 +446,42 @@ return NULL;
 -(void) specialCharactersRecruiting:(Player*) player{
     
     
+}
+
+-(BOOL) validateHex:(Terrain*)terrain forPlayer:(Player*)player{
+    
+    BOOL validMove = YES;
+    
+    //has to iterate through all terrains because they can be set in different orders for fuk sake lol
+    for (NSMutableArray *arr in [self getOthersTerrains:player]) {
+        for(Terrain* t in arr){
+            float dx = [t getAbsoluteX] - [terrain getAbsoluteX];
+            float dy = [t getAbsoluteY] - [terrain getAbsoluteY];
+        
+            float distance = sqrt(dx*dx + dy*dy); //uses pythagorean theorem to caculate the distance
+        
+            if (distance < 75) {
+                validMove = NO;
+                break;
+            }
+        }
+        
+    }
+    return validMove;
+    
+}
+-(NSMutableArray*) getOthersTerrains:(Player*) player{
+    NSMutableArray* tempArray = [[NSMutableArray alloc]init];
+    
+    for(Player* p in players){
+        
+        if(![p isEqual:player]){
+            tempArray = [p getTerritories];
+        }
+        
+    }
+    
+    return tempArray;
 }
 
 @end
