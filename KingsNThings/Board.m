@@ -341,13 +341,6 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
     for (int i = 0; i < playersCount; i++) {
         
-        
-        /*SKSpriteNode *tower = [SKSpriteNode spriteNodeWithImageNamed:@"tower"];
-        [tower setName:@"Tower"];
-        tower.size = CGSizeMake(40,40);
-        [tower setPosition:CGPointMake(aPoint.x + 43, aPoint.y)];
-        [board addChild:tower];*/
-        
         SKSpriteNode* tower = [SKSpriteNode spriteNodeWithImageNamed:@"-n Tower -a 1.jpg"];
         [tower setName:@"-n Tower -a 1.jpg"];
         [tower setAccessibilityValue:@"fort"];
@@ -406,7 +399,6 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 }
 
 - (void) drawSpecialCreatures:(CGPoint) aPoint{
-    /*NSArray *namesString = @[@"-n Arch Cleric -a 5.jpg",@"-n Forest King -a 4.jpg",@"-n Master Theif -a 4.jpg",@"-n Arch Mage -a 6.jpg",@"-n Ghaog II -s Fly -a 6.jpg",@"-n Mountain King -a 4.jpg",@"-n Assassin Primus -a 4.jpg",@"-n Grand Duke -a 4.jpg",@"-n Plains Lord -a 4.jpg",@"-n Baron Munchausen -a 4.jpg",@"-n Greathunter -t Plains -s Range -a 4.jpg",@"-n Sir Lancealot -s Charge -a 5.jpg",@"-n Deerhunter -a 4.jpg",@"-n Ice Lord -a 4.jpg",@"-n Swamp King -a 4.jpg",@"-n Desert Master -a 4.jpg",@"-n Jungle Lord -a 4.jpg",@"-n Swordmaster -a 4.jpg",@"-n Dwarf King -a 5.jpg",@"-n Lord Of Eagles -s Fly -a 5.jpg",@"-n Warlord -a 5.jpg",@"-n Elfe Lord -s Range -a 6.jpg",@"-n Marksman -s Range -a 2 -a 5.jpg"];*/
     
      NSArray *namesString = @[@"-n Arch Cleric -s Magic -a 5 -p Special.jpg",@"-n Arch Mage -s Magic -a 6 -p Special.jpg",@"-n Assassin Primus -a 4 -p Special.jpg",@"-n Baron Munchausen -a 4 -p Special.jpg",@"-n Deerhunter -a 4 -p Special.jpg",@"-n Desert Master -a 4 -p Special.jpg",@"-n Dwarf King -a 5 -p Special.jpg",@"-n Elfe Lord -s Range -a 6 -p Special.jpg",@"-n Forest King -a 4 -p Special.jpg",@"-n Ghaog II -s Fly -a 6 -p Special.jpg",@"-n Grand Duke -a 4 -p Special.jpg",@"-n Ice Lord -a 4 -p Special.jpg",@"-n Jungle Lord -a 4 -p Special.jpg",@"-n Lord Of Eagles -s Fly -a 5 -p Special.jpg",@"-n Marksman -s Range -a 2 -a 5 -p Special.jpg",@"-n Master Theif -a 4 -p Special.jpg",@"-n Mountain King -a 4 -p Special.jpg",@"-n Plains Lord -a 4 -p Special.jpg",@"-n Sir Lancealot -s Charge -a 5 -p Special.jpg",@"-n Swamp King -a 4 -p Special.jpg",@"-n Swordmaster -a 4 -p Special.jpg",@"-n Warlord -a 5 -p Special.jpg"];
     
@@ -415,15 +407,14 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         NSString *imageName = [namesString objectAtIndex:i];
         float imageSize = 36;
         float offsetFraction = aPoint.x + ((imageSize + 1) * (i + 1));
-   // NSString* imageName = [NSString stringWithFormat:@"%@.jpg",name];
-    
-    SKSpriteNode* node = [SKSpriteNode spriteNodeWithImageNamed:imageName];
-    [node setName:imageName];
-    node.accessibilityValue = @"creature";
-    node.accessibilityLabel = @"special";
-    node.size = CGSizeMake(36,36);
-    [node setPosition:CGPointMake(offsetFraction, aPoint.y)];
-    [board addChild:node];
+        
+        SKSpriteNode* node = [SKSpriteNode spriteNodeWithImageNamed:imageName];
+        [node setName:imageName];
+        node.accessibilityValue = @"creature";
+        node.accessibilityLabel = @"special";
+        node.size = CGSizeMake(36,36);
+        [node setPosition:CGPointMake(offsetFraction, aPoint.y)];
+        [board addChild:node];
     }
 
     for (int j = namesString.count/2; j < namesString.count; j++) {
@@ -444,33 +435,6 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         [board addChild:node];
         
     }
-    
-   /* int i;
-    
-    for (i = 0; i <= 8; i++) {
-        NSString *name = [namesString objectAtIndex:i];
-    
-    
-        float imageSize = 36;
-        float offsetFraction = aPoint.x + ((imageSize + 1) * (i + 1));
-        Creature* creature = [[Creature alloc] initWithBoard:board atPoint:CGPointMake(offsetFraction, aPoint.y) fromString:name isSpecial:YES];
-        [creatures addObject:creature];
-        [creature draw];
-        
-    }
-    for (int j = 12; j <= 19; j++) {
-        NSString *name = [namesString objectAtIndex:j];
-        
-        int num = j - namesString.count/2;
-        
-        float imageSize = 36;
-        float offsetFraction = aPoint.x + ((imageSize + 1) * (num + 1));
-        Creature* creature = [[Creature alloc] initWithBoard:board atPoint:CGPointMake(offsetFraction, aPoint.y - 37) fromString:name isSpecial:YES];
-        [creatures addObject:creature];
-        [creature draw];
-        
-    }
-    */
     
 }
 
@@ -1026,12 +990,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     }
     else{
         Creature *creature = [self findCreatureByName:n.name];
-        if (creature && ![[game currentPlayer].rack containsObject:creature]) {
-            [[game currentPlayer].rack addObject:creature];
-        }
-        float offset = ([game currentPlayer].rack.count - 1) * n.size.width;
-        [n setPosition:CGPointMake(540.0f + offset, (size.height) - 225)];
-        NSLog(@"terrain is either nil or no players found at the terrain, added to ur rack instead %@",[game currentPlayer].rack);
+        [self addToRack:creature];
     }
     Player *currentPlayer;
     if ([[game findPlayersByTerrain:t] count] == 0) {
@@ -1047,6 +1006,42 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
 
 }
+
+- (void) addToRack: (id) item{
+    if ([game currentPlayer].rack.count <= 10) {
+        SKSpriteNode *itemNode;
+        
+        //to make it work for both si and creature
+        if ([item isKindOfClass:[SpecialIncome class]]) {
+            SpecialIncome* itemC = (SpecialIncome *)item;
+            itemNode = itemC.node;
+        }
+        else{
+            Creature* itemC = (Creature *)item;
+            itemNode = itemC.node;
+        }
+        
+        
+//        [self removeCreatureByName:itemNode.name]; //removes the creature from the bowl
+        
+        if (item && ![[game currentPlayer].rack containsObject:item]) {
+            [[game currentPlayer].rack addObject:item];
+        }
+        
+        float offset = ([game currentPlayer].rack.count - 1) * itemNode.size.width;
+        [itemNode setPosition:CGPointMake(540.0f + offset, (size.height) - 225)];
+//        [self redrawCreatures];
+    }
+    
+    else{
+        UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Rack is Full" message: @"Sorry, but you already have 10 items on your rack." delegate: self                                       cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        
+        [error show];
+        
+    }
+}
+
+
 - (BOOL) initiateGoldCollection{
     int totalIncome = 0;
     
@@ -1280,27 +1275,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
     Army *a = [[Army alloc]init];
     SpecialIncome* tempCounter;
-   /**
     
-    Another way of doing this is to pick the things then evaluate them one by one without getting replacment for them
-    */
-    
-    /*NSMutableIndexSet *picks = [NSMutableIndexSet indexSet];
-    do {
-        [picks addIndex:arc4random() % bowl.count];
-    } while (picks.count != number);
-    
-    //picks stuff randomly from the bowl and then later redraws it to reflect the changes.
-    [picks enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-        NSLog(@"Element at index %ud: %@", idx, [bowl objectAtIndex:idx]);
-        Creature* cre = [[Creature alloc]initWithImage:[bowl objectAtIndex:idx] atPoint:aPoint];
-        [a addCreatures:cre];
-        [bowl removeObject:cre];
-    }];
-    
-    
-    [self redrawCreatures];
-    */
     
     while (number > 0){
         int index = (arc4random() % [bowl count]);
@@ -1368,69 +1343,25 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     }
     
     if([temp isTreasure]){
-        if(game.currentPlayer.rack.count <10){
-            [[game currentPlayer].rack addObject:temp];
-            float offset = ([game currentPlayer].rack.count - 1) * node.size.width;
-            [node setPosition:CGPointMake(540.0f + offset, (size.height) - 225)];
-            
-            
-            [bowl removeObject:temp];
-            NSLog(@"Treasurs cannot be added to terrains, added to ur rack instead %@",[game currentPlayer].rack);
-        }
-        else{
-            UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Invalid Move" message: @"rack is full" delegate: self                                       cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
-            
-            [error show];
-            [node setPosition:CGPointMake(450.0f, (size.height) - 120)];
-            
-        }
+        [self addToRack:temp];
+        [bowl removeObject:temp];
     }
     else{
         if([temp.terrainType isEqualToString:t.type]){
             if([t hasSpecialIncome]){
-                if(game.currentPlayer.rack.count <10){
-                [[game currentPlayer].rack addObject:temp];
-               
+                [self addToRack:temp];
                 [bowl removeObject:temp];
-                float offset = ([game currentPlayer].rack.count - 1) * node.size.width;
-
-                [node setPosition:CGPointMake(540.0f + offset, (size.height) - 225)];
-                NSLog(@" the terrain already has sp thing ,, added to ur rack instead %@",[game currentPlayer].rack);
-                [self redrawCreatures];
-                    
-                }
-                else{
-                    UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Invalid Move" message: @"rack is full" delegate: self                                       cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
-                    
-                    [error show];
-                    [node setPosition:CGPointMake(450.0f, (size.height) - 120)];
-                }
             }
             else {
                 [bowl removeObject:temp];
                 [game.currentPlayer addSpecialIncome:temp];
                 [t setHasSpecialIncome:YES];
                 [self redrawCreatures];
-         
             }
         }
         else{
-            if(game.currentPlayer.rack.count <10){
-                [[game currentPlayer].rack addObject:temp];
-                float offset = ([game currentPlayer].rack.count - 1) * node.size.width;
-                [node setPosition:CGPointMake(540.0f + offset, (size.height) - 225)];
-                
-                
-                [bowl removeObject:temp];
-                NSLog(@"Treasurs cannot be added to terrains, added to ur rack instead %@",[game currentPlayer].rack);
-            }
-            else{
-                UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Invalid Move" message: @"rack is full" delegate: self                                       cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
-                
-                [error show];
-                [node setPosition:CGPointMake(450.0f, (size.height) - 120)];
-                
-            }
+            [self addToRack:temp];
+            [bowl removeObject:temp];
  
         }
     }
