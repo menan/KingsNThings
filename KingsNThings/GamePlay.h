@@ -55,6 +55,6 @@ typedef enum {
 - (BOOL) recruitmentComplete;
 - (void) checkBluffForPlayer:(Player *) player;
 
--(BOOL) validateHex:(Terrain*)t forPlayer:(Player*)player;
+-(BOOL) validateHex:(Terrain*)terrain forPlayer:(Player*)player;
 
 @end

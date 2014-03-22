@@ -782,11 +782,48 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     }
     else if (terrainLocated && [node.name isEqualToString:@"Player 1"]) {
         Terrain* temp = [game findTerrainAt:terrainPoint];
+        Player *p = [[game players] objectAtIndex:0];
         if([game phase] == Initial){
         
-            if([game validateHex:temp forPlayer:[game currentPlayer]]){
-                Terrain* temp = [game findTerrainAt:terrainPoint];
-                Player *p = [[game players] objectAtIndex:0];
+            if([game validateHex:temp forPlayer:p]){
+            
+                if ([p setTerritory:temp]){
+                    
+                    [temp setBelongsToP1:YES];
+                    [temp setHasArmyOnIt:NO];
+                    
+                    
+                    node.name = @"bowl";
+                    [node setSize:CGSizeMake(sizeNode, sizeNode)];
+                    [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
+                }
+            }
+            
+            else{
+                [node setPosition:CGPointMake(380.0f, 25.0f)];
+            }
+        }
+        else{
+            if ([p setTerritory:temp]){
+                
+                [temp setBelongsToP1:YES];
+                [temp setHasArmyOnIt:NO];
+                
+                
+                node.name = @"bowl";
+                [node setSize:CGSizeMake(sizeNode, sizeNode)];
+                [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
+            }
+        }
+        
+    }
+    else if (terrainLocated && [node.name isEqualToString:@"Player 2"]) {
+        Terrain* temp = [game findTerrainAt:terrainPoint];
+        Player *p = [[game players] objectAtIndex:1];
+        
+        if([game phase] == Initial){
+            
+            if([game validateHex:temp forPlayer:p]){
                 
                 if ([p setTerritory:temp]){
                     
@@ -799,58 +836,97 @@ static NSString * const defaultText = @"KingsNThings - Team24";
                     [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
                 }
             }
+            else{
+                [node setPosition:CGPointMake(380.0f + 43.0f, 25.0f)];
+            }
+            
         }
         else{
-            [node setPosition:CGPointMake(380.0f, 25.0f)];
+            if ([p setTerritory:temp]){
+                
+                [temp setBelongsToP1:YES];
+                [temp setHasArmyOnIt:NO];
+                
+                
+                node.name = @"bowl";
+                [node setSize:CGSizeMake(sizeNode, sizeNode)];
+                [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
+            }
         }
-    }
-    else if (terrainLocated && [node.name isEqualToString:@"Player 2"]) {
-        Terrain* temp = [game findTerrainAt:terrainPoint];
-        Player *p = [[game players] objectAtIndex:1];
-        
-        if ([p setTerritory:temp]){
-            
-            [temp setBelongsToP2:YES];
-            [temp setHasArmyOnIt:NO];
-            
-            node.name = @"bowl";
-            [node setSize:CGSizeMake(sizeNode, sizeNode)];
-            [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
         }
-        else{
-            [node setPosition:CGPointMake(380.0f + 43.0f, 25.0f)];
-        }
-    }
+   
     else if (terrainLocated && [node.name isEqualToString:@"Player 3"]) {
         Terrain* temp = [game findTerrainAt:terrainPoint];
         Player *p = [[game players] objectAtIndex:2];
         
-        if ([p setTerritory:temp]){
+        if([game phase] == Initial){
             
-            [temp setBelongsToP3:YES];
-            
-            node.name = @"bowl";
-            [node setSize:CGSizeMake(sizeNode, sizeNode)];
-            [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
+            if([game validateHex:temp forPlayer:p]){
+                
+                if ([p setTerritory:temp]){
+                    
+                    [temp setBelongsToP1:YES];
+                    [temp setHasArmyOnIt:NO];
+                    
+                    
+                    node.name = @"bowl";
+                    [node setSize:CGSizeMake(sizeNode, sizeNode)];
+                    [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
+                }
+            }
+
+            else{
+            [node setPosition:CGPointMake(380.0f  + 86.0f, 25.0f)];
+            }
         }
         else{
-            [node setPosition:CGPointMake(380.0f  + 86.0f, 25.0f)];
+            if ([p setTerritory:temp]){
+                
+                [temp setBelongsToP1:YES];
+                [temp setHasArmyOnIt:NO];
+                
+                
+                node.name = @"bowl";
+                [node setSize:CGSizeMake(sizeNode, sizeNode)];
+                [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
+            }
         }
     }
     else if (terrainLocated && [node.name isEqualToString:@"Player 4"]) {
         Terrain* temp = [game findTerrainAt:terrainPoint];
         Player *p = [[game players] objectAtIndex:3];
         
-        if ([p setTerritory:temp]){
+        if([game phase] == Initial){
             
-            [temp setBelongsToP4:YES];
-            
-            node.name = @"bowl";
-            [node setSize:CGSizeMake(sizeNode, sizeNode)];
-            [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
+            if([game validateHex:temp forPlayer:p]){
+                
+                if ([p setTerritory:temp]){
+                    
+                    [temp setBelongsToP1:YES];
+                    [temp setHasArmyOnIt:NO];
+                    
+                    
+                    node.name = @"bowl";
+                    [node setSize:CGSizeMake(sizeNode, sizeNode)];
+                    [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
+                }
+            }
+
+            else{
+                [node setPosition:CGPointMake(380.0f + 129.0f, 25.0f)];
+            }
         }
         else{
-            [node setPosition:CGPointMake(380.0f + 129.0f, 25.0f)];
+            if ([p setTerritory:temp]){
+                
+                [temp setBelongsToP1:YES];
+                [temp setHasArmyOnIt:NO];
+                
+                
+                node.name = @"bowl";
+                [node setSize:CGSizeMake(sizeNode, sizeNode)];
+                [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
+            }
         }
     }
     else if ([node.name isEqualToString:@"Gold 1"]) {

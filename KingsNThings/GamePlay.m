@@ -451,9 +451,9 @@ return NULL;
 -(BOOL) validateHex:(Terrain*)terrain forPlayer:(Player*)player{
     
     BOOL validMove = YES;
-    
-    //has to iterate through all terrains because they can be set in different orders for fuk sake lol
-    for (NSMutableArray *arr in [self getOthersTerrains:player]) {
+    NSMutableArray* temp = [self getOthersTerrains:player];
+        //has to iterate through all terrains because they can be set in different orders for fuk sake lol
+    for (NSMutableArray *arr in temp) {
         for(Terrain* t in arr){
             float dx = [t getAbsoluteX] - [terrain getAbsoluteX];
             float dy = [t getAbsoluteY] - [terrain getAbsoluteY];
@@ -470,13 +470,15 @@ return NULL;
     return validMove;
     
 }
+
 -(NSMutableArray*) getOthersTerrains:(Player*) player{
+    
     NSMutableArray* tempArray = [[NSMutableArray alloc]init];
     
     for(Player* p in players){
         
         if(![p isEqual:player]){
-            tempArray = [p getTerritories];
+            [tempArray addObject:[p getTerritories]];
         }
         
     }
