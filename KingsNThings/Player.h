@@ -59,4 +59,5 @@
 - (BOOL) removeCreatureFromRackByName:(NSString *) name;
 - (void) returnedACreature;
 - (void) addSpecialIncome:(SpecialIncome*)sp;
+- (SpecialIncome *) findSpecialIncomeOnRackByName:(NSString *) name;
 @end

@@ -159,6 +159,8 @@
 		C59BE64918A0554100EC48E0 /* -n Timberland -t Forest -a 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C59BE63918A0554100EC48E0 /* -n Timberland -t Forest -a 1.jpg */; };
 		C59E4D1018A5E0FE00CCBA0D /* CombatScene.m in Sources */ = {isa = PBXBuildFile; fileRef = C59E4D0F18A5E0FE00CCBA0D /* CombatScene.m */; };
 		C59E4D1418A5F9E800CCBA0D /* combat.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C59E4D1318A5F9E800CCBA0D /* combat.jpg */; };
+		C5A56AF018DE2B460048FC17 /* chest-1.png in Resources */ = {isa = PBXBuildFile; fileRef = C5A56AEF18DE2B460048FC17 /* chest-1.png */; };
+		C5A56AF218DE32F70048FC17 /* coins.png in Resources */ = {isa = PBXBuildFile; fileRef = C5A56AF118DE32F70048FC17 /* coins.png */; };
 		C5A92F8118A6EA6C00F92598 /* CombatPhase.m in Sources */ = {isa = PBXBuildFile; fileRef = C5A92F8018A6EA6C00F92598 /* CombatPhase.m */; };
 		C5ADEED618A2B76100BD68C6 /* dice_2.png in Resources */ = {isa = PBXBuildFile; fileRef = C5ADEED518A2B76000BD68C6 /* dice_2.png */; };
 		C5ADEED818A2C02500BD68C6 /* -n Great Hunter -t Plains -s Range -a 4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C5ADEED718A2C02500BD68C6 /* -n Great Hunter -t Plains -s Range -a 4.jpg */; };
@@ -497,6 +499,8 @@
 		C59E4D0E18A5E0FE00CCBA0D /* CombatScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CombatScene.h; sourceTree = "<group>"; };
 		C59E4D0F18A5E0FE00CCBA0D /* CombatScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CombatScene.m; sourceTree = "<group>"; };
 		C59E4D1318A5F9E800CCBA0D /* combat.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = combat.jpg; sourceTree = "<group>"; };
+		C5A56AEF18DE2B460048FC17 /* chest-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chest-1.png"; sourceTree = "<group>"; };
+		C5A56AF118DE32F70048FC17 /* coins.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = coins.png; path = KingsNThings/coins.png; sourceTree = SOURCE_ROOT; };
 		C5A92F7F18A6EA6C00F92598 /* CombatPhase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CombatPhase.h; sourceTree = "<group>"; };
 		C5A92F8018A6EA6C00F92598 /* CombatPhase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CombatPhase.m; sourceTree = "<group>"; };
 		C5ADEED518A2B76000BD68C6 /* dice_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dice_2.png; sourceTree = "<group>"; };
@@ -807,6 +811,8 @@
 		686C9762188F693B00BE6D42 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				C5A56AF118DE32F70048FC17 /* coins.png */,
+				C5A56AEF18DE2B460048FC17 /* chest-1.png */,
 				C5461C9D18D24E9500628AC4 /* special_button.png */,
 				C5B4B33118CE50DC00B1E187 /* magic */,
 				C5B4B21A18CE509D00B1E187 /* defenders */,
@@ -1491,6 +1497,7 @@
 				C5B4B2F018CE509D00B1E187 /* -n Dragonfly -t Plains -s Fly -a 2.jpg in Resources */,
 				68EF33AD189CE6EF00A93480 /* -n Giant Wasp -t Desert -s Fly -a 4.jpg in Resources */,
 				C5B0D81318AB02AB0054177B /* -n Citadel -a 4.jpg in Resources */,
+				C5A56AF218DE32F70048FC17 /* coins.png in Resources */,
 				686C97C4188FA3BD00BE6D42 /* sc_2.png in Resources */,
 				C5B4B2A318CE509D00B1E187 /* -n Giant Spider -t Desert -a 1.jpg in Resources */,
 				68EF3417189CE6EF00A93480 /* -n Swamp Beast -t Swamp -a 3.jpg in Resources */,
@@ -1657,6 +1664,7 @@
 				C5B4B35918CE50DC00B1E187 /* -n Plains Lord -a 4 -p Special.jpg in Resources */,
 				68EF33C1189CE6EF00A93480 /* -n Great Owl -t Forest -s Fly -a 2.jpg in Resources */,
 				68EF3317189CB0FD00A93480 /* p_yellow.jpg in Resources */,
+				C5A56AF018DE2B460048FC17 /* chest-1.png in Resources */,
 				C59BE63E18A0554100EC48E0 /* -n Emerald -t Treasure -a 10.jpg in Resources */,
 				68EF33A7189CE6EF00A93480 /* -n Dervish -c 2 -t Desert -s Magic -a 2.jpg in Resources */,
 				C5ADEED618A2B76100BD68C6 /* dice_2.png in Resources */,

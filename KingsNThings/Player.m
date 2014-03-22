@@ -262,6 +262,16 @@ static int counter = 0;
     }
     return nil;
 }
+-(SpecialIncome *) findSpecialIncomeOnRackByName:(NSString *) name{
+    
+    NSLog(@"trying to located node from rack with name %@",name);
+    for (SpecialIncome *c in rack) {
+        if ([c.name isEqualToString:name]) {
+            return c;
+        }
+    }
+    return nil;
+}
 
 - (BOOL) removeCreatureFromRackByName:(NSString *) name{
     

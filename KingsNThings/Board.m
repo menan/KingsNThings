@@ -51,7 +51,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         size = aSize;
         scene = aScene;
         playersCount = 7;
-        nonMovables = @[@"board", @"bowl", @"rack", @"Gold 1", @"Gold 2", @"Gold 5", @"Gold 10", @"Gold 15", @"Gold 20", @"My Gold 1", @"My Gold 2", @"My Gold 5", @"My Gold 10", @"My Gold 15", @"My Gold 20", @"diceOne", @"diceTwo", @"collection", @"labels", @"Bank", @"My Stash", @"P4 Stash", @"P3 Stash", @"P2 Stash", @"balance"];
+        nonMovables = @[@"board", @"bowl", @"rack", @"Gold 1", @"Gold 2", @"Gold 5", @"Gold 10", @"Gold 15", @"Gold 20", @"My Gold 1", @"My Gold 2", @"My Gold 5", @"My Gold 10", @"My Gold 15", @"My Gold 20", @"diceOne", @"diceTwo", @"collection", @"labels", @"Bank", @"My Stash", @"P4 Stash", @"P3 Stash", @"P2 Stash", @"balance",@"coins"];
         disabled = @[@"labels", @"Bank", @"My Stash", @"P4 Stash", @"P3 Stash", @"P2 Stash", @"bowl", @"board", @"rack"];
         
         terrainNames = @[@"Desert", @"Forest", @"Frozen Waste", @"Jungle", @"Mountains", @"Plains", @"Sea", @"Swamp"];
@@ -193,10 +193,10 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
     bowl = [[NSMutableArray alloc] init];
     
-    for (NSString *str in creatureList) {
+    /*for (NSString *str in creatureList) {
         Creature *creature = [[Creature alloc] initWithBoard:board atPoint:aPoint fromString:str];
         [bowl addObject:creature];
-    }
+    }*/
     for (NSString *str in specialIncome) {
         SpecialIncome *spIncome = [[SpecialIncome alloc] initWithBoard:board atPoint:aPoint fromString:str];
         [bowl addObject:spIncome];
@@ -447,9 +447,9 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     [bowl shuffle];
     [bowl shuffle];
     NSLog(@"creatures count: %d", bowl.count);
-    for (Creature * creature in bowl) {
+    /*for (Creature * creature in bowl) {
         [creature draw];
-    }
+    }*/
     for (SpecialIncome * spIncome in bowl) {
         [spIncome draw];
     }
@@ -541,27 +541,54 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     }
     
     
+    if([title isEqualToString:@"Bank"]){
     
-    
-    balanceLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+        SKSpriteNode* chest = [[SKSpriteNode alloc]initWithImageNamed:@"chest-1.png"];
+        chest.position = CGPointMake(120,10);
+        chest.name = title;
+        chest.size= CGSizeMake(60,60);
+        [gold addChild:chest];
+        
+        
+        
+        NSString *balance = [NSString stringWithFormat: @"%d", [aBank getBalance]];
+        balanceText = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+        balanceText.fontColor = [SKColor colorWithRed:227 green:190 blue:0 alpha:1.0];
+        balanceText.name = @"balance";
+        balanceText.text = balance;
+        balanceText.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
+        balanceText.fontSize = 15;
+        balanceText.position = CGPointMake(120,-40);
+        
+        
+        [gold addChild:balanceText];
+        
+    }
+    /*balanceLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     balanceLabel.name = @"labels";
     balanceLabel.text = title;
     balanceLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
     balanceLabel.fontSize = 15;
     balanceLabel.position = CGPointMake(120,10);
-
+     */
+    else{
+    SKSpriteNode* coins = [[SKSpriteNode alloc]initWithImageNamed:@"coins.png"];
+    coins.position = CGPointMake(100,-10);
+    coins.name = @"coins";
+    coins.size= CGSizeMake(30,30);
+    [gold addChild:coins];
     
-    NSString *balance = [NSString stringWithFormat: @"$%d", [aBank getBalance]];
+    NSString *balance = [NSString stringWithFormat: @"%d", [aBank getBalance]];
     balanceText = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     balanceText.name = @"balance";
     balanceText.text = balance;
     balanceText.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
     balanceText.fontSize = 15;
-    balanceText.position = CGPointMake(120,-10);
+    balanceText.position = CGPointMake(120,-15);
     
-    [gold addChild:balanceLabel];
+    //[gold addChild:balanceLabel];
     [gold addChild:balanceText];
-    
+    }
 }
 
 
@@ -1014,10 +1041,23 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 
     else if ([node.accessibilityLabel isEqualToString:@"specialIncome"]){
         Terrain* t = [game findTerrainAt:terrainPoint];
-        /********** here is the problem *************/
-        if(CGPointEqualToPoint(node.position,CGPointMake(120,10)) && [node.accessibilityValue isEqualToString:@"treasure"] ){
-            [self playTreasure:node];
-         
+        /********** here is the problem  the following doesnt work *************/
+        if([node.accessibilityValue isEqualToString:@"treasure"]){
+            //SpecialIncome *sp = [[SpecialIncome alloc]initWithImage:node.name atPoint:node.position];
+            if([game.currentPlayer findSpecialIncomeOnRackByName:node.name]){
+            //NSArray* nodes = [board nodesAtPoint:node.position];
+            for(SKSpriteNode* n in nodes){
+                if([n.name isEqualToString:@"Bank"]){
+                    [self playTreasure:node];
+                    break;
+                }
+            }
+                
+        }
+            else{
+                [self recruiteSpecialIncome:node onTerrain:t];
+            }
+        
         }
         else{
             [self recruiteSpecialIncome:node onTerrain:t];
@@ -1487,6 +1527,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
             [self updateBank];
             [bowl addObject:sp];
             [node removeFromParent];
+            [[game.currentPlayer rack] removeObject:sp];
             [self redrawCreatures];
             break;
             
