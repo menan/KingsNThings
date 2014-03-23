@@ -193,10 +193,10 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
     bowl = [[NSMutableArray alloc] init];
     
-    /*for (NSString *str in creatureList) {
+    for (NSString *str in creatureList) {
         Creature *creature = [[Creature alloc] initWithBoard:board atPoint:aPoint fromString:str];
         [bowl addObject:creature];
-    }*/
+    }
     for (NSString *str in specialIncome) {
         SpecialIncome *spIncome = [[SpecialIncome alloc] initWithBoard:board atPoint:aPoint fromString:str];
         [bowl addObject:spIncome];
@@ -447,9 +447,9 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     [bowl shuffle];
     [bowl shuffle];
     NSLog(@"creatures count: %d", bowl.count);
-    /*for (Creature * creature in bowl) {
+    for (Creature * creature in bowl) {
         [creature draw];
-    }*/
+    }
     for (SpecialIncome * spIncome in bowl) {
         [spIncome draw];
     }
@@ -801,14 +801,14 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         Player *tempPlayer = [game findPlayerByOrder:[node.name integerValue]];
         
         Army* ar = [tempPlayer getArmyAtIndex:[node.accessibilityLabel integerValue]- 1];
-        [ar setTerrain:temp];
-        [ar setPosition:node.position];
+        
         NSLog(@"army moved player is %d",[tempPlayer playingOrder]);
-        [game movementPhase:tempPlayer withArmy:ar];
+        [game movementPhase:tempPlayer withArmy:ar onTerrian:temp];
         
     }
     else if (terrainLocated && [node.name isEqualToString:@"Player 1"]) {
         Terrain* temp = [game findTerrainAt:terrainPoint];
+        
         Player *p = [[game players] objectAtIndex:0];
         if([game phase] == Initial){
         
@@ -1041,19 +1041,17 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 
     else if ([node.accessibilityLabel isEqualToString:@"specialIncome"]){
         Terrain* t = [game findTerrainAt:terrainPoint];
-        /********** here is the problem  the following doesnt work *************/
+        
         if([node.accessibilityValue isEqualToString:@"treasure"]){
-            //SpecialIncome *sp = [[SpecialIncome alloc]initWithImage:node.name atPoint:node.position];
             if([game.currentPlayer findSpecialIncomeOnRackByName:node.name]){
-            //NSArray* nodes = [board nodesAtPoint:node.position];
-            for(SKSpriteNode* n in nodes){
-                if([n.name isEqualToString:@"Bank"]){
-                    [self playTreasure:node];
-                    break;
+                for(SKSpriteNode* n in nodes){
+                    if([n.name isEqualToString:@"Bank"]){
+                        [self playTreasure:node];
+                        break;
+                    }
                 }
-            }
                 
-        }
+            }
             else{
                 [self recruiteSpecialIncome:node onTerrain:t];
             }
@@ -1520,19 +1518,13 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 
 -(void) playTreasure:(SKSpriteNode*)node{
  
-    for(SpecialIncome* sp in [game.currentPlayer rack]){
-        if([sp.name isEqualToString:node.name]){
-            
-            [self withdrawFromBank:sp.goldValue];
-            [self updateBank];
-            [bowl addObject:sp];
-            [node removeFromParent];
-            [[game.currentPlayer rack] removeObject:sp];
-            [self redrawCreatures];
-            break;
-            
-        }
-    }
+    SpecialIncome* sp = [game.currentPlayer findSpecialIncomeOnRackByName:node.name];
     
+    [self withdrawFromBank:sp.goldValue];
+    [self updateBank];
+    [bowl addObject:sp];
+    [node removeFromParent];
+    [[game.currentPlayer rack] removeObject:sp];
+    [self redrawCreatures];
 }
 @end

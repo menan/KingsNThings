@@ -155,12 +155,12 @@
 		C59BE64518A0554100EC48E0 /* -n Sapphire -t Treasure -a 5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C59BE63518A0554100EC48E0 /* -n Sapphire -t Treasure -a 5.jpg */; };
 		C59BE64618A0554100EC48E0 /* -n Silver Mine -t Mountain -a 2-43.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C59BE63618A0554100EC48E0 /* -n Silver Mine -t Mountain -a 2-43.jpg */; };
 		C59BE64718A0554100EC48E0 /* -n Silver Mine -t Mountain -a 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C59BE63718A0554100EC48E0 /* -n Silver Mine -t Mountain -a 2.jpg */; };
-		C59BE64818A0554100EC48E0 /* -n Threasure Chest -t Treasure -a 20.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C59BE63818A0554100EC48E0 /* -n Threasure Chest -t Treasure -a 20.jpg */; };
 		C59BE64918A0554100EC48E0 /* -n Timberland -t Forest -a 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C59BE63918A0554100EC48E0 /* -n Timberland -t Forest -a 1.jpg */; };
 		C59E4D1018A5E0FE00CCBA0D /* CombatScene.m in Sources */ = {isa = PBXBuildFile; fileRef = C59E4D0F18A5E0FE00CCBA0D /* CombatScene.m */; };
 		C59E4D1418A5F9E800CCBA0D /* combat.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C59E4D1318A5F9E800CCBA0D /* combat.jpg */; };
 		C5A56AF018DE2B460048FC17 /* chest-1.png in Resources */ = {isa = PBXBuildFile; fileRef = C5A56AEF18DE2B460048FC17 /* chest-1.png */; };
 		C5A56AF218DE32F70048FC17 /* coins.png in Resources */ = {isa = PBXBuildFile; fileRef = C5A56AF118DE32F70048FC17 /* coins.png */; };
+		C5A56AF418DE595F0048FC17 /* -n Treasure Chest -t Treasure -a 20.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C5A56AF318DE595F0048FC17 /* -n Treasure Chest -t Treasure -a 20.jpg */; };
 		C5A92F8118A6EA6C00F92598 /* CombatPhase.m in Sources */ = {isa = PBXBuildFile; fileRef = C5A92F8018A6EA6C00F92598 /* CombatPhase.m */; };
 		C5ADEED618A2B76100BD68C6 /* dice_2.png in Resources */ = {isa = PBXBuildFile; fileRef = C5ADEED518A2B76000BD68C6 /* dice_2.png */; };
 		C5ADEED818A2C02500BD68C6 /* -n Great Hunter -t Plains -s Range -a 4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C5ADEED718A2C02500BD68C6 /* -n Great Hunter -t Plains -s Range -a 4.jpg */; };
@@ -494,13 +494,13 @@
 		C59BE63518A0554100EC48E0 /* -n Sapphire -t Treasure -a 5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Sapphire -t Treasure -a 5.jpg"; sourceTree = "<group>"; };
 		C59BE63618A0554100EC48E0 /* -n Silver Mine -t Mountain -a 2-43.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Silver Mine -t Mountain -a 2-43.jpg"; sourceTree = "<group>"; };
 		C59BE63718A0554100EC48E0 /* -n Silver Mine -t Mountain -a 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Silver Mine -t Mountain -a 2.jpg"; sourceTree = "<group>"; };
-		C59BE63818A0554100EC48E0 /* -n Threasure Chest -t Treasure -a 20.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Threasure Chest -t Treasure -a 20.jpg"; sourceTree = "<group>"; };
 		C59BE63918A0554100EC48E0 /* -n Timberland -t Forest -a 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Timberland -t Forest -a 1.jpg"; sourceTree = "<group>"; };
 		C59E4D0E18A5E0FE00CCBA0D /* CombatScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CombatScene.h; sourceTree = "<group>"; };
 		C59E4D0F18A5E0FE00CCBA0D /* CombatScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CombatScene.m; sourceTree = "<group>"; };
 		C59E4D1318A5F9E800CCBA0D /* combat.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = combat.jpg; sourceTree = "<group>"; };
 		C5A56AEF18DE2B460048FC17 /* chest-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chest-1.png"; sourceTree = "<group>"; };
 		C5A56AF118DE32F70048FC17 /* coins.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = coins.png; path = KingsNThings/coins.png; sourceTree = SOURCE_ROOT; };
+		C5A56AF318DE595F0048FC17 /* -n Treasure Chest -t Treasure -a 20.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Treasure Chest -t Treasure -a 20.jpg"; sourceTree = "<group>"; };
 		C5A92F7F18A6EA6C00F92598 /* CombatPhase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CombatPhase.h; sourceTree = "<group>"; };
 		C5A92F8018A6EA6C00F92598 /* CombatPhase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CombatPhase.m; sourceTree = "<group>"; };
 		C5ADEED518A2B76000BD68C6 /* dice_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dice_2.png; sourceTree = "<group>"; };
@@ -1098,6 +1098,7 @@
 		C59BE62918A0554100EC48E0 /* Income */ = {
 			isa = PBXGroup;
 			children = (
+				C5A56AF318DE595F0048FC17 /* -n Treasure Chest -t Treasure -a 20.jpg */,
 				C59BE62A18A0554100EC48E0 /* -n Copper Mine -t Mountain -a 1.jpg */,
 				C59BE62B18A0554100EC48E0 /* -n Diamond -t Treasure -a 5.jpg */,
 				C59BE62C18A0554100EC48E0 /* -n Diamond Field -t Desert -a 1.jpg */,
@@ -1112,7 +1113,6 @@
 				C59BE63518A0554100EC48E0 /* -n Sapphire -t Treasure -a 5.jpg */,
 				C59BE63618A0554100EC48E0 /* -n Silver Mine -t Mountain -a 2-43.jpg */,
 				C59BE63718A0554100EC48E0 /* -n Silver Mine -t Mountain -a 2.jpg */,
-				C59BE63818A0554100EC48E0 /* -n Threasure Chest -t Treasure -a 20.jpg */,
 				C59BE63918A0554100EC48E0 /* -n Timberland -t Forest -a 1.jpg */,
 			);
 			path = Income;
@@ -1475,6 +1475,7 @@
 				C5B4B31418CE509D00B1E187 /* -n Vampire Bat -t Swamp -s Fly -a 4.jpg in Resources */,
 				C5B4B2D118CE509D00B1E187 /* -n Crocodiles -t Jungle -a 2.jpg in Resources */,
 				68EF33C3189CE6EF00A93480 /* -n Killer Racoon -t Forest -a 2.jpg in Resources */,
+				C5A56AF418DE595F0048FC17 /* -n Treasure Chest -t Treasure -a 20.jpg in Resources */,
 				C59BE64318A0554100EC48E0 /* -n Peat Bog -t Swamp -a 1.jpg in Resources */,
 				68EF3414189CE6EF00A93480 /* -n Poison Frog -t Swamp -a 1.jpg in Resources */,
 				C5B4B35118CE50DC00B1E187 /* -n Ghaog II -s Fly -a 6 -p Special.jpg in Resources */,
@@ -1505,7 +1506,6 @@
 				C5B4B2A018CE509D00B1E187 /* -n Desert Bat -t Desert -s Fly -a 1.jpg in Resources */,
 				68EF33DD189CE6EF00A93480 /* -n Killer Puffins -t Frozen Waste -s Fly -a 2.jpg in Resources */,
 				68EF33E7189CE6EF00A93480 /* -n Dwarves -t Mountain -s Charge -a 3.jpg in Resources */,
-				C59BE64818A0554100EC48E0 /* -n Threasure Chest -t Treasure -a 20.jpg in Resources */,
 				C5B4B2C018CE509D00B1E187 /* -n Wyvern -t Forest -s Fly -a 3.jpg in Resources */,
 				68EF33DA189CE6EF00A93480 /* -n Ice Giant -t Frozen Waste -s Range -a 5.jpg in Resources */,
 				68EF33F4189CE6EF00A93480 /* -n Troll -t Mountain -a 4.jpg in Resources */,

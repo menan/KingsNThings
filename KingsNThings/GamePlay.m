@@ -171,21 +171,21 @@ return NULL;
 
 
 
--(void) movementPhase:(Player *)player withArmy:(Army*)army{
+-(void) movementPhase:(Player *)player withArmy:(Army*)army onTerrian:(Terrain *)newTerrain{
+    
     NSLog(@"inside movementPhase");
     NSLog(@" player is %d",[player playingOrder]);
-    Terrain* terrain = army.terrain;
-    Player *defender = [self findPlayerByTerrain:terrain];
+    Terrain* oldTerrain = army.terrain;
+    Player *defender = [self findPlayerByTerrain:newTerrain];
     NSLog(@"tempPlayer is %d , player is %d",[defender playingOrder],[player playingOrder]);
     
     //to check to see if palyer only moved one hex
     BOOL validMove = NO;
     
-    //has to iterate through all terrains because they can be set in different orders for fuk sake lol
-    for (Terrain *t in [player getTerritories]) {
+        //Calculate if movement is valid
         
-        float dx = [t getAbsoluteX] - [terrain getAbsoluteX];
-        float dy = [t getAbsoluteY] - [terrain getAbsoluteY];
+        float dx = [newTerrain getAbsoluteX] - [oldTerrain getAbsoluteX];
+        float dy = [newTerrain getAbsoluteY] - [oldTerrain getAbsoluteY];
         
         float distance = sqrt(dx*dx + dy*dy); //uses pythagorean theorem to caculate the distance
         
@@ -193,17 +193,18 @@ return NULL;
             validMove = YES;
         }
         
-    }
+    
     
     
     if (validMove) {
         //must be one hex
+        [army setTerrain:newTerrain];
         
         if([player isEqual:defender]){
             
             NSLog(@"tinside if players are equal");
-            if([terrain hasArmyOnIt]){
-                Army *a = [player findArmyOnTerrain:terrain];
+            if([newTerrain hasArmyOnIt]){
+                Army *a = [player findArmyOnTerrain:newTerrain];
                 
                 if(([a creaturesInArmy] + [army creaturesInArmy]) > 10)
                     NSLog(@"Invalid move cannot have more than 10 creatures on one terrain");
@@ -211,12 +212,14 @@ return NULL;
         }
         else{
             //dude has army to deal with before he acquires this terrain
-            if([terrain hasArmyOnIt]){
+            if([newTerrain hasArmyOnIt]){
                 
-                Army *defArmy = [defender findArmyOnTerrain:terrain];
-                if([terrain hasBuilding]){
-                    [defArmy setBuilding:[defender getBuildingOnTerrain:terrain]];
-                }
+                Army *defArmy = [defender findArmyOnTerrain:newTerrain];
+                if([newTerrain hasBuilding]){
+                    
+                    [defArmy setBuilding:[defender getBuildingOnTerrain:newTerrain]];
+               }
+                
                 NSLog(@"tinside if players are NOT equal");
                 player.isWaitingCombat = YES;
                 [player.combat setObject:army forKey:@"withArmy"];
@@ -238,9 +241,9 @@ return NULL;
                 
                 if (oneDice == 1 || oneDice == 6 || secondDice == 1 || secondDice == 6){
                     
-                    [terrain setHasArmyOnIt:NO];
+                    [newTerrain setHasArmyOnIt:NO];
                     
-                    [board captureHex:player atTerrain:terrain];
+                    [board captureHex:player atTerrain:newTerrain];
                 }
                 
                 else{ // random army should appear
@@ -267,7 +270,7 @@ return NULL;
         NSLog(@"user must have moved more than one hex, ignored");
 //        float xPos = [terrain getAbsoluteX];
 //        float yPos = [terrain getAbsoluteY];
-//        [army.image setPosition: CGPointMake(xPos, yPos)];
+       [army.image setPosition: army.position];
     }
     
     NSLog(@"combat over");
