@@ -51,7 +51,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         size = aSize;
         scene = aScene;
         playersCount = 7;
-        nonMovables = @[@"board", @"bowl", @"rack", @"Gold 1", @"Gold 2", @"Gold 5", @"Gold 10", @"Gold 15", @"Gold 20", @"My Gold 1", @"My Gold 2", @"My Gold 5", @"My Gold 10", @"My Gold 15", @"My Gold 20", @"diceOne", @"diceTwo", @"collection", @"labels", @"Bank", @"My Stash", @"P4 Stash", @"P3 Stash", @"P2 Stash", @"balance",@"coins"];
+        nonMovables = @[@"board", @"bowl", @"rack", @"Gold 1", @"Gold 2", @"Gold 5", @"Gold 10", @"Gold 15", @"Gold 20", @"My Gold 1", @"My Gold 2", @"My Gold 5", @"My Gold 10", @"My Gold 15", @"My Gold 20", @"diceOne", @"diceTwo", @"collection", @"labels", @"Bank", @"My Stash", @"P4 Stash", @"P3 Stash", @"P2 Stash", @"balance",@"coins",@"match"];
         disabled = @[@"labels", @"Bank", @"My Stash", @"P4 Stash", @"P3 Stash", @"P2 Stash", @"bowl", @"board", @"rack"];
         
         terrainNames = @[@"Desert", @"Forest", @"Frozen Waste", @"Jungle", @"Mountains", @"Plains", @"Sea", @"Swamp"];
@@ -311,6 +311,15 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     goldCollect.size = CGSizeMake(40, 40);
     [goldCollect setPosition:CGPointMake(aPoint.x + 90.0f,aPoint.y)];
     [board addChild:goldCollect];
+    
+    
+    
+    SKSpriteNode *match = [SKSpriteNode spriteNodeWithImageNamed:@"game-center"];
+    [match setName:@"match"];
+    match.size = CGSizeMake(60, 60);
+    [match setPosition:CGPointMake(550.0f, (size.height) - 120)];
+    [board addChild:match];
+    
     
     SKSpriteNode *battle = [SKSpriteNode spriteNodeWithImageNamed:@"battle.jpg"];
     [battle setName:@"battle"];
@@ -1065,6 +1074,10 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         }
   
     }
+    else if ([node.name isEqualToString:@"match"]){
+        [game presentGCTurnViewController:self];
+    }
+        
 }
 - (void) updateRecruitLabel:(Player *) p{
     recruitLabel.text = [NSString stringWithFormat: @"%d Recruits Remaining", p.recruitsRemaining];
@@ -1172,7 +1185,6 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 - (BOOL) initiateGoldCollection{
     int totalIncome = 0;
     
-    [game presentGCTurnViewController:self];
     
 //    [game checkBluffForPlayer:[game currentPlayer]];
     

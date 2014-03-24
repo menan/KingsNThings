@@ -40,6 +40,8 @@
 
 - (void) openScene{
     [[GCTurnBasedMatchHelper sharedInstance] authenticateLocalUser];
+    
+    
 
     SKView * skView = (SKView *)self.view;
     skView.showsFPS = NO;
