@@ -86,18 +86,21 @@ static GCTurnBasedMatchHelper *sharedHelper = nil;
 
 #pragma mark User functions
 
-- (void)authenticateLocalUser {
-    
-    if (!gameCenterAvailable) return;
-    
-    NSLog(@"Authenticating local user...");
-    if ([GKLocalPlayer localPlayer].authenticated == NO) {
-        [[GKLocalPlayer localPlayer] authenticateHandler];
-    } else {
-        NSLog(@"Already authenticated!");
-    }
-}
 
+-(void)authenticateLocalUser {
+    NSLog(@"Authenticating local user ...");
+    if(!gameCenterAvailable) {
+        return;
+    }
+    
+    GKLocalPlayer *localPlayer = [GKLocalPlayer localPlayer];
+    __weak GKLocalPlayer *blockLocalPlayer = localPlayer;
+    
+    localPlayer.authenticateHandler = ^(UIViewController *viewController, NSError *error){
+        NSLog(@"authenticateHandler");
+        userAuthenticated = blockLocalPlayer.isAuthenticated;
+    };
+}
 
 #pragma GKMatchmaker functions
 
