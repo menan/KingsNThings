@@ -11,7 +11,7 @@
 @implementation GCTurnBasedMatchHelper{
     UIViewController *presentingViewController;
 }
-@synthesize gameCenterAvailable,currentMatch;
+@synthesize gameCenterAvailable,currentMatch,delegate;
 
 
 #pragma mark Initialization
@@ -34,11 +34,36 @@ static GCTurnBasedMatchHelper *sharedHelper = nil;
     
     GKTurnBasedMatchmakerViewController *mmvc = [[GKTurnBasedMatchmakerViewController alloc] initWithMatchRequest:request];
     mmvc.turnBasedMatchmakerDelegate = self;
-    mmvc.showExistingMatches = YES;
+
     
     [presentingViewController presentViewController:mmvc animated:YES completion:nil];
+    
+    
+}
+//- (void)handleInviteFromGameCenter:(NSArray *)playersToInvite {
+////    [presentingViewController dismissViewControllerAnimated:YES completion:nil];
+////    
+////    GKMatchRequest *request = [[GKMatchRequest alloc] init];
+////    request.playersToInvite = playersToInvite;
+////    request.maxPlayers = 12;
+////    request.minPlayers = 2;
+////    GKTurnBasedMatchmakerViewController *viewController =   [[GKTurnBasedMatchmakerViewController alloc] initWithMatchRequest:request];
+////    viewController.showExistingMatches = NO;
+////    viewController.turnBasedMatchmakerDelegate = self;
+////    [presentingViewController presentModalViewController:viewController animated:YES];
+//}
+
+-(void)handleInviteFromGameCenter:(NSArray *)playersToInvite {
+    NSLog(@"new invite");
 }
 
+-(void)handleTurnEventForMatch:(GKTurnBasedMatch *)match {
+    NSLog(@"Turn has happened");
+}
+
+-(void)handleMatchEnded:(GKTurnBasedMatch *)match {
+    NSLog(@"Game has ended");
+}
 
 - (BOOL)isGameCenterAvailable {
     // check for presence of GKLocalPlayer API
@@ -97,8 +122,18 @@ static GCTurnBasedMatchHelper *sharedHelper = nil;
     localPlayer.authenticateHandler = ^(UIViewController *viewController, NSError *error){
         NSLog(@"authenticateHandler");
         userAuthenticated = blockLocalPlayer.isAuthenticated;
+        
+        
+        [GKTurnBasedMatch loadMatchesWithCompletionHandler:
+         ^(NSArray *matches, NSError *error){
+             for (GKTurnBasedMatch *match in matches) {
+                 NSLog(@"%@", match.matchID);
+                 [match removeWithCompletionHandler:^(NSError *error){
+                     NSLog(@"%@", error);}];
+             }}];
     };
 }
+
 
 #pragma GKMatchmaker functions
 
@@ -118,14 +153,25 @@ static GCTurnBasedMatchHelper *sharedHelper = nil;
 - (void)turnBasedMatchmakerViewController:(GKTurnBasedMatchmakerViewController *)viewController didFindMatch:(GKTurnBasedMatch *)match
 {
     [viewController dismissViewControllerAnimated:YES completion:nil];
-    NSLog(@"matched users were %d", match.status);
+    NSLog(@"matched users were %@", match.participants);
     self.currentMatch = match;
-
-//    [self openScene];
+    
+    
+    GKTurnBasedParticipant *firstParticipant =
+    [match.participants objectAtIndex:0];
+    if (firstParticipant.lastTurnDate) {
+        [delegate takeTurn:match];
+    } else {
+        [delegate enterNewGame:match];
+    }
+    
 }
 
 - (void)turnBasedMatchmakerViewController:(GKTurnBasedMatchmakerViewController *)viewController playerQuitForMatch:(GKTurnBasedMatch *)match{
     NSLog(@"playerquitforMatch, %@, %@", match, match.currentParticipant);
 }
+
+
+
 
 @end

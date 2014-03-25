@@ -7,7 +7,6 @@
 //
 
 #import "ViewController.h"
-#import "GCTurnBasedMatchHelper.h"
 
 @implementation ViewController
 
@@ -16,6 +15,8 @@
 
 - (void)viewDidLoad
 {
+    
+    [GCTurnBasedMatchHelper sharedInstance].delegate = self;
     [self openScene];
     [super viewDidLoad];
 }
@@ -52,6 +53,21 @@
     scene.controller = self;
     scene.scaleMode = SKSceneScaleModeAspectFill;
     [skView presentScene:scene];
+}
+
+
+-(void)enterNewGame:(GKTurnBasedMatch *)match {
+    NSLog(@"Entering new game...");
+//    mainTextController.text = @"Once upon a time";
+}
+
+-(void)takeTurn:(GKTurnBasedMatch *)match {
+    NSLog(@"Taking turn for existing game...");
+    if ([match.matchData bytes]) {
+        NSString *storySoFar = [NSString stringWithUTF8String:[match.matchData bytes]];
+        NSLog(@"Taking turn for existing game... %@",storySoFar);
+//        mainTextController.text = storySoFar;
+    }
 }
 
 @end
