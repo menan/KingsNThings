@@ -455,26 +455,19 @@ return NULL;
     NSString *text = @"Suppp!!";
     NSData *data = [text dataUsingEncoding:NSUTF8StringEncoding ];
     
-    
-    NSTimeInterval interval = 450.0;
-    
-//    [currentMatch endTurnWithNextParticipants:currentMatch.participants turnTimeout:interval matchData:data completionHandler:^(NSError *error) {
-//        if (error) {
-//            NSLog(@"error ending turn tho%@", error);
-//        }
-//        else{
-//            NSLog(@"done ending turn : %@",currentMatch.currentParticipant);
-//        }
-//    }];
-//    
-    
-    
-    
+       
     NSUInteger currentIndex = [currentMatch.participants indexOfObject:currentMatch.currentParticipant];
     GKTurnBasedParticipant *nextParticipant;
     
     NSUInteger nextIndex = (currentIndex + 1) % [currentMatch.participants count];
     nextParticipant = [currentMatch.participants objectAtIndex:nextIndex];
+    
+    
+    while (nextParticipant.status == GKTurnBasedParticipantStatusActive) {
+        
+        NSUInteger nextIndex = (currentIndex + 1) % [currentMatch.participants count];
+        nextParticipant = [currentMatch.participants objectAtIndex:nextIndex];
+    }
     
     [currentMatch endTurnWithNextParticipant:nextParticipant matchData:data completionHandler:^(NSError *error) {
         if (error) {
