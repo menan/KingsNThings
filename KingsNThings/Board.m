@@ -51,7 +51,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         size = aSize;
         scene = aScene;
         playersCount = 7;
-        nonMovables = @[@"board", @"bowl", @"rack", @"Gold 1", @"Gold 2", @"Gold 5", @"Gold 10", @"Gold 15", @"Gold 20", @"My Gold 1", @"My Gold 2", @"My Gold 5", @"My Gold 10", @"My Gold 15", @"My Gold 20", @"diceOne", @"diceTwo", @"collection", @"labels", @"Bank", @"My Stash", @"P4 Stash", @"P3 Stash", @"P2 Stash", @"balance",@"coins",@"match"];
+        nonMovables = @[@"board", @"bowl", @"rack", @"Gold 1", @"Gold 2", @"Gold 5", @"Gold 10", @"Gold 15", @"Gold 20", @"My Gold 1", @"My Gold 2", @"My Gold 5", @"My Gold 10", @"My Gold 15", @"My Gold 20", @"diceOne", @"diceTwo", @"collection", @"labels", @"Bank", @"My Stash", @"P4 Stash", @"P3 Stash", @"P2 Stash", @"balance",@"coins",@"match",@"done-turn"];
         disabled = @[@"labels", @"Bank", @"My Stash", @"P4 Stash", @"P3 Stash", @"P2 Stash", @"bowl", @"board", @"rack"];
         
         terrainNames = @[@"Desert", @"Forest", @"Frozen Waste", @"Jungle", @"Mountains", @"Plains", @"Sea", @"Swamp"];
@@ -319,6 +319,15 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     match.size = CGSizeMake(60, 60);
     [match setPosition:CGPointMake(550.0f, (size.height) - 120)];
     [board addChild:match];
+    
+    diceOneLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    diceOneLabel.name = @"done-turn";
+    diceOneLabel.text = @"Done";
+    diceOneLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
+    diceOneLabel.fontSize = 20;
+    diceOneLabel.position = CGPointMake(555.0f, (size.height) - 180);
+    [board addChild:diceOneLabel];
+    
     
     
     SKSpriteNode *battle = [SKSpriteNode spriteNodeWithImageNamed:@"battle.jpg"];
@@ -1077,6 +1086,9 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     else if ([node.name isEqualToString:@"match"]){
         [game presentGCTurnViewController:self];
     }
+    else if ([node.name isEqualToString:@"done-turn"]){
+        [game endTurn:self];
+    }
         
 }
 - (void) updateRecruitLabel:(Player *) p{
@@ -1185,7 +1197,6 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 - (BOOL) initiateGoldCollection{
     int totalIncome = 0;
     
-    [game endTurn:self];
     
 //    [game checkBluffForPlayer:[game currentPlayer]];
     

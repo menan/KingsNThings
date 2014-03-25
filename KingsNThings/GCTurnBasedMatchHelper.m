@@ -50,7 +50,7 @@ static GCTurnBasedMatchHelper *sharedHelper = nil;
     } else {
         if ([match.currentParticipant.playerID isEqualToString:[GKLocalPlayer localPlayer].playerID]) {
             // it's not the current match and it's our turn now
-            [delegate sendNotice:@"It's your turn for another match" forMatch:match];
+            [delegate sendNotice:@"Welcome to Kings and Things. Have fun." forMatch:match];
         } else {
             // it's the not current match, and it's someone else's turn
         }

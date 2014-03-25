@@ -70,4 +70,36 @@
     }
 }
 
+
+-(void)checkForEnding:(NSData *)matchData {
+    if ([matchData length] > 3000) {
+//        statusLabel.text = [NSString stringWithFormat:@"%@, only about %d letter left", statusLabel.text, 4000 - [matchData length]];
+    }
+}
+
+-(void)layoutMatch:(GKTurnBasedMatch *)match {
+    NSLog(@"Viewing match where it's not our turn...");
+    NSString *statusString;
+    
+    if (match.status == GKTurnBasedMatchStatusEnded) {
+        statusString = @"Match Ended";
+    } else {
+        int playerNum = [match.participants indexOfObject:match.currentParticipant] + 1;
+        statusString = [NSString stringWithFormat:@"Player %d's Turn", playerNum];
+    }
+//    statusLabel.text = statusString;
+//    textInputField.enabled = NO;
+    NSString *storySoFar = [NSString stringWithUTF8String:[match.matchData bytes]];
+//    mainTextController.text = storySoFar;
+    [self checkForEnding:match.matchData];
+}
+
+-(void)sendNotice:(NSString *)notice forMatch:(GKTurnBasedMatch *)match {
+    UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Greetings" message:notice delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+    [av show];
+}
+
+-(void)recieveEndGame:(GKTurnBasedMatch *)match {
+    [self layoutMatch:match];
+}
 @end
