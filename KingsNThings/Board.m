@@ -1185,6 +1185,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 - (BOOL) initiateGoldCollection{
     int totalIncome = 0;
     
+    [game endTurn:self];
     
 //    [game checkBluffForPlayer:[game currentPlayer]];
     
