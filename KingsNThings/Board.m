@@ -71,6 +71,36 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     }
     return self;
 }
+//
+//- (id)initWithCoder:(NSCoder *)decoder {
+//    if (self = [super init]) {
+//        point = CGPointMake([[decoder decodeObjectForKey:@"pointX"] floatValue], [[decoder decodeObjectForKey:@"pointY"] floatValue]);
+//        board = [decoder decodeObjectForKey:@"board"];
+//        imageName = [decoder decodeObjectForKey:@"imageName"];
+//        type = [decoder decodeObjectForKey:@"type"];
+//        flipped = [[decoder decodeObjectForKey:@"flipped"] boolValue];
+//        hasArmyOnIt = [[decoder decodeObjectForKey:@"hasArmyOnIt"]boolValue];
+//        hasSpecialIncome = [[decoder decodeObjectForKey:@"hasSpecialIncome"]boolValue];
+//        location += [[decoder decodeObjectForKey:@"location"] integerValue];
+//    }
+//    return self;
+//}
+//
+//- (void)encodeWithCoder:(NSCoder *)encoder {
+//    [encoder encodeObject:[NSNumber numberWithFloat:point.x] forKey:@"pointX"];
+//    [encoder encodeObject:[NSNumber numberWithFloat:point.y] forKey:@"pointY"];
+//    [encoder encodeObject:board forKey:@"board"];
+//    [encoder encodeObject:imageName forKey:@"imageName"];
+//    [encoder encodeObject:type forKey:@"type"];
+//    [encoder encodeObject:[NSNumber numberWithBool:flipped] forKey:@"flipped"];
+//    [encoder encodeObject:[NSNumber numberWithBool:hasArmyOnIt] forKey:@"hasArmyOnIt"];
+//    [encoder encodeObject:[NSNumber numberWithInteger:location] forKey:@"location"];
+//    [encoder encodeObject:[NSNumber numberWithBool:hasSpecialIncome] forKey:@"hasSpecialIncome"];
+//    
+//}
+
+
+
 -(GamePlay*)getGamePlay{
     return game;
     
@@ -843,7 +873,6 @@ static NSString * const defaultText = @"KingsNThings - Team24";
             
                 if ([p setTerritory:temp]){
                     
-                    [temp setBelongsToP1:YES];
                     [temp setHasArmyOnIt:NO];
                     
                     
@@ -860,7 +889,6 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         else{
             if ([p setTerritory:temp]){
                 
-                [temp setBelongsToP1:YES];
                 [temp setHasArmyOnIt:NO];
                 
                 
@@ -880,8 +908,6 @@ static NSString * const defaultText = @"KingsNThings - Team24";
             if([game validateHex:temp forPlayer:p]){
                 
                 if ([p setTerritory:temp]){
-                    
-                    [temp setBelongsToP1:YES];
                     [temp setHasArmyOnIt:NO];
                     
                     
@@ -898,7 +924,6 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         else{
             if ([p setTerritory:temp]){
                 
-                [temp setBelongsToP1:YES];
                 [temp setHasArmyOnIt:NO];
                 
                 
@@ -918,8 +943,6 @@ static NSString * const defaultText = @"KingsNThings - Team24";
             if([game validateHex:temp forPlayer:p]){
                 
                 if ([p setTerritory:temp]){
-                    
-                    [temp setBelongsToP1:YES];
                     [temp setHasArmyOnIt:NO];
                     
                     
@@ -936,7 +959,6 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         else{
             if ([p setTerritory:temp]){
                 
-                [temp setBelongsToP1:YES];
                 [temp setHasArmyOnIt:NO];
                 
                 
@@ -956,7 +978,6 @@ static NSString * const defaultText = @"KingsNThings - Team24";
                 
                 if ([p setTerritory:temp]){
                     
-                    [temp setBelongsToP1:YES];
                     [temp setHasArmyOnIt:NO];
                     
                     
@@ -973,7 +994,6 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         else{
             if ([p setTerritory:temp]){
                 
-                [temp setBelongsToP1:YES];
                 [temp setHasArmyOnIt:NO];
                 
                 

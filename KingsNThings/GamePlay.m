@@ -291,9 +291,17 @@ return NULL;
 
 
 
--(void) combatPhase:(Player *)attacker withArmy:(Army*)attackerArmy andPlayer:(Player*)defender withArmy:(Army*)defenderArmy{
+-(void) combatPhase:(Player *)attacker
+           withArmy:(Army*)attackerArmy
+          andPlayer:(Player*)defender
+           withArmy:(Army*)defenderArmy{
+    
      NSLog(@"inside Combat phase");
-    CombatPhase* combat = [[CombatPhase alloc] initWithAttacker:attacker andDefender:defender andAttackerArmy:attackerArmy andDefenderArmy:defenderArmy andMainScene:scene];
+    CombatPhase* combat = [[CombatPhase alloc] initWithAttacker:attacker
+                                                    andDefender:defender
+                                                andAttackerArmy:attackerArmy
+                                                andDefenderArmy:defenderArmy
+                                                   andMainScene:scene];
     
     [combat drawScene];
     
@@ -466,6 +474,21 @@ return NULL;
         
         [dicData setObject:phaseNS forKey:@"phase"];
         [dicData setObject:board.terrainsDictionary forKey:@"terrains"];
+        
+        NSMutableArray *markers = [[NSMutableArray alloc] init];
+        
+        
+        for (Player *p in players) {
+            NSDictionary *marker = [[NSDictionary alloc] init];
+            for (Terrain *t in [p getTerritories]) {
+                [marker setValue:t.node.position forKey:@"position"]
+                
+            }
+        }
+        
+        
+        
+        [dicData setObject:markers forKey:@"markers"];
     }
     
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dicData];
