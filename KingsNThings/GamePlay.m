@@ -465,7 +465,7 @@ return NULL;
         NSNumber *phaseNS = [NSNumber numberWithInt:phase];
         
         [dicData setObject:phaseNS forKey:@"phase"];
-        [dicData setObject:board.terrainsLayout forKey:@"terrains"];
+        [dicData setObject:board.terrainsDictionary forKey:@"terrains"];
     }
     
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dicData];

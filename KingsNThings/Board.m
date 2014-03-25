@@ -657,6 +657,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 - (void) hardCodeTerrains{
     terrainsLayout = [game terrains];
     
+    
     [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(303.000000,213.500000) imageNamed:@"Plains" andTerrainName:@"Plains"]];
     [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(303.750000,356.750000) imageNamed:@"Mountains" andTerrainName:@"Mountains"]];
     [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(426.250000,283.250000) imageNamed:@"Plains" andTerrainName:@"Plains"]];
@@ -710,9 +711,14 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(45,536) imageNamed:@"Sea" andTerrainName:@"Sea"]];
     
     
+    
+    self.terrainsDictionary = [[NSMutableArray alloc] init];
     for (Terrain * terrain in terrainsLayout) {
         terrain.node.name = @"bowl";
         [terrain draw];
+        
+        NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:@"x", [NSNumber numberWithFloat:terrain.node.position.x],@"y", [NSNumber numberWithFloat:terrain.node.position.y], @"imageNamed", terrain.imageName, @"terrainName",terrain.node.name, nil];
+        [self.terrainsDictionary addObject:dict];
     }
 }
 
