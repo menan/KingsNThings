@@ -432,7 +432,9 @@ return NULL;
     [[GCTurnBasedMatchHelper sharedInstance] findMatchWithMinPlayers:2 maxPlayers:4 viewController:scene.controller];
 }
 
-- (void) endTurn:(id)sender {
+
+
+- (void) endMatch:(id)sender {
     GKTurnBasedMatch *currentMatch = [[GCTurnBasedMatchHelper sharedInstance] currentMatch];
     NSString *text = @"Suppp!!";
     NSData *data = [text dataUsingEncoding:NSUTF8StringEncoding];
@@ -446,6 +448,28 @@ return NULL;
         }
     }];
 }
+
+- (void)endTurn:(id)sender {
+    GKTurnBasedMatch *currentMatch = [[GCTurnBasedMatchHelper sharedInstance] currentMatch];
+    
+    NSString *text = @"Suppp!!";
+    NSData *data = [text dataUsingEncoding:NSUTF8StringEncoding ];
+    
+    
+    NSTimeInterval interval = 450.0;
+    
+    [currentMatch endTurnWithNextParticipants:currentMatch.participants turnTimeout:interval matchData:data completionHandler:^(NSError *error) {
+        if (error) {
+            NSLog(@"error ending turn tho%@", error);
+        }
+        else{
+            NSLog(@"done ending turn : %@",currentMatch.currentParticipant);
+        }
+    }];
+    
+    
+}
+
 -(void) specialCharactersRecruiting:(Player*) player{
     
     

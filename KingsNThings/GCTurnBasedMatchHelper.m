@@ -34,7 +34,7 @@ static GCTurnBasedMatchHelper *sharedHelper = nil;
     
     GKTurnBasedMatchmakerViewController *mmvc = [[GKTurnBasedMatchmakerViewController alloc] initWithMatchRequest:request];
     mmvc.turnBasedMatchmakerDelegate = self;
-    mmvc.showExistingMatches = NO;
+    mmvc.showExistingMatches = YES;
     
     [presentingViewController presentViewController:mmvc animated:YES completion:nil];
 }
