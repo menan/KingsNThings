@@ -514,7 +514,7 @@ return NULL;
     
     int index = nextIndex;
     
-    while (nextParticipant.status != GKTurnBasedParticipantStatusActive) {
+    while (nextParticipant.status != GKTurnBasedParticipantStatusActive || nextParticipant.status != GKTurnBasedParticipantStatusInvited) {
         index ++;
         NSUInteger nextIndex = index % [currentMatch.participants count];
         NSLog(@"current player id %d, status: %d",currentIndex, nextParticipant.status);
