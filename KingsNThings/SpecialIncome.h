@@ -12,8 +12,16 @@
 @interface SpecialIncome : NSObject
 
 @property (nonatomic, strong) SKSpriteNode* node;
+typedef enum Type : NSUInteger {
+    Treasure,
+    Event,
+    Magic,
+    KeyedToTerrain,
+    NONE
+}Type;
 
 @property int goldValue;
+@property Type type;
 @property BOOL isKeyedToTerrain, inBowl ,isTreasure ;
 @property NSString* symbol;
 @property NSString* name, *imageName;

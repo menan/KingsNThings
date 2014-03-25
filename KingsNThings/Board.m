@@ -37,6 +37,7 @@
     SKLabelNode* diceOneLabel;
     SKLabelNode* diceTwoLabel;
     
+    BOOL trueEliminationRule;
     
     int playersCount;
     
@@ -67,8 +68,10 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         markers = @[@"p_yellow.jpg",@"p_grey.jpg",@"p_green.jpg",@"p_red.jpg"];
         
         canTapDone = NO;
+        trueEliminationRule = NO;
         
     }
+    
     return self;
 }
 -(GamePlay*)getGamePlay{
@@ -740,14 +743,17 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 - (BOOL) removeCreatureByName:(NSString *) name{
     for (Creature *c in bowl) {
         if ([c.name isEqualToString:name]) {
-            [bowl removeObject:c];
+            //[bowl removeObject:c];
+            
+            [self removeThingFromBowl:c];
             NSLog(@"just removed %@ from the bowl",name);
             return YES;
         }
     }
     for (Creature *c in [[game currentPlayer] rack]) {
         if ([c.name isEqualToString:name]) {
-            [bowl removeObject:c];
+            //[bowl removeObject:c];
+            [self removeThingFromBowl:c];
             [game currentPlayer].recruitsRemaining++;
             [self updateRecruitLabel:[game currentPlayer]];
             NSLog(@"just removed %@ from the player rack",name);
@@ -806,7 +812,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         if (bowled) {
             Creature *c = [[game currentPlayer] findCreatureOnRackByName:node.name];
             if (c){
-                [bowl addObject:c];
+                [self returnThingToBowl:c];
                 [[game currentPlayer] returnedACreature];
                 [self updateRecruitLabel:[game currentPlayer]];
                 [self redrawCreatures];
@@ -880,8 +886,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
             if([game validateHex:temp forPlayer:p]){
                 
                 if ([p setTerritory:temp]){
-                    
-                    [temp setBelongsToP1:YES];
+                  
                     [temp setHasArmyOnIt:NO];
                     
                     
@@ -898,7 +903,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         else{
             if ([p setTerritory:temp]){
                 
-                [temp setBelongsToP1:YES];
+               
                 [temp setHasArmyOnIt:NO];
                 
                 
@@ -1152,6 +1157,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     else{
         Creature *creature = [self findCreatureByName:n.name];
         [self addToRack:creature];
+//////////        //should remove from bowl?!!
     }
     Player *currentPlayer;
     if ([[game findPlayersByTerrain:t] count] == 0) {
@@ -1477,7 +1483,10 @@ static NSString * const defaultText = @"KingsNThings - Team24";
                 if(!tempCounter){
                     if([temp.terrainType isEqualToString:terrain.type]){ // if thing belongs to terrain
                         [a addCreatures:[bowl objectAtIndex:index]];
-                        [bowl removeObjectAtIndex:index];
+                        //[bowl removeObjectAtIndex:index];
+                        id item = [bowl objectAtIndex:index];
+                        //[bowl removeObjectAtIndex:index];
+                        [self removeThingFromBowl:item];
                         number-=1;
                         tempCounter = temp;
                         [self redrawCreatures];
@@ -1488,7 +1497,8 @@ static NSString * const defaultText = @"KingsNThings - Team24";
                         //nothing should be done
                         [bowl addObject:tempCounter];
                         [a addCreatures:temp];
-                        [bowl removeObject:tempCounter];
+                        //[bowl removeObject:tempCounter];
+                        [self removeThingFromBowl:tempCounter];
                         [self redrawCreatures];
                         number-=1;
                     }
@@ -1499,7 +1509,9 @@ static NSString * const defaultText = @"KingsNThings - Team24";
             }
             else if (temp.isTreasure){
                 [a addCreatures:[bowl objectAtIndex:index]];
-                [bowl removeObjectAtIndex:index];
+                id item = [bowl objectAtIndex:index];
+                //[bowl removeObjectAtIndex:index];
+                [self removeThingFromBowl:item];
                 number-=1;
                 
                 [self redrawCreatures];
@@ -1507,8 +1519,9 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         }
         else{// thing is a creature
             [a addCreatures:[bowl objectAtIndex:index]];
-            [bowl removeObjectAtIndex:index];
-            
+            id item = [bowl objectAtIndex:index];
+            //[bowl removeObjectAtIndex:index];
+            [self removeThingFromBowl:item];
             number-=1;
             [self redrawCreatures];
         }
@@ -1532,16 +1545,19 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
     if([temp isTreasure]){
         [self addToRack:temp];
-        [bowl removeObject:temp];
+        //[bowl removeObject:temp];
+        [self removeThingFromBowl:temp];
     }
     else{
         if([temp.terrainType isEqualToString:t.type]){
             if([t hasSpecialIncome]){
                 [self addToRack:temp];
-                [bowl removeObject:temp];
+                //[bowl removeObject:temp];
+                [self removeThingFromBowl:temp];
             }
             else {
-                [bowl removeObject:temp];
+                //[bowl removeObject:temp];
+                [self removeThingFromBowl:temp];
                 [game.currentPlayer addSpecialIncome:temp];
                 game.currentPlayer.recruitsRemaining--;
                 [t setHasSpecialIncome:YES];
@@ -1550,7 +1566,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         }
         else{
             [self addToRack:temp];
-            [bowl removeObject:temp];
+            [self removeThingFromBowl:temp];
             
         }
     }
@@ -1563,9 +1579,33 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
     [self withdrawFromBank:sp.goldValue];
     [self updateBank];
-    [bowl addObject:sp];
+    [self returnThingToBowl:sp];
     [node removeFromParent];
     [[game.currentPlayer rack] removeObject:sp];
     [self redrawCreatures];
 }
+-(void) returnThingToBowl:(id) thing{
+ 
+    if(trueEliminationRule && [thing isKindOfClass:[SpecialIncome class]]){
+    
+       
+            SpecialIncome* item = (SpecialIncome*)thing;
+            if(!([item type] == Magic )|| !([item type] == Event) || !([item type] == Treasure))
+                [bowl addObject:thing];
+       
+    }
+    else{
+        [bowl addObject:thing];
+    }
+}
+
+-(void) removeThingFromBowl:(id) thing{
+    
+    [bowl removeObject:thing];
+    
+    if([bowl count] == 0)
+        trueEliminationRule = YES;
+    
+}
+
 @end

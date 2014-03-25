@@ -17,7 +17,7 @@ int position;
 
 }
 
-@synthesize goldValue,symbol,name,inBowl,imageName,isKeyedToTerrain,isTreasure,terrainType;
+@synthesize goldValue,symbol,name,inBowl,imageName,isKeyedToTerrain,isTreasure,terrainType,type;
 
 @synthesize node;
 
@@ -83,14 +83,22 @@ int position;
         }
         else if ([trimmed hasPrefix:@"t"]){
             if([[trimmed substringFromIndex:2] isEqualToString:@"Treasure"]){
-                isTreasure = YES;
-                isKeyedToTerrain = NO;
+                
+                type = Treasure;
                 
             }
+            else if([[trimmed substringFromIndex:2] isEqualToString:@"Magic"]){
+                type = Magic;
+            }
+            else if([[trimmed substringFromIndex:2] isEqualToString:@"Event"]){
+                type = Event;
+            }
             else{
-                isKeyedToTerrain = YES;
-                isTreasure = NO;
+            
+                type = KeyedToTerrain;
+                
                 terrainType = [trimmed substringFromIndex:2];
+            
             }
         }
       

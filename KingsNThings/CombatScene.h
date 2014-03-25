@@ -18,6 +18,8 @@
 -(void) collectDiceResult;
 -(void) applyHits;
 
+-(void) postCombatScene;
+
 
 
 @end
