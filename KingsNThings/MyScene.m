@@ -2,30 +2,33 @@
 //  MyScene.m
 //  KingsNThings
 //
-//  Created by Menan Vadivel on 1/16/2014.
+// Created by Areej Ba Salamah and Menan Vadivel on 1/16/2014.
 //  Copyright (c) 2014 Tinrit. All rights reserved.
 //
 
 #import "MyScene.h"
-#import "Board.h"
 #import "CombatScene.h"
 #import "Army.h"
-
+#import "Creature.h"
+#import "SpecialRecruitmentScene.h"
+#import "Board.h"
 
 @implementation MyScene{
      SKTransition* transitionDoorsCloseHorizontal;
     CombatScene* combat;
-    NSArray * nonMovables;
+    SpecialRecruitmentScene *recruitment;
     Board *gameBoard;
 }
 
+@synthesize controller;
 -(id)initWithSize:(CGSize)size {    
     if (self = [super initWithSize:size]) {
         
         gameBoard = [[Board alloc] initWithScene:self atPoint:CGPointMake(0,225) withSize:CGSizeMake(size.width, 576.0f)];
         [gameBoard draw];
-        nonMovables = [gameBoard getNonMovables];
          [[gameBoard getGamePlay] assignScene:self];
+        
+        
     }
    
     return self;
@@ -44,42 +47,25 @@
     SKSpriteNode *touchedNode = (SKSpriteNode *)[self nodeAtPoint:touchLocation];
     //2
     
-	if(![_selectedNode isEqual:touchedNode]) {
-		[_selectedNode removeAllActions];
-        _selectedNode.colorBlendFactor = 0;
-		[_selectedNode runAction:[SKAction rotateToAngle:0.0f duration:0.1]];
-        
-		_selectedNode = touchedNode;
-        if ([nonMovables containsObject: [_selectedNode name]])
-            [gameBoard resetText];
-        else{
-            [gameBoard nodeTapped:touchedNode];
+	if([gameBoard canSelectNode:touchedNode]){
+        if (![_selectedNode isEqual:touchedNode]) {
+            [_selectedNode removeAllActions];
+            _selectedNode.colorBlendFactor = 0;
         }
+        		_selectedNode = touchedNode;
+        NSLog(@"node tapped: %@",[_selectedNode name]);
         
-		if([gameBoard.disabled containsObject: [_selectedNode name]] == NO) {
-            _selectedNode.color = [SKColor redColor];
-            _selectedNode.colorBlendFactor = 0.5;
-        }
+        _selectedNode.color = [SKColor redColor];
+        _selectedNode.colorBlendFactor = 0.5;
 	}
     
 }
 
-/*float degToRad(float degree) {
-	return degree / 180.0f * M_PI;
-}*/
-- (CGPoint)boundLayerPos:(CGPoint)newPos {
-    CGSize winSize = self.size;
-    CGPoint retval = newPos;
-    retval.x = MIN(retval.x, 0);
-    retval.x = MAX(retval.x, - self.frame.size.width+ winSize.width);
-    retval.y = [self position].y;
-    return retval;
-}
-
 - (void)panForTranslation:(CGPoint)translation {
     CGPoint position = [_selectedNode position];
-    if([nonMovables containsObject: [_selectedNode name]] == NO) {
-        [gameBoard nodeMoving:_selectedNode to:CGPointMake(position.x + translation.x, position.y + translation.y)];
+    CGPoint moveTo = CGPointMake(position.x + translation.x, position.y + translation.y);
+    if([gameBoard canMoveNode:_selectedNode]) {
+        [_selectedNode setPosition:moveTo];
     }
    
     
@@ -106,7 +92,7 @@ CGPoint mult(const CGPoint v, const CGFloat s) {
 	return CGPointMake(v.x*s, v.y*s);
 }
 
--(void) transitToCombat:(id)attacker andDefender:(id)defender andCombatFunction:(id) combatfun{
+- (void) transitToCombat:(id)attacker andDefender:(id)defender andCombatFunction:(id) combatfun{
     NSLog(@"inside transit combat");
     transitionDoorsCloseHorizontal = [SKTransition doorsCloseHorizontalWithDuration:1];
     //CGRect screenRect = [[UIScreen mainScreen] bounds];
@@ -122,11 +108,41 @@ CGPoint mult(const CGPoint v, const CGFloat s) {
     
 }
 
+- (void) transitToRecruitmentScene: (Creature *) c forPlayer: (Player *) p{
+    recruitment = [[SpecialRecruitmentScene alloc] initWithSize:[self size] andSender:self];
+    
+    recruitment.player = p;
+    recruitment.creature = c;
+    
+    [recruitment drawElements];
+    
+    [self.scene.view presentScene:recruitment transition:transitionDoorsCloseHorizontal];
+    
+    NSLog(@"presenting recruitment view");
+
+}
+
 - (void) startSecondCombat{
-    [gameBoard.game initiateCombat:gameBoard.game.player2];
+    [gameBoard.game initiateCombat:[gameBoard.game.players objectAtIndex:2]];
 }
 -(void)update:(CFTimeInterval)currentTime {
     /* Called before each frame is rendered */
+}
+
+- (id) getGame{
+    return gameBoard.game;
+}
+- (id) getBoard{
+    return gameBoard;
+}
++ (void) wiggle: (SKSpriteNode *) node{
+    SKAction *sequence = [SKAction sequence:@[[SKAction scaleBy:1.2 duration:0.1],
+                                              [SKAction scaleBy:1/1.2 duration:0.1]]];
+    [node runAction:[SKAction repeatAction:sequence count:2]];
+}
+
+float degToRad(float degree) {
+	return degree / 180.0f * M_PI;
 }
 
 @end

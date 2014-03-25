@@ -2,7 +2,7 @@
 //  Building.h
 //  KingsNThings
 //
-//  Created by Mac5 on 2/6/2014.
+//Created by Areej Ba Salamah and Menan Vadivel on  2/6/2014.
 //  Copyright (c) 2014 Tinrit. All rights reserved.
 //
 
@@ -15,7 +15,8 @@ typedef enum Stage : NSUInteger {
     Tower,
     Keep,
     Castle,
-    Citadel
+    Citadel,
+    NONE
 }Stage;
 
 @property Stage stage;
@@ -26,10 +27,12 @@ typedef enum Stage : NSUInteger {
 @property CGPoint point;
 @property NSString* imageName;
 @property NSString* name;
+@property NSInteger cost;
+@property SKNode *imageNode;
 
 - (id)initWithStage:(Stage) s andTerrain: (Terrain *) t;
 
-
+-(BOOL)checkIfConstructionPossible:(SKNode*)node;
 
 - (id) initWithImage:(NSString*)image atPoint:(CGPoint)aPoint andStage:(Stage) s andTerrain: (Terrain *) t;
 @end

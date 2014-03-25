@@ -2,7 +2,7 @@
 //  CombatPhase.h
 //  KingsNThings
 //
-//  Created by aob on 2/8/2014.
+//  Created by Areej Ba Salamah and Menan Vadivel on 2/8/2014.
 //  Copyright (c) 2014 Tinrit. All rights reserved.
 //
 
@@ -23,11 +23,11 @@
 
 @property Building* building;
 
-@property NSInteger attackerNumberOfHits,defenderNumberOfHits;
+@property int attackerNumberOfHits,defenderNumberOfHits;
 
-@property NSInteger diceOne, diceTwo;
+@property int diceOne, diceTwo;
 @property NSMutableArray* attackerRolledDice, *defenderRolledDice;
-@property NSInteger attakerChargeCreatures ,defenderChargeCreatures;
+@property int attakerChargeCreatures ,defenderChargeCreatures;
 
 
 

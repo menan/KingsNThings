@@ -2,7 +2,7 @@
 //  CombatScene.m
 //  KingsNThings
 //
-//  Created by aob on 2/7/2014.
+//  Created by Areej Ba Salamah and Menan Vadivel on 2/7/2014.
 //  Copyright (c) 2014 Tinrit. All rights reserved.
 //
 
@@ -80,8 +80,19 @@
     lblDone.position = CGPointMake(366,48);
     [self addChild:lblDone];
     
-    
-    
+    SKLabelNode *lblAttackerRetreat = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    lblAttackerRetreat.name = @"attackerRetreat";
+    lblAttackerRetreat.text = @"Attacker Retreat";
+    lblAttackerRetreat.fontSize = 20;
+    lblAttackerRetreat.position = CGPointMake(280,48);
+    [self addChild:lblAttackerRetreat];
+
+    SKLabelNode *lblDefenderRetreat = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    lblDefenderRetreat.name = @"defenderRetreat";
+    lblDefenderRetreat.text = @"Defender Retreat";
+    lblDefenderRetreat.fontSize = 20;
+    lblDefenderRetreat.position = CGPointMake(620,48);
+    [self addChild:lblDefenderRetreat];
     
     SKLabelNode *lableAttaker = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     lableAttaker.text = @"Attacker";
@@ -107,9 +118,20 @@
         SKSpriteNode* node =[[SKSpriteNode alloc]initWithImageNamed:[creature imageName]];
         [node setName:[creature name]];
          [node setAccessibilityLabel:@"attacker"];
-        [node setPosition:CGPointMake(lableAttaker.position.x ,lableAttaker.position.y - (100 *i))
-         ];
+       
         node.size = CGSizeMake(50,80);
+        
+        
+        if(i >= 5){
+            [node setPosition:CGPointMake(lableAttaker.position.x + 75 ,lableAttaker.position.y - (100 *(i-4)))
+             ];
+            
+        }
+        else {
+            [node setPosition:CGPointMake(lableAttaker.position.x ,lableAttaker.position.y - (100 *i))
+             ];
+        }
+        
         [self addChild:node];
         ++i;
         
@@ -127,8 +149,7 @@
         
     }
     
-    NSLog(@"j is in draw %d",j);
-    
+        
     if([combat building] != nil){
     
         NSLog(@"Bulding image name %@",[[combat building] imageName]);
@@ -368,7 +389,7 @@ float degToRad(float degree) {
     
     
     
-    while ((([combat attackerNumberOfHits] > 0) || ([combat defenderNumberOfHits ] > 0)) &&
+    while ((([combat attackerNumberOfHits] > 0) || ([combat defenderNumberOfHits] > 0)) &&
            ([loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate
                                                            distantFuture]]))
     {

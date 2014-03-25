@@ -2,7 +2,7 @@
 //  Terrain.h
 //  KingsNThings
 //
-//  Created by Menan Vadivel on 1/28/2014.
+// Created by Areej Ba Salamah and Menan Vadivel on 1/28/2014.
 //  Copyright (c) 2014 Tinrit. All rights reserved.
 //
 
@@ -15,14 +15,13 @@
 @property (nonatomic, strong) NSString* type;
 @property (nonatomic, strong) NSString* imageName;
 @property (nonatomic, strong) SKSpriteNode* node;
-    @property BOOL flipped,belongsToP1,belongsToP2,belongsToP3,belongsToP4, hasArmyOnIt,hasOwner,hasBuilding;
-    @property NSInteger position;
+@property BOOL flipped,belongsToP1,belongsToP2,belongsToP3,belongsToP4, hasArmyOnIt,hasOwner,hasBuilding,hasSpecialIncome;
+@property NSInteger position;
 @property NSInteger location;
-
-
 
 - (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image andTerrainName: (NSString *) name;
 -(void) draw;
 
-
+- (float) getAbsoluteX;
+- (float) getAbsoluteY;
 @end

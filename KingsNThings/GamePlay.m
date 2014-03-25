@@ -2,7 +2,7 @@
 //  GamePlay.m
 //  KingsNThings
 //
-//  Created by Menan Vadivel on 2/1/2014.
+// Created by Areej Ba Salamah and Menan Vadivel on 2/1/2014.
 //  Copyright (c) 2014 Tinrit. All rights reserved.
 //
 
@@ -12,28 +12,31 @@
 #import "Bank.h"
 #import "MyScene.h"
 #import "CombatPhase.h"
+#import "Board.h"
+#import "GCTurnBasedMatchHelper.h"
 
 @implementation GamePlay{
     MyScene *scene;
+    NSMutableArray *servers;
+    Board *board;
     
 }
 
-@synthesize player1,player2,player3,player4,oneDice,secondDice,goldCollectionCompleted, players;
+@synthesize me,oneDice,secondDice,players;
 
-@synthesize p1Stack1,p1Stack2,p2Stack1,p3Stack1,p3Stack2,p3Stack3,p4Stack1,p4Stack2,p4Stack3,goldPhase,terrains, isMovementPhase , isThingRecrPahse, isComabtPahse,scene;
+@synthesize p1Stack1,p1Stack2,p2Stack1,p3Stack1,p3Stack2,p3Stack3,p4Stack1,p4Stack2,p4Stack3,goldPhase,terrains, isMovementPhase , isThingRecrPahse, isComabtPahse,isInitialPhase ,isConstructionPhase, scene,phase;
 
 
--(id) initWith4Players{
+-(id) initWithBoard:(id) b{
     
     self = [super init];
     if(self){
-        goldCollectionCompleted = NO;
-        player1 = [[Player alloc] initWithArmy];
-        player2 = [[Player alloc] initWithArmy];
-        player3 = [[Player alloc] initWithArmy];
-        player4 = [[Player alloc] initWithArmy];
+        board = (Board *) b;
         
-        players = [[NSMutableArray alloc] initWithObjects:player1, player2, player3, player4, nil];
+//        me = [[Player alloc] init];
+        players = [[NSMutableArray alloc] init];
+        
+        players = [[NSMutableArray alloc] initWithObjects:[[Player alloc] init],[[Player alloc] init],[[Player alloc] init],[[Player alloc] init], nil];
         terrains = [[NSMutableArray alloc]init];
        
         
@@ -57,7 +60,12 @@
         isMovementPhase = NO;
         isThingRecrPahse = NO;
         isComabtPahse = NO;
+        isInitialPhase = YES;
+        oneDice = 0;
+        secondDice = 0;
+        phase = Initial;
         
+        [self advancePhase:Initial];
         
         
         p1Stack1 = @[@"-n Old Dragon -s Fly -s Magic -a 4",@"-n Elephant -t Jungle -s Charge -a 4",@"-n Giant Spider -t Desert -a 1",@"-n Brown Knight -t Mountain -s Charge -a 4",@"-n Giant -t Mountain -s Range -a 4",@"-n Dwarves -t Mountain -s Range -a 2"];
@@ -66,7 +74,7 @@
         
        
         p1Stack2 = @[@"-n Skletons -c 2 -t Desert -a 1",@"-n Watusi -t Jungle -s 2",@"-n Goblins -c 4 -t Mountain -a 1",@"-n Orge Mountain -t Mountain -a 2"];
-        p2Stack1 = @[@"-n Pterodactyl Warriors -c 2 -t Jungle -s Fly -s Range -a 2",@"-n Sandworm -t Desert -a 3.jpg",@"-n Green Knight -t Forest -s Charge -a 4",@"-n Dervish -c 2 -t Desert -s Magic -a 2",@"-n Crocodiles -t Jungle -a 2",@"-n Nomads -c 2 -t Desert -a 1",@"-n Druid -t Forest -s Magic -a 3",@"-n Walking Tree -t Forest -a 5",@"-n Crawling Vines -t Jungle -a 6",@"-n Bandits -t Forest -a 2"];
+        p2Stack1 = @[@"-n Pterodactyl Warriors -c 2 -t Jungle -s Fly -s Range -a 2",@"-n Sandworm -t Desert -a 3",@"-n Green Knight -t Forest -s Charge -a 4",@"-n Dervish -c 2 -t Desert -s Magic -a 2",@"-n Crocodiles -t Jungle -a 2",@"-n Nomads -c 2 -t Desert -a 1",@"-n Druid -t Forest -s Magic -a 3",@"-n Walking Tree -t Forest -a 5",@"-n Crawling Vines -t Jungle -a 6",@"-n Bandits -t Forest -a 2"];
         
         p3Stack1 = @[@"-n Centaur -t Plains -a 2",@"-n Camel Corps -t Desert -a 3",@"-n Farmers -c 4 -t Plains -a 1",@"-n Farmers -c 4 -t Plains -a 1"];
         p3Stack2 = @[@"-n Genie -t Desert -s Magic -a 4",@"-n Skletons -c 2 -t Desert -a 1",@"-n Pygmies -t Jungle -a 2"];
@@ -75,18 +83,22 @@
         p4Stack2 = @[@"-n Vampire Bat -t Swamp -s Fly -a 4",@"-n Tribesmen -c 2 -t Plains -a 2",@"-n Dark Wizard -t Swamp -s Fly -s Magic -a 1",@"-n Black Knight -t Swamp -s Charge -a 3"];
         p4Stack3 = @[@"-n Giant Ape -c 2 -t Jungle -a 5",@"-n Buffalo Herd -t Plains -a 3"];
         
+        
     }
     
     return self;
     
 }
--(void) assignScene:(MyScene*)sce{
-//    NSLog(@"inside assignScene");
-    scene = sce;
-    
+
+- (Player *) currentPlayer{
+    return [players objectAtIndex:0];
 }
+
+-(void) assignScene:(MyScene*)sce{
+    scene = sce;
+}
+
 -(Terrain*) findTerrainAt:(CGPoint)thisPoint{
-    NSLog(@"FindTerrain");
 for (Terrain *terrain in terrains) {
     if (terrain.node.position.x == thisPoint.x && terrain.node.position.y == thisPoint.y) {
         return terrain;
@@ -96,7 +108,6 @@ return NULL;
 }
 
 - (Player *) findPlayerByTerrain:(Terrain *) terrain{
-    NSLog(@"findPlayer");
     for (Player *p in players) {
         if ([[p getTerritories] containsObject:terrain]) {
             return p;
@@ -104,108 +115,39 @@ return NULL;
     }
     return NULL;
 }
-/*
--(void) setPlayerArmy{
+- (NSMutableArray *) findPlayersByTerrain:(Terrain *) terrain{
+    NSMutableArray *playersArray = [[NSMutableArray alloc] init];
     
-    NSArray *p1Stack1 = @[ @"-n Old Dragon -s Fly -s Magic -a 4",@"-n Elephant -t Jungle -s Charge -a 4",@"-n Giant Spider -t Desert -a 1",@"-n Brown Knight -t Mountain -s Charge -a 4",@"-n Giant -t Mountain -s Range -a 4",@"-n Dwarves -t Mountain -s Range -a 2"];
-    NSArray* p1Stack2 = @[@"-n Skletons -c 2 -t Desert -a 1",@"-n Watusi -t Jungle -s 2",@"-n Goblins -c 4 -t Mountain -a 1",@"-n Orge Mountain -t Mountain -a 2"];
-    NSArray *p2Stack1 = @[@"-n Pterodactyl Warriors -c 2 -t Jungle -s Fly -s Range -a 2",@"-n Green Knight -t Forest -s Charge -a 4",@"-n Dervish -c 2 -t Desert -s Magic -a 2",@"-n Crocodiles -t Jungle -a 2",@"-n Nomads -c 2 -t Desert -a 1",@"-n Druid -t Forest -s Magic -a 3",@"-n Walking Tree -t Forest -a 5",@"-n Crawling Vines -t Jungle -a 6",@"-n Bandits -t Forest -a 2"];
-    NSArray *p3Stack1 = @[@"-n Centaur -t Plains -a 2",@"-n Camel Corps -t Desert -a 3",@"-n Farmers -c 4 -t Plains -a 1",@"-n Farmers -c 4 -t Plains -a 1"];
-    NSArray *p3Stack2 = @[@"-n Genie -t Desert -s Magic -a 4",@"-n Skletons -c 2 -t Desert -a 1",@"-n Pygmies -t Jungle -a 2"];
-    NSArray *p3Stack3 = @[@"-n Great Hunter -t Plains -s Range -a 4",@"-n Nomads -c 2 -t Desert -a 1",@"-n Witch Doctor -t Jungle -s Magic -a 2"];
-    NSArray *p4Stack1 = @[@"-n Tribesmen -c 2 -t Plains -a 2",@"-n Giant Lizard -c 2 -t Swamp -a 2",@"-n Villains -t Plains -a 2",@"-n Tigers -c 2 -t Jungle -a 3"];
-    NSArray *p4Stack2 = @[@"-n Vampire Bat -t Swamp -s Fly -a 4",@"-n Tribesmen -c 2 -t Plains -a 2",@"-n Dark Wizard -t Swamp -s Fly -s Magic -a 1",@"-n Black Knight -t Swamp -s Charge -a 3"];
-    NSArray *p4Stack3 = @[@"-n Giant Ape -c 2 -t Jungle -a 5",@"-n Buffalo Herd -t Plains -a 3"];
-    
-    
-    NSMutableArray *p1S1 = [[NSMutableArray alloc]init];
-    
-    for (NSString *str in p1Stack1) {
-        Creature *creature = [[Creature alloc] initWithImage:str];
-        
-        [p1S1 addObject:creature];
+    for (Player *p in players) {
+        if ([[p getTerritories] containsObject:terrain]) {
+            [playersArray addObject:p];
+        }
     }
-    //[p1S1 addObjectsFromArray:p1Stack1];
+    return playersArray;
+}
+
+- (BOOL) recruitmentComplete{
     
-    NSMutableArray *p1S2 = [[NSMutableArray alloc]init];
-    for (NSString *str in p1Stack2) {
-         Creature *creature = [[Creature alloc] initWithImage:str];
-        
-        [p1S2 addObject:creature];
+    BOOL done = YES;
+    int i = 0;
+    for (Player *p in players) {
+        i++;
+        //            NSLog(@"Player %d, done: %d",i, phase);
+        done &= p.recruitsRemaining == 0;
     }
-    //[p1S2 addObjectsFromArray:p1Stack2];
-    
-    NSMutableArray *p2S1 = [[NSMutableArray alloc]init];
-    for (NSString *str in p2Stack1) {
-        Creature *creature = [[Creature alloc] initWithImage:str];
-        
-        [p2S1 addObject:creature];
+    return done;
+}
+
+- (void) checkInitalRecruitmentComplete{
+    if (phase == Initial) {
+        if ([self recruitmentComplete]) {
+            [self advancePhase:GoldCollection];
+        }
     }
-    //[p2S1 addObjectsFromArray:p2Stack1];
-    
-    NSMutableArray *p3S1 = [[NSMutableArray alloc]init];
-    
-    for (NSString *str in p3Stack1) {
-        Creature *creature = [[Creature alloc] initWithImage:str];
-        
-        [p3S1 addObject:creature];
-    }
-    
-    //[p3S1 addObjectsFromArray:p3Stack1];
-    
-    NSMutableArray *p3S2 = [[NSMutableArray alloc]init];
-    for (NSString *str in p3Stack2) {
-        Creature *creature = [[Creature alloc] initWithImage:str];
-        
-        [p3S2 addObject:creature];
-    }
-    //[p3S2 addObjectsFromArray:p3Stack2];
-    
-    NSMutableArray *p3S3 = [[NSMutableArray alloc]init];
-    for (NSString *str in p3Stack3) {
-        Creature *creature = [[Creature alloc] initWithImage:str];
-        
-        [p3S3 addObject:creature];
-    }
-    //[p3S3 addObjectsFromArray:p3Stack3];
-    
-    NSMutableArray *p4S1 = [[NSMutableArray alloc]init];
-    for (NSString *str in p4Stack1) {
-        Creature *creature = [[Creature alloc] initWithImage:str];
-        
-        [p4S1 addObject:creature];
-    }
-    //[p4S1 addObjectsFromArray:p4Stack1];
-    
-    
-    NSMutableArray *p4S2 = [[NSMutableArray alloc]init];
-    for (NSString *str in p4Stack2) {
-        Creature *creature = [[Creature alloc] initWithImage:str];
-        
-        [p4S2 addObject:creature];
-    }
-    //[p4S2 addObjectsFromArray:p4Stack2];
-    
-    NSMutableArray *p4S3 = [[NSMutableArray alloc]init];
-    for (NSString *str in p4Stack3) {
-        Creature *creature = [[Creature alloc] initWithImage:str];
-        
-        [p4S3 addObject:creature];
-    }
-    //[p4S3 addObjectsFromArray:p4Stack3];
-    
-    [player1 constructArmy:p1S1];
-    [player1 constructArmy:p1S2];
-    [player2 constructArmy:p2S1];
-    [player3 constructArmy:p3S1];
-    [player3 constructArmy:p3S2];
-    [player3 constructArmy:p3S3];
-    [player4 constructArmy:p4S1];
-    [player4 constructArmy:p4S2];
-    [player4 constructArmy:p4S3];
-    
-    
-}*/
+}
+
+
+
 -(Terrain*) findTerrainAtLocation:(NSInteger) location{
     
     for(Terrain* terr in terrains){
@@ -216,6 +158,8 @@ return NULL;
     
     return NULL;
 }
+
+
 -(Player*)findPlayerByOrder:(NSInteger)order{
     
     for(Player* p in players){
@@ -225,50 +169,114 @@ return NULL;
     return NULL;
 }
 
--(void) movementPhase:(Player *)player withArmy:(Army*)army{
+
+
+-(void) movementPhase:(Player *)player withArmy:(Army*)army onTerrian:(Terrain *)newTerrain{
+    
     NSLog(@"inside movementPhase");
-    
     NSLog(@" player is %d",[player playingOrder]);
-    Terrain* terrain = [army terrain];
-    
-    Player *defender = [self findPlayerByTerrain:terrain];
-    
-    
-    
+    Terrain* oldTerrain = army.terrain;
+    Player *defender = [self findPlayerByTerrain:newTerrain];
     NSLog(@"tempPlayer is %d , player is %d",[defender playingOrder],[player playingOrder]);
     
-    if([player isEqual:defender]){
+    //to check to see if palyer only moved one hex
+    BOOL validMove = NO;
+    
+        //Calculate if movement is valid
         
-        NSLog(@"tinside if players are equal");
-        if([terrain hasArmyOnIt]){
-            Army *a = [player findArmyOnTerrain:terrain];
-            
-            if(([a creaturesInArmy] + [army creaturesInArmy]) > 10)
-                NSLog(@"Invalid move cannot have more than 10 creatures on one terrain");
-            
+        float dx = [newTerrain getAbsoluteX] - [oldTerrain getAbsoluteX];
+        float dy = [newTerrain getAbsoluteY] - [oldTerrain getAbsoluteY];
+        
+        float distance = sqrt(dx*dx + dy*dy); //uses pythagorean theorem to caculate the distance
+        
+        if (distance < 75) {
+            validMove = YES;
         }
-    }
+        
     
-    else{
-        if([terrain hasArmyOnIt]){
+    
+    
+    if (validMove) {
+        //must be one hex
+        [army setTerrain:newTerrain];
+        
+        if([player isEqual:defender]){
             
-            Army *defArmy = [defender findArmyOnTerrain:terrain];
-            if([terrain hasBuilding]){
-                [defArmy setBuilding:[defender getBuildingOnTerrain:terrain]];
+            NSLog(@"tinside if players are equal");
+            if([newTerrain hasArmyOnIt]){
+                Army *a = [player findArmyOnTerrain:newTerrain];
+                
+                if(([a creaturesInArmy] + [army creaturesInArmy]) > 10)
+                    NSLog(@"Invalid move cannot have more than 10 creatures on one terrain");
             }
-             NSLog(@"tinside if players are NOT equal");
-            player.isWaitingCombat = YES;
-            [player.combat setObject:army forKey:@"withArmy"];
-            [player.combat setObject:defender forKey:@"andPlayer"];
-            [player.combat setObject:defArmy forKey:@"andDefenderArmy"];
-            
-            NSLog(@"combat dictionary: %@",player.combat);
         }
-    
-    
+        else{
+            //dude has army to deal with before he acquires this terrain
+            if([newTerrain hasArmyOnIt]){
+                
+                Army *defArmy = [defender findArmyOnTerrain:newTerrain];
+                if([newTerrain hasBuilding]){
+                    
+                    [defArmy setBuilding:[defender getBuildingOnTerrain:newTerrain]];
+               }
+                
+                NSLog(@"tinside if players are NOT equal");
+                player.isWaitingCombat = YES;
+                [player.combat setObject:army forKey:@"withArmy"];
+                [player.combat setObject:defender forKey:@"andPlayer"];
+                [player.combat setObject:defArmy forKey:@"andDefenderArmy"];
+                
+                NSLog(@"combat dictionary: %@",player.combat);
+            }
+            
+            else {
+                //dude is gonna fight with random creatures on the terrain since theres no one there.
+                
+                NSLog(@"Inside explor");
+                
+                NSRunLoop *loop = [NSRunLoop currentRunLoop];
+                
+                while ( ((oneDice == 0 ) && (secondDice == 0)) && [loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]])
+                {}
+                
+                if (oneDice == 1 || oneDice == 6 || secondDice == 1 || secondDice == 6){
+                    
+                    [newTerrain setHasArmyOnIt:NO];
+                    
+                    [board captureHex:player atTerrain:newTerrain];
+                }
+                
+                else{ // random army should appear
+                    Army* defender;
+                    if(oneDice >0){
+                        defender = [board createRandomArmy:oneDice atPoint:army.position];
+                    }
+                    else{
+                        defender = [board createRandomArmy:secondDice atPoint:army.position];
+                    }
+                    
+                    Player* tempDefender = [[Player alloc] init ];
+                    [tempDefender setArmy:defender];
+                    player.isWaitingCombat = YES;
+                    [player.combat setObject:army forKey:@"withArmy"];
+                    [player.combat setObject:tempDefender forKey:@"andPlayer"];
+                    [player.combat setObject:defender forKey:@"andDefenderArmy"];
+                    
+                }
+            }
+        }
     }
+    else{
+        NSLog(@"user must have moved more than one hex, ignored");
+//        float xPos = [terrain getAbsoluteX];
+//        float yPos = [terrain getAbsoluteY];
+       [army.image setPosition: army.position];
+    }
+    
     NSLog(@"combat over");
 }
+
+
 
 - (void) initiateCombat: (Player*) p{
     NSLog(@"Player Playing order: %d", p.playingOrder);
@@ -284,42 +292,251 @@ return NULL;
 
 
 -(void) combatPhase:(Player *)attacker withArmy:(Army*)attackerArmy andPlayer:(Player*)defender withArmy:(Army*)defenderArmy{
-    
      NSLog(@"inside Combat phase");
-    
-    
-    CombatPhase* combat = [[CombatPhase alloc]initWithAttacker:attacker andDefender:defender andAttackerArmy:attackerArmy andDefenderArmy:defenderArmy andMainScene:scene];
+    CombatPhase* combat = [[CombatPhase alloc] initWithAttacker:attacker andDefender:defender andAttackerArmy:attackerArmy andDefenderArmy:defenderArmy andMainScene:scene];
     
     [combat drawScene];
     
     if([attacker hasWonCombat]){
         
-        
-        
     }
     else if ([defender hasWonCombat]){
-        
-        
     }
-    
-    
    }
 
 -(void) pahses:(NSString*)pahse{
-    
     NSRunLoop *loop = [NSRunLoop currentRunLoop];
-    while ([loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate
-                                                           distantFuture]])
+    while ([loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]])
     {
+        
+    }
+}
+
+
+
+- (void) checkBluffForPlayer:(Player *) player{
+    //would check for each creatures to see if theyre bluff n add bluff to them
+    NSMutableArray *terrainStrings;
     
-    
-    
-    
-    
+    for(Terrain *t in [player getTerritories]){
+        if (![terrainStrings containsObject:t.type]) {
+            NSLog(@"adding terrain type %@",t.type);
+            [terrainStrings addObject:t.type];
+        }
+    }
+    for (Army * army in player.armies) {
+        for (Creature *c in army.creatures) {
+            if ([c.name hasSuffix:@"Lord"] || [c.name hasSuffix:@"King"] || [c.name hasSuffix:@"Master"]){
+                //dude gets to support other creatures in the territory who don't belong in there
+                NSString *terrain = [c.name stringByReplacingOccurrencesOfString:@"Lord" withString:@""];
+                terrain = [terrain stringByReplacingOccurrencesOfString:@"King" withString:@""];
+                terrain = [terrain stringByReplacingOccurrencesOfString:@"Master" withString:@""];
+                NSLog(@"Terrain lord was found for terrain: %@",terrain);
+                [terrainStrings addObject:terrain];
+            }
+        }
     }
     
+    NSLog(@"terrain strings :%@",terrainStrings);
+    int affected = 0;
+    for (Army * army in player.armies) {
+        for (Creature *c in army.creatures) {
+            if (![terrainStrings containsObject:c.terrainType]) {
+                c.isBluff = YES;
+                affected++;
+            }
+        }
+    }
+    
+    NSLog(@"%d discovered to bluff",affected);
+}
+
+
+
+
+
+- (void) useSpecialPowerFor:(Creature *) creature{
+    
+    if (phase != SpecialPower) {
+        NSLog(@"Dont jump ahead, chill");
+        return;
+    }
+    if (creature.isSpecial) {
+        NSLog(@"this aint even special tho");
+        return;
+    }
+    
+    if ([creature.name isEqualToString: @"Assassin Primus"]) {
+        //make an asssasination attempt on the enemy
+        //
+        
+
+    }
+    else if ([creature.name isEqualToString: @"Baron Munchausen"]){
+        //inflicts 1 hit on all forts, villagse, cities in a hex before combat rounds are faought
+    }
+    else if ([creature.name isEqualToString: @"Deerhunter"]){
+        //move through all terrain as 1 movement if its present in the stack
+        //can also leave enemy occupied hex
+    }
+    else if ([creature.name isEqualToString: @"Dwarf King"]){
+        //doubles the income from mines
+    }
+    else if ([creature.name isEqualToString: @"Grand Duke"]){
+        //=Baron Munchausen
+    }
+    else if ([creature.name isEqualToString: @"Marksman"]){
+        //you have to choose 2/5 combat value before the marksman shot
+        //if you choose 2, if you choose 2 and hit, then you choose which enemy counter to eliminate
+        //if you choose 5, battle is fought as usual
+    }
+    else if ([creature.name isEqualToString: @"Master Thief"]){
+        //you steal shit based by comparing the role and combat value
+    }
+    else if ([creature.name isEqualToString: @"Sword Master"]){
+        //when this dude is hit, you roll a dice if its 1/6 he dies or else he comes back for next session
+        //he can only take one hit and survive or else he is eliminated
+    }
+    else if ([creature.name isEqualToString: @"Elf Lord"]){
+        //nothing, but hes powerful apparently
+    }
+    else if ([creature.name hasSuffix:@"Lord"] || [creature.name hasSuffix:@"King"] || [creature.name hasSuffix:@"Master"]){
+        //dude gets to support other creatures in the territory who don't belong in there
+        
+        
+        
+    }
+    else if ([creature.name isEqualToString: @"Warlord"]){
+        //can get one enemy per battle to join forces with him
+    }
+    else{
+        //you aint got no powers :(
+    }
+    
+}
+
+
+- (void) advancePhase: (Phase) p{
+    NSLog(@"advancing phase to :%d",p);
+    phase = p;
+    NSArray *phaseText = @[@"Initial Phase", @"Construction Phase", @"Movement Phase",@"Recruitment Phase",@"Special Character Recruitment Phase", @"Combat Phase", @"Gold Collection Phase"];
+    board.textLabel.text = [phaseText objectAtIndex:p];
+    
+}
+
+
+#pragma GameCenter Functions
+
+
+- (void) presentGCTurnViewController:(id)sender {
+    [[GCTurnBasedMatchHelper sharedInstance] findMatchWithMinPlayers:2 maxPlayers:4 viewController:scene.controller];
+}
+
+
+
+- (void) endMatch:(id)sender {
+    GKTurnBasedMatch *currentMatch = [[GCTurnBasedMatchHelper sharedInstance] currentMatch];
+    NSString *text = @"Suppp!!";
+    NSData *data = [text dataUsingEncoding:NSUTF8StringEncoding];
+    
+    [currentMatch endMatchInTurnWithMatchData:data completionHandler:^(NSError *error) {
+        if (error) {
+            NSLog(@"Error ending turn: %@", error);
+        }
+        else{
+            NSLog(@"Send Turn, %@, participants: %@", data, currentMatch.participants);
+        }
+    }];
+}
+
+- (void)endTurn:(id)sender {
+    GKTurnBasedMatch *currentMatch = [[GCTurnBasedMatchHelper sharedInstance] currentMatch];
+    
+    NSLog(@"current phase: %d",phase);
     
     
+       
+    NSUInteger currentIndex = [currentMatch.participants indexOfObject:currentMatch.currentParticipant];
+    GKTurnBasedParticipant *nextParticipant;
+    
+    NSMutableDictionary *dicData = [[NSMutableDictionary alloc] init];
+    
+    if (phase == Initial) {
+        NSNumber *phaseNS = [NSNumber numberWithInt:phase];
+        
+        [dicData setObject:phaseNS forKey:@"phase"];
+        [dicData setObject:board.terrainsDictionary forKey:@"terrains"];
+    }
+    
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dicData];
+
+    
+    NSUInteger nextIndex = (currentIndex + 1) % [currentMatch.participants count];
+    nextParticipant = [currentMatch.participants objectAtIndex:nextIndex];
+    
+    int index = nextIndex;
+    
+    while (nextParticipant.status != GKTurnBasedParticipantStatusActive) {
+        index ++;
+        NSUInteger nextIndex = index % [currentMatch.participants count];
+        NSLog(@"current player id %d, status: %d",currentIndex, nextParticipant.status);
+        nextParticipant = [currentMatch.participants objectAtIndex:nextIndex];
+    }
+    
+    board.doneButton.hidden = YES;
+    board.canTapDone = NO;
+    [currentMatch endTurnWithNextParticipant:nextParticipant matchData:data completionHandler:^(NSError *error) {
+        if (error) {
+            NSLog(@"%@", error);
+            //                statusLabel.text = @"Oops, there was a problem.  Try that again.";
+        } else {
+            NSLog(@"done ending turn : %@",nextParticipant);
+            //                statusLabel.text = @"Your turn is over.";
+            //                textInputField.enabled = NO;
+        }
+    }];
+    
+    
+}
+
+
+
+-(BOOL) validateHex:(Terrain*)terrain forPlayer:(Player*)player{
+    
+    BOOL validMove = YES;
+    NSMutableArray* temp = [self getOthersTerrains:player];
+        //has to iterate through all terrains because they can be set in different orders for fuk sake lol
+    for (NSMutableArray *arr in temp) {
+        for(Terrain* t in arr){
+            float dx = [t getAbsoluteX] - [terrain getAbsoluteX];
+            float dy = [t getAbsoluteY] - [terrain getAbsoluteY];
+        
+            float distance = sqrt(dx*dx + dy*dy); //uses pythagorean theorem to caculate the distance
+        
+            if (distance < 75) {
+                validMove = NO;
+                break;
+            }
+        }
+        
+    }
+    return validMove;
+    
+}
+
+-(NSMutableArray*) getOthersTerrains:(Player*) player{
+    
+    NSMutableArray* tempArray = [[NSMutableArray alloc]init];
+    
+    for(Player* p in players){
+        
+        if(![p isEqual:player]){
+            [tempArray addObject:[p getTerritories]];
+        }
+        
+    }
+    
+    return tempArray;
 }
 
 @end

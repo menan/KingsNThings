@@ -2,17 +2,19 @@
 //  AppDelegate.m
 //  KingsNThings
 //
-//  Created by Menan Vadivel on 1/16/2014.
+// Created by Areej Ba Salamah and Menan Vadivel on 1/16/2014.
 //  Copyright (c) 2014 Tinrit. All rights reserved.
 //
 
 #import "AppDelegate.h"
+#import "GamePlay.h"
+#import <GameKit/GameKit.h>
+
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
     return YES;
 }
 							
@@ -42,5 +44,4 @@
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
-
 @end

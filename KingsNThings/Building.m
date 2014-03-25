@@ -2,7 +2,7 @@
 //  Building.m
 //  KingsNThings
 //
-//  Created by Mac5 on 2/6/2014.
+//  Created by Areej Ba Salamah and Menan Vadivel 
 //  Copyright (c) 2014 Tinrit. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 
 @implementation Building
 
-@synthesize terrain, stage,combatValue,isCity,isVillage,isMagic,isMelee,isRanged,point,imageName,name,currentCombatValue,isNeutralised;
+@synthesize terrain, stage,combatValue,isCity,isVillage,isMagic,isMelee,isRanged,point,imageName,name,currentCombatValue,isNeutralised,cost,imageNode;
 
 
 - (id)initWithStage:(Stage) s andTerrain: (Terrain *) t
@@ -19,6 +19,7 @@
     if (self) {
         terrain = t;
         stage = s;
+        cost = 5;
     }
     return self;
 }
@@ -37,6 +38,7 @@
         
         terrain = t;
         stage = s;
+        cost = 5;
        
         [self setValuesFromString:image];
     }
@@ -73,7 +75,7 @@
         
         
     }
-    if(isCity || !isVillage || stage == Tower || stage == Keep){
+    if(isCity || isVillage || stage == Tower || stage == Keep){
         isMelee = YES;
     }
     else if (stage == Castle)
@@ -82,6 +84,20 @@
         isMagic = YES;
     
     currentCombatValue = combatValue;
+}
+
+-(BOOL)checkIfConstructionPossible:(SKNode*) node{
+
+    if([node.accessibilityLabel isEqualToString:@"keep"] && [imageNode.accessibilityLabel isEqualToString:@"tower"])
+        return YES;
+    if([node.accessibilityLabel isEqualToString:@"castle"] && [imageNode.accessibilityLabel isEqualToString:@"keep"])
+        return YES;
+    if([node.accessibilityLabel isEqualToString:@"citadel"] && [imageNode.accessibilityLabel isEqualToString:@"castle"])
+       return YES;
+       
+    else
+       return NO;
+    
 }
 
 
