@@ -60,6 +60,24 @@ static GCTurnBasedMatchHelper *sharedHelper = nil;
     NSLog(@"Turn has happened");
     
     
+    if ([match.matchID isEqualToString:currentMatch.matchID]) {
+        if ([match.currentParticipant.playerID isEqualToString:[GKLocalPlayer localPlayer].playerID]) {
+            // it's the current match and it's our turn now
+            self.currentMatch = match;
+            [delegate takeTurn:match];
+        } else {
+            // it's the current match, but it's someone else's turn
+            self.currentMatch = match;
+            [delegate layoutMatch:match];
+        }
+    } else {
+        if ([match.currentParticipant.playerID isEqualToString:[GKLocalPlayer localPlayer].playerID]) {
+            // it's not the current match and it's our turn now
+            [delegate sendNotice:@"It's your turn for another match" forMatch:match];
+        } else {
+            // it's the not current match, and it's someone else's turn
+        }
+    }
 }
 
 - (void)player: (GKPlayer *)player
@@ -85,6 +103,13 @@ static GCTurnBasedMatchHelper *sharedHelper = nil;
 {
     
     NSLog(@"Game has ended");
+    
+    
+    if ([match.matchID isEqualToString:currentMatch.matchID]) {
+        [delegate recieveEndGame:match];
+    } else {
+        [delegate sendNotice:@"Another Game Ended!" forMatch:match];
+    }
 }
 
 
