@@ -304,7 +304,6 @@ return NULL;
 -(void) combatPhase:(Player *)attacker withArmy:(Army*)attackerArmy andPlayer:(Player*)defender withArmy:(Army*)defenderArmy isDefending:(BOOL)t{
     NSLog(@"inside Combat phase");
     CombatPhase* combat ;
-    CombatPhase* combat ;
     if(t){
         combat = [[CombatPhase alloc] initWithAttacker:attacker andDefender:defender andAttackerArmy:attackerArmy andDefenderArmy:defenderArmy andMainScene:scene ofType:defendingHex];
     }
