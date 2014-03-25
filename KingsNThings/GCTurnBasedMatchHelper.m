@@ -184,10 +184,11 @@ static GCTurnBasedMatchHelper *sharedHelper = nil;
     self.currentMatch = match;
     
     
-    GKTurnBasedParticipant *firstParticipant =
-    [match.participants objectAtIndex:0];
+    GKTurnBasedParticipant *firstParticipant = [match.participants objectAtIndex:0];
     if (firstParticipant.lastTurnDate) {
-        [delegate takeTurn:match];
+        if ([match.currentParticipant.playerID isEqualToString:[GKLocalPlayer localPlayer].playerID]) {
+            [delegate takeTurn:match];
+        }
     } else {
         [delegate enterNewGame:match];
     }
