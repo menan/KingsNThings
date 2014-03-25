@@ -23,32 +23,9 @@ static GCTurnBasedMatchHelper *sharedHelper = nil;
     }
     return sharedHelper;
 }
-//- (void)handleInviteFromGameCenter:(NSArray *)playersToInvite {
-//    [presentingViewController dismissViewControllerAnimated:YES completion:nil];
-//    
-//    GKMatchRequest *request = [[GKMatchRequest alloc] init];
-//    request.playersToInvite = playersToInvite;
-//    request.maxPlayers = 12;
-//    request.minPlayers = 2;
-//    GKTurnBasedMatchmakerViewController *viewController =   [[GKTurnBasedMatchmakerViewController alloc] initWithMatchRequest:request];
-//    viewController.showExistingMatches = NO;
-//    viewController.turnBasedMatchmakerDelegate = self;
-//    [presentingViewController presentModalViewController:viewController animated:YES];
-//}
-//
-//-(void)handleInviteFromGameCenter:(NSArray *)playersToInvite {
-//    NSLog(@"new invite");
-//}
-//
-//-(void)handleTurnEventForMatch:(GKTurnBasedMatch *)match {
-//    NSLog(@"Turn has happened");
-//}
-//
-//-(void)handleMatchEnded:(GKTurnBasedMatch *)match {
-//    NSLog(@"Game has ended");
-//}
-//
-//
+
+
+
 
 #pragma mark GKLocalPlayerDelegate
 
