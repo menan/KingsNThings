@@ -40,7 +40,7 @@ typedef enum {
 
 - (void) initiateCombat: (Player*) p;
 - (id) initWithBoard:(id) b;
-- (void) combatPhase:(Player *)attacker withArmy:(Army*)attackerArmy andPlayer:(Player*)defender withArmy:(Army*)defenderArmy;
+- (void) combatPhase:(Player *)attacker withArmy:(Army*)attackerArmy andPlayer:(Player*)defender withArmy:(Army*)defenderArmy isDefending:(BOOL)t;
 - (Player *) currentPlayer;
 - (Player *) findPlayerByTerrain:(Terrain *) terrain;
 - (NSMutableArray *) findPlayersByTerrain:(Terrain *) terrain; //gets all the players on the terrain
@@ -56,5 +56,6 @@ typedef enum {
 - (void) checkBluffForPlayer:(Player *) player;
 - (void) endTurn:(id)sender;
 -(BOOL) validateHex:(Terrain*)terrain forPlayer:(Player*)player;
+-(NSInteger) buildingCost;
 
 @end

@@ -23,19 +23,20 @@
 @synthesize attackerArmy,defenderArmy;
 @synthesize attacker,defender,building;
 @synthesize isMagicRound,isRangedRound,isMeleeRound,isAttacker,isDefender;;
-@synthesize diceOne,diceTwo;
+@synthesize diceOne,diceTwo,type;
 @synthesize attackerRolledDice, defenderRolledDice,attackerNumberOfHits,defenderNumberOfHits,attakerChargeCreatures,defenderChargeCreatures;
 
 
 
 
 
--(id) initWithAttacker:(Player*)att andDefender:(Player*)def andAttackerArmy:(id)attArmy andDefenderArmy:(id)defArmy andMainScene:(id)sce{
+-(id) initWithAttacker:(Player*)att andDefender:(Player*)def andAttackerArmy:(id)attArmy andDefenderArmy:(id)defArmy andMainScene:(id)sce ofType:(combatType)t{
     
     self = [super init];
     if(self)
     {
         mainScene = sce;
+        type = t;
         
         attacker = att;
         defender = def;
