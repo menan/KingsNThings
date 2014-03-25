@@ -93,7 +93,14 @@
 - (Player *) currentPlayer{
     return [players objectAtIndex:0];
 }
-
+-(NSInteger)buildingCost{
+    if([players count] == 4)
+        return 20;
+    else
+        return 15;
+    
+    
+}
 -(void) assignScene:(MyScene*)sce{
     scene = sce;
 }
@@ -225,6 +232,7 @@ return NULL;
                 [player.combat setObject:army forKey:@"withArmy"];
                 [player.combat setObject:defender forKey:@"andPlayer"];
                 [player.combat setObject:defArmy forKey:@"andDefenderArmy"];
+                //[player.combat setObject:YES forKey:@"isDefinding"];
                 
                 NSLog(@"combat dictionary: %@",player.combat);
             }
@@ -261,6 +269,7 @@ return NULL;
                     [player.combat setObject:army forKey:@"withArmy"];
                     [player.combat setObject:tempDefender forKey:@"andPlayer"];
                     [player.combat setObject:defender forKey:@"andDefenderArmy"];
+                    [player.combat setObject:NO forKey:@"isDefinding"];
                     
                 }
             }
@@ -285,7 +294,8 @@ return NULL;
         Player *defender = [p.combat objectForKey:@"andPlayer"];
         Army *defArmy = [p.combat objectForKey:@"andDefenderArmy"];
         p.isWaitingCombat = NO;
-        [self combatPhase:p withArmy:a andPlayer:defender withArmy:defArmy ];
+        BOOL type = [p.combat objectForKey:@"isDefending"];
+        [self combatPhase:p withArmy:a andPlayer:defender withArmy:defArmy isDefending:type];
     }
 }
 
@@ -303,9 +313,12 @@ return NULL;
                                                 andDefenderArmy:defenderArmy
                                                    andMainScene:scene];
     
+    }
+        
     [combat drawScene];
     
     if([attacker hasWonCombat]){
+        
         
     }
     else if ([defender hasWonCombat]){
@@ -429,6 +442,17 @@ return NULL;
     phase = p;
     NSArray *phaseText = @[@"Initial Phase", @"Construction Phase", @"Movement Phase",@"Recruitment Phase",@"Special Character Recruitment Phase", @"Combat Phase", @"Gold Collection Phase"];
     board.textLabel.text = [phaseText objectAtIndex:p];
+    
+    if(p == SpecialPower){
+        int i = 0;
+        for( Player* p in players){
+            if([p hasBuiltCitadel])
+                i+=1;
+        }
+        if(i == 1){
+            //there is a winner
+        }
+    }
     
 }
 

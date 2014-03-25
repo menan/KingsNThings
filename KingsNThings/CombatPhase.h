@@ -14,6 +14,13 @@
 
 @interface CombatPhase : NSObject
 
+typedef enum combatType : NSUInteger {
+    exploration,
+    defendingHex
+
+}combatType;
+
+@property combatType type;
 @property NSMutableArray* attackerMagicCreature ;
 @property NSMutableArray* defenderMagicCreature;
 @property NSMutableArray* attackerRangedCreature;
@@ -38,7 +45,7 @@
 @property Army* attackerArmy,*defenderArmy;
 
 
--(id) initWithAttacker:(Player*)att andDefender:(Player*)def andAttackerArmy:(id)attArmy andDefenderArmy:(id)defArmy andMainScene:(id)sce;
+-(id) initWithAttacker:(Player*)att andDefender:(Player*)def andAttackerArmy:(id)attArmy andDefenderArmy:(id)defArmy andMainScene:(id)sce ofType:(combatType) type;
 -(void) startCombat:(CombatScene*) combatScene;
 -(void)drawScene;
 -(void)updateArmy:(NSString*)creatureName andPlayerType:(NSString*)player;
