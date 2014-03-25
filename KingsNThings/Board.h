@@ -12,13 +12,15 @@
 #import "MyScene.h"
 
 @interface Board : NSObject
-@property SKLabelNode* textLabel, *recruitLabel;
+@property SKLabelNode* textLabel, *recruitLabel, *doneButton;
 @property NSInteger dicesClicked,creaturesInBowl;
 @property GamePlay *game;
 @property Bank *bank;
 @property NSArray *disabled;
 @property NSArray *nonMovables;
 @property CGPoint bowlLocaiton;
+
+@property BOOL canTapDone;
 
 - (id)initWithScene: (MyScene *) aScene atPoint: (CGPoint) aPoint withSize: (CGSize) aSize;
 - (void)draw;

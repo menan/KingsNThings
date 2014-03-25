@@ -37,12 +37,13 @@
     SKLabelNode* diceOneLabel;
     SKLabelNode* diceTwoLabel;
     
+    
     int playersCount;
     
 }
 static NSString * const defaultText = @"KingsNThings - Team24";
 
-@synthesize textLabel,dicesClicked,creaturesInBowl,recruitLabel,game,disabled,nonMovables,bank,bowlLocaiton;
+@synthesize textLabel,dicesClicked,creaturesInBowl,recruitLabel,game,disabled,nonMovables,bank,bowlLocaiton,doneButton,canTapDone;
 - (id)initWithScene: (MyScene *) aScene atPoint: (CGPoint) aPoint withSize: (CGSize) aSize
 {
     self = [super init];
@@ -65,7 +66,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         
         markers = @[@"p_yellow.jpg",@"p_grey.jpg",@"p_green.jpg",@"p_red.jpg"];
         
-        
+        canTapDone = NO;
         
     }
     return self;
@@ -320,13 +321,15 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     [match setPosition:CGPointMake(550.0f, (size.height) - 120)];
     [board addChild:match];
     
-    diceOneLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
-    diceOneLabel.name = @"done-turn";
-    diceOneLabel.text = @"Done";
-    diceOneLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
-    diceOneLabel.fontSize = 20;
-    diceOneLabel.position = CGPointMake(555.0f, (size.height) - 180);
-    [board addChild:diceOneLabel];
+    
+    doneButton = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    doneButton.name = @"done-turn";
+    doneButton.text = @"Done";
+    doneButton.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
+    doneButton.fontSize = 20;
+    doneButton.position = CGPointMake(555.0f, (size.height) - 180);
+    doneButton.hidden = YES;
+    [board addChild:doneButton];
     
     
     
@@ -1086,7 +1089,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     else if ([node.name isEqualToString:@"match"]){
         [game presentGCTurnViewController:self];
     }
-    else if ([node.name isEqualToString:@"done-turn"]){
+    else if ([node.name isEqualToString:@"done-turn"] && canTapDone){
         [game endTurn:self];
     }
         

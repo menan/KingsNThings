@@ -471,6 +471,8 @@ return NULL;
         nextParticipant = [currentMatch.participants objectAtIndex:nextIndex];
     }
     
+    board.doneButton.hidden = YES;
+    board.canTapDone = NO;
     [currentMatch endTurnWithNextParticipant:nextParticipant matchData:data completionHandler:^(NSError *error) {
         if (error) {
             NSLog(@"%@", error);

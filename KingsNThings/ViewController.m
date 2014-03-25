@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "Board.h"
 
 @implementation ViewController
 
@@ -63,6 +64,11 @@
 
 -(void)takeTurn:(GKTurnBasedMatch *)match {
     NSLog(@"Taking turn for existing game...");
+    
+    Board *b = [scene getBoard];
+    b.doneButton.hidden = NO;
+    b.canTapDone = YES;
+    
     if ([match.matchData bytes]) {
         NSString *storySoFar = [NSString stringWithUTF8String:[match.matchData bytes]];
         NSLog(@"Taking turn for existing game... %@",storySoFar);
