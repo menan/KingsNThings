@@ -302,16 +302,16 @@ return NULL;
 
 
 -(void) combatPhase:(Player *)attacker withArmy:(Army*)attackerArmy andPlayer:(Player*)defender withArmy:(Army*)defenderArmy isDefending:(BOOL)t{
-     NSLog(@"inside Combat phase");
+    NSLog(@"inside Combat phase");
     CombatPhase* combat ;
     if(t){
         combat = [[CombatPhase alloc] initWithAttacker:attacker andDefender:defender andAttackerArmy:attackerArmy andDefenderArmy:defenderArmy andMainScene:scene ofType:defendingHex];
     }
     else{
         combat = [[CombatPhase alloc] initWithAttacker:attacker andDefender:defender andAttackerArmy:attackerArmy andDefenderArmy:defenderArmy andMainScene:scene ofType:exploration];
-    
-    }
         
+    }
+    
     [combat drawScene];
     
     if([attacker hasWonCombat]){
@@ -320,7 +320,7 @@ return NULL;
     }
     else if ([defender hasWonCombat]){
     }
-   }
+}
 
 -(void) pahses:(NSString*)pahse{
     NSRunLoop *loop = [NSRunLoop currentRunLoop];
@@ -495,6 +495,21 @@ return NULL;
         
         [dicData setObject:phaseNS forKey:@"phase"];
         [dicData setObject:board.terrainsDictionary forKey:@"terrains"];
+        
+        NSMutableArray *markers = [[NSMutableArray alloc] init];
+        
+        
+        for (Player *p in players) {
+            NSDictionary *marker = [[NSDictionary alloc] init];
+            for (Terrain *t in [p getTerritories]) {
+//                [marker setValue:t.node.position forKey:@"position"]
+                
+            }
+        }
+        
+        
+        
+        [dicData setObject:markers forKey:@"markers"];
     }
     
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dicData];

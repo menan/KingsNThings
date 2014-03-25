@@ -15,7 +15,7 @@
 @property (nonatomic, strong) NSString* type;
 @property (nonatomic, strong) NSString* imageName;
 @property (nonatomic, strong) SKSpriteNode* node;
-@property BOOL flipped,belongsToP1,belongsToP2,belongsToP3,belongsToP4, hasArmyOnIt,hasOwner,hasBuilding,hasSpecialIncome;
+@property BOOL flipped,hasArmyOnIt,hasOwner,hasBuilding,hasSpecialIncome;
 @property NSInteger position;
 @property NSInteger location;
 
