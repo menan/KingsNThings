@@ -134,6 +134,8 @@
 		68EF342018A2BB4A00A93480 /* -n Greathunter -t Plains -s Range -a 4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 68EF341F18A2BB4A00A93480 /* -n Greathunter -t Plains -s Range -a 4.jpg */; };
 		68EF345118A9FD6800A93480 /* goldCollect.png in Resources */ = {isa = PBXBuildFile; fileRef = 68EF345018A9FD6800A93480 /* goldCollect.png */; };
 		68F84CDA18E0F06D0059706D /* game-center.png in Resources */ = {isa = PBXBuildFile; fileRef = 68F84CD918E0F06D0059706D /* game-center.png */; };
+		68F84CDD18E10AC30059706D /* kingsnthings-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 68F84CDB18E10AC30059706D /* kingsnthings-Info.plist */; };
+		68F84CDF18E10B450059706D /* kingsnthings-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 68F84CDE18E10B450059706D /* kingsnthings-Info.plist */; };
 		C5461C9E18D24E9500628AC4 /* special_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C5461C9D18D24E9500628AC4 /* special_button.png */; };
 		C59BE5F218A052E700EC48E0 /* SpecialIncome.m in Sources */ = {isa = PBXBuildFile; fileRef = C59BE5F118A052E700EC48E0 /* SpecialIncome.m */; };
 		C59BE61C18A054A100EC48E0 /* -n Bird Of Paradise -t Jungle -s Fly -a 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C59BE60F18A054A100EC48E0 /* -n Bird Of Paradise -t Jungle -s Fly -a 1.jpg */; };
@@ -287,15 +289,13 @@
 		6845A82718D169AA00C057B0 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		6845A82B18D171F700C057B0 /* GCTurnBasedMatchHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCTurnBasedMatchHelper.h; sourceTree = "<group>"; };
 		6845A82C18D171F700C057B0 /* GCTurnBasedMatchHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCTurnBasedMatchHelper.m; sourceTree = "<group>"; };
-		686C97231888A88500BE6D42 /* KingsNThings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KingsNThings.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		686C97231888A88500BE6D42 /* kingsnthings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kingsnthings.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		686C97261888A88500BE6D42 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		686C97281888A88500BE6D42 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		686C972A1888A88500BE6D42 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		686C972C1888A88500BE6D42 /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
-		686C97301888A88500BE6D42 /* KingsNThings-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KingsNThings-Info.plist"; sourceTree = "<group>"; };
 		686C97321888A88500BE6D42 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		686C97341888A88500BE6D42 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		686C97361888A88500BE6D42 /* KingsNThings-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KingsNThings-Prefix.pch"; sourceTree = "<group>"; };
 		686C97371888A88500BE6D42 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		686C97381888A88500BE6D42 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		686C973B1888A88500BE6D42 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -304,9 +304,8 @@
 		686C97401888A88500BE6D42 /* MyScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyScene.h; sourceTree = "<group>"; };
 		686C97411888A88500BE6D42 /* MyScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyScene.m; sourceTree = "<group>"; };
 		686C97451888A88500BE6D42 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		686C974B1888A88500BE6D42 /* KingsNThingsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KingsNThingsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		686C974B1888A88500BE6D42 /* kingsnthingsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = kingsnthingsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		686C974C1888A88500BE6D42 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		686C97541888A88600BE6D42 /* KingsNThingsTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KingsNThingsTests-Info.plist"; sourceTree = "<group>"; };
 		686C97561888A88600BE6D42 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		686C97581888A88600BE6D42 /* KingsNThingsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KingsNThingsTests.m; sourceTree = "<group>"; };
 		686C9763188F693B00BE6D42 /* desert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = desert.png; sourceTree = "<group>"; };
@@ -466,6 +465,9 @@
 		68EF341F18A2BB4A00A93480 /* -n Greathunter -t Plains -s Range -a 4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Greathunter -t Plains -s Range -a 4.jpg"; sourceTree = "<group>"; };
 		68EF345018A9FD6800A93480 /* goldCollect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = goldCollect.png; sourceTree = "<group>"; };
 		68F84CD918E0F06D0059706D /* game-center.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "game-center.png"; sourceTree = "<group>"; };
+		68F84CDB18E10AC30059706D /* kingsnthings-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "kingsnthings-Info.plist"; sourceTree = "<group>"; };
+		68F84CDC18E10AC30059706D /* kingsnthings-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "kingsnthings-Prefix.pch"; sourceTree = "<group>"; };
+		68F84CDE18E10B450059706D /* kingsnthings-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "kingsnthings-Info.plist"; sourceTree = "<group>"; };
 		C5461C9D18D24E9500628AC4 /* special_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = special_button.png; sourceTree = "<group>"; };
 		C59BE5F018A052E700EC48E0 /* SpecialIncome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpecialIncome.h; sourceTree = "<group>"; };
 		C59BE5F118A052E700EC48E0 /* SpecialIncome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpecialIncome.m; sourceTree = "<group>"; };
@@ -720,8 +722,8 @@
 		686C97241888A88500BE6D42 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				686C97231888A88500BE6D42 /* KingsNThings.app */,
-				686C974B1888A88500BE6D42 /* KingsNThingsTests.xctest */,
+				686C97231888A88500BE6D42 /* kingsnthings.app */,
+				686C974B1888A88500BE6D42 /* kingsnthingsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -784,10 +786,10 @@
 		686C972F1888A88500BE6D42 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				686C97301888A88500BE6D42 /* KingsNThings-Info.plist */,
+				68F84CDB18E10AC30059706D /* kingsnthings-Info.plist */,
+				68F84CDC18E10AC30059706D /* kingsnthings-Prefix.pch */,
 				686C97311888A88500BE6D42 /* InfoPlist.strings */,
 				686C97341888A88500BE6D42 /* main.m */,
-				686C97361888A88500BE6D42 /* KingsNThings-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -804,7 +806,7 @@
 		686C97531888A88600BE6D42 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				686C97541888A88600BE6D42 /* KingsNThingsTests-Info.plist */,
+				68F84CDE18E10B450059706D /* kingsnthings-Info.plist */,
 				686C97551888A88600BE6D42 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -1371,9 +1373,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		686C97221888A88500BE6D42 /* KingsNThings */ = {
+		686C97221888A88500BE6D42 /* kingsnthings */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 686C975C1888A88600BE6D42 /* Build configuration list for PBXNativeTarget "KingsNThings" */;
+			buildConfigurationList = 686C975C1888A88600BE6D42 /* Build configuration list for PBXNativeTarget "kingsnthings" */;
 			buildPhases = (
 				686C971F1888A88500BE6D42 /* Sources */,
 				686C97201888A88500BE6D42 /* Frameworks */,
@@ -1383,14 +1385,14 @@
 			);
 			dependencies = (
 			);
-			name = KingsNThings;
+			name = kingsnthings;
 			productName = KingsNThings;
-			productReference = 686C97231888A88500BE6D42 /* KingsNThings.app */;
+			productReference = 686C97231888A88500BE6D42 /* kingsnthings.app */;
 			productType = "com.apple.product-type.application";
 		};
-		686C974A1888A88500BE6D42 /* KingsNThingsTests */ = {
+		686C974A1888A88500BE6D42 /* kingsnthingsTest */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 686C975F1888A88600BE6D42 /* Build configuration list for PBXNativeTarget "KingsNThingsTests" */;
+			buildConfigurationList = 686C975F1888A88600BE6D42 /* Build configuration list for PBXNativeTarget "kingsnthingsTest" */;
 			buildPhases = (
 				686C97471888A88500BE6D42 /* Sources */,
 				686C97481888A88500BE6D42 /* Frameworks */,
@@ -1401,9 +1403,9 @@
 			dependencies = (
 				686C97511888A88600BE6D42 /* PBXTargetDependency */,
 			);
-			name = KingsNThingsTests;
+			name = kingsnthingsTest;
 			productName = KingsNThingsTests;
-			productReference = 686C974B1888A88500BE6D42 /* KingsNThingsTests.xctest */;
+			productReference = 686C974B1888A88500BE6D42 /* kingsnthingsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -1431,7 +1433,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 686C971E1888A88500BE6D42 /* Build configuration list for PBXProject "KingsNThings" */;
+			buildConfigurationList = 686C971E1888A88500BE6D42 /* Build configuration list for PBXProject "kingsnthings" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -1444,8 +1446,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				686C97221888A88500BE6D42 /* KingsNThings */,
-				686C974A1888A88500BE6D42 /* KingsNThingsTests */,
+				686C97221888A88500BE6D42 /* kingsnthings */,
+				686C974A1888A88500BE6D42 /* kingsnthingsTest */,
 			);
 		};
 /* End PBXProject section */
@@ -1540,6 +1542,7 @@
 				68EF33BC189CE6EF00A93480 /* -n Elves -c 2 -t Forest -s Range -a 2.jpg in Resources */,
 				C59BE62518A054A100EC48E0 /* -n Pygmies -t Jungle -a 2.jpg in Resources */,
 				68EF3408189CE6EF00A93480 /* -n Wolf Pack -t Plains -a 3.jpg in Resources */,
+				68F84CDF18E10B450059706D /* kingsnthings-Info.plist in Resources */,
 				C5B4B2E018CE509D00B1E187 /* -n Dwarves -t Mountain -s Range -a 2.jpg in Resources */,
 				C5B4B35418CE50DC00B1E187 /* -n Jungle Lord -a 4 -p Special.jpg in Resources */,
 				68EF342018A2BB4A00A93480 /* -n Greathunter -t Plains -s Range -a 4.jpg in Resources */,
@@ -1615,6 +1618,7 @@
 				68EF341E189CE6EF00A93480 /* -n Winged Pirhana -t Swamp -s Fly -a 3.jpg in Resources */,
 				686C9771188F693B00BE6D42 /* plains.png in Resources */,
 				686C976D188F693B00BE6D42 /* forest.png in Resources */,
+				68F84CDD18E10AC30059706D /* kingsnthings-Info.plist in Resources */,
 				C5B4B2D518CE509D00B1E187 /* -n Giant Snake -t Jungle -s 3.jpg in Resources */,
 				68EF33BE189CE6EF00A93480 /* -n Flying Squirrel -t Forest -s Fly -a 1.jpg in Resources */,
 				68EF33B2189CE6EF00A93480 /* -n Skletons -c 2 -t Desert -a 1.jpg in Resources */,
@@ -1735,7 +1739,7 @@
 /* Begin PBXTargetDependency section */
 		686C97511888A88600BE6D42 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 686C97221888A88500BE6D42 /* KingsNThings */;
+			target = 686C97221888A88500BE6D42 /* kingsnthings */;
 			targetProxy = 686C97501888A88600BE6D42 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1848,9 +1852,9 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "KingsNThings/KingsNThings-Prefix.pch";
-				INFOPLIST_FILE = "KingsNThings/KingsNThings-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "KingsNThings/kingsnthings-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/KingsNThings/kingsnthings-Info.plist";
+				PRODUCT_NAME = kingsnthings;
 				PROVISIONING_PROFILE = "";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				WRAPPER_EXTENSION = app;
@@ -1865,9 +1869,9 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "KingsNThings/KingsNThings-Prefix.pch";
-				INFOPLIST_FILE = "KingsNThings/KingsNThings-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "KingsNThings/kingsnthings-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/KingsNThings/kingsnthings-Info.plist";
+				PRODUCT_NAME = kingsnthings;
 				PROVISIONING_PROFILE = "";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				WRAPPER_EXTENSION = app;
@@ -1889,8 +1893,8 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "KingsNThingsTests/KingsNThingsTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "KingsNThingsTests/kingsnthingsTests-Info.plist";
+				PRODUCT_NAME = kingsnthingsTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -1907,8 +1911,8 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KingsNThings/KingsNThings-Prefix.pch";
-				INFOPLIST_FILE = "KingsNThingsTests/KingsNThingsTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "KingsNThingsTests/kingsnthingsTests-Info.plist";
+				PRODUCT_NAME = kingsnthingsTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -1917,7 +1921,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		686C971E1888A88500BE6D42 /* Build configuration list for PBXProject "KingsNThings" */ = {
+		686C971E1888A88500BE6D42 /* Build configuration list for PBXProject "kingsnthings" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				686C975A1888A88600BE6D42 /* Debug */,
@@ -1926,7 +1930,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		686C975C1888A88600BE6D42 /* Build configuration list for PBXNativeTarget "KingsNThings" */ = {
+		686C975C1888A88600BE6D42 /* Build configuration list for PBXNativeTarget "kingsnthings" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				686C975D1888A88600BE6D42 /* Debug */,
@@ -1935,7 +1939,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		686C975F1888A88600BE6D42 /* Build configuration list for PBXNativeTarget "KingsNThingsTests" */ = {
+		686C975F1888A88600BE6D42 /* Build configuration list for PBXNativeTarget "kingsnthingsTest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				686C97601888A88600BE6D42 /* Debug */,

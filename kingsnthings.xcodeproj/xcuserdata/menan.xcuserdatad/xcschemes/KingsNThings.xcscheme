@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "686C97221888A88500BE6D42"
-               BuildableName = "KingsNThings.app"
-               BlueprintName = "KingsNThings"
-               ReferencedContainer = "container:KingsNThings.xcodeproj">
+               BuildableName = "kingsnthings.app"
+               BlueprintName = "kingsnthings"
+               ReferencedContainer = "container:kingsnthings.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "686C974A1888A88500BE6D42"
-               BuildableName = "KingsNThingsTests.xctest"
-               BlueprintName = "KingsNThingsTests"
-               ReferencedContainer = "container:KingsNThings.xcodeproj">
+               BuildableName = "kingsnthingsTests.xctest"
+               BlueprintName = "kingsnthingsTest"
+               ReferencedContainer = "container:kingsnthings.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -43,9 +43,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "686C97221888A88500BE6D42"
-            BuildableName = "KingsNThings.app"
-            BlueprintName = "KingsNThings"
-            ReferencedContainer = "container:KingsNThings.xcodeproj">
+            BuildableName = "kingsnthings.app"
+            BlueprintName = "kingsnthings"
+            ReferencedContainer = "container:kingsnthings.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "686C97221888A88500BE6D42"
-            BuildableName = "KingsNThings.app"
-            BlueprintName = "KingsNThings"
-            ReferencedContainer = "container:KingsNThings.xcodeproj">
+            BuildableName = "kingsnthings.app"
+            BlueprintName = "kingsnthings"
+            ReferencedContainer = "container:kingsnthings.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -80,9 +80,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "686C97221888A88500BE6D42"
-            BuildableName = "KingsNThings.app"
-            BlueprintName = "KingsNThings"
-            ReferencedContainer = "container:KingsNThings.xcodeproj">
+            BuildableName = "kingsnthings.app"
+            BlueprintName = "kingsnthings"
+            ReferencedContainer = "container:kingsnthings.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
