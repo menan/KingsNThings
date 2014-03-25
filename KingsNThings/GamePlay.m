@@ -301,20 +301,18 @@ return NULL;
 
 
 
--(void) combatPhase:(Player *)attacker
-           withArmy:(Army*)attackerArmy
-          andPlayer:(Player*)defender
-           withArmy:(Army*)defenderArmy{
-    
-     NSLog(@"inside Combat phase");
-    CombatPhase* combat = [[CombatPhase alloc] initWithAttacker:attacker
-                                                    andDefender:defender
-                                                andAttackerArmy:attackerArmy
-                                                andDefenderArmy:defenderArmy
-                                                   andMainScene:scene];
-    
+-(void) combatPhase:(Player *)attacker withArmy:(Army*)attackerArmy andPlayer:(Player*)defender withArmy:(Army*)defenderArmy isDefending:(BOOL)t{
+    NSLog(@"inside Combat phase");
+    CombatPhase* combat ;
+    CombatPhase* combat ;
+    if(t){
+        combat = [[CombatPhase alloc] initWithAttacker:attacker andDefender:defender andAttackerArmy:attackerArmy andDefenderArmy:defenderArmy andMainScene:scene ofType:defendingHex];
     }
+    else{
+        combat = [[CombatPhase alloc] initWithAttacker:attacker andDefender:defender andAttackerArmy:attackerArmy andDefenderArmy:defenderArmy andMainScene:scene ofType:exploration];
         
+    }
+    
     [combat drawScene];
     
     if([attacker hasWonCombat]){
@@ -323,7 +321,7 @@ return NULL;
     }
     else if ([defender hasWonCombat]){
     }
-   }
+}
 
 -(void) pahses:(NSString*)pahse{
     NSRunLoop *loop = [NSRunLoop currentRunLoop];
@@ -505,7 +503,7 @@ return NULL;
         for (Player *p in players) {
             NSDictionary *marker = [[NSDictionary alloc] init];
             for (Terrain *t in [p getTerritories]) {
-                [marker setValue:t.node.position forKey:@"position"]
+//                [marker setValue:t.node.position forKey:@"position"]
                 
             }
         }
