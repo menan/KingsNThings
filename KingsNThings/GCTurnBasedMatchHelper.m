@@ -24,29 +24,72 @@ static GCTurnBasedMatchHelper *sharedHelper = nil;
     return sharedHelper;
 }
 //- (void)handleInviteFromGameCenter:(NSArray *)playersToInvite {
-////    [presentingViewController dismissViewControllerAnimated:YES completion:nil];
-////    
-////    GKMatchRequest *request = [[GKMatchRequest alloc] init];
-////    request.playersToInvite = playersToInvite;
-////    request.maxPlayers = 12;
-////    request.minPlayers = 2;
-////    GKTurnBasedMatchmakerViewController *viewController =   [[GKTurnBasedMatchmakerViewController alloc] initWithMatchRequest:request];
-////    viewController.showExistingMatches = NO;
-////    viewController.turnBasedMatchmakerDelegate = self;
-////    [presentingViewController presentModalViewController:viewController animated:YES];
+//    [presentingViewController dismissViewControllerAnimated:YES completion:nil];
+//    
+//    GKMatchRequest *request = [[GKMatchRequest alloc] init];
+//    request.playersToInvite = playersToInvite;
+//    request.maxPlayers = 12;
+//    request.minPlayers = 2;
+//    GKTurnBasedMatchmakerViewController *viewController =   [[GKTurnBasedMatchmakerViewController alloc] initWithMatchRequest:request];
+//    viewController.showExistingMatches = NO;
+//    viewController.turnBasedMatchmakerDelegate = self;
+//    [presentingViewController presentModalViewController:viewController animated:YES];
 //}
+//
+//-(void)handleInviteFromGameCenter:(NSArray *)playersToInvite {
+//    NSLog(@"new invite");
+//}
+//
+//-(void)handleTurnEventForMatch:(GKTurnBasedMatch *)match {
+//    NSLog(@"Turn has happened");
+//}
+//
+//-(void)handleMatchEnded:(GKTurnBasedMatch *)match {
+//    NSLog(@"Game has ended");
+//}
+//
+//
 
--(void)handleInviteFromGameCenter:(NSArray *)playersToInvite {
-    NSLog(@"new invite");
-}
+#pragma mark GKLocalPlayerDelegate
 
--(void)handleTurnEventForMatch:(GKTurnBasedMatch *)match {
+- (void)player: (GKPlayer *)player
+        receivedTurnEventForMatch: (GKTurnBasedMatch *)match
+        didBecomeActive: (BOOL)didBecomeActive
+{
+    
     NSLog(@"Turn has happened");
+    
+    
 }
 
--(void)handleMatchEnded:(GKTurnBasedMatch *)match {
+- (void)player: (GKPlayer *)player
+        didRequestMatchWithPlayers: (NSArray *)playerIDsToInvite
+{
+    NSLog(@"new invite");
+    
+    
+    [presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    
+    GKMatchRequest *request = [[GKMatchRequest alloc] init];
+    request.playersToInvite = playerIDsToInvite;
+    request.maxPlayers = 12;
+    request.minPlayers = 2;
+    GKTurnBasedMatchmakerViewController *viewController =   [[GKTurnBasedMatchmakerViewController alloc] initWithMatchRequest:request];
+    viewController.showExistingMatches = NO;
+    viewController.turnBasedMatchmakerDelegate = self;
+    [presentingViewController presentViewController:viewController animated:YES completion:nil];
+    
+}
+- (void)player: (GKPlayer *)player
+        matchEnded: (GKTurnBasedMatch *)match
+{
+    
     NSLog(@"Game has ended");
 }
+
+
+
+
 
 
 - (BOOL)isGameCenterAvailable {
@@ -101,12 +144,6 @@ static GCTurnBasedMatchHelper *sharedHelper = nil;
     }
     
     
-    void (^setGKEventHandlerDelegate)(NSError *) = ^ (NSError *error)
-    {
-        GKTurnBasedEventHandler *ev = [GKTurnBasedEventHandler sharedTurnBasedEventHandler];
-        ev.delegate = self;
-    };
-    
     
     GKLocalPlayer *localPlayer = [GKLocalPlayer localPlayer];
     __weak GKLocalPlayer *blockLocalPlayer = localPlayer;
@@ -116,12 +153,7 @@ static GCTurnBasedMatchHelper *sharedHelper = nil;
         userAuthenticated = blockLocalPlayer.isAuthenticated;
         
         if (userAuthenticated) {
-            
-            [[GKLocalPlayer localPlayer] authenticateWithCompletionHandler:setGKEventHandlerDelegate];
-        }
-        else {
-            NSLog(@"Already authenticated!");
-            setGKEventHandlerDelegate(nil);
+            [[GKLocalPlayer localPlayer] registerListener: self];
         }
         
     };
