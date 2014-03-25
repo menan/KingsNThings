@@ -21,7 +21,7 @@
 @end
 
 
-@interface GCTurnBasedMatchHelper : NSObject<GKTurnBasedMatchmakerViewControllerDelegate,GKTurnBasedEventHandlerDelegate>{
+@interface GCTurnBasedMatchHelper : NSObject<GKTurnBasedMatchmakerViewControllerDelegate,GKLocalPlayerListener>{
     BOOL gameCenterAvailable;
     BOOL userAuthenticated;
 }
