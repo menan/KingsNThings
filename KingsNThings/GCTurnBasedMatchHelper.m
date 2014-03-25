@@ -23,23 +23,6 @@ static GCTurnBasedMatchHelper *sharedHelper = nil;
     }
     return sharedHelper;
 }
-- (void)findMatchWithMinPlayers:(int)minPlayers maxPlayers:(int)maxPlayers viewController:(UIViewController *)viewController {
-    if (!gameCenterAvailable) return;
-    
-    presentingViewController = viewController;
-    
-    GKMatchRequest *request = [[GKMatchRequest alloc] init];
-    request.minPlayers = minPlayers;
-    request.maxPlayers = maxPlayers;
-    
-    GKTurnBasedMatchmakerViewController *mmvc = [[GKTurnBasedMatchmakerViewController alloc] initWithMatchRequest:request];
-    mmvc.turnBasedMatchmakerDelegate = self;
-
-    
-    [presentingViewController presentViewController:mmvc animated:YES completion:nil];
-    
-    
-}
 //- (void)handleInviteFromGameCenter:(NSArray *)playersToInvite {
 ////    [presentingViewController dismissViewControllerAnimated:YES completion:nil];
 ////    
@@ -64,6 +47,7 @@ static GCTurnBasedMatchHelper *sharedHelper = nil;
 -(void)handleMatchEnded:(GKTurnBasedMatch *)match {
     NSLog(@"Game has ended");
 }
+
 
 - (BOOL)isGameCenterAvailable {
     // check for presence of GKLocalPlayer API
@@ -116,6 +100,14 @@ static GCTurnBasedMatchHelper *sharedHelper = nil;
         return;
     }
     
+    
+    void (^setGKEventHandlerDelegate)(NSError *) = ^ (NSError *error)
+    {
+        GKTurnBasedEventHandler *ev = [GKTurnBasedEventHandler sharedTurnBasedEventHandler];
+        ev.delegate = self;
+    };
+    
+    
     GKLocalPlayer *localPlayer = [GKLocalPlayer localPlayer];
     __weak GKLocalPlayer *blockLocalPlayer = localPlayer;
     
@@ -123,14 +115,15 @@ static GCTurnBasedMatchHelper *sharedHelper = nil;
         NSLog(@"authenticateHandler");
         userAuthenticated = blockLocalPlayer.isAuthenticated;
         
+        if (userAuthenticated) {
+            
+            [[GKLocalPlayer localPlayer] authenticateWithCompletionHandler:setGKEventHandlerDelegate];
+        }
+        else {
+            NSLog(@"Already authenticated!");
+            setGKEventHandlerDelegate(nil);
+        }
         
-        [GKTurnBasedMatch loadMatchesWithCompletionHandler:
-         ^(NSArray *matches, NSError *error){
-             for (GKTurnBasedMatch *match in matches) {
-                 NSLog(@"%@", match.matchID);
-                 [match removeWithCompletionHandler:^(NSError *error){
-                     NSLog(@"%@", error);}];
-             }}];
     };
 }
 
@@ -171,6 +164,23 @@ static GCTurnBasedMatchHelper *sharedHelper = nil;
     NSLog(@"playerquitforMatch, %@, %@", match, match.currentParticipant);
 }
 
+- (void)findMatchWithMinPlayers:(int)minPlayers maxPlayers:(int)maxPlayers viewController:(UIViewController *)viewController {
+    if (!gameCenterAvailable) return;
+    
+    presentingViewController = viewController;
+    
+    GKMatchRequest *request = [[GKMatchRequest alloc] init];
+    request.minPlayers = minPlayers;
+    request.maxPlayers = maxPlayers;
+    
+    GKTurnBasedMatchmakerViewController *mmvc = [[GKTurnBasedMatchmakerViewController alloc] initWithMatchRequest:request];
+    mmvc.turnBasedMatchmakerDelegate = self;
+    
+    
+    [presentingViewController presentViewController:mmvc animated:YES completion:nil];
+    
+    
+}
 
 
 
