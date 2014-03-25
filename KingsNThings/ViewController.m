@@ -59,6 +59,12 @@
 
 -(void)enterNewGame:(GKTurnBasedMatch *)match {
     NSLog(@"Entering new game...");
+    
+    Board *b = [scene getBoard];
+    b.doneButton.hidden = NO;
+    b.canTapDone = YES;
+    
+    
 //    mainTextController.text = @"Once upon a time";
 }
 
