@@ -452,12 +452,24 @@ return NULL;
 - (void)endTurn:(id)sender {
     GKTurnBasedMatch *currentMatch = [[GCTurnBasedMatchHelper sharedInstance] currentMatch];
     
-    NSString *text = @"Suppp!!";
-    NSData *data = [text dataUsingEncoding:NSUTF8StringEncoding ];
+    NSLog(@"current phase: %d",phase);
+    
     
        
     NSUInteger currentIndex = [currentMatch.participants indexOfObject:currentMatch.currentParticipant];
     GKTurnBasedParticipant *nextParticipant;
+    
+    NSMutableDictionary *dicData = [[NSMutableDictionary alloc] init];
+    
+    if (phase == Initial) {
+        NSNumber *phaseNS = [NSNumber numberWithInt:phase];
+        
+        [dicData setObject:phaseNS forKey:@"phase"];
+        [dicData setObject:board.terrainsLayout forKey:@"terrains"];
+    }
+    
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dicData];
+
     
     NSUInteger nextIndex = (currentIndex + 1) % [currentMatch.participants count];
     nextParticipant = [currentMatch.participants objectAtIndex:nextIndex];

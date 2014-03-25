@@ -70,8 +70,11 @@
     b.canTapDone = YES;
     
     if ([match.matchData bytes]) {
-        NSString *storySoFar = [NSString stringWithUTF8String:[match.matchData bytes]];
-        NSLog(@"Taking turn for existing game... %@",storySoFar);
+        NSDictionary *myDictionary = (NSDictionary*) [NSKeyedUnarchiver unarchiveObjectWithData:match.matchData];
+
+        
+        
+        NSLog(@"Taking turn for existing game... %@",myDictionary);
 //        mainTextController.text = storySoFar;
     }
 }
