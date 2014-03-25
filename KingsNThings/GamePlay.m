@@ -458,22 +458,102 @@ return NULL;
     
     NSTimeInterval interval = 450.0;
     
-    [currentMatch endTurnWithNextParticipants:currentMatch.participants turnTimeout:interval matchData:data completionHandler:^(NSError *error) {
+//    [currentMatch endTurnWithNextParticipants:currentMatch.participants turnTimeout:interval matchData:data completionHandler:^(NSError *error) {
+//        if (error) {
+//            NSLog(@"error ending turn tho%@", error);
+//        }
+//        else{
+//            NSLog(@"done ending turn : %@",currentMatch.currentParticipant);
+//        }
+//    }];
+//    
+    
+    
+    
+    NSUInteger currentIndex = [currentMatch.participants indexOfObject:currentMatch.currentParticipant];
+    GKTurnBasedParticipant *nextParticipant;
+    
+    NSUInteger nextIndex = (currentIndex + 1) % [currentMatch.participants count];
+    nextParticipant = [currentMatch.participants objectAtIndex:nextIndex];
+    
+    [currentMatch endTurnWithNextParticipant:nextParticipant matchData:data completionHandler:^(NSError *error) {
         if (error) {
-            NSLog(@"error ending turn tho%@", error);
-        }
-        else{
+            NSLog(@"%@", error);
+            //                statusLabel.text = @"Oops, there was a problem.  Try that again.";
+        } else {
             NSLog(@"done ending turn : %@",currentMatch.currentParticipant);
+            //                statusLabel.text = @"Your turn is over.";
+            //                textInputField.enabled = NO;
         }
     }];
     
     
 }
 
--(void) specialCharactersRecruiting:(Player*) player{
-    
-    
-}
+
+//
+//- (void)endTurn:(id)sender {
+//    GKTurnBasedMatch *currentMatch = [[GCTurnBasedMatchHelper sharedInstance] currentMatch];
+//    NSString *newStoryString = @"heyy";
+////    if ([textInputField.text length] > 250) {
+////        newStoryString = [textInputField.text substringToIndex:249];
+////    } else {
+////        newStoryString = textInputField.text;
+////    }
+//    
+//    NSString *sendString = [NSString stringWithFormat:@"%@", newStoryString];
+//    NSData *data = [sendString dataUsingEncoding:NSUTF8StringEncoding ];
+////    mainTextController.text = sendString;
+//    
+//    NSUInteger currentIndex = [currentMatch.participants indexOfObject:currentMatch.currentParticipant];
+//    GKTurnBasedParticipant *nextParticipant;
+//    
+//    NSUInteger nextIndex = (currentIndex + 1) % [currentMatch.participants count];
+//    nextParticipant = [currentMatch.participants objectAtIndex:nextIndex];
+//    
+//    for (int i = 0; i < [currentMatch.participants count]; i++) {
+//        nextParticipant = [currentMatch.participants objectAtIndex:((currentIndex + 1 + i) % [currentMatch.participants count ])];
+//        if (nextParticipant.matchOutcome != GKTurnBasedMatchOutcomeQuit) {
+//            NSLog(@"isnt' quit %@", nextParticipant);
+//            break;
+//        } else {
+//            NSLog(@"nex part %@", nextParticipant);
+//        }
+//    }
+//    
+//    if ([data length] > 3800) {
+//        for (GKTurnBasedParticipant *part in currentMatch.participants) {
+//            part.matchOutcome = GKTurnBasedMatchOutcomeTied;
+//        }
+//        [currentMatch endMatchInTurnWithMatchData:data completionHandler:^(NSError *error) {
+//            if (error) {
+//                NSLog(@"%@", error);
+//            }
+//        }];
+////        statusLabel.text = @"Game has ended";
+//    } else {
+//        
+//        [currentMatch endTurnWithNextParticipant:nextParticipant matchData:data completionHandler:^(NSError *error) {
+//            if (error) {
+//                NSLog(@"%@", error);
+////                statusLabel.text = @"Oops, there was a problem.  Try that again.";
+//            } else {
+//                NSLog(@"done ending turn : %@",currentMatch.currentParticipant);
+////                statusLabel.text = @"Your turn is over.";
+////                textInputField.enabled = NO;
+//            }
+//        }];
+//    }
+//    NSLog(@"Send Turn, %@, %@", data, nextParticipant);
+////    textInputField.text = @"";
+////    characterCountLabel.text = @"250";
+////    characterCountLabel.textColor = [UIColor blackColor];
+//}
+//
+//-(void) specialCharactersRecruiting:(Player*) player{
+//    
+//    
+//}
 
 -(BOOL) validateHex:(Terrain*)terrain forPlayer:(Player*)player{
     
