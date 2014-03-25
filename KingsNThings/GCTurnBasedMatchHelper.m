@@ -32,11 +32,9 @@ static GCTurnBasedMatchHelper *sharedHelper = nil;
     request.minPlayers = minPlayers;
     request.maxPlayers = maxPlayers;
     
-    GKTurnBasedMatchmakerViewController *mmvc =
-    [[GKTurnBasedMatchmakerViewController alloc]
-     initWithMatchRequest:request];
+    GKTurnBasedMatchmakerViewController *mmvc = [[GKTurnBasedMatchmakerViewController alloc] initWithMatchRequest:request];
     mmvc.turnBasedMatchmakerDelegate = self;
-    mmvc.showExistingMatches = YES;
+    mmvc.showExistingMatches = NO;
     
     [presentingViewController presentViewController:mmvc animated:YES completion:nil];
 }
@@ -120,7 +118,7 @@ static GCTurnBasedMatchHelper *sharedHelper = nil;
 - (void)turnBasedMatchmakerViewController:(GKTurnBasedMatchmakerViewController *)viewController didFindMatch:(GKTurnBasedMatch *)match
 {
     [viewController dismissViewControllerAnimated:YES completion:nil];
-    NSLog(@"matched users were %d", match.participants.count);
+    NSLog(@"matched users were %d", match.status);
     self.currentMatch = match;
 
 //    [self openScene];
