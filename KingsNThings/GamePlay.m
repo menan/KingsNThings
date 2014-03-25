@@ -464,7 +464,7 @@ return NULL;
     
     
     while (nextParticipant.status == GKTurnBasedParticipantStatusActive) {
-        
+        NSLog(@"current player status %d",nextParticipant.status);
         NSUInteger nextIndex = (currentIndex + 1) % [currentMatch.participants count];
         nextParticipant = [currentMatch.participants objectAtIndex:nextIndex];
     }
@@ -474,7 +474,7 @@ return NULL;
             NSLog(@"%@", error);
             //                statusLabel.text = @"Oops, there was a problem.  Try that again.";
         } else {
-            NSLog(@"done ending turn : %@",currentMatch.currentParticipant);
+            NSLog(@"done ending turn : %@",nextParticipant);
             //                statusLabel.text = @"Your turn is over.";
             //                textInputField.enabled = NO;
         }
