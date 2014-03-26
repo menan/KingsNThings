@@ -36,6 +36,7 @@
     SKLabelNode* diceOneLabel;
     SKLabelNode* diceTwoLabel;
     
+    BOOL trueEliminationRule;
     
     int playersCount;
     
@@ -69,8 +70,10 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         markersArray = [[NSMutableArray alloc] init];
         
         canTapDone = NO;
+        trueEliminationRule = NO;
         
     }
+    
     return self;
 }
 //
@@ -771,14 +774,17 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 - (BOOL) removeCreatureByName:(NSString *) name{
     for (Creature *c in bowl) {
         if ([c.name isEqualToString:name]) {
-            [bowl removeObject:c];
+            //[bowl removeObject:c];
+            
+            [self removeThingFromBowl:c];
             NSLog(@"just removed %@ from the bowl",name);
             return YES;
         }
     }
     for (Creature *c in [[game currentPlayer] rack]) {
         if ([c.name isEqualToString:name]) {
-            [bowl removeObject:c];
+            //[bowl removeObject:c];
+            [self removeThingFromBowl:c];
             [game currentPlayer].recruitsRemaining++;
             [self updateRecruitLabel:[game currentPlayer]];
             NSLog(@"just removed %@ from the player rack",name);
@@ -823,7 +829,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         if (bowled) {
             Creature *c = [[game currentPlayer] findCreatureOnRackByName:node.name];
             if (c){
-                [bowl addObject:c];
+                [self returnThingToBowl:c];
                 [[game currentPlayer] returnedACreature];
                 [self updateRecruitLabel:[game currentPlayer]];
                 [self redrawCreatures];
@@ -1194,6 +1200,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     else{
         Creature *creature = [self findCreatureByName:n.name];
         [self addToRack:creature];
+//////////        //should remove from bowl?!!
     }
     Player *currentPlayer;
     if ([[game findPlayersByTerrain:t] count] == 0) {
@@ -1531,7 +1538,10 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 if(!tempCounter){
                     if([temp.terrainType isEqualToString:terrain.type]){ // if thing belongs to terrain
                         [a addCreatures:[bowl objectAtIndex:index]];
-                        [bowl removeObjectAtIndex:index];
+                        //[bowl removeObjectAtIndex:index];
+                        id item = [bowl objectAtIndex:index];
+                        //[bowl removeObjectAtIndex:index];
+                        [self removeThingFromBowl:item];
                         number-=1;
                         tempCounter = temp;
                         [self redrawCreatures];
@@ -1542,7 +1552,8 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                         //nothing should be done
                         [bowl addObject:tempCounter];
                         [a addCreatures:temp];
-                        [bowl removeObject:tempCounter];
+                        //[bowl removeObject:tempCounter];
+                        [self removeThingFromBowl:tempCounter];
                         [self redrawCreatures];
                         number-=1;
                     }
@@ -1553,7 +1564,9 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             }
             else if (temp.isTreasure){
                 [a addCreatures:[bowl objectAtIndex:index]];
-                [bowl removeObjectAtIndex:index];
+                id item = [bowl objectAtIndex:index];
+                //[bowl removeObjectAtIndex:index];
+                [self removeThingFromBowl:item];
                 number-=1;
                 
                 [self redrawCreatures];
@@ -1561,8 +1574,9 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         }
         else{// thing is a creature
             [a addCreatures:[bowl objectAtIndex:index]];
-            [bowl removeObjectAtIndex:index];
-            
+            id item = [bowl objectAtIndex:index];
+            //[bowl removeObjectAtIndex:index];
+            [self removeThingFromBowl:item];
             number-=1;
             [self redrawCreatures];
         }
@@ -1586,16 +1600,19 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     
     if([temp isTreasure]){
         [self addToRack:temp];
-        [bowl removeObject:temp];
+        //[bowl removeObject:temp];
+        [self removeThingFromBowl:temp];
     }
     else{
         if([temp.terrainType isEqualToString:t.type]){
             if([t hasSpecialIncome]){
                 [self addToRack:temp];
-                [bowl removeObject:temp];
+                //[bowl removeObject:temp];
+                [self removeThingFromBowl:temp];
             }
             else {
-                [bowl removeObject:temp];
+                //[bowl removeObject:temp];
+                [self removeThingFromBowl:temp];
                 [game.currentPlayer addSpecialIncome:temp];
                 game.currentPlayer.recruitsRemaining--;
                 [t setHasSpecialIncome:YES];
@@ -1604,7 +1621,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         }
         else{
             [self addToRack:temp];
-            [bowl removeObject:temp];
+            [self removeThingFromBowl:temp];
             
         }
     }
@@ -1617,7 +1634,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     
     [self withdrawFromBank:sp.goldValue];
     [self updateBank];
-    [bowl addObject:sp];
+    [self returnThingToBowl:sp];
     [node removeFromParent];
     [[game.currentPlayer rack] removeObject:sp];
     [self redrawCreatures];

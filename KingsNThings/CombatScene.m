@@ -29,6 +29,7 @@
     NSInteger numberOfrolls;
     //UITextField *textField;
     UITextView *textView;
+    int diceOneRolled,diceTwoRolled;
     
     
 }
@@ -148,6 +149,7 @@
         ++j;
         
     }
+    //for(SpecialIncome)
     
         
     if([combat building] != nil){
@@ -205,7 +207,7 @@
 - (void) rollDiceOne{
     int r = (arc4random() % 6) + 1;
     diceOneLabel.text = [NSString stringWithFormat:@"%d",r];
-    
+    diceOneRolled = r;
     if([combat isAttacker]){
     [[combat attackerRolledDice]addObject:[NSNumber numberWithInt:r]];
         numberOfrolls -= 1;
@@ -221,6 +223,7 @@
     
     int r = (arc4random() % 6) + 1 ;
     diceTwoLabel.text = [NSString stringWithFormat:@"%d",r];
+    diceTwoRolled = r;
     
     if([combat isAttacker]){
         [[combat attackerRolledDice]addObject:[NSNumber numberWithInt:r]];
@@ -462,6 +465,30 @@ float degToRad(float degree) {
         
         
         
+    }
+    
+}
+-(void) postCombatScene{
+    diceOneRolled = 0;
+    diceTwoRolled = 0;
+    if([combat building]){
+        
+        [self setInstructionText:@"attacker roll dice to check left overs conditions"];
+        
+        NSRunLoop *loop = [NSRunLoop currentRunLoop];
+        while (((diceOneRolled == 0) && (diceTwoRolled == 0))&&
+               ([loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate
+                                                               distantFuture]]))
+        {}
+        if(diceOneRolled == 1 || diceOneRolled == 6 || diceTwoRolled == 1 || diceTwoRolled ==6){
+            
+            //reduce fort except for citadel
+        }
+        else {
+        
+            // no damage and added to attacker collection
+        }
+
     }
     
 }

@@ -549,6 +549,10 @@
         [attacker setHasWonCombat:YES];
         
         [combatScene setInstructionText:@"We have a WINNER "];
+        [combatScene postCombatScene];
+        if((building.stage == Citadel) && [attacker hasBuiltCitadel]){
+////////////////////////// game should end
+        }
     }
     else if ([defenderArmy creaturesInArmy] > 0){
         [defender setHasWonCombat:YES];

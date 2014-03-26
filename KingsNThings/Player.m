@@ -239,6 +239,15 @@ static int counter = 0;
     }
     return nil;
 }
+/*-(SpecialIncome*) getSpecialIncomeOnTerrain:(Terrain*)ter{
+    
+    for (SpecialIncome *sp in specialIncome) {
+        if([[sp terrain] isEqual:ter]){
+                        return sp;
+        }
+    }
+    return nil;
+}*/
 
 -(BOOL) removeBuilding:(Building*) oldBuilding;
 {
