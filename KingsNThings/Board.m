@@ -1639,6 +1639,29 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     [[game.currentPlayer rack] removeObject:sp];
     [self redrawCreatures];
 }
+-(void) returnThingToBowl:(id) thing{
+    
+    if(trueEliminationRule && [thing isKindOfClass:[SpecialIncome class]]){
+        
+        
+        SpecialIncome* item = (SpecialIncome*)thing;
+        if(!([item type] == Magic )|| !([item type] == Event) || !([item type] == Treasure))
+            [bowl addObject:thing];
+        
+    }
+    else{
+        [bowl addObject:thing];
+    }
+}
+
+-(void) removeThingFromBowl:(id) thing{
+    
+    [bowl removeObject:thing];
+    
+    if([bowl count] == 0)
+        trueEliminationRule = YES;
+    
+}
 
 
 - (void) constructTerrainFromDictionary:(NSArray *) terrains{
@@ -1679,6 +1702,9 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         
         
     }
+    
+    if([bowl count] == 0)
+        trueEliminationRule = YES;
     
 }
 

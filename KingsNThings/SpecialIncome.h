@@ -17,7 +17,7 @@ typedef enum Type : NSUInteger {
     Event,
     Magic,
     KeyedToTerrain,
-    NONE
+    None
 }Type;
 
 @property int goldValue;
