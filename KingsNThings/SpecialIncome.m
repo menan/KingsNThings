@@ -95,7 +95,7 @@ int position;
             }
             else{
             
-                type = KeyedToTerrain;
+                type = Docked;
                 
                 terrainType = [trimmed substringFromIndex:2];
             
