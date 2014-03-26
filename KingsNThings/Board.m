@@ -18,7 +18,6 @@
 
 @implementation Board{
     NSArray *terrainNames;
-    
     //NSMutableArray *terrain;
     NSMutableArray *bowl;
     NSArray* markers;
@@ -43,7 +42,9 @@
 }
 static NSString * const defaultText = @"KingsNThings - Team24";
 
-@synthesize textLabel,dicesClicked,creaturesInBowl,recruitLabel,game,disabled,nonMovables,bank,bowlLocaiton,doneButton,canTapDone,terrainsLayout;
+static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
+
+@synthesize textLabel,dicesClicked,creaturesInBowl,recruitLabel,game,disabled,nonMovables,bank,bowlLocaiton,doneButton,canTapDone,terrainsLayout,markersArray;
 - (id)initWithScene: (MyScene *) aScene atPoint: (CGPoint) aPoint withSize: (CGSize) aSize
 {
     self = [super init];
@@ -64,7 +65,8 @@ static NSString * const defaultText = @"KingsNThings - Team24";
         creaturesInBowl = 0;
         dicesClicked = 0;
         
-        markers = @[@"p_yellow.jpg",@"p_grey.jpg",@"p_green.jpg",@"p_red.jpg"];
+        markers = @[@"p_yellow.jpg",@"p_gray.jpg",@"p_green.jpg",@"p_red.jpg"];
+        markersArray = [[NSMutableArray alloc] init];
         
         canTapDone = NO;
         
@@ -437,11 +439,10 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 
 - (void) drawMarkersForPlayer:(int) j{
     CGPoint aPoint = CGPointMake(360.0f, 25.0f);
-    NSArray *images = @[@"p_yellow.jpg",@"p_gray.jpg",@"p_green.jpg",@"p_red.jpg"];
     float offset = 43;
     
     for (int i = 0; i <= 50; i++) {
-        SKSpriteNode *playerNode = [SKSpriteNode spriteNodeWithImageNamed:[images objectAtIndex:j]];
+        SKSpriteNode *playerNode = [SKSpriteNode spriteNodeWithImageNamed:[markers objectAtIndex:j]];
         [playerNode setName:[NSString stringWithFormat:@"Player %d",j + 1]];
         playerNode.size = CGSizeMake(40,40);
         [playerNode setPosition:CGPointMake(aPoint.x + (j * offset), aPoint.y )];
@@ -788,20 +789,6 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 }
 
 
-//- (void) nodeTapped:(SKSpriteNode*) node{
-//        [textLabel setText:[node name]];
-//    if([node.accessibilityLabel isEqualToString:@"special"]){
-//        [node removeAllActions];
-//        SKAction *sequence = [SKAction sequence:@[[SKAction rotateByAngle:degToRad(-4.0f) duration:0.1],[SKAction rotateByAngle:0.0 duration:0.1],[SKAction rotateByAngle:degToRad(4.0f) duration:0.1]]];
-//        [node runAction:[SKAction repeatActionForever:sequence]];
-//        [self recruiteSpecial:node];
-//
-//    }
-//}
-//float degToRad(float degree) {
-//	return degree / 180.0f * M_PI;
-//}
-
 - (void) nodeMoving:(SKSpriteNode*) node to:(CGPoint) movedTo{
     [node setPosition:movedTo];
 }
@@ -876,9 +863,20 @@ static NSString * const defaultText = @"KingsNThings - Team24";
                     [temp setHasArmyOnIt:NO];
                     
                     
+                    
                     node.name = @"bowl";
                     [node setSize:CGSizeMake(sizeNode, sizeNode)];
                     [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
+                    
+                    [markersArray addObject:
+                      [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:(temp.node.position.x + 10)],@"X",[NSNumber numberWithFloat:(temp.node.position.y + 22)],@"Y", [NSNumber numberWithInt:0],@"playerId", nil]];
+                    
+                    if (markersArray.count >= 3) {
+                        [self showDone];
+                    }
+                }
+                else{
+                    NSLog(@"error setting terrain");
                 }
             }
             
@@ -892,12 +890,12 @@ static NSString * const defaultText = @"KingsNThings - Team24";
                 [temp setHasArmyOnIt:NO];
                 
                 
+                
                 node.name = @"bowl";
                 [node setSize:CGSizeMake(sizeNode, sizeNode)];
                 [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
             }
         }
-        
     }
     else if (terrainLocated && [node.name isEqualToString:@"Player 2"]) {
         Terrain* temp = [game findTerrainAt:terrainPoint];
@@ -914,6 +912,14 @@ static NSString * const defaultText = @"KingsNThings - Team24";
                     node.name = @"bowl";
                     [node setSize:CGSizeMake(sizeNode, sizeNode)];
                     [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
+                    
+                    
+                    [markersArray addObject:
+                     [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:(temp.node.position.x + 10)],@"X",[NSNumber numberWithFloat:(temp.node.position.y + 22)],@"Y",[NSNumber numberWithInt:1],@"playerId", nil]];
+                    
+                    if (markersArray.count >= 3) {
+                        [self showDone];
+                    }
                 }
             }
             else{
@@ -949,6 +955,14 @@ static NSString * const defaultText = @"KingsNThings - Team24";
                     node.name = @"bowl";
                     [node setSize:CGSizeMake(sizeNode, sizeNode)];
                     [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
+                    
+                    
+                    [markersArray addObject:
+                     [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:(temp.node.position.x + 10)],@"X",[NSNumber numberWithFloat:(temp.node.position.y + 22)],@"Y",[NSNumber numberWithInt:2],@"playerId", nil]];
+                    
+                    if (markersArray.count >= 3) {
+                        [self showDone];
+                    }
                 }
             }
             
@@ -984,6 +998,14 @@ static NSString * const defaultText = @"KingsNThings - Team24";
                     node.name = @"bowl";
                     [node setSize:CGSizeMake(sizeNode, sizeNode)];
                     [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
+                    
+                    
+                    [markersArray addObject:
+                     [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:(temp.node.position.x + 10)],@"X",[NSNumber numberWithFloat:(temp.node.position.y + 22)],@"Y",[NSNumber numberWithInt:3],@"playerId", nil]];
+                    
+                    if (markersArray.count >= 3) {
+                        [self showDone];
+                    }
                 }
             }
             
@@ -1188,6 +1210,19 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     
 }
 
+
+- (void) showDone{
+    doneButton.hidden = NO;
+    canTapDone = YES;
+}
+
+- (void) hideDone{
+    doneButton.hidden = YES;
+    canTapDone = NO;
+}
+
+
+
 - (void) addToRack: (id) item{
     if ([game currentPlayer].rack.count <= 10) {
         SKSpriteNode *itemNode;
@@ -1258,8 +1293,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 
 
 -(void) constructBuilding:(Player*)owner withBuilding:(SKSpriteNode*)node onTerrain:(Terrain*)t{
-    float sizeNode = 26;
-    float towerSizeNode = sizeNode + 4;
+    float towerSizeNode = PLACE_MARKER_DOCKED_SIZE + 4;
     
     if([game isInitialPhase]){
         if(![node.accessibilityLabel isEqualToString:@"tower"]){
@@ -1588,4 +1622,49 @@ static NSString * const defaultText = @"KingsNThings - Team24";
     [[game.currentPlayer rack] removeObject:sp];
     [self redrawCreatures];
 }
+
+
+- (void) constructTerrainFromDictionary:(NSArray *) terrains{
+    NSLog(@"gonna construct terrains with %d",terrains.count);
+    
+    
+    for (NSDictionary *t in terrains) {
+        
+    }
+}
+
+- (void) constructPlacemarkerFromDictionary:(NSArray *) placemarkers{
+    NSLog(@"gonna construct placemarkers with from the data %d",placemarkers.count);
+    
+    for (NSDictionary *m in placemarkers) {
+        CGPoint pointMarker = CGPointMake([[m objectForKey:@"X"] floatValue], [[m objectForKey:@"Y"] floatValue]);
+        int playerId = [[m objectForKey:@"playerId"] integerValue];
+        
+        
+        Terrain* temp = [game findTerrainAt:[board nodeAtPoint:pointMarker].position];
+        Player *p = [[game players] objectAtIndex:playerId];
+        
+        if (temp && [p setTerritory:temp]){
+            
+            [temp setHasArmyOnIt:NO];
+        
+            
+            SKSpriteNode *node = [SKSpriteNode spriteNodeWithImageNamed:[markers objectAtIndex:playerId]];
+            node.name = @"bowl";
+            node.size = CGSizeMake(PLACE_MARKER_DOCKED_SIZE,PLACE_MARKER_DOCKED_SIZE);
+            node.position = pointMarker;
+            [board addChild:node];
+            
+            
+            [markersArray addObject:m];
+        }
+
+        
+        
+    }
+    
+}
+
+
+
 @end

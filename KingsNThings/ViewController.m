@@ -58,30 +58,25 @@
 
 
 -(void)enterNewGame:(GKTurnBasedMatch *)match {
-    NSLog(@"Entering new game...");
+    NSLog(@"Entering new game, place your markers first...");
     
-    Board *b = [scene getBoard];
-    b.doneButton.hidden = NO;
-    b.canTapDone = YES;
-    
-    
-//    mainTextController.text = @"Once upon a time";
 }
 
 -(void)takeTurn:(GKTurnBasedMatch *)match {
     NSLog(@"Taking turn for existing game...");
     
     Board *b = [scene getBoard];
-    b.doneButton.hidden = NO;
-    b.canTapDone = YES;
+    [b showDone];
     
     if ([match.matchData bytes]) {
         NSDictionary *myDictionary = (NSDictionary*) [NSKeyedUnarchiver unarchiveObjectWithData:match.matchData];
 
+        if ([[myDictionary objectForKey:@"phase"] integerValue] == Initial) {
+            [b constructPlacemarkerFromDictionary:[myDictionary objectForKey:@"markers"]];
+//            [b constructTerrainFromDictionary:[myDictionary objectForKey:@"terrains"]];
+        }
         
-        
-        NSLog(@"Taking turn for existing game... %@",myDictionary);
-//        mainTextController.text = storySoFar;
+        NSLog(@"Taking turn for existing game with the received data...");
     }
 }
 

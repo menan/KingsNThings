@@ -58,10 +58,13 @@ static int counter = 0;
 
 
 - (BOOL) setTerritory: (Terrain *) territory{
-    if(territory != nil){
+    if(territory != nil && ![territories containsObject:territory]){
         [territories addObject:territory];
         NSLog(@"player territory is set for : %@ %d , player is %d ", territory.node.name, [territories count],playingOrder);
         return YES;
+    }
+    else{
+        NSLog(@"this territory must already be present to this user");
     }
     return NO;
 }

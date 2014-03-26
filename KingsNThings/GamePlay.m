@@ -495,21 +495,7 @@ return NULL;
         
         [dicData setObject:phaseNS forKey:@"phase"];
         [dicData setObject:board.terrainsDictionary forKey:@"terrains"];
-        
-        NSMutableArray *markers = [[NSMutableArray alloc] init];
-        
-        
-        for (Player *p in players) {
-            NSDictionary *marker = [[NSDictionary alloc] init];
-            for (Terrain *t in [p getTerritories]) {
-//                [marker setValue:t.node.position forKey:@"position"]
-                
-            }
-        }
-        
-        
-        
-        [dicData setObject:markers forKey:@"markers"];
+        [dicData setObject:board.markersArray forKey:@"markers"];
     }
     
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dicData];
