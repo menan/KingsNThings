@@ -60,26 +60,63 @@
 -(void)enterNewGame:(GKTurnBasedMatch *)match {
     NSLog(@"Entering new game, place your markers first...");
     
+    [self processData:match.matchData];
+    
 }
 
 -(void)takeTurn:(GKTurnBasedMatch *)match {
     NSLog(@"Taking turn for existing game...");
     
-    Board *b = [scene getBoard];
-    [b showDone];
+    [self processData:match.matchData];
     
-    if ([match.matchData bytes]) {
-        NSDictionary *myDictionary = (NSDictionary*) [NSKeyedUnarchiver unarchiveObjectWithData:match.matchData];
+    GamePlay *g = [scene getGame];
+    
+    if (match.currentParticipant == [match.participants objectAtIndex:0]) {
+        NSLog(@"came to first player turn again. should advance phase right?");
+        if (g.phase == Initial) {
+            [g advancePhase:GoldCollection];
+        }
+        else if(g.phase == GoldCollection){
+            [g advancePhase:Recruitment];
+        }
+        else if(g.phase == Recruitment){
+            [g advancePhase:SpecialRecruitment];
+        }
+        else if(g.phase == SpecialRecruitment){
+            [g advancePhase:Movement];
+        }
+        else if(g.phase == Movement){
+            [g advancePhase:Combat];
+        }
+        else if(g.phase == Movement){
+            [g advancePhase:Combat];
+        }
+    }
+    
+}
 
-        if ([[myDictionary objectForKey:@"phase"] integerValue] == Initial) {
+
+- (void) processData:(NSData *) data{
+    
+    Board *b = [scene getBoard];
+    GamePlay *g = [scene getGame];
+//    [b showDone];
+    if ([data bytes]) {
+        NSDictionary *myDictionary = (NSDictionary*) [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        
+        Phase p = [[myDictionary objectForKey:@"phase"] integerValue];
+        
+        if (p == Initial) {
             [b constructPlacemarkerFromDictionary:[myDictionary objectForKey:@"markers"]];
-//            [b constructTerrainFromDictionary:[myDictionary objectForKey:@"terrains"]];
+            //            [b constructTerrainFromDictionary:[myDictionary objectForKey:@"terrains"]];
+        }
+        else if(p == GoldCollection){
+            [g advancePhase:p];
         }
         
         NSLog(@"Taking turn for existing game with the received data...");
     }
 }
-
 
 -(void)checkForEnding:(NSData *)matchData {
     if ([matchData length] > 3000) {
@@ -97,10 +134,7 @@
         int playerNum = [match.participants indexOfObject:match.currentParticipant] + 1;
         statusString = [NSString stringWithFormat:@"Player %d's Turn", playerNum];
     }
-//    statusLabel.text = statusString;
-//    textInputField.enabled = NO;
-    NSString *storySoFar = [NSString stringWithUTF8String:[match.matchData bytes]];
-//    mainTextController.text = storySoFar;
+    
     [self checkForEnding:match.matchData];
 }
 

@@ -30,8 +30,8 @@ static GCTurnBasedMatchHelper *sharedHelper = nil;
 #pragma mark GKLocalPlayerDelegate
 
 - (void)player: (GKPlayer *)player
-        receivedTurnEventForMatch: (GKTurnBasedMatch *)match
-        didBecomeActive: (BOOL)didBecomeActive
+receivedTurnEventForMatch: (GKTurnBasedMatch *)match
+didBecomeActive: (BOOL)didBecomeActive
 {
     
     NSLog(@"Turn has happened");
@@ -49,8 +49,7 @@ static GCTurnBasedMatchHelper *sharedHelper = nil;
         }
     } else {
         if ([match.currentParticipant.playerID isEqualToString:[GKLocalPlayer localPlayer].playerID]) {
-            // it's not the current match and it's our turn now
-            [delegate sendNotice:@"Welcome to Kings and Things. Have fun." forMatch:match];
+            [delegate enterNewGame:match];
         } else {
             // it's the not current match, and it's someone else's turn
         }
@@ -58,7 +57,7 @@ static GCTurnBasedMatchHelper *sharedHelper = nil;
 }
 
 - (void)player: (GKPlayer *)player
-        didRequestMatchWithPlayers: (NSArray *)playerIDsToInvite
+didRequestMatchWithPlayers: (NSArray *)playerIDsToInvite
 {
     NSLog(@"new invite");
     
@@ -76,7 +75,7 @@ static GCTurnBasedMatchHelper *sharedHelper = nil;
     
 }
 - (void)player: (GKPlayer *)player
-        matchEnded: (GKTurnBasedMatch *)match
+    matchEnded: (GKTurnBasedMatch *)match
 {
     
     NSLog(@"Game has ended");

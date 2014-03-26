@@ -33,6 +33,7 @@
 @property BOOL isWaitingCombat;
 @property BOOL playerLeft;
 @property BOOL hasBuiltCitadel;
+@property BOOL doneInitial;
 @property NSMutableDictionary * combat;
 
 

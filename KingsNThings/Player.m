@@ -25,7 +25,7 @@
 
 static int counter = 0;
 
-@synthesize armies,playingOrder,bank,army,returnedCreatures, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat,playerLeft,movementsRemaining,rack,hasBuiltCitadel,specialIncome;
+@synthesize armies,playingOrder,bank,army,returnedCreatures, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat,playerLeft,movementsRemaining,rack,hasBuiltCitadel,specialIncome,doneInitial;
 
 -(id) init{
     
@@ -51,6 +51,7 @@ static int counter = 0;
         isWaitingCombat = NO;
         playerLeft = NO;
         hasBuiltCitadel = NO;
+        doneInitial = NO;
     }
     return self;
  

@@ -90,9 +90,14 @@
     
 }
 
+
 - (Player *) currentPlayer{
-    return [players objectAtIndex:0];
+    GKTurnBasedMatch *currentMatch = [[GCTurnBasedMatchHelper sharedInstance] currentMatch];
+    return [players objectAtIndex:[currentMatch.participants indexOfObject:currentMatch.currentParticipant]];
 }
+
+
+
 -(NSInteger)buildingCost{
     if([players count] == 4)
         return 20;
@@ -490,12 +495,15 @@ return NULL;
     
     NSMutableDictionary *dicData = [[NSMutableDictionary alloc] init];
     
+    NSNumber *phaseNS = [NSNumber numberWithInt:phase];
+    [dicData setObject:phaseNS forKey:@"phase"];
     if (phase == Initial) {
-        NSNumber *phaseNS = [NSNumber numberWithInt:phase];
-        
-        [dicData setObject:phaseNS forKey:@"phase"];
         [dicData setObject:board.terrainsDictionary forKey:@"terrains"];
         [dicData setObject:board.markersArray forKey:@"markers"];
+        [self currentPlayer].doneInitial = YES;
+    }
+    else if(phase == GoldCollection){
+        
     }
     
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dicData];

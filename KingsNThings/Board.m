@@ -366,6 +366,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     doneButton.hidden = YES;
     [board addChild:doneButton];
     
+    [self hideDone];
     
     
     SKSpriteNode *battle = [SKSpriteNode spriteNodeWithImageNamed:@"battle.jpg"];
@@ -1271,25 +1272,26 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     
     //    [game checkBluffForPlayer:[game currentPlayer]];
     
+    
+    
     for(Player * p in game.players){
         totalIncome += [p getIncome];
     }
     //checks if the phase is intial and theres moeny in the bank for everyone before proceeding.
     if (game.phase == GoldCollection && totalIncome <= [bank getBalance]) {
-        for(Player * p in game.players){
-            
-            [bank withdraw:[p getIncome]];
-            [p.bank deposit:[p getIncome]];
-            
-            //            NSLog(@"Player balance %d after deposition and income was %d", [p.bank getBalance], [p getIncome]);
-            p.recruitsRemaining = 2;
-            recruitLabel.text = [NSString stringWithFormat: @"%d Recruits Remaining", p.recruitsRemaining];
-        }
+        Player * p = [game currentPlayer];
+        [bank withdraw:[p getIncome]];
+        [p.bank deposit:[p getIncome]];
         
+        //            NSLog(@"Player balance %d after deposition and income was %d", [p.bank getBalance], [p getIncome]);
+        p.recruitsRemaining = 2;
+        recruitLabel.text = [NSString stringWithFormat: @"%d Recruits Remaining", p.recruitsRemaining];
+
         //        NSLog(@"bank balance after collection phase completion %d", [bank getBalance]);
         [self updateBank];
-        
-        [game advancePhase:Recruitment];
+        [self showDone];
+        [[board childNodeWithName:@"collection"] removeFromParent];
+//        [game advancePhase:Recruitment];
         return YES;
     }
     else{

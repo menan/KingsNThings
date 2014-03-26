@@ -16,7 +16,7 @@ typedef enum Type : NSUInteger {
     Treasure,
     Event,
     Magic,
-    Docked,
+    Docked, //keyed to the terrain
     None
 }Type;
 
