@@ -109,33 +109,8 @@
     scene = sce;
 }
 
--(Terrain*) findTerrainAt:(CGPoint)thisPoint{
-for (Terrain *terrain in terrains) {
-    if (terrain.node.position.x == thisPoint.x && terrain.node.position.y == thisPoint.y) {
-        return terrain;
-    }
-}
-return NULL;
-}
 
-- (Player *) findPlayerByTerrain:(Terrain *) terrain{
-    for (Player *p in players) {
-        if ([[p getTerritories] containsObject:terrain]) {
-            return p;
-        }
-    }
-    return NULL;
-}
-- (NSMutableArray *) findPlayersByTerrain:(Terrain *) terrain{
-    NSMutableArray *playersArray = [[NSMutableArray alloc] init];
-    
-    for (Player *p in players) {
-        if ([[p getTerritories] containsObject:terrain]) {
-            [playersArray addObject:p];
-        }
-    }
-    return playersArray;
-}
+
 
 - (BOOL) recruitmentComplete{
     
@@ -575,5 +550,74 @@ return NULL;
     
     return tempArray;
 }
+
+
+
+// =============================================
+// please use these helper functions.
+
+
+
+//locates the terrain at a specific point
+-(Terrain*) findTerrainAt:(CGPoint)thisPoint{
+    for (Terrain *terrain in terrains) {
+        if (terrain.node.position.x == thisPoint.x && terrain.node.position.y == thisPoint.y) {
+            return terrain;
+        }
+    }
+    return nil;
+}
+
+
+
+//returns the owner of the hex
+- (Player *) findPlayerByTerrain:(Terrain *) terrain{
+    for (Player *p in players) {
+        if ([[p getTerritories] containsObject:terrain]) {
+            return p;
+        }
+    }
+    return nil;
+}
+
+
+//returns the total number of users in the terrain
+- (NSArray *) findPlayersByTerrain:(Terrain *) terrain{
+    NSMutableArray *playersArray = [[NSMutableArray alloc] init];
+    
+    for (Player *p in players) {
+        for (Army * a in p.armies) {
+            if ([a.terrain isEqual:terrain]) {
+                [playersArray addObject:p];
+            }
+        }
+    }
+    return playersArray;
+}
+
+
+//returns current users on the terrain except the owner
+- (NSArray *) findAttackersByTerrain:(Terrain *) terrain{
+    NSMutableArray *playersArray = [self findPlayersByTerrain:terrain];
+    Player *owner = [self findPlayerByTerrain:terrain];
+    
+    if ([playersArray containsObject:owner]) {
+        [playersArray removeObject:owner];
+    }
+    return playersArray;
+    
+}
+
+
+//tells you if theres an army present on the provided terrain
+- (BOOL) hasArmyOnTerrain:(Terrain *) terrain{
+    if ([self findPlayersByTerrain:terrain].count > 0) {
+        return YES;
+    }
+    else{
+        return NO;
+    }
+}
+
 
 @end

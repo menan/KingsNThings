@@ -32,9 +32,7 @@
     [encoder encodeObject:[NSNumber numberWithFloat:stage] forKey:@"type"];
     [encoder encodeObject:[NSNumber numberWithBool:cost] forKey:@"cost"];
     [encoder encodeObject:[NSNumber numberWithBool:combatValue] forKey:@"combatValue"];
-    [encoder encodeObject:[NSNumber numberWithInteger:location] forKey:@"location"];
-    [encoder encodeObject:[NSNumber numberWithBool:hasSpecialIncome] forKey:@"hasSpecialIncome"];
-    
+    [encoder encodeObject:[NSNumber numberWithBool:combatValue] forKey:@"combatValue"];
 }
 
 
