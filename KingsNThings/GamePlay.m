@@ -299,7 +299,7 @@ return NULL;
         Player *defender = [p.combat objectForKey:@"andPlayer"];
         Army *defArmy = [p.combat objectForKey:@"andDefenderArmy"];
         p.isWaitingCombat = NO;
-        BOOL type = [p.combat objectForKey:@"isDefending"];
+        BOOL type = [[p.combat objectForKey:@"isDefending"] intValue];
         [self combatPhase:p withArmy:a andPlayer:defender withArmy:defArmy isDefending:type];
     }
 }
