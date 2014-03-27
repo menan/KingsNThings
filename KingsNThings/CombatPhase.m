@@ -22,7 +22,7 @@
 @synthesize defenderMagicCreature,defenderRangedCreature,defenderMeleeCreature;
 @synthesize attackerArmy,defenderArmy;
 @synthesize attacker,defender,building;
-@synthesize isMagicRound,isRangedRound,isMeleeRound,isAttacker,isDefender;;
+@synthesize round,isAttacker;
 @synthesize diceOne,diceTwo,type;
 @synthesize attackerRolledDice, defenderRolledDice,attackerNumberOfHits,defenderNumberOfHits,attakerChargeCreatures,defenderChargeCreatures;
 
@@ -174,7 +174,7 @@
     
     
     
-    NSLog(@" at start num of Creatures in Attacker army %d", [attackerArmy creaturesInArmy]);
+     NSLog(@" at start num of Creatures in Attacker army %d", [attackerArmy creaturesInArmy]);
      NSLog(@" at start num of Creatures in defender army %d", [defenderArmy creaturesInArmy]);
     
     
@@ -225,9 +225,7 @@
         defenderNumberOfHits = 0;
         
         
-        isMagicRound = YES;
-        isMeleeRound = NO;
-        isRangedRound = NO;
+        round = MagicRound;
         
         [attackerRolledDice removeAllObjects];
         [defenderRolledDice removeAllObjects];
@@ -235,10 +233,10 @@
         [combatScene setRoundLable:@"Magic Round"];
         
         if([attackerMagicCreature count] > 0){
-            //while([attackerRolledDice count] < [attackerMagicCreature count]){
+           
             
             isAttacker = YES;
-            isDefender = NO;
+            
             NSString* str = @"Attacker: roll one dice for \n ";
             str = [str stringByAppendingString:[NSString stringWithFormat:@"%d",[attackerMagicCreature count]]];
             str = [str stringByAppendingString:@" times."];
@@ -252,14 +250,14 @@
             
         }
         
-        
-        if([defenderMagicCreature count]> 0 || [building isMagic]){
+    
+        if([defenderMagicCreature count]> 0 || (building.combat == Magic)){
             
             
             isAttacker = NO;
-            isDefender = YES;
+         
             NSString* str = @"Defender: roll one dice for \n ";
-            if([building isMagic] && ([building combatValue] > 0)){
+            if((building.combat == Magic) && ([building combatValue] > 0)){
                 str = [str stringByAppendingString:[NSString stringWithFormat:@"%d",[defenderMagicCreature count]+1]];
             }
             else{
@@ -295,7 +293,7 @@
             if(c.combatValue >= [[defenderRolledDice objectAtIndex:i] integerValue] )
                 defenderNumberOfHits += 1;
         }
-        if([building isMagic] && ([building combatValue] > 0)){
+        if((building.combat == Magic)&& ([building combatValue] > 0)){
             if([building combatValue] >= ([defenderRolledDice count] - 1))
                 defenderNumberOfHits +=1;
             
@@ -329,9 +327,7 @@
         defenderNumberOfHits = 0;
         
         
-        isMagicRound = NO;
-        isMeleeRound = NO;
-        isRangedRound = YES;
+        round = RangedRound;
         
         
         [attackerRolledDice removeAllObjects];
@@ -342,7 +338,7 @@
         if([attackerRangedCreature count]> 0){
             
             isAttacker = YES;
-            isDefender = NO;
+          
             NSString* str = @"Attacker: roll one dice for \n ";
             str = [str stringByAppendingString:[NSString stringWithFormat:@"%i",[attackerRangedCreature count]]];
             str = [str stringByAppendingString:@" times."];
@@ -354,10 +350,10 @@
         }
         
         
-        if([defenderRangedCreature count] > 0 || [building isRanged] ){
+        if([defenderRangedCreature count] > 0 || (building.combat == Ranged)){
             NSString* str = @"Defender: roll one dice for \n  ";
 
-            if([building isRanged]&& ([building combatValue]>0)){
+            if((building.combat == Ranged) && ([building combatValue]>0)){
                 str = [str stringByAppendingString:[NSString stringWithFormat:@"%i",[defenderRangedCreature count]+1]];
                 
             }
@@ -365,7 +361,7 @@
                str = [str stringByAppendingString:[NSString stringWithFormat:@"%i",[defenderRangedCreature count]]];
             }
             isAttacker = NO;
-            isDefender = YES;
+            
             
             str = [str stringByAppendingString:@" times."];
             
@@ -393,7 +389,7 @@
             if(c.combatValue >= [[defenderRolledDice objectAtIndex:i] integerValue] )
                     defenderNumberOfHits += 1;
         }
-        if([building isRanged] && ([building combatValue])){
+        if((building.combat == Ranged) && ([building combatValue])){
             if([building combatValue] >= ([defenderRolledDice count] - 1))
                 defenderNumberOfHits +=1;
         }
@@ -421,9 +417,7 @@
         defenderNumberOfHits = 0;
         
         
-        isMagicRound = NO;
-        isMeleeRound = YES;
-        isRangedRound = NO;
+        round = MeleeRound;
         
         
         [attackerRolledDice removeAllObjects];
@@ -435,7 +429,7 @@
            
             
             isAttacker = YES;
-            isDefender = NO;
+            
             
             
             NSString* str = @"Attacker: roll one dice  \n ";
@@ -452,13 +446,13 @@
         }
         
         
-        if([defenderMeleeCreature count] > 0 || [building isMelee]){
+        if([defenderMeleeCreature count] > 0 || (building.combat == Melee)){
             
             isAttacker = NO;
-            isDefender = YES;
+           
             NSString* str = @"Defender: roll one dice for \n  ";
             
-            if([building isMelee] && ([building combatValue]>0)){
+            if((building.combat == Melee) && ([building combatValue]>0)){
                 str = [str stringByAppendingString:[NSString stringWithFormat:@"%i",([defenderMeleeCreature count] - defenderChargeCreatures)+1]];
                 
             }
@@ -524,7 +518,7 @@
             j++;
         }
         
-        if([building isMelee] && ([building combatValue]>0)){
+        if((building.combat == Melee) && ([building combatValue]>0)){
             if([building combatValue] >= ([defenderRolledDice count] - 1))
                 defenderNumberOfHits +=1;
         }

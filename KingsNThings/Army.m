@@ -12,7 +12,7 @@
 
 @implementation Army
 
-@synthesize creatures,position,belongsToP1,belongsToP2,belongsToP3,belongsToP4,imageIsDrawn,terrain,image,armyNumber,playerNumber,building;
+@synthesize creatures,position,imageIsDrawn,terrain,image,armyNumber,playerNumber,building;
 
 
 

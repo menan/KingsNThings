@@ -20,7 +20,15 @@ typedef enum combatType : NSUInteger {
 
 }combatType;
 
+typedef enum Round: NSUInteger{
+    MagicRound,
+    MeleeRound,
+    RangedRound
+    
+}Round;
+
 @property combatType type;
+@property Round round;
 @property NSMutableArray* attackerMagicCreature ;
 @property NSMutableArray* defenderMagicCreature;
 @property NSMutableArray* attackerRangedCreature;
@@ -39,7 +47,8 @@ typedef enum combatType : NSUInteger {
 
 
 
-@property BOOL isMagicRound,isRangedRound,isMeleeRound,isAttacker,isDefender;
+//@property BOOL isMagicRound,isRangedRound,isMeleeRound;
+@property BOOL isAttacker;
 
 @property Player* attacker,*defender;
 @property Army* attackerArmy,*defenderArmy;

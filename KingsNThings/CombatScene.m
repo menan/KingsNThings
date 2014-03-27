@@ -329,7 +329,7 @@ float degToRad(float degree) {
     
     NSRunLoop *loop = [NSRunLoop currentRunLoop];
     
-    if([combat isMagicRound]){
+    if(combat.round == MagicRound){
         
         if([combat isAttacker])
                 numberOfrolls = [[combat attackerMagicCreature] count];
@@ -337,13 +337,13 @@ float degToRad(float degree) {
         else{
             
                 numberOfrolls = [[combat defenderMagicCreature] count];
-                if([combat building] && [[combat building] isMagic])
+                if([combat building] && (combat.building.combat == Magic))
                     numberOfrolls += 1 ;
         }
         
     }
     
-    else if ([combat isRangedRound]){
+    else if (combat.round == RangedRound){
         
         if([combat isAttacker])
             numberOfrolls = [[combat attackerRangedCreature] count];
@@ -352,7 +352,7 @@ float degToRad(float degree) {
             numberOfrolls = [[combat defenderRangedCreature] count];
             
            
-            if([combat building] && [[combat building] isRanged])
+            if([combat building] && (combat.building.combat == Ranged ))
                 numberOfrolls += 1 ;
         }
        
@@ -367,7 +367,7 @@ float degToRad(float degree) {
             numberOfrolls = ([[combat defenderMeleeCreature] count] +[combat defenderChargeCreatures]);
             
            
-            if([combat building] && [[combat building] isMelee])
+            if([combat building] && (combat.building.combat == Melee ))
                 numberOfrolls += 1 ;
         }
     }
@@ -495,19 +495,13 @@ float degToRad(float degree) {
 
 -(void)didMoveToView:(SKView *)view {
     textView =[[UITextView alloc]initWithFrame:CGRectMake(45,200, 250, 250)];
-    //[[UItextView alloc] initWithFrame:CGRectMake(50,100, 200, 200)];
-    
-    //textView.center = self.view.center;
-    //textView.borderStyle = UITextBorderStyleRoundedRect;
+  
     textView.textColor = [UIColor whiteColor];
     textView.font = [UIFont fontWithName:@"Chalkduster" size:17.0f];
-    //textView.placeholder = @"Enter your name here";
+
     textView.backgroundColor = [UIColor clearColor];
    
-    //textView.autocorrectionType = UITextAutocorrectionTypeYes;
-    //textField.keyboardType = UIKeyboardTypeDefault;
-    //textField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    //textField.delegate = self.delegate;
+ 
     textView.editable = NO;
     [self.view addSubview:textView];
 }

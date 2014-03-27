@@ -10,7 +10,7 @@
 
 @implementation Building
 
-@synthesize terrain, stage,combatValue,isCity,isVillage,isMagic,isMelee,isRanged,point,imageName,name,currentCombatValue,isNeutralised,cost,imageNode;
+@synthesize terrain, stage,combatValue,point,imageName,name,currentCombatValue,isNeutralised,cost,imageNode,combat;
 
 
 - (id)initWithStage:(Stage) s andTerrain: (Terrain *) t
@@ -32,9 +32,6 @@
         //imageName = [NSString stringWithFormat:@"%@.jpg",image];
         imageName = image;
       
-        isMagic = NO;
-        isMelee = NO;
-        isRanged = NO;
         
         terrain = t;
         stage = s;
@@ -56,8 +53,9 @@
         if ([trimmed hasPrefix:@"n"]){
             name = [trimmed substringFromIndex:2];
             
-                isCity =[[trimmed substringFromIndex:2] isEqualToString:@"City"];
+                /*isCity =[[trimmed substringFromIndex:2] isEqualToString:@"City"];
                 isVillage = [[trimmed substringFromIndex:2] isEqualToString:@"Village"];
+                 */
                 if([[trimmed substringFromIndex:2] isEqualToString:@"Tower"])
                     stage = Tower;
                 else if ([[trimmed substringFromIndex:2] isEqualToString:@"Keep"])
@@ -75,13 +73,13 @@
         
         
     }
-    if(isCity || isVillage || stage == Tower || stage == Keep){
-        isMelee = YES;
+    if(stage == Tower || stage == Keep){
+        combat =  Melee;
     }
     else if (stage == Castle)
-        isRanged = YES;
+        combat = Ranged ;
     else
-        isMagic = YES;
+        combat = Magic ;
     
     currentCombatValue = combatValue;
 }
