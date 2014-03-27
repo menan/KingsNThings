@@ -45,7 +45,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 
 static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 
-@synthesize textLabel,dicesClicked,creaturesInBowl,recruitLabel,game,disabled,nonMovables,bank,bowlLocaiton,doneButton,canTapDone,terrainsLayout,markersArray;
+@synthesize textLabel,dicesClicked,creaturesInBowl,recruitLabel,game,disabled,nonMovables,bank,bowlLocaiton,doneButton,canTapDone,terrainsLayout,markersArray,armiesArray;
 - (id)initWithScene: (MyScene *) aScene atPoint: (CGPoint) aPoint withSize: (CGSize) aSize
 {
     self = [super init];
@@ -1076,7 +1076,6 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         [self rollDiceTwo];
     }
     else if ([node.name isEqualToString:@"collection"]){
-        [game setIsInitialPhase:NO];
         [self initiateGoldCollection];
     }
     else if ([node.accessibilityValue isEqualToString:@"fort"]){
@@ -1294,7 +1293,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 -(void) constructBuilding:(Player*)owner withBuilding:(SKSpriteNode*)node onTerrain:(Terrain*)t{
     float towerSizeNode = PLACE_MARKER_DOCKED_SIZE + 4;
     
-    if([game isInitialPhase]){
+    if(game.phase == Initial){
         if(![node.accessibilityLabel isEqualToString:@"tower"]){
             UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Invalid Move" message: @"na'aa you can't cheat;) first thing to build is tower" delegate: self                                       cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
             

@@ -24,5 +24,5 @@
 - (id) initWithBoard:(SKSpriteNode *)aBoard atPoint:(CGPoint)aPoint fromString:(NSString *)string isSpecial: (BOOL) _special;
 - (void) draw;
 - (id)initWithImage:(NSString*)image atPoint:(CGPoint)aPoint;
-
+- (NSDictionary *) getDict;
 @end

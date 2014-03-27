@@ -19,7 +19,7 @@
 @property NSArray *disabled;
 @property NSArray *nonMovables;
 @property CGPoint bowlLocaiton;
-@property NSMutableArray* terrainsLayout, *terrainsDictionary, *markersArray;
+@property NSMutableArray* terrainsLayout, *terrainsDictionary, *markersArray, *armiesArray;
 @property BOOL canTapDone;
 
 - (id)initWithScene: (MyScene *) aScene atPoint: (CGPoint) aPoint withSize: (CGSize) aSize;

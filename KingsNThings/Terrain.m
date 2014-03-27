@@ -60,8 +60,8 @@
     [encoder encodeObject:[NSNumber numberWithBool:hasArmyOnIt] forKey:@"hasArmyOnIt"];
     [encoder encodeObject:[NSNumber numberWithInteger:location] forKey:@"location"];
     [encoder encodeObject:[NSNumber numberWithBool:hasSpecialIncome] forKey:@"hasSpecialIncome"];
-    
 }
+
 
 
 
