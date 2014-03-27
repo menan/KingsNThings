@@ -69,6 +69,8 @@
     
     [self processData:match.matchData];
     
+    
+    
     GamePlay *g = [scene getGame];
     
     if (match.currentParticipant == [match.participants objectAtIndex:0]) {

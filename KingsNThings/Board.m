@@ -1184,10 +1184,11 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         else {
             //else would take care of if theres no army :)
             for(Army *army in [currentPlayer armies]){
-                if([army getTerrainLocation] == [t location]){
+                if([[army terrain]isEqual:t]){
                     if([currentPlayer addCreatureToArmy:creature inArmy:army ]){
                         [n removeFromParent];
                         [MyScene wiggle:army.image];
+                        break;
                         
                     }
                     else{
@@ -1487,7 +1488,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         NSLog(@"captureHEx");
         
         [terrian setHasArmyOnIt:YES];
-        SKSpriteNode* node = [[SKSpriteNode alloc]initWithImageNamed:[markers objectAtIndex:([player playingOrder]-1)]];
+        SKSpriteNode* node = [[SKSpriteNode alloc]initWithImageNamed:[markers objectAtIndex:[player playingOrder]] ];
         node.name = @"bowl";
         //[node setPosition:terrian.point];
         [node setSize:CGSizeMake(26.0f, 26.0f)];
