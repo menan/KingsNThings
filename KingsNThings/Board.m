@@ -1665,7 +1665,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     }
 }
 
-- (void) constructPlacemarkerFromDictionary:(NSArray *) placemarkers{
+- (void) constructPlacemarker:(NSArray *) placemarkers{
     NSLog(@"gonna construct placemarkers with from the data %d",placemarkers.count);
     
     for (NSDictionary *m in placemarkers) {
@@ -1699,6 +1699,15 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         trueEliminationRule = YES;
     
 }
+
+- (void) constructArmy:(NSArray *) armies{
+    
+    for (NSDictionary *a in armies) {
+        
+    }
+}
+
+
 
 
 

@@ -44,6 +44,6 @@
 - (void) playTreasure:(SKSpriteNode*)node;
 - (void) hideDone;
 - (void) showDone;
-- (void) constructTerrainFromDictionary:(NSArray *) terrains;
-- (void) constructPlacemarkerFromDictionary:(NSArray *) placemarkers;
+- (void) constructTerrain:(NSArray *) terrains;
+- (void) constructPlacemarker:(NSArray *) placemarkers;
 @end
