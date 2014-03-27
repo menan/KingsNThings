@@ -36,15 +36,14 @@ didBecomeActive: (BOOL)didBecomeActive
     
     NSLog(@"Turn has happened");
     
+    self.currentMatch = match;
     
     if ([match.matchID isEqualToString:currentMatch.matchID]) {
         if ([match.currentParticipant.playerID isEqualToString:[GKLocalPlayer localPlayer].playerID]) {
             // it's the current match and it's our turn now
-            self.currentMatch = match;
             [delegate takeTurn:match];
         } else {
             // it's the current match, but it's someone else's turn
-            self.currentMatch = match;
             [delegate layoutMatch:match];
         }
     } else {
@@ -69,7 +68,7 @@ didRequestMatchWithPlayers: (NSArray *)playerIDsToInvite
     request.maxPlayers = 12;
     request.minPlayers = 2;
     GKTurnBasedMatchmakerViewController *viewController =   [[GKTurnBasedMatchmakerViewController alloc] initWithMatchRequest:request];
-    viewController.showExistingMatches = NO;
+    viewController.showExistingMatches = YES;
     viewController.turnBasedMatchmakerDelegate = self;
     [presentingViewController presentViewController:viewController animated:YES completion:nil];
     

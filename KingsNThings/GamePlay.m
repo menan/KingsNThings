@@ -33,10 +33,8 @@
     if(self){
         board = (Board *) b;
         
-//        me = [[Player alloc] init];
-        players = [[NSMutableArray alloc] init];
-        
         players = [[NSMutableArray alloc] initWithObjects:[[Player alloc] init],[[Player alloc] init],[[Player alloc] init],[[Player alloc] init], nil];
+        
         terrains = [[NSMutableArray alloc]init];
        
         
@@ -95,6 +93,7 @@
     GKTurnBasedMatch *currentMatch = [[GCTurnBasedMatchHelper sharedInstance] currentMatch];
     return [players objectAtIndex:[currentMatch.participants indexOfObject:currentMatch.currentParticipant]];
 }
+
 
 
 

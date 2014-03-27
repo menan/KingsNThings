@@ -78,6 +78,9 @@
     
 	CGPoint translation = CGPointMake(positionInScene.x - previousPosition.x, positionInScene.y - previousPosition.y);
     
+    if (translation.x == 0 && translation.y == 0) {
+        NSLog(@"just tapped");
+    }
 	[self panForTranslation:translation];
 }
 
