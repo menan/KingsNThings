@@ -24,7 +24,7 @@
 
 @synthesize me,oneDice,secondDice,players;
 
-@synthesize p1Stack1,p1Stack2,p2Stack1,p3Stack1,p3Stack2,p3Stack3,p4Stack1,p4Stack2,p4Stack3,goldPhase,terrains, isMovementPhase , isThingRecrPahse, isComabtPahse,isInitialPhase ,isConstructionPhase, scene,phase;
+@synthesize p1Stack1,p1Stack2,p2Stack1,p3Stack1,p3Stack2,p3Stack3,p4Stack1,p4Stack2,p4Stack3,terrains,scene,phase;
 
 
 -(id) initWithBoard:(id) b{
@@ -54,11 +54,7 @@
         p4Stack2  = [[NSArray alloc]init];
         p4Stack3  = [[NSArray alloc]init];
     
-        goldPhase = NO;
-        isMovementPhase = NO;
-        isThingRecrPahse = NO;
-        isComabtPahse = NO;
-        isInitialPhase = YES;
+      
         oneDice = 0;
         secondDice = 0;
         phase = Initial;

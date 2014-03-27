@@ -19,11 +19,19 @@ typedef enum Stage : NSUInteger {
     None
 }Stage;
 
+typedef enum CombatType : NSUInteger {
+  Magic,
+  Ranged,
+  Melee
+}CombatType;
+
+
 @property Stage stage;
+@property CombatType combat;
 @property Terrain *terrain;
 @property NSInteger combatValue ,currentCombatValue;
-@property BOOL isMagic,isRanged,isMelee;
-@property BOOL isCity,isVillage,isNeutralised;
+//@property BOOL isMagic,isRanged,isMelee;
+@property BOOL isNeutralised;
 @property CGPoint point;
 @property NSString* imageName;
 @property NSString* name;
