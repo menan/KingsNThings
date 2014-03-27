@@ -61,4 +61,5 @@
 - (void) returnedACreature;
 - (void) addSpecialIncome:(SpecialIncome*)sp;
 - (SpecialIncome *) findSpecialIncomeOnRackByName:(NSString *) name;
+- (BOOL) canAdvanceToGold;
 @end
