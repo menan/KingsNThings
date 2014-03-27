@@ -252,10 +252,13 @@ static int counter = -1;
 
 -(BOOL) removeBuilding:(Building*) oldBuilding;
 {
-    if([buildings count] > 0){
+    if([buildings containsObject:oldBuilding]){
      [buildings removeObject:oldBuilding];
         NSLog(@"Building removed is %@",oldBuilding.imageName);
         return true;
+    }
+    else{
+        NSLog(@"failed removing the building because it was not present in the array.");
     }
     
     return false;
@@ -299,9 +302,14 @@ static int counter = -1;
 }
 
 -(void) addSpecialIncome:(SpecialIncome*)sp{
-    
     [specialIncome addObject:sp];
-    
 }
 
+
+- (BOOL) canAdvanceToGold{
+    if (territories.count >= 3 && buildings.count > 0 && recruitsRemaining == 0)
+        return YES;
+    else
+        return NO;
+}
 @end

@@ -877,10 +877,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                     
                     [markersArray addObject:
                       [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:(temp.node.position.x + 10)],@"X",[NSNumber numberWithFloat:(temp.node.position.y + 22)],@"Y", [NSNumber numberWithInt:0],@"playerId", nil]];
-                    
-                    if (markersArray.count >= 3) {
                         [self showDone];
-                    }
                 }
                 else{
                     NSLog(@"error setting terrain");
@@ -923,10 +920,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                     
                     [markersArray addObject:
                      [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:(temp.node.position.x + 10)],@"X",[NSNumber numberWithFloat:(temp.node.position.y + 22)],@"Y",[NSNumber numberWithInt:1],@"playerId", nil]];
-                    
-                    if (markersArray.count >= 3) {
                         [self showDone];
-                    }
                 }
             }
             else{
@@ -966,10 +960,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                     
                     [markersArray addObject:
                      [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:(temp.node.position.x + 10)],@"X",[NSNumber numberWithFloat:(temp.node.position.y + 22)],@"Y",[NSNumber numberWithInt:2],@"playerId", nil]];
-                    
-                    if (markersArray.count >= 3) {
                         [self showDone];
-                    }
                 }
             }
             
@@ -1009,10 +1000,8 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                     
                     [markersArray addObject:
                      [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:(temp.node.position.x + 10)],@"X",[NSNumber numberWithFloat:(temp.node.position.y + 22)],@"Y",[NSNumber numberWithInt:3],@"playerId", nil]];
-                    
-                    if (markersArray.count >= 3) {
+
                         [self showDone];
-                    }
                 }
             }
             

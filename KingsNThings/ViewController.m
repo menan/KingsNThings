@@ -75,7 +75,7 @@
     
     if (match.currentParticipant == [match.participants objectAtIndex:0]) {
         NSLog(@"came to first player turn again. should advance phase right?");
-        if (g.phase == Initial) {
+        if (g.phase == Initial && [[g currentPlayer] canAdvanceToGold]) {
             [g advancePhase:GoldCollection];
         }
         else if(g.phase == GoldCollection){
