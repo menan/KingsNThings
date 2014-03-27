@@ -16,7 +16,7 @@ typedef enum Stage : NSUInteger {
     Keep,
     Castle,
     Citadel,
-    NONE
+    None
 }Stage;
 
 typedef enum CombatType : NSUInteger {

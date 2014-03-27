@@ -1337,7 +1337,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                     
                     [error show];
                     
-                    Building* newBuilding = [[Building alloc] initWithImage:node.name atPoint:node.position andStage:NONE andTerrain:t];
+                    Building* newBuilding = [[Building alloc] initWithImage:node.name atPoint:node.position andStage:None andTerrain:t];
                     
                     //Building *currentBuilding = [owner getBuildingOnTerrain:t];
                     

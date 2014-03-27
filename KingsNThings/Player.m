@@ -233,7 +233,7 @@ static int counter = -1;
 
 -(Building*) getBuildingOnTerrain:(Terrain*)ter{
     for (Building *b in buildings) {
-        if([[b terrain] isEqual:ter]){
+        if([b.terrain isEqual:ter]){
             NSLog(@"building is found %@",b.imageName);
             return b;
         }

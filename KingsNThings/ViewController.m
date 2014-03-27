@@ -111,6 +111,8 @@
         if (p == Initial) {
             [b constructPlacemarkerFromDictionary:[myDictionary objectForKey:@"markers"]];
             //            [b constructTerrainFromDictionary:[myDictionary objectForKey:@"terrains"]];
+//            [b constructPlacemarkerFromDictionary:[myDictionary objectForKey:@"markers"]];
+            
         }
         else if(p == GoldCollection){
             [g advancePhase:p];

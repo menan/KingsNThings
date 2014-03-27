@@ -14,7 +14,7 @@
 
 @property NSMutableArray* creatures;
 @property CGPoint position;
-//@property BOOL belongsToP1,belongsToP2,belongsToP3,belongsToP4, hasArmyOnIt;
+@property BOOL hasArmyOnIt;
 @property BOOL imageIsDrawn;
 @property Terrain* terrain;
 @property SKSpriteNode *image;
