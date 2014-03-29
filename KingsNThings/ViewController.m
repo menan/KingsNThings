@@ -102,20 +102,21 @@
     
     Board *b = [scene getBoard];
     GamePlay *g = [scene getGame];
+//    [b showDone];
     if ([data bytes]) {
         NSDictionary *myDictionary = (NSDictionary*) [NSKeyedUnarchiver unarchiveObjectWithData:data];
         
         Phase p = [[myDictionary objectForKey:@"phase"] integerValue];
-        [g advancePhase:p];
-        [b constructPlacemarkerFromDictionary:[myDictionary objectForKey:@"markers"]];
-
         
-//        if (p == Initial) {
-//            //            [b constructTerrainFromDictionary:[myDictionary objectForKey:@"terrains"]];
-//            
-//        }
-//        else if(p == GoldCollection){
-//        }
+        if (p == Initial) {
+            [b constructPlacemarkerFromDictionary:[myDictionary objectForKey:@"markers"]];
+            //            [b constructTerrainFromDictionary:[myDictionary objectForKey:@"terrains"]];
+//            [b constructPlacemarkerFromDictionary:[myDictionary objectForKey:@"markers"]];
+            
+        }
+        else if(p == GoldCollection){
+            [g advancePhase:p];
+        }
         
         NSLog(@"Taking turn for existing game with the received data...");
     }

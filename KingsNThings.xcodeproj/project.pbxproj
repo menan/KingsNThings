@@ -266,7 +266,6 @@
 		C5B4B35D18CE50DC00B1E187 /* -n Warlord -a 5 -p Special.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C5B4B34718CE50DC00B1E187 /* -n Warlord -a 5 -p Special.jpg */; };
 		E81E3BF31898554000449AA8 /* Creature.m in Sources */ = {isa = PBXBuildFile; fileRef = E81E3BF21898554000449AA8 /* Creature.m */; };
 		E81E3BF618A427CE00449AA8 /* Building.m in Sources */ = {isa = PBXBuildFile; fileRef = E81E3BF518A427CE00449AA8 /* Building.m */; };
-		E8346EF118E4D64200074AA4 /* NSMutableArrayDictionize.m in Sources */ = {isa = PBXBuildFile; fileRef = E8346EF018E4D64200074AA4 /* NSMutableArrayDictionize.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -683,8 +682,6 @@
 		E81E3BF21898554000449AA8 /* Creature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Creature.m; sourceTree = "<group>"; };
 		E81E3BF418A427CE00449AA8 /* Building.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Building.h; sourceTree = "<group>"; };
 		E81E3BF518A427CE00449AA8 /* Building.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Building.m; sourceTree = "<group>"; };
-		E8346EEF18E4D64200074AA4 /* NSMutableArrayDictionize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSMutableArrayDictionize.h; path = KingsNThings/NSMutableArrayDictionize.h; sourceTree = "<group>"; };
-		E8346EF018E4D64200074AA4 /* NSMutableArrayDictionize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSMutableArrayDictionize.m; path = KingsNThings/NSMutableArrayDictionize.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -716,8 +713,6 @@
 		686C971A1888A88500BE6D42 = {
 			isa = PBXGroup;
 			children = (
-				E8346EEF18E4D64200074AA4 /* NSMutableArrayDictionize.h */,
-				E8346EF018E4D64200074AA4 /* NSMutableArrayDictionize.m */,
 				68EF331B189CCEF700A93480 /* NSMutableArrayShuffling.h */,
 				68EF331C189CCEF700A93480 /* NSMutableArrayShuffling.m */,
 				686C972E1888A88500BE6D42 /* KingsNThings */,
@@ -1720,7 +1715,6 @@
 				68EF331D189CCEF700A93480 /* NSMutableArrayShuffling.m in Sources */,
 				68EF3320189CD51A00A93480 /* GamePlay.m in Sources */,
 				6845A82D18D171F700C057B0 /* GCTurnBasedMatchHelper.m in Sources */,
-				E8346EF118E4D64200074AA4 /* NSMutableArrayDictionize.m in Sources */,
 				6832A14F1897735900476D5D /* Terrain.m in Sources */,
 				6832A1551897754B00476D5D /* Bank.m in Sources */,
 				C59E4D1018A5E0FE00CCBA0D /* CombatScene.m in Sources */,

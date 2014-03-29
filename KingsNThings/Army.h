@@ -14,6 +14,8 @@
 
 @property NSMutableArray* creatures;
 @property CGPoint position;
+@property BOOL hasArmyOnIt;
+@property BOOL imageIsDrawn;
 @property Terrain* terrain;
 @property SKSpriteNode *image;
 @property NSInteger armyNumber;

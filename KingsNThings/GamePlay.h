@@ -44,9 +44,6 @@ typedef enum {
 - (Player *) currentPlayer;
 - (Player *) findPlayerByTerrain:(Terrain *) terrain;
 - (NSMutableArray *) findPlayersByTerrain:(Terrain *) terrain; //gets all the players on the terrain
-- (BOOL) hasArmyOnTerrain:(Terrain *) terrain;
-- (BOOL) buildPresentOnTerrain:(Terrain *) terrain;
-
 
 - (void)movementPhase:(Player *)player withArmy:(Army*)army onTerrian:(Terrain*) newTerrain;
 - (Terrain*) findTerrainAt:(CGPoint)thisPoint;
