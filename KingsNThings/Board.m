@@ -724,11 +724,12 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     
     self.terrainsDictionary = [[NSMutableArray alloc] init];
     for (Terrain * terrain in terrainsLayout) {
-        terrain.node.name = @"bowl";
+        terrain.name = @"bowl";
         [terrain draw];
         
-        NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:@"x", [NSNumber numberWithFloat:terrain.node.position.x],@"y", [NSNumber numberWithFloat:terrain.node.position.y], @"imageNamed", terrain.imageName, @"terrainName",terrain.node.name, nil];
+        NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:@"x", [NSNumber numberWithFloat:terrain.position.x],@"y", [NSNumber numberWithFloat:terrain.position.y], @"imageNamed", terrain.imageName, @"terrainName",terrain.name, nil];
         [self.terrainsDictionary addObject:dict];
+         
     }
 }
 
@@ -846,10 +847,10 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                     
                     node.name = @"bowl";
                     [node setSize:CGSizeMake(sizeNode, sizeNode)];
-                    [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
+                    [node setPosition:CGPointMake(temp.position.x + 10, temp.position.y + 22)];
                     
                     [markersArray addObject:
-                      [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:(temp.node.position.x + 10)],@"X",[NSNumber numberWithFloat:(temp.node.position.y + 22)],@"Y", [NSNumber numberWithInt:0],@"playerId", nil]];
+                      [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:(temp.position.x + 10)],@"X",[NSNumber numberWithFloat:(temp.position.y + 22)],@"Y", [NSNumber numberWithInt:0],@"playerId", nil]];
                         [self showDone];
                 }
                 else{
@@ -870,7 +871,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 
                 node.name = @"bowl";
                 [node setSize:CGSizeMake(sizeNode, sizeNode)];
-                [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
+                [node setPosition:CGPointMake(temp.position.x + 10, temp.position.y + 22)];
             }
         }
     }
@@ -888,11 +889,11 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                     
                     node.name = @"bowl";
                     [node setSize:CGSizeMake(sizeNode, sizeNode)];
-                    [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
+                    [node setPosition:CGPointMake(temp.position.x + 10, temp.position.y + 22)];
                     
                     
                     [markersArray addObject:
-                     [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:(temp.node.position.x + 10)],@"X",[NSNumber numberWithFloat:(temp.node.position.y + 22)],@"Y",[NSNumber numberWithInt:1],@"playerId", nil]];
+                     [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:(temp.position.x + 10)],@"X",[NSNumber numberWithFloat:(temp.position.y + 22)],@"Y",[NSNumber numberWithInt:1],@"playerId", nil]];
                         [self showDone];
                 }
             }
@@ -909,7 +910,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 
                 node.name = @"bowl";
                 [node setSize:CGSizeMake(sizeNode, sizeNode)];
-                [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
+                [node setPosition:CGPointMake(temp.position.x + 10, temp.position.y + 22)];
             }
         }
     }
@@ -928,11 +929,11 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                     
                     node.name = @"bowl";
                     [node setSize:CGSizeMake(sizeNode, sizeNode)];
-                    [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
+                    [node setPosition:CGPointMake(temp.position.x + 10, temp.position.y + 22)];
                     
                     
                     [markersArray addObject:
-                     [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:(temp.node.position.x + 10)],@"X",[NSNumber numberWithFloat:(temp.node.position.y + 22)],@"Y",[NSNumber numberWithInt:2],@"playerId", nil]];
+                     [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:(temp.position.x + 10)],@"X",[NSNumber numberWithFloat:(temp.position.y + 22)],@"Y",[NSNumber numberWithInt:2],@"playerId", nil]];
                         [self showDone];
                 }
             }
@@ -949,7 +950,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 
                 node.name = @"bowl";
                 [node setSize:CGSizeMake(sizeNode, sizeNode)];
-                [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
+                [node setPosition:CGPointMake(temp.position.x + 10, temp.position.y + 22)];
             }
         }
     }
@@ -968,11 +969,11 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                     
                     node.name = @"bowl";
                     [node setSize:CGSizeMake(sizeNode, sizeNode)];
-                    [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
+                    [node setPosition:CGPointMake(temp.position.x + 10, temp.position.y + 22)];
                     
                     
                     [markersArray addObject:
-                     [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:(temp.node.position.x + 10)],@"X",[NSNumber numberWithFloat:(temp.node.position.y + 22)],@"Y",[NSNumber numberWithInt:3],@"playerId", nil]];
+                     [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:(temp.position.x + 10)],@"X",[NSNumber numberWithFloat:(temp.position.y + 22)],@"Y",[NSNumber numberWithInt:3],@"playerId", nil]];
 
                         [self showDone];
                 }
@@ -990,7 +991,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 
                 node.name = @"bowl";
                 [node setSize:CGSizeMake(sizeNode, sizeNode)];
-                [node setPosition:CGPointMake(temp.node.position.x + 10, temp.node.position.y + 22)];
+                [node setPosition:CGPointMake(temp.position.x + 10, temp.position.y + 22)];
             }
         }
     }
@@ -1290,7 +1291,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 [newBuilding setTerrain:t];
                 newBuilding.name = @"bowl";
                 [newBuilding setSize:CGSizeMake(towerSizeNode, towerSizeNode)];
-                [newBuilding setPosition:CGPointMake(t.node.position.x - 10, t.node.position.y + 22)];
+                [newBuilding setPosition:CGPointMake(t.position.x - 10, t.position.y + 22)];
             }
         }
     }
@@ -1340,7 +1341,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                                         
                                         newBuilding.name = @"bowl";
                                         [newBuilding setSize:CGSizeMake(towerSizeNode, towerSizeNode)];
-                                        [newBuilding setPosition:CGPointMake(t.node.position.x - 10, t.node.position.y + 7)];
+                                        [newBuilding setPosition:CGPointMake(t.position.x - 10, t.position.y + 7)];
                                         [owner setHasBuiltCitadel:YES];
                                         
                                         [self depositToBank:5];
@@ -1377,7 +1378,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                                 [self depositToBank:5];
                                 [self updateBank];
                                 
-                                //[node setPosition:CGPointMake(t.node.position.x - 10, t.node.position.y + 7)];
+                                //[node setPosition:CGPointMake(t.position.x - 10, t.position.y + 7)];
                             }
                         }
                     }
@@ -1414,7 +1415,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                         node.name = @"bowl";
                         
                         [newBuilding setSize:CGSizeMake(towerSizeNode, towerSizeNode)];
-                        [newBuilding setPosition:CGPointMake(t.node.position.x - 10, t.node.position.y + 22)];
+                        [newBuilding setPosition:CGPointMake(t.position.x - 10, t.position.y + 22)];
                         [self depositToBank:5];
                         [self updateBank];
                     }
@@ -1466,7 +1467,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         node.name = @"bowl";
         //[node setPosition:terrian.point];
         [node setSize:CGSizeMake(26.0f, 26.0f)];
-        [node setPosition:CGPointMake(terrian.node.position.x + 10, terrian.node.position.y + 22)];
+        [node setPosition:CGPointMake(terrian.position.x + 10, terrian.position.y + 22)];
         [board addChild:node];
         
     }

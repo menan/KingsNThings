@@ -14,7 +14,7 @@
    
     
 }
-@synthesize type,imageName,flipped,node,hasOwner,hasArmyOnIt,location;
+@synthesize type,imageName,flipped,hasOwner,hasArmyOnIt,location;
 
 
 - (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image andTerrainName: (NSString *) name
@@ -35,7 +35,7 @@
 
 
 
-/*
+
 - (id)initWithCoder:(NSCoder *)decoder {
     if (self = [super init]) {
         point = CGPointMake([[decoder decodeObjectForKey:@"pointX"] floatValue], [[decoder decodeObjectForKey:@"pointY"] floatValue]);
@@ -44,7 +44,7 @@
         type = [decoder decodeObjectForKey:@"type"];
         flipped = [[decoder decodeObjectForKey:@"flipped"] boolValue];
         hasArmyOnIt = [[decoder decodeObjectForKey:@"hasArmyOnIt"]boolValue];
-        hasSpecialIncome = [[decoder decodeObjectForKey:@"hasSpecialIncome"]boolValue];
+        //hasSpecialIncome = [[decoder decodeObjectForKey:@"hasSpecialIncome"]boolValue];
         location += [[decoder decodeObjectForKey:@"location"] integerValue];
     }
     return self;
@@ -59,11 +59,11 @@
     [encoder encodeObject:[NSNumber numberWithBool:flipped] forKey:@"flipped"];
     [encoder encodeObject:[NSNumber numberWithBool:hasArmyOnIt] forKey:@"hasArmyOnIt"];
     [encoder encodeObject:[NSNumber numberWithInteger:location] forKey:@"location"];
-    [encoder encodeObject:[NSNumber numberWithBool:hasSpecialIncome] forKey:@"hasSpecialIncome"];
+    //[encoder encodeObject:[NSNumber numberWithBool:hasSpecialIncome] forKey:@"hasSpecialIncome"];
     
 }
 
-*/
+
 
 - (void) draw{
     //node = [SKSpriteNode spriteNodeWithImageNamed:imageName];

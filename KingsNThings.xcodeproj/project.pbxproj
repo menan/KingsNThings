@@ -162,6 +162,7 @@
 		C59BE64918A0554100EC48E0 /* -n Timberland -t Forest -a 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C59BE63918A0554100EC48E0 /* -n Timberland -t Forest -a 1.jpg */; };
 		C59E4D1018A5E0FE00CCBA0D /* CombatScene.m in Sources */ = {isa = PBXBuildFile; fileRef = C59E4D0F18A5E0FE00CCBA0D /* CombatScene.m */; };
 		C59E4D1418A5F9E800CCBA0D /* combat.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C59E4D1318A5F9E800CCBA0D /* combat.jpg */; };
+		C5A3190F18E7633B0055EEB1 /* NSMutableArrayDictionize.m in Sources */ = {isa = PBXBuildFile; fileRef = C5A3190E18E7633B0055EEB1 /* NSMutableArrayDictionize.m */; };
 		C5A56AF018DE2B460048FC17 /* chest-1.png in Resources */ = {isa = PBXBuildFile; fileRef = C5A56AEF18DE2B460048FC17 /* chest-1.png */; };
 		C5A56AF218DE32F70048FC17 /* coins.png in Resources */ = {isa = PBXBuildFile; fileRef = C5A56AF118DE32F70048FC17 /* coins.png */; };
 		C5A56AF418DE595F0048FC17 /* -n Treasure Chest -t Treasure -a 20.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C5A56AF318DE595F0048FC17 /* -n Treasure Chest -t Treasure -a 20.jpg */; };
@@ -505,6 +506,8 @@
 		C59E4D0E18A5E0FE00CCBA0D /* CombatScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CombatScene.h; sourceTree = "<group>"; };
 		C59E4D0F18A5E0FE00CCBA0D /* CombatScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CombatScene.m; sourceTree = "<group>"; };
 		C59E4D1318A5F9E800CCBA0D /* combat.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = combat.jpg; sourceTree = "<group>"; };
+		C5A3190D18E7633B0055EEB1 /* NSMutableArrayDictionize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSMutableArrayDictionize.h; sourceTree = "<group>"; };
+		C5A3190E18E7633B0055EEB1 /* NSMutableArrayDictionize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMutableArrayDictionize.m; sourceTree = "<group>"; };
 		C5A56AEF18DE2B460048FC17 /* chest-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chest-1.png"; sourceTree = "<group>"; };
 		C5A56AF118DE32F70048FC17 /* coins.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = coins.png; path = KingsNThings/coins.png; sourceTree = SOURCE_ROOT; };
 		C5A56AF318DE595F0048FC17 /* -n Treasure Chest -t Treasure -a 20.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "-n Treasure Chest -t Treasure -a 20.jpg"; sourceTree = "<group>"; };
@@ -747,6 +750,8 @@
 		686C972E1888A88500BE6D42 /* KingsNThings */ = {
 			isa = PBXGroup;
 			children = (
+				C5A3190D18E7633B0055EEB1 /* NSMutableArrayDictionize.h */,
+				C5A3190E18E7633B0055EEB1 /* NSMutableArrayDictionize.m */,
 				686C973A1888A88500BE6D42 /* Main.storyboard */,
 				686C97451888A88500BE6D42 /* Images.xcassets */,
 				686C972F1888A88500BE6D42 /* Supporting Files */,
@@ -1709,6 +1714,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6832A1521897736700476D5D /* Board.m in Sources */,
+				C5A3190F18E7633B0055EEB1 /* NSMutableArrayDictionize.m in Sources */,
 				686C97421888A88500BE6D42 /* MyScene.m in Sources */,
 				686C973F1888A88500BE6D42 /* ViewController.m in Sources */,
 				686C97391888A88500BE6D42 /* AppDelegate.m in Sources */,

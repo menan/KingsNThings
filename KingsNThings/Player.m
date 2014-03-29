@@ -61,7 +61,7 @@ static int counter = -1;
 - (BOOL) setTerritory: (Terrain *) territory{
     if(territory != nil && ![territories containsObject:territory]){
         [territories addObject:territory];
-        NSLog(@"player territory is set for : %@ %d , player is %d ", territory.node.name, [territories count],playingOrder);
+        NSLog(@"player territory is set for : %@ %d , player is %d ", territory.name, [territories count],playingOrder);
         return YES;
     }
     else{
@@ -240,7 +240,7 @@ static int counter = -1;
     }
     return nil;
 }
-/*-(SpecialIncome*) getSpecialIncomeOnTerrain:(Terrain*)ter{
+-(SpecialIncome*) getSpecialIncomeOnTerrain:(Terrain*)ter{
     
     for (SpecialIncome *sp in specialIncome) {
         if([[sp terrain] isEqual:ter]){
@@ -248,7 +248,7 @@ static int counter = -1;
         }
     }
     return nil;
-}*/
+}
 
 -(BOOL) removeBuilding:(Building*) oldBuilding;
 {

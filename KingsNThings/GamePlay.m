@@ -557,7 +557,7 @@
 //locates the terrain at a specific point
 -(Terrain*) findTerrainAt:(CGPoint)thisPoint{
     for (Terrain *terrain in terrains) {
-        if (terrain.node.position.x == thisPoint.x && terrain.node.position.y == thisPoint.y) {
+        if (terrain.position.x == thisPoint.x && terrain.position.y == thisPoint.y) {
             return terrain;
         }
     }
