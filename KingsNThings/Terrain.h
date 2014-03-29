@@ -10,13 +10,13 @@
 #import <SpriteKit/SpriteKit.h>
 
 
-@interface Terrain : NSObject
+@interface Terrain : SKSpriteNode
 
 @property (nonatomic, strong) NSString* type;
 @property (nonatomic, strong) NSString* imageName;
 @property (nonatomic, strong) SKSpriteNode* node;
 @property BOOL flipped,hasArmyOnIt,hasOwner,hasBuilding,hasSpecialIncome;
-@property NSInteger position;
+//@property NSInteger position;
 @property NSInteger location;
 
 - (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image andTerrainName: (NSString *) name;

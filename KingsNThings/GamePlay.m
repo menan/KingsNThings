@@ -232,10 +232,10 @@
                 else{ // random army should appear
                     Army* defender;
                     if(oneDice >0){
-                        defender = [board createRandomArmy:oneDice atPoint:army.position];
+                        defender = [board createRandomArmy:oneDice atPoint:army.position andTerrain:newTerrain];
                     }
                     else{
-                        defender = [board createRandomArmy:secondDice atPoint:army.position];
+                        defender = [board createRandomArmy:secondDice atPoint:army.position andTerrain:newTerrain];
                     }
                     
                     Player* tempDefender = [[Player alloc] init ];
@@ -578,6 +578,7 @@
 
 
 //returns the total number of users in the terrain
+//I think it should be used only when we need to find multiple users becoz a terrain will not alwys has army
 - (NSArray *) findPlayersByTerrain:(Terrain *) terrain{
     NSMutableArray *playersArray = [[NSMutableArray alloc] init];
     

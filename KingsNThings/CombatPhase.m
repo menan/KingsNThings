@@ -119,17 +119,17 @@
         
             for(Creature* cre in [attackerArmy creatures]){
                 if([[cre name] isEqualToString:creatureName]){
-                    if([cre isMagic]){
+                    if(cre.combatType == isMagic){
                         [attackerMagicCreature removeObject:cre];
                         break;
                     }
-                    else if ([cre isRanged]){
+                    else if (cre.combatType == isRanged){
                         [attackerRangedCreature removeObject:cre];
                         break;
                         
                     }
                     else{
-                        if([cre isCharge]){
+                        if(cre.combatType == isCharge){
                             attakerChargeCreatures -=1;
                         }
                         [attackerMeleeCreature removeObject:cre];
@@ -141,17 +141,17 @@
     else {
         for(Creature* cre in [defenderArmy creatures]){
             if([[cre name] isEqualToString:creatureName]){
-                if([cre isMagic]){
+                if(cre.combatType == isMagic){
                     [defenderMagicCreature removeObject:cre];
                     break;
                 }
-                else if ([cre isRanged]){
+                else if (cre.combatType == isRanged){
                     [defenderRangedCreature removeObject:cre];
                     break;
                     
                 }
                 else{
-                    if([cre isCharge]){
+                    if(cre.combatType == isCharge){
                         defenderChargeCreatures -=1;
                     }
                     [defenderMeleeCreature removeObject:cre];
@@ -163,11 +163,7 @@
 }
 
 -(void) startCombat:(CombatScene*) combatScene{
-    /*
-    NSInteger attakerNumOfMagicCreatures,defenderNumOfMagicCreatures;
-    NSInteger attackerNumOfRangedCreatures,defenderNumOfRangedCreatures;
-    NSInteger attackerNumOfMeleeCreatures,defenderNumOfMeleeCreatures;
-    */
+  
     
     NSRunLoop *loop = [NSRunLoop currentRunLoop];
 
@@ -181,14 +177,14 @@
     for(Creature *creature in [attackerArmy creatures])
     {
         //NSLog(@"creature name is %@ " ,[creature name]);
-        if([creature isMagic] )
+        if(creature.combatType == isMagic)
             [attackerMagicCreature addObject:creature];
-        else if ([creature isRanged] )
+        else if (creature.combatType ==isRanged )
             [attackerRangedCreature addObject:creature];
-        else if ([creature isMelee] || [creature isCharge]){
+        else if ((creature.combatType == isMelee) || (creature.combatType == isCharge)){
                 [attackerMeleeCreature addObject:creature];
             
-            if([creature isCharge])
+            if(creature.combatType == isCharge)
                     attakerChargeCreatures += 1;
       
         }
@@ -200,14 +196,15 @@
     //NSLog(@"number of creature in MElee %d",[attackerMeleeCreature count] );
     for(Creature *creature in [defenderArmy creatures])
     {
-        if([creature isMagic] )
+           if(creature.combatType == isMagic)
             [defenderMagicCreature addObject:creature];
-        else if ([creature isRanged] )
+        else if (creature.combatType ==isRanged )
             [defenderRangedCreature addObject:creature];
         
-        else if ([creature isMelee] || [creature isCharge]){
+        else if ((creature.combatType == isMelee) || (creature.combatType == isCharge)){
             [defenderMeleeCreature addObject:creature];
-            if([creature isCharge])
+            
+            if(creature.combatType == isCharge)
                 defenderChargeCreatures += 1;
         }
         
@@ -471,7 +468,7 @@
         int j = 0;
         for(Creature *c in attackerMeleeCreature){
             
-            if([c isCharge]){
+            if(c.combatType == isCharge){
                 
                 if(c.combatValue >= [[attackerRolledDice objectAtIndex:j] integerValue] ){
                    
@@ -497,7 +494,7 @@
         j = 0;
         for(Creature *c in defenderMeleeCreature){
             
-            if([c isCharge]){
+            if(c.combatType == isCharge){
                 if(c.combatValue >= [[defenderRolledDice objectAtIndex:j] integerValue] ){
                     
                     defenderNumberOfHits += 1;

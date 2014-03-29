@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Terrain.h"
 
-@interface Building : NSObject
+@interface Building : SKSpriteNode
 
 typedef enum Stage : NSUInteger {
     Tower,
@@ -39,8 +39,12 @@ typedef enum CombatType : NSUInteger {
 @property SKNode *imageNode;
 
 - (id)initWithStage:(Stage) s andTerrain: (Terrain *) t;
-
--(BOOL)checkIfConstructionPossible:(SKNode*)node;
-
+- (id) initWithBoard:(SKSpriteNode *)aBoard atPoint:(CGPoint)aPoint fromImage:(NSString *)image;
 - (id) initWithImage:(NSString*)image atPoint:(CGPoint)aPoint andStage:(Stage) s andTerrain: (Terrain *) t;
+
+-(BOOL)checkIfConstructionPossible:(Building*) newBuilding;
+
+
+
+-(void) draw;
 @end

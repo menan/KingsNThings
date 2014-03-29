@@ -11,33 +11,27 @@
 @implementation Creature{
     CGPoint point;
     SKSpriteNode *board;
-   NSString* combatType;
-    
-    //BOOL inBowl;
+    //NSString* combatType;
     int position;
-    //NSString* imageName;
-   
-    //NSString* name;
-    
     int numberofTimes;
 
 }
 
-@synthesize combatValue,isSpecial, isBluff, symbol,isFly, isMagic, isMelee, isRanged , isCharge,name,inBowl,imageName, terrainType;
+@synthesize combatValue,isSpecial, isBluff, isFly,name,inBowl,imageName, terrainType,combatType,initialPoint;
 
-@synthesize node;
+//@synthesize node;
 
 - (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image andCreatureName: (NSString *) cName withCombatValue: (int) value forTerrainType: (NSString *) terrain isSpecial:(BOOL) iSpecial andCombatType:(NSString *) cType
 {
-    self = [super init];
+    self = [super initWithImageNamed:image];
     if (self) {
-        point = aPoint;
+       initialPoint = aPoint;
         board = aBoard;
         imageName = image;
         name = cName;
         isBluff = NO;
         inBowl = YES;
-        symbol = cType;
+        
         terrainType = terrain;
         combatValue = value;
         numberofTimes = 1;
@@ -46,9 +40,10 @@
     return self;
 }
 - (id) initWithBoard:(SKSpriteNode *)aBoard atPoint:(CGPoint)aPoint fromString:(NSString *)string{
-    self = [super init];
+    //self = [super init];
+    self = [super initWithImageNamed:[NSString stringWithFormat:@"%@.jpg",string]];
     if (self) {
-        point = aPoint;
+        initialPoint = aPoint;
         board = aBoard;
         imageName = [NSString stringWithFormat:@"%@.jpg",string];
        isBluff = NO;
@@ -61,9 +56,9 @@
 
 
 - (id) initWithBoard:(SKSpriteNode *)aBoard atPoint:(CGPoint)aPoint fromString:(NSString *)string isSpecial: (BOOL) s{
-    self = [super init];
+    self = [super initWithImageNamed:[NSString stringWithFormat:@"%@.jpg",string]];
     if (self) {
-        point = aPoint;
+        initialPoint = aPoint;
         board = aBoard;
         imageName = [NSString stringWithFormat:@"%@.jpg",string];
        isBluff = NO;
@@ -76,18 +71,15 @@
 }
 
 - (id) initWithImage:(NSString*)image atPoint:(CGPoint)aPoint{
-    self = [super init];
+    self = [super initWithImageNamed:[NSString stringWithFormat:@"%@.jpg",image]];
     if (self) {
-       point = aPoint;
+      initialPoint = aPoint;
         
         imageName = [NSString stringWithFormat:@"%@.jpg",image];
        isBluff = NO;
         inBowl = NO;
         numberofTimes = 1;
-        isCharge = NO;
-        isMagic = NO;
-        isMelee = NO;
-        isRanged = NO;
+      
         isFly = NO;
         [self setValuesFromString:image];
     }
@@ -113,12 +105,16 @@
         }
         else if ([trimmed hasPrefix:@"s"]){
             
-            isMagic = [[trimmed substringFromIndex:2] isEqualToString:@"Magic"];
-            isRanged = [[trimmed substringFromIndex:2] isEqualToString:@"Range"];
-            isCharge = [[trimmed substringFromIndex:2] isEqualToString:@"Charge"];
+            if([[trimmed substringFromIndex:2] isEqualToString:@"Magic"])
+                combatType = isMagic;
+           else if([[trimmed substringFromIndex:2] isEqualToString:@"Range"])
+               combatType = isRanged;
+           else if([[trimmed substringFromIndex:2] isEqualToString:@"Charge"])
+                combatType = isCharge;
+            
             isFly = [[trimmed substringFromIndex:2] isEqualToString:@"Fly"];
             //isMelee = [[trimmed substringFromIndex:2] isEqualToString:@"Melee"];
-            symbol = [trimmed substringFromIndex:2];
+           // symbol = [trimmed substringFromIndex:2];
 //            NSLog(@"symbol: %@", symbol);
         }
         else if ([trimmed hasPrefix:@"a"]){
@@ -139,13 +135,32 @@
         
     }
     if(!isMagic && !isRanged){
-        isMelee = YES;
+        combatType = isMelee;
     }
     
     
 }
 
 - (void) draw{
+    [self removeFromParent]; //makes sure that it removes it to prevent duplications
+    //self.spriteNodeWithImageNamed = imageName;
+    
+    self.name = name;
+    //self.accessibilityValue = @"creatures";
+    self.size = CGSizeMake(37,37);
+    self.position = initialPoint;
+    if (inBowl && isSpecial == NO) {
+       self.color = [SKColor blackColor];
+       self.colorBlendFactor = .85;
+    }
+    else{
+        
+        //self.color = [SKColor grayColor];
+        self.colorBlendFactor = 0;
+    }
+    [board addChild:self];
+}
+/*- (void) draw{
     [node removeFromParent]; //makes sure that it removes it to prevent duplications
     node = [SKSpriteNode spriteNodeWithImageNamed:imageName];
     node.name = name;
@@ -162,5 +177,5 @@
         node.colorBlendFactor = 0;
     }
     [board addChild:node];
-}
+}*/
 @end

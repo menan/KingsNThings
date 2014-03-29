@@ -200,8 +200,10 @@
     Board* board = (Board *) [sender getBoard];
     GamePlay* game = (GamePlay *) [sender getGame];
     
-    Terrain *temp = [game findTerrainAt:creature.node.position];
-    [board creaturesMoved:creature.node AtTerrain:temp];
+    //Terrain *temp = [game findTerrainAt:creature.node.position];
+    //[board creaturesMoved:creature.node AtTerrain:temp];
+    Terrain *temp = [game findTerrainAt:creature.position];
+    [board creaturesMoved:creature AtTerrain:temp];
 }
 
 

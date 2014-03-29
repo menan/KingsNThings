@@ -12,9 +12,11 @@
 #import "Creature.h"
 #import "SpecialRecruitmentScene.h"
 #import "Board.h"
+#import "ArmyScene.h"
 
 @implementation MyScene{
      SKTransition* transitionDoorsCloseHorizontal;
+    SKTransition* transitionRevealWithDirectionUp;
     CombatScene* combat;
     SpecialRecruitmentScene *recruitment;
     Board *gameBoard;
@@ -64,6 +66,11 @@
 - (void)panForTranslation:(CGPoint)translation {
     CGPoint position = [_selectedNode position];
     CGPoint moveTo = CGPointMake(position.x + translation.x, position.y + translation.y);
+    
+    /*if(CGPointEqualToPoint(position, moveTo) && [_selectedNode isKindOfClass:[Army class]]){
+        Army* arm = (Army*) _selectedNode;
+        [self tranitToArmyScene:arm forPlayer:[gameBoard.game findPlayerByTerrain:arm.terrain]];
+    }*/
     if([gameBoard canMoveNode:_selectedNode]) {
         [_selectedNode setPosition:moveTo];
     }
@@ -124,7 +131,15 @@ CGPoint mult(const CGPoint v, const CGFloat s) {
     NSLog(@"presenting recruitment view");
 
 }
-
+-(void) tranitToArmyScene:(Army*) army forPlayer:(Player*)p{
+   
+    CGSize s = CGSizeMake(self.size.width/4, self.size.height/2);
+    ArmyScene* armyscene = [[ArmyScene alloc]initWithSize:s andSender:self];
+    transitionRevealWithDirectionUp = [SKTransition revealWithDirection:SKTransitionDirectionUp duration:1];
+        //initWithSize:[self size] withAttacker:attacker andDefender:defender andSender:self ];
+    
+    [self.scene.view presentScene:armyscene transition:transitionRevealWithDirectionUp];
+}
 - (void) startSecondCombat{
     [gameBoard.game initiateCombat:[gameBoard.game.players objectAtIndex:2]];
 }

@@ -9,14 +9,27 @@
 #import <Foundation/Foundation.h>
 #import <SpriteKit/SpriteKit.h>
 
-@interface Creature : NSObject
-@property (nonatomic, strong) SKSpriteNode* node;
+@interface Creature : SKSpriteNode
 
+typedef enum CombatStrength:NSUInteger{
+    isMagic,
+    isMelee,
+    isRanged,
+    isCharge
+    
+}CombatStrength;
+
+
+
+//@property (nonatomic, strong) SKSpriteNode* node;
+
+@property CombatStrength combatType;
 @property int combatValue;
 @property BOOL isSpecial;
-@property BOOL isBluff, isFly, isMagic, isMelee, isRanged , isCharge ,inBowl ;
+@property BOOL isBluff, isFly,inBowl ;
 @property NSString* symbol;
 @property NSString* name, *imageName, *terrainType;
+@property CGPoint initialPoint;
 
 
 - (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image andCreatureName: (NSString *) cName withCombatValue: (int) value forTerrainType: (NSString *) terrain isSpecial:(BOOL) special andCombatType:(NSString *) cType;

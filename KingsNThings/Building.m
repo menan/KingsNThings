@@ -8,7 +8,10 @@
 
 #import "Building.h"
 
-@implementation Building
+@implementation Building{
+    
+    SKSpriteNode* board;
+}
 
 @synthesize terrain, stage,combatValue,point,imageName,name,currentCombatValue,isNeutralised,cost,imageNode,combat;
 
@@ -52,7 +55,7 @@
 
 
 - (id) initWithImage:(NSString*)image atPoint:(CGPoint)aPoint andStage:(Stage) s andTerrain: (Terrain *) t {
-    self = [super init];
+    self = [super initWithImageNamed:image];
     if (self) {
         point = aPoint;
         
@@ -70,6 +73,19 @@
     
     
 }
+- (id) initWithBoard:(SKSpriteNode *)aBoard atPoint:(CGPoint)aPoint fromImage:(NSString *)image{
+    
+    self = [super initWithImageNamed:image];
+    if(self){
+        
+        board = aBoard;
+        point = aPoint;
+        
+        [self setValuesFromString:image];
+    }
+    return self;
+    
+}
 
 - (void) setValuesFromString:(NSString *) values{
     NSMutableArray *array = [[values componentsSeparatedByString:@"-"] mutableCopy];
@@ -78,7 +94,7 @@
     for(NSString *value in array){
         NSString *trimmed = [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         if ([trimmed hasPrefix:@"n"]){
-            name = [trimmed substringFromIndex:2];
+            super.name = [trimmed substringFromIndex:2];
             
                 /*isCity =[[trimmed substringFromIndex:2] isEqualToString:@"City"];
                 isVillage = [[trimmed substringFromIndex:2] isEqualToString:@"Village"];
@@ -111,15 +127,15 @@
     currentCombatValue = combatValue;
 }
 
--(BOOL)checkIfConstructionPossible:(SKNode*) node{
+-(BOOL)checkIfConstructionPossible:(Building*) newBuilding{
 
-    if([node.accessibilityLabel isEqualToString:@"keep"] && [imageNode.accessibilityLabel isEqualToString:@"tower"])
+//    if([node.accessibilityLabel isEqualToString:@"keep"] && [imageNode.accessibilityLabel isEqualToString:@"tower"])
+//        return YES;
+//    if([node.accessibilityLabel isEqualToString:@"castle"] && [imageNode.accessibilityLabel isEqualToString:@"keep"])
+//        return YES;
+//    if([node.accessibilityLabel isEqualToString:@"citadel"] && [imageNode.accessibilityLabel isEqualToString:@"castle"])
+    if((newBuilding.stage - self.stage) == 1)
         return YES;
-    if([node.accessibilityLabel isEqualToString:@"castle"] && [imageNode.accessibilityLabel isEqualToString:@"keep"])
-        return YES;
-    if([node.accessibilityLabel isEqualToString:@"citadel"] && [imageNode.accessibilityLabel isEqualToString:@"castle"])
-       return YES;
-       
     else
        return NO;
     

@@ -8,30 +8,36 @@
 
 #import <Foundation/Foundation.h>
 #import <SpriteKit/SpriteKit.h>
+#import "Terrain.h"
 
-@interface SpecialIncome : NSObject
+@interface SpecialIncome : SKSpriteNode
 
 @property (nonatomic, strong) SKSpriteNode* node;
 typedef enum Type : NSUInteger {
     Treasure,
     Event,
-    Magic,
-    Docked //keyed to the terrain
+    MagicItem,
+    Docked, //keyed to the terrain
+    Village,
+    City
 }Type;
 
 @property int goldValue;
 @property Type type;
-@property BOOL isKeyedToTerrain, inBowl ,isTreasure ;
-@property NSString* symbol;
-@property NSString* name, *imageName;
+@property BOOL  inBowl;
+@property CGPoint initialPoint;
+
 @property NSString* terrainType;
+@property Terrain* terrain;
 
 
-- (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image andCounterName: (NSString *) cName withGoldValue: (int) value forTerrainType: (NSString *) terrain isKeyedToTerrain:(BOOL) keyed;
+- (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image andCounterName: (NSString *) cName withGoldValue: (int) value forTerrainType: (NSString *) ter isKeyedToTerrain:(BOOL) keyed;
 - (id) initWithBoard:(SKSpriteNode *)aBoard atPoint:(CGPoint)aPoint fromString:(NSString *)string;
 - (id) initWithBoard:(SKSpriteNode *)aBoard atPoint:(CGPoint)aPoint fromString:(NSString *)string isKeyedToTerrain: (BOOL) keyed;
-- (void) draw;
 - (id)initWithImage:(NSString*)image atPoint:(CGPoint)aPoint;
+
+- (void) draw;
+
 
 @end
 

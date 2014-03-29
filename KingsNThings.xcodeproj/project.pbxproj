@@ -136,6 +136,7 @@
 		68F84CDA18E0F06D0059706D /* game-center.png in Resources */ = {isa = PBXBuildFile; fileRef = 68F84CD918E0F06D0059706D /* game-center.png */; };
 		68F84CDD18E10AC30059706D /* kingsnthings-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 68F84CDB18E10AC30059706D /* kingsnthings-Info.plist */; };
 		68F84CDF18E10B450059706D /* kingsnthings-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 68F84CDE18E10B450059706D /* kingsnthings-Info.plist */; };
+		C503704F18E62DEE0090C5D2 /* ArmyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = C503704E18E62DEE0090C5D2 /* ArmyScene.m */; };
 		C5461C9E18D24E9500628AC4 /* special_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C5461C9D18D24E9500628AC4 /* special_button.png */; };
 		C59BE5F218A052E700EC48E0 /* SpecialIncome.m in Sources */ = {isa = PBXBuildFile; fileRef = C59BE5F118A052E700EC48E0 /* SpecialIncome.m */; };
 		C59BE61C18A054A100EC48E0 /* -n Bird Of Paradise -t Jungle -s Fly -a 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C59BE60F18A054A100EC48E0 /* -n Bird Of Paradise -t Jungle -s Fly -a 1.jpg */; };
@@ -468,6 +469,8 @@
 		68F84CDB18E10AC30059706D /* kingsnthings-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "kingsnthings-Info.plist"; sourceTree = "<group>"; };
 		68F84CDC18E10AC30059706D /* kingsnthings-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "kingsnthings-Prefix.pch"; sourceTree = "<group>"; };
 		68F84CDE18E10B450059706D /* kingsnthings-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "kingsnthings-Info.plist"; sourceTree = "<group>"; };
+		C503704D18E62DEE0090C5D2 /* ArmyScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArmyScene.h; sourceTree = "<group>"; };
+		C503704E18E62DEE0090C5D2 /* ArmyScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArmyScene.m; sourceTree = "<group>"; };
 		C5461C9D18D24E9500628AC4 /* special_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = special_button.png; sourceTree = "<group>"; };
 		C59BE5F018A052E700EC48E0 /* SpecialIncome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpecialIncome.h; sourceTree = "<group>"; };
 		C59BE5F118A052E700EC48E0 /* SpecialIncome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpecialIncome.m; sourceTree = "<group>"; };
@@ -761,10 +764,10 @@
 				C59BE5F118A052E700EC48E0 /* SpecialIncome.m */,
 				6832A14D1897735900476D5D /* Terrain.h */,
 				6832A14E1897735900476D5D /* Terrain.m */,
-				C5B312E818A4603900100A26 /* Army.h */,
 				C5B312E918A4603900100A26 /* Army.m */,
 				6832A1501897736700476D5D /* Board.h */,
 				6832A1511897736700476D5D /* Board.m */,
+				C5B312E818A4603900100A26 /* Army.h */,
 				6832A1531897754B00476D5D /* Bank.h */,
 				6832A1541897754B00476D5D /* Bank.m */,
 				E81E3BF11898554000449AA8 /* Creature.h */,
@@ -898,6 +901,8 @@
 				C59E4D0F18A5E0FE00CCBA0D /* CombatScene.m */,
 				688FB41518D6BEC700095972 /* SpecialRecruitmentScene.h */,
 				688FB41618D6BEC700095972 /* SpecialRecruitmentScene.m */,
+				C503704D18E62DEE0090C5D2 /* ArmyScene.h */,
+				C503704E18E62DEE0090C5D2 /* ArmyScene.m */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -1433,7 +1438,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 686C971E1888A88500BE6D42 /* Build configuration list for PBXProject "kingsnthings" */;
+			buildConfigurationList = 686C971E1888A88500BE6D42 /* Build configuration list for PBXProject "KingsNThings" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -1721,6 +1726,7 @@
 				6832A14C1897734100476D5D /* Player.m in Sources */,
 				C59BE5F218A052E700EC48E0 /* SpecialIncome.m in Sources */,
 				688FB41318D6BD8E00095972 /* SpecialPower.m in Sources */,
+				C503704F18E62DEE0090C5D2 /* ArmyScene.m in Sources */,
 				E81E3BF31898554000449AA8 /* Creature.m in Sources */,
 				C5A92F8118A6EA6C00F92598 /* CombatPhase.m in Sources */,
 			);
@@ -1921,7 +1927,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		686C971E1888A88500BE6D42 /* Build configuration list for PBXProject "kingsnthings" */ = {
+		686C971E1888A88500BE6D42 /* Build configuration list for PBXProject "KingsNThings" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				686C975A1888A88600BE6D42 /* Debug */,

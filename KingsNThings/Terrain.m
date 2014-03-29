@@ -14,12 +14,12 @@
    
     
 }
-@synthesize type,imageName,flipped,position,node,hasOwner,hasArmyOnIt,location,hasBuilding,hasSpecialIncome;
+@synthesize type,imageName,flipped,node,hasOwner,hasArmyOnIt,location;
 
 
 - (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image andTerrainName: (NSString *) name
 {
-    self = [super init];
+    self = [super initWithImageNamed:image];
     if (self) {
         point = aPoint;
         board = aBoard;
@@ -27,7 +27,7 @@
         type = name;
         flipped = YES;
         hasArmyOnIt = NO;
-        hasSpecialIncome = NO;
+        
     }
     return self;
 }
@@ -35,7 +35,7 @@
 
 
 
-
+/*
 - (id)initWithCoder:(NSCoder *)decoder {
     if (self = [super init]) {
         point = CGPointMake([[decoder decodeObjectForKey:@"pointX"] floatValue], [[decoder decodeObjectForKey:@"pointY"] floatValue]);
@@ -63,24 +63,24 @@
     
 }
 
-
+*/
 
 - (void) draw{
-    node = [SKSpriteNode spriteNodeWithImageNamed:imageName];
-    [node setName:type];
-    [node setAccessibilityLabel:@"terrain"];
-    node.size = CGSizeMake(88,88);
-    [node setPosition:point];
-    [board addChild:node];
+    //node = [SKSpriteNode spriteNodeWithImageNamed:imageName];
+    [self setName:type];
+    //[self setAccessibilityLabel:@"terrain"];
+    self.size = CGSizeMake(88,88);
+    [self setPosition:point];
+    [board addChild:self];
 }
 
 
 - (float) getAbsoluteX{
-    return node.position.x;
+    return self.position.x;
 }
 
 - (float) getAbsoluteY{
-    return node.position.y;
+    return self.position.y;
 }
 
 @end

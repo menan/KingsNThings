@@ -37,29 +37,43 @@
 @property NSMutableDictionary * combat;
 
 
+- (id) init;
+
+
 - (BOOL) setBuilding: (Building *) building;
 - (BOOL) removeBuilding:(Building*) building;
 - (BOOL) setTerritory: (Terrain *) territory;
-- (NSMutableArray *) getTerritories;
-- (int) getBankBalance;
-- (id) init;
+- (BOOL) addCreatureToArmy:(id)creature inArmy:(Army*)army;
+- (BOOL) removeCreatureFromRackByName:(NSString *) name;
+- (BOOL) canAdvanceToGold;
+- (BOOL) hasSpecialIncomeOnTerrain:(Terrain*)terrain;
+- (BOOL) hasBuildingOnTerrain:(Terrain*)terrain;
+
+
+
+
 - (void) justPaid:(int) amount;
 - (void) justGotPaid:(int) amount;
-- (Bank *) getBank;
-- (int) getIncome;
-- (Army*) constructNewArmy:(id)creatur atPoint:(CGPoint) aPoint withTerrain:(Terrain*)terrain;
-- (BOOL) addCreatureToArmy:(id)creature inArmy:(Army*)army;
+- (void) hasLeft:(BOOL) left;
 - (void) printArmy;
-- (Army*) armyByCreature:(id)creature;
+- (void) returnedACreature;
+- (void) addSpecialIncome:(SpecialIncome*)sp;
+
+
+
+- (Army*) constructNewArmy:(id)creatur atPoint:(CGPoint) aPoint withTerrain:(Terrain*)terrain;
+
+/*-------Finders-----*/
+- (NSMutableArray *) getTerritories;
+- (int) getBankBalance;
+- (int) getIncome;
 - (NSInteger) numberOfArmies;
+- (Bank *) getBank;
+- (Army*) armyByCreature:(id)creature;
 - (Army *) getArmyAtIndex:(NSInteger)index;
 - (Army*) findArmyOnTerrain:(Terrain*)terrain;
 - (Building*) getBuildingOnTerrain:(Terrain*)ter;
-- (void) hasLeft:(BOOL) left;
 - (Creature *) findCreatureOnRackByName:(NSString *) name;
-- (BOOL) removeCreatureFromRackByName:(NSString *) name;
-- (void) returnedACreature;
-- (void) addSpecialIncome:(SpecialIncome*)sp;
 - (SpecialIncome *) findSpecialIncomeOnRackByName:(NSString *) name;
-- (BOOL) canAdvanceToGold;
+
 @end

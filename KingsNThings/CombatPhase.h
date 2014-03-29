@@ -29,6 +29,7 @@ typedef enum Round: NSUInteger{
 
 @property combatType type;
 @property Round round;
+
 @property NSMutableArray* attackerMagicCreature ;
 @property NSMutableArray* defenderMagicCreature;
 @property NSMutableArray* attackerRangedCreature;

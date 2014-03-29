@@ -10,11 +10,15 @@
 #import "Terrain.h"
 #import "Building.h"
 
-@interface Army : SKSpriteNode
+@interface Army : NSObject
 
 @property NSMutableArray* creatures;
 @property CGPoint position;
+<<<<<<< HEAD
+//@property BOOL belongsToP1,belongsToP2,belongsToP3,belongsToP4, hasArmyOnIt;
+=======
 @property BOOL hasArmyOnIt;
+>>>>>>> c1dd117753a8f71badf4f9f51c52a20600ae5668
 @property BOOL imageIsDrawn;
 @property Terrain* terrain;
 @property SKSpriteNode *image;

@@ -312,4 +312,31 @@ static int counter = -1;
     else
         return NO;
 }
+
+
+-(BOOL) hasSpecialIncomeOnTerrain:(Terrain*)terrain{
+    BOOL result = NO;
+    for(SpecialIncome* sp in specialIncome){
+        if([sp.terrain isEqual:terrain]){
+            result = YES;
+            break;
+        }
+    }
+    
+    return result;
+    
+}
+
+-(BOOL) hasBuildingOnTerrain:(Terrain*)terrain{
+    BOOL result = NO;
+    for(Building* b in buildings){
+        if([b.terrain isEqual:terrain]){
+            result = YES;
+            break;
+        }
+    }
+    
+    return result;
+    
+}
 @end

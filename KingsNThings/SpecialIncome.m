@@ -9,7 +9,7 @@
 #import "SpecialIncome.h"
 
 @implementation SpecialIncome{
-CGPoint point;
+
 SKSpriteNode *board;
 
 int position;
@@ -17,21 +17,21 @@ int position;
 
 }
 
-@synthesize goldValue,symbol,name,inBowl,imageName,isKeyedToTerrain,isTreasure,terrainType,type;
+@synthesize goldValue,inBowl,terrainType,type,terrain,initialPoint;
 
 @synthesize node;
 
-- (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image andCounterName: (NSString *) cName withGoldValue: (int) value forTerrainType: (NSString *) terrain{
-    self = [super init];
+- (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image andCounterName: (NSString *) cName withGoldValue: (int) value forTerrainType: (NSString *) ter{
+    self = [super initWithImageNamed:image];
     if (self) {
-        point = aPoint;
+        initialPoint = aPoint;
         board = aBoard;
-        imageName = image;
-        name = cName;
+        //imageName = image;
+        //name = cName;
        
         inBowl = YES;
         
-        terrainType = terrain;
+        terrainType = ter;
         goldValue = value;
        
         
@@ -39,12 +39,12 @@ int position;
     return self;
 }
 - (id) initWithBoard:(SKSpriteNode *)aBoard atPoint:(CGPoint)aPoint fromString:(NSString *)string{
-    self = [super init];
+    self = [super initWithImageNamed:[NSString stringWithFormat:@"%@.jpg",string]];
     if (self) {
-        point = aPoint;
+        
+        initialPoint = aPoint;
         board = aBoard;
-        imageName = [NSString stringWithFormat:@"%@.jpg",string];
-       
+        
         inBowl = YES;
         
         [self setValuesFromString:string];
@@ -55,19 +55,15 @@ int position;
 
 
 - (id) initWithImage:(NSString*)image atPoint:(CGPoint)aPoint{
-    self = [super init];
+    self = [super initWithImageNamed:[NSString stringWithFormat:@"%@.jpg",image]];
     if (self) {
-        point = aPoint;
-        
-        imageName = [NSString stringWithFormat:@"%@.jpg",image];
+        initialPoint = aPoint;
         
         inBowl = NO;
       
         [self setValuesFromString:image];
     }
     return self;
-    
-    
 }
 
 
@@ -78,8 +74,13 @@ int position;
     for(NSString *value in array){
         NSString *trimmed = [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         if ([trimmed hasPrefix:@"n"]){
-            name = [trimmed substringFromIndex:2];
-            //            NSLog(@"Name: %@", name);
+            super.name = [trimmed substringFromIndex:2];
+            
+           if([[trimmed substringFromIndex:2] isEqualToString:@"City"])
+               type = City;
+            else if ([[trimmed substringFromIndex:2] isEqualToString:@"Village"])
+                type = Village;
+           
         }
         else if ([trimmed hasPrefix:@"t"]){
             if([[trimmed substringFromIndex:2] isEqualToString:@"Treasure"]){
@@ -88,11 +89,12 @@ int position;
                 
             }
             else if([[trimmed substringFromIndex:2] isEqualToString:@"Magic"]){
-                type = Magic;
+                type = MagicItem;
             }
             else if([[trimmed substringFromIndex:2] isEqualToString:@"Event"]){
                 type = Event;
             }
+            
             else{
             
                 type = Docked;
@@ -116,6 +118,25 @@ int position;
 }
 
 - (void) draw{
+    [self removeFromParent]; //makes sure that it removes it to prevent duplications
+
+    
+    self.size = CGSizeMake(37,37);
+    self.position = initialPoint;
+    if (inBowl) {
+        self.color = [SKColor blackColor];
+        self.colorBlendFactor = .85;
+    }
+    else{
+        
+        self.color = [SKColor grayColor];
+        self.colorBlendFactor = 0;
+    }
+    [board addChild:self];
+}
+
+
+/*- (void) draw{
     [node removeFromParent]; //makes sure that it removes it to prevent duplications
     node = [SKSpriteNode spriteNodeWithImageNamed:imageName];
     node.name = name;
@@ -135,5 +156,5 @@ int position;
         node.colorBlendFactor = 0;
     }
     [board addChild:node];
-}
+}*/
 @end
