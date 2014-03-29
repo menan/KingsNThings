@@ -88,6 +88,9 @@
     
 }
 
+- (NSDictionary *) getDict{
+    return [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:node.position.x],@"X",[NSNumber numberWithFloat:node.position.y],@"Y",name,@"name", nil];
+}
 
 - (void) setValuesFromString:(NSString *) values{
     NSMutableArray *array = [[values componentsSeparatedByString:@"-"] mutableCopy];

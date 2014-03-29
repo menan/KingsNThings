@@ -19,7 +19,7 @@
 @property NSArray *disabled;
 @property NSArray *nonMovables;
 @property CGPoint bowlLocaiton;
-@property NSMutableArray* terrainsLayout, *terrainsDictionary, *markersArray;
+@property NSMutableArray* terrainsLayout, *terrainsDictionary, *markersArray, *armiesArray;
 @property BOOL canTapDone;
 
 - (id)initWithScene: (MyScene *) aScene atPoint: (CGPoint) aPoint withSize: (CGSize) aSize;
@@ -43,6 +43,6 @@
 - (void) playTreasure:(SKSpriteNode*)node;
 - (void) hideDone;
 - (void) showDone;
-- (void) constructTerrainFromDictionary:(NSArray *) terrains;
-- (void) constructPlacemarkerFromDictionary:(NSArray *) placemarkers;
+- (void) constructTerrain:(NSArray *) terrains;
+- (void) constructPlacemarker:(NSArray *) placemarkers;
 @end

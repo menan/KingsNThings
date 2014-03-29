@@ -12,7 +12,7 @@
 
 @implementation Army
 
-@synthesize creatures,position,imageIsDrawn,terrain,image,armyNumber,playerNumber,building;
+@synthesize creatures,position,terrain,image,armyNumber,playerNumber,building;
 
 
 
@@ -37,6 +37,36 @@
         image = [[SKSpriteNode alloc]init];
     }
     return self;
+}
+
+- (NSDictionary *) getDict{
+    
+    return [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:image.position.x],@"X",[NSNumber numberWithFloat:image.position.y],@"Y",[NSNumber numberWithFloat:image.position.y],@"Y",[NSNumber numberWithFloat:armyNumber],@"armyNumber",[NSNumber numberWithFloat:armyNumber],@"armyNumber", nil];
+}
+
+
+
+- (id)initWithCoder:(NSCoder *)decoder {
+    if (self = [super init]) {
+        position = CGPointMake([[decoder decodeObjectForKey:@"pointX"] floatValue], [[decoder decodeObjectForKey:@"pointY"] floatValue]);
+        creatures = [decoder decodeObjectForKey:@"creatures"];
+        armyNumber = [[decoder decodeObjectForKey:@"armyNumber"] integerValue];
+        armyNumber = [decoder decodeObjectForKey:@"armyNumber"];
+        terrain = [decoder decodeObjectForKey:@"terrain"];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    [encoder encodeObject:[NSNumber numberWithFloat:point.x] forKey:@"pointX"];
+    [encoder encodeObject:[NSNumber numberWithFloat:point.y] forKey:@"pointY"];
+    [encoder encodeObject:board forKey:@"board"];
+    [encoder encodeObject:imageName forKey:@"imageName"];
+    [encoder encodeObject:type forKey:@"type"];
+    [encoder encodeObject:[NSNumber numberWithBool:flipped] forKey:@"flipped"];
+    [encoder encodeObject:[NSNumber numberWithBool:hasArmyOnIt] forKey:@"hasArmyOnIt"];
+    [encoder encodeObject:[NSNumber numberWithInteger:location] forKey:@"location"];
+    [encoder encodeObject:[NSNumber numberWithBool:hasSpecialIncome] forKey:@"hasSpecialIncome"];
 }
 
 -(void) addCreatures:(Creature*)creature{

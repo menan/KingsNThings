@@ -617,4 +617,15 @@
 }
 
 
+//tells you if theres a building present on terrain
+- (BOOL) buildPresentOnTerrain:(Terrain *) terrain{
+    for (Player *p in players) {
+        if([p getBuildingOnTerrain:terrain])
+            return YES;
+    }
+    return NO;
+    
+}
+
+
 @end

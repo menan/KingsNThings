@@ -45,7 +45,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 
 static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 
-@synthesize textLabel,dicesClicked,creaturesInBowl,recruitLabel,game,disabled,nonMovables,bank,bowlLocaiton,doneButton,canTapDone,terrainsLayout,markersArray;
+@synthesize textLabel,dicesClicked,creaturesInBowl,recruitLabel,game,disabled,nonMovables,bank,bowlLocaiton,doneButton,canTapDone,terrainsLayout,markersArray,armiesArray;
 - (id)initWithScene: (MyScene *) aScene atPoint: (CGPoint) aPoint withSize: (CGSize) aSize
 {
     self = [super init];
@@ -1049,7 +1049,6 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         [self rollDiceTwo];
     }
     else if ([node.name isEqualToString:@"collection"]){
-        
         [self initiateGoldCollection];
     }
     else if ([node isKindOfClass:[Building class]]){
@@ -1129,7 +1128,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         NSLog(@"Creature is %@",n.name);
         
         if(a != nil){
-            [a removeCreature:n];
+            [a removeCreature:creature];
         }
         
         if(![t hasArmyOnIt]){
@@ -1663,7 +1662,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     }
 }
 
-- (void) constructPlacemarkerFromDictionary:(NSArray *) placemarkers{
+- (void) constructPlacemarker:(NSArray *) placemarkers{
     NSLog(@"gonna construct placemarkers with from the data %d",placemarkers.count);
     
     for (NSDictionary *m in placemarkers) {
@@ -1698,12 +1697,21 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     
 }
 
+- (void) constructArmy:(NSArray *) armies{
+    
+    for (NSDictionary *a in armies) {
+        
+    }
+}
 -(void) showArmyCreatures:(Army*)army{
     
     
     
     
 }
+
+
+
 
 
 @end
