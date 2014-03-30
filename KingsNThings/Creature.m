@@ -160,6 +160,17 @@
     }
     [board addChild:self];
 }
+- (void) drawAtPoint:(SKSpriteNode*)location{
+    //[self removeFromParent]; //makes sure that it removes it to prevent duplications
+    //self.spriteNodeWithImageNamed = imageName;
+    
+    self.name = name;
+    //self.accessibilityValue = @"creatures";
+    self.size = CGSizeMake(37,37);
+    //self.position = initialPoint;
+    
+    [location addChild:self];
+}
 /*- (void) draw{
     [node removeFromParent]; //makes sure that it removes it to prevent duplications
     node = [SKSpriteNode spriteNodeWithImageNamed:imageName];

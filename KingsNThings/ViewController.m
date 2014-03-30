@@ -11,7 +11,7 @@
 
 @implementation ViewController
 
-@synthesize scene;
+@synthesize scene,longPressRecognizer;
 
 
 - (void)viewDidLoad
@@ -49,10 +49,20 @@
     skView.showsFPS = NO;
     skView.showsNodeCount = NO;
     
+    
     // Create and configure the scene.
     scene = [MyScene sceneWithSize:skView.bounds.size];
     scene.controller = self;
     scene.scaleMode = SKSceneScaleModeAspectFill;
+    
+    longPressRecognizer =
+    [[UILongPressGestureRecognizer alloc]
+     initWithTarget:scene
+     action:@selector(longPressDetected:)];
+    longPressRecognizer.minimumPressDuration = 3;
+    longPressRecognizer.numberOfTouchesRequired = 1;
+    [skView addGestureRecognizer:longPressRecognizer];
+
     [skView presentScene:scene];
 }
 
@@ -150,4 +160,11 @@
 -(void)recieveEndGame:(GKTurnBasedMatch *)match {
     [self layoutMatch:match];
 }
+/*-(void) longPressDetected:(UIGestureRecognizer *)gestureRecognizer{
+    
+    CGPoint location = [gestureRecognizer locationInView:[gestureRecognizer view]];
+    
+    [scene respondToGesture:location];
+}
+ */
 @end

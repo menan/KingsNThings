@@ -44,10 +44,32 @@
     [self selectNodeForTouch:positionInScene];
     
 }
+
+/*-(void) respondToGesture:(CGPoint)location{
+    
+    SKSpriteNode *touchedNode = (SKSpriteNode *)[self nodeAtPoint:location];
+    
+    NSLog(@"long press detected at location x %f , y %f ",location.x,location.y);
+    NSLog(@"long press detected at node  %@",touchedNode.name);
+    
+}*/
+
+-(void) longPressDetected:(UIGestureRecognizer *)gestureRecognizer{
+    
+    CGPoint location = [gestureRecognizer locationInView:[gestureRecognizer view]];
+    
+    SKSpriteNode *touchedNode = (SKSpriteNode *)[self nodeAtPoint:location];
+    
+    NSLog(@"long press detected at location x %f , y %f ",location.x,location.y);
+    NSLog(@"long press detected at node  %@",touchedNode.name);
+}
+
 - (void)selectNodeForTouch:(CGPoint)touchLocation {
     //1
     SKSpriteNode *touchedNode = (SKSpriteNode *)[self nodeAtPoint:touchLocation];
     //2
+    
+    
     
 	if([gameBoard canSelectNode:touchedNode]){
         if (![_selectedNode isEqual:touchedNode]) {
@@ -60,6 +82,7 @@
         _selectedNode.color = [SKColor redColor];
         _selectedNode.colorBlendFactor = 0.5;
 	}
+    
     
 }
 
@@ -84,6 +107,7 @@
 	CGPoint previousPosition = [touch previousLocationInNode:self];
     
 	CGPoint translation = CGPointMake(positionInScene.x - previousPosition.x, positionInScene.y - previousPosition.y);
+    
     
     if (translation.x == 0 && translation.y == 0) {
         NSLog(@"just tapped");
@@ -133,13 +157,16 @@ CGPoint mult(const CGPoint v, const CGFloat s) {
 }
 -(void) tranitToArmyScene:(Army*) army forPlayer:(Player*)p{
    
-    CGSize s = CGSizeMake(self.size.width/4, self.size.height/2);
-    ArmyScene* armyscene = [[ArmyScene alloc]initWithSize:s andSender:self];
-    transitionRevealWithDirectionUp = [SKTransition revealWithDirection:SKTransitionDirectionUp duration:1];
+    //CGSize s = CGSizeMake(self.size.width/4, self.size.height/2);
+    CGSize s = CGSizeMake(10, 10);
+    //ArmyScene* armyscene = [[ArmyScene alloc]initWithSize:s andSender:self Army:army forPlayer:p];
+    //transitionRevealWithDirectionUp = [SKTransition revealWithDirection:SKTransitionDirectionUp duration:1];
         //initWithSize:[self size] withAttacker:attacker andDefender:defender andSender:self ];
     
-    [self.scene.view presentScene:armyscene transition:transitionRevealWithDirectionUp];
+    //[self.scene.view presentScene:armyscene transition:transitionRevealWithDirectionUp];
+    
 }
+
 - (void) startSecondCombat{
     [gameBoard.game initiateCombat:[gameBoard.game.players objectAtIndex:2]];
 }

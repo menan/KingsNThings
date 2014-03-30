@@ -46,7 +46,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 
 @synthesize textLabel,dicesClicked,creaturesInBowl,recruitLabel,game,disabled,nonMovables,bank,bowlLocaiton,doneButton,canTapDone,terrainsLayout,markersArray;
-- (id)initWithScene: (MyScene *) aScene atPoint: (CGPoint) aPoint withSize: (CGSize) aSize
+- (id)initWithScene: (MyScene *) aScene atPoint: (CGPoint)aPoint withSize: (CGSize) aSize
 {
     self = [super init];
     if (self) {
@@ -55,7 +55,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         scene = aScene;
         playersCount = 7;
         nonMovables = @[@"board", @"bowl", @"rack", @"Gold 1", @"Gold 2", @"Gold 5", @"Gold 10", @"Gold 15", @"Gold 20", @"My Gold 1", @"My Gold 2", @"My Gold 5", @"My Gold 10", @"My Gold 15", @"My Gold 20", @"diceOne", @"diceTwo", @"collection", @"labels", @"Bank", @"My Stash", @"P4 Stash", @"P3 Stash", @"P2 Stash", @"balance",@"coins",@"match",@"done-turn"];
-        disabled = @[@"labels", @"Bank", @"My Stash", @"P4 Stash", @"P3 Stash", @"P2 Stash", @"bowl", @"board", @"rack"];
+        disabled = @[@"labels", @"Bank", @"My Stash", @"P4 Stash", @"P3 Stash", @"P2 Stash", @"bowl", @"board", @"rack",@"subMenu"];
         
         terrainNames = @[@"Desert", @"Forest", @"Frozen Waste", @"Jungle", @"Mountains", @"Plains", @"Sea", @"Swamp"];
         
@@ -160,6 +160,15 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     [self drawSpecialCreatures:CGPointMake(160.0f, (size.height) - 20)];
     
     [self drawDice:CGPointMake(25.0f, 25.0f)];
+    //[self drawSubMenu:CGPointMake(493.25f,238.0f)];
+}
+-(void) drawSubMenu:(CGPoint)aPoint{
+    SKSpriteNode *subMenu = [SKSpriteNode spriteNodeWithColor:[UIColor colorWithRed:255 green:255 blue:255 alpha:0.0] size:CGSizeMake(45,380)];
+    [subMenu setName:@"subMenu"];
+    [subMenu setPosition:aPoint];
+    [board addChild:subMenu];
+    
+    
 }
 
 - (void) resetText{
@@ -827,10 +836,11 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         Terrain *temp = [game findTerrainAt:terrainPoint];
         Player *tempPlayer = [game findPlayerByOrder:[node.name integerValue]];
         
-        Army* ar = [tempPlayer getArmyAtIndex:[node.accessibilityLabel integerValue]- 1];
-        
+        //Army* ar = [tempPlayer getArmyAtIndex:[node.accessibilityLabel integerValue]- 1];
+        Army* ar = (Army*)node;
         NSLog(@"army moved player is %d",[tempPlayer playingOrder]);
-        [game movementPhase:tempPlayer withArmy:ar onTerrian:temp];
+        [self showArmyCreatures:ar];
+        //[game movementPhase:tempPlayer withArmy:ar onTerrian:temp];
         
     }
     else if (terrainLocated && [node.name isEqualToString:@"Player 1"]) {
@@ -1136,11 +1146,13 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         if(![t hasArmyOnIt]){
             a = [currentPlayer constructNewArmy:creature atPoint:creature.position withTerrain:t];
             if (a != nil) {
+                
                 [a drawImage:board];
                 
                 [creature removeFromParent];
                 //[creature
                 [t setHasArmyOnIt:YES];
+                
                 [self setCreaturesInBowl:creaturesInBowl-1];
             }
             else{
@@ -1153,7 +1165,8 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 if([[army terrain]isEqual:t]){
                     if([currentPlayer addCreatureToArmy:creature inArmy:army ]){
                         [n removeFromParent];
-                        [MyScene wiggle:army.image];
+                        [currentPlayer printArmy];
+                        [MyScene wiggle:army];
                         break;
                         
                     }
@@ -1700,6 +1713,25 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 }
 
 -(void) showArmyCreatures:(Army*)army{
+  //493.250000,238.000000
+    CGPoint initalPosiiton = CGPointMake(493.250000, 238.000000);
+    SKSpriteNode *subMenu = [SKSpriteNode spriteNodeWithColor:[UIColor colorWithRed:255 green:255 blue:255 alpha:0.1] size:CGSizeMake(45,380)];
+    [subMenu setName:@"subMenu"];
+    [subMenu setPosition:initalPosiiton];
+    [board addChild:subMenu];
+
+    
+    int i = 0;
+    float x = 1;
+    float y = 165;
+    for (Creature* c in [army creatures]){
+        
+        [c setPosition:(CGPointMake(x,y-(i*(c.size.height)+2)))
+         ];
+        [c removeFromParent];
+        [subMenu addChild:c];
+        ++i;
+    }
     
     
     

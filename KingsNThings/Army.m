@@ -12,17 +12,17 @@
 
 @implementation Army
 
-@synthesize creatures,position,imageIsDrawn,terrain,image,armyNumber,playerNumber,building;
+@synthesize creatures,point,imageIsDrawn,terrain,armyNumber,playerNumber,building;
 
 
 
 -(id) init{
     
-    self = [super init];
+    self = [super initWithColor:[SKColor blackColor] size:CGSizeMake(36,36)];
     
     if(self){
         creatures = [[NSMutableArray alloc]init];
-        image = [[SKSpriteNode alloc]init];
+       // image = [[SKSpriteNode alloc]init];
     }
     return self;
 }
@@ -30,11 +30,12 @@
     
 
 -(id) initWithPoint:(CGPoint) aPoint{
-    self = [super init];
+    self = [super initWithColor:[SKColor blackColor] size:CGSizeMake(36,36)];
     if(self){
         creatures = [[NSMutableArray alloc]init];
         [self setPosition:aPoint];
-        image = [[SKSpriteNode alloc]init];
+        point = aPoint;
+        //image = [[SKSpriteNode alloc]init];
     }
     return self;
 }
@@ -72,15 +73,15 @@
 
 - (void)drawImage:(SKSpriteNode *) aBoard
 {
-    image = [SKSpriteNode spriteNodeWithColor:[SKColor blackColor] size:CGSizeMake(36,36)];
-    image.position = [self position];
-    [image setAccessibilityValue:@"army"];
-    [image setName:[NSString stringWithFormat:@"%i", [self playerNumber]]];
-    [image setAccessibilityLabel:[NSString stringWithFormat:@"%i", [self armyNumber]]];
+    //image = [SKSpriteNode spriteNodeWithColor:[SKColor blackColor] size:CGSizeMake(36,36)];
+    //self.position = [self position];
+    //[self setAccessibilityValue:@"army"];
+    [self setName:[NSString stringWithFormat:@"%i", [self playerNumber]]];
+    [self setAccessibilityLabel:[NSString stringWithFormat:@"%i", [self armyNumber]]];
     
-    [aBoard addChild:image];
+    [aBoard addChild:self];
     
-    [self addDescription: [NSString stringWithFormat:@"ARMY %d",[self armyNumber]] toSprite:image];
+    [self addDescription: [NSString stringWithFormat:@"ARMY %d",armyNumber] toSprite:self];
     
     
 }

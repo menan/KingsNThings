@@ -13,11 +13,11 @@
 @interface Army : SKSpriteNode
 
 @property NSMutableArray* creatures;
-@property CGPoint position;
+@property CGPoint point;
 @property BOOL hasArmyOnIt;
 @property BOOL imageIsDrawn;
 @property Terrain* terrain;
-@property SKSpriteNode *image;
+//@property SKSpriteNode *image;
 @property NSInteger armyNumber;
 @property NSInteger playerNumber;
 @property Building* building;

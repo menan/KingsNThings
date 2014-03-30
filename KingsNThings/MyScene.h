@@ -24,4 +24,5 @@
 - (id) getGame;
 - (id) getBoard;
 + (void) wiggle: (SKSpriteNode *) node;
+-(void) respondToGesture:(CGPoint)location;
 @end

@@ -19,14 +19,14 @@
 
 @synthesize player,army;
 
-- (id)initWithSize:(CGSize)size andSender: (id) s Army:(Army*)arm forPlayer:(Player*)p{
+- (id)initWithSize:(CGSize)size andSender:(id)s Army:(Army*)arm forPlayer:(Player*)p{
     self = [super init];
     if(self){
         sender = s;
     background = [[SKSpriteNode alloc]initWithColor:[SKColor blackColor] size:size];
     background.anchorPoint = CGPointZero;
     background.position = CGPointMake(0,0);
-    //background.size = size;
+    background.size = size;
     [background setColorBlendFactor:0.7];
     //self.backgroundColor = [SKColor blackColor];
         army = arm;

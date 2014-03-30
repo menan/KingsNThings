@@ -14,4 +14,5 @@
 @interface ViewController : UIViewController<GCTurnBasedMatchHelperDelegate>
 
 @property (nonatomic, strong) MyScene * scene;
+@property UILongPressGestureRecognizer *longPressRecognizer;
 @end

@@ -17,7 +17,7 @@
 //@property (nonatomic) Creature *creature;
 @property (nonatomic) Army *army;
 
-- (id)initWithSize:(CGSize)size andSender: (id) s;
+- (id)initWithSize:(CGSize)size andSender:(id)s Army:(Army*)arm forPlayer:(Player*)p;
 - (void) drawElements;
 
 @end
