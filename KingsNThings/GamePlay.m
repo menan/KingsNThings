@@ -547,6 +547,29 @@
     return tempArray;
 }
 
+-(BOOL) isHexAdjacent:(Terrain*)terrain forPlayer:(Player*)p{
+    BOOL validMove = NO;
+    NSMutableArray* temp = [p getTerritories];
+    
+    for(Terrain* t in temp){
+        float dx = [t getAbsoluteX] - [terrain getAbsoluteX];
+        float dy = [t getAbsoluteY] - [terrain getAbsoluteY];
+        
+        float distance = sqrt(dx*dx + dy*dy); //uses pythagorean theorem to caculate the distance
+        
+        if (distance < 75) {
+            validMove = YES;
+            
+        }
+    }
+    if([temp count] == 0){
+        validMove = YES;
+    }
+    
+    return validMove;
+    
+   
+}
 
 
 // =============================================

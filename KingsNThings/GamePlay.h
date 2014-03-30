@@ -55,7 +55,9 @@ typedef enum {
 - (BOOL) recruitmentComplete;
 - (void) checkBluffForPlayer:(Player *) player;
 - (void) endTurn:(id)sender;
+
 -(BOOL) validateHex:(Terrain*)terrain forPlayer:(Player*)player;
+-(BOOL) isHexAdjacent:(Terrain*)terrain forPlayer:(Player*)p;
 -(NSInteger) buildingCost;
 
 @end

@@ -848,28 +848,34 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         
         Player *p = [[game players] objectAtIndex:0];
         if([game phase] == Initial){
-            
-            if([game validateHex:temp forPlayer:p]){
-                
-                if ([p setTerritory:temp]){
+            if([[p getTerritories] count] < 3){
+                if([game validateHex:temp forPlayer:p] && [game isHexAdjacent:temp forPlayer:p] && ![temp.type isEqualToString:@"Sea"]){
                     
-                    [temp setHasArmyOnIt:NO];
-                    
-                    node.name = @"bowl";
-                    [node setSize:CGSizeMake(sizeNode, sizeNode)];
-                    [node setPosition:CGPointMake(temp.position.x + 10, temp.position.y + 22)];
-                    
-                    [markersArray addObject:
-                      [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:(temp.position.x + 10)],@"X",[NSNumber numberWithFloat:(temp.position.y + 22)],@"Y", [NSNumber numberWithInt:0],@"playerId", nil]];
+                    if ([p setTerritory:temp]){
+                        
+                        [temp setHasArmyOnIt:NO];
+                        
+                        node.name = @"bowl";
+                        [node setSize:CGSizeMake(sizeNode, sizeNode)];
+                        [node setPosition:CGPointMake(temp.position.x + 10, temp.position.y + 22)];
+                        
+                        [markersArray addObject:
+                         [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:(temp.position.x + 10)],@"X",[NSNumber numberWithFloat:(temp.position.y + 22)],@"Y", [NSNumber numberWithInt:0],@"playerId", nil]];
                         [self showDone];
+                    }
+                    
+                    else{
+                        NSLog(@"error setting terrain");
+                        [node setPosition:CGPointMake(360.0f, 25.0f)];
+                    }
                 }
                 else{
                     NSLog(@"error setting terrain");
+                    [node setPosition:CGPointMake(360.0f, 25.0f)];
                 }
             }
-            
             else{
-                [node setPosition:CGPointMake(380.0f, 25.0f)];
+                [node setPosition:CGPointMake(360.0f, 25.0f)];
             }
         }
         else{
@@ -891,7 +897,8 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         
         if([game phase] == Initial){
             
-            if([game validateHex:temp forPlayer:p]){
+            if([[p getTerritories] count] < 3){
+                if([game validateHex:temp forPlayer:p] && [game isHexAdjacent:temp forPlayer:p] && ![temp.type isEqualToString:@"Sea"]){
                 
                 if ([p setTerritory:temp]){
                     [temp setHasArmyOnIt:NO];
@@ -906,12 +913,22 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                      [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:(temp.position.x + 10)],@"X",[NSNumber numberWithFloat:(temp.position.y + 22)],@"Y",[NSNumber numberWithInt:1],@"playerId", nil]];
                         [self showDone];
                 }
+                else{
+                    [node setPosition:CGPointMake(360.0f + 43.0f, 25.0f)];
+                }
+                }
+                else{
+                    [node setPosition:CGPointMake(360.0f + 43.0f, 25.0f)];
+                }
             }
             else{
-                [node setPosition:CGPointMake(380.0f + 43.0f, 25.0f)];
+                [node setPosition:CGPointMake(360.0f + 43.0f, 25.0f)];
             }
-            
         }
+        
+    
+    
+        
         else{
             if ([p setTerritory:temp]){
                 
@@ -930,8 +947,10 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         Player *p = [[game players] objectAtIndex:2];
         
         if([game phase] == Initial){
+            if([[p getTerritories] count] < 3){
+                if([game validateHex:temp forPlayer:p] && [game isHexAdjacent:temp forPlayer:p] && ![temp.type isEqualToString:@"Sea"]){
             
-            if([game validateHex:temp forPlayer:p]){
+            
                 
                 if ([p setTerritory:temp]){
                     [temp setHasArmyOnIt:NO];
@@ -947,9 +966,16 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                         [self showDone];
                 }
             }
+                else{
+                    
+                    [node setPosition:CGPointMake(360.0f  + 86.0f, 25.0f)];
+                }
+            }
+            
             
             else{
-                [node setPosition:CGPointMake(380.0f  + 86.0f, 25.0f)];
+               
+                [node setPosition:CGPointMake(360.0f  + 86.0f, 25.0f)];
             }
         }
         else{
@@ -970,7 +996,9 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         
         if([game phase] == Initial){
             
-            if([game validateHex:temp forPlayer:p]){
+            if([[p getTerritories] count] < 3){
+                
+                if([game validateHex:temp forPlayer:p] && [game isHexAdjacent:temp forPlayer:p] && ![temp.type isEqualToString:@"Sea"]){
                 
                 if ([p setTerritory:temp]){
                     
@@ -990,7 +1018,11 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             }
             
             else{
-                [node setPosition:CGPointMake(380.0f + 129.0f, 25.0f)];
+                [node setPosition:CGPointMake(360.0f + 129.0f, 25.0f)];
+            }
+        }
+            else{
+                [node setPosition:CGPointMake(360.0f + 129.0f, 25.0f)];
             }
         }
         else{
@@ -1163,12 +1195,14 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         else {
             for(Army *army in [currentPlayer armies]){
                 if([[army terrain]isEqual:t]){
-                    if([currentPlayer addCreatureToArmy:creature inArmy:army ]){
-                        [n removeFromParent];
-                        [currentPlayer printArmy];
-                        [MyScene wiggle:army];
-                        break;
-                        
+                    if([game phase] == Initial || [game phase] == Recruitment){
+                        if([currentPlayer addCreatureToArmy:creature inArmy:army ]){
+                            [n removeFromParent];
+                            [currentPlayer printArmy];
+                            [MyScene wiggle:army];
+                            break;
+                            
+                        }
                     }
                     else{
                         //must've reached the limit of charecters
