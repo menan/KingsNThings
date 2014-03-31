@@ -1753,8 +1753,10 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 -(void) showArmyCreatures:(Army*)army{
   //493.250000,238.000000
     CGPoint initalPosiiton = CGPointMake(493.250000, 238.000000);
-    SKSpriteNode *subMenu = [SKSpriteNode spriteNodeWithColor:[UIColor colorWithRed:255 green:255 blue:255 alpha:0.1] size:CGSizeMake(45,380)];
+        SKSpriteNode *subMenu = [SKSpriteNode spriteNodeWithColor:[UIColor colorWithRed:255 green:255 blue:255 alpha:0.1] size:CGSizeMake(45,380)];
     [subMenu setName:@"subMenu"];
+    [subMenu removeFromParent];
+
     [subMenu setPosition:initalPosiiton];
     [board addChild:subMenu];
 

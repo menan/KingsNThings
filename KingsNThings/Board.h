@@ -46,4 +46,6 @@
 - (void) showDone;
 - (void) constructTerrainFromDictionary:(NSArray *) terrains;
 - (void) constructPlacemarkerFromDictionary:(NSArray *) placemarkers;
+-(void) showArmyCreatures:(Army*)army;
+
 @end

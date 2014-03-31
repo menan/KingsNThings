@@ -498,7 +498,7 @@
         if(!p.doneTurn)
             done = NO;
     }
-    if(done){
+    if(done && [battles count]>0){
     phase +=1;
     board.textLabel.text = [phaseText objectAtIndex:phase];
     if(phase == Combat){

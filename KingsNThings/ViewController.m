@@ -59,7 +59,7 @@
     [[UILongPressGestureRecognizer alloc]
      initWithTarget:scene
      action:@selector(longPressDetected:)];
-    longPressRecognizer.minimumPressDuration = 3;
+    longPressRecognizer.minimumPressDuration = 2;
     longPressRecognizer.numberOfTouchesRequired = 1;
     [skView addGestureRecognizer:longPressRecognizer];
 
