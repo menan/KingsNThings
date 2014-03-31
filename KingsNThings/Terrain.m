@@ -35,7 +35,6 @@
 
 
 
-
 - (id)initWithCoder:(NSCoder *)decoder {
     if (self = [super init]) {
         point = CGPointMake([[decoder decodeObjectForKey:@"pointX"] floatValue], [[decoder decodeObjectForKey:@"pointY"] floatValue]);

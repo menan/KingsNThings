@@ -38,5 +38,6 @@ typedef enum CombatStrength:NSUInteger{
 - (void) draw;
 - (id)initWithImage:(NSString*)image atPoint:(CGPoint)aPoint;
 - (void) drawAtPoint:(SKSpriteNode*)location;
+- (NSDictionary *) getDict;
 
 @end

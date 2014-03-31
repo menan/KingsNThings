@@ -14,7 +14,7 @@
 #import "CombatPhase.h"
 #import "Board.h"
 #import "GCTurnBasedMatchHelper.h"
-
+#import "NSMutableArrayDictionize.h"
 @implementation GamePlay{
     MyScene *scene;
     NSMutableArray *servers;
@@ -151,7 +151,6 @@
     }
     return NULL;
 }
-
 
 
 -(void) movementPhase:(Player *)player withArmy:(Army*)army onTerrian:(Terrain *)newTerrain{
@@ -507,6 +506,25 @@
     }
 }
 
+
+- (NSArray *) getPlayerStacksAsDictionary{
+    NSMutableArray *arrayStacks = [[NSMutableArray alloc] init];
+    int i = 0;
+    for (Player *p in players) {
+        NSMutableArray *playerArray = [p.stacks dictionize];
+        NSDictionary *playerDict = [[NSDictionary alloc] init];
+        [playerDict setValue:playerArray forKey:@"armies"];
+        [playerDict setValue:[NSNumber numberWithInt:i] forKey:@"playerId"];
+        [arrayStacks addObject:playerDict];
+        
+        i++;
+    }
+    
+    return arrayStacks;
+}
+
+
+
 #pragma GameCenter Functions
 
 
@@ -548,7 +566,10 @@
         if (phase == Initial) {
             [dicData setObject:board.terrainsDictionary forKey:@"terrains"];
             [dicData setObject:board.markersArray forKey:@"markers"];
-            [self currentPlayer].doneInitial = YES;
+            [dicData setObject:[self getPlayerStacksAsDictionary] forKey:@"stacks"];
+            
+            
+
         }
         else if(phase == GoldCollection){
             

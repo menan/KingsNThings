@@ -31,5 +31,5 @@
 -(BOOL) containCreature:(id)creature;
 -(NSInteger) creaturesInArmy;
 -(void) drawImage:(SKSpriteNode *) aBoard ;
-
+- (NSDictionary *) getDict;
 @end

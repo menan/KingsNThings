@@ -9,6 +9,7 @@
 #import "Army.h"
 #import "Creature.h"
 #import "Building.h"
+#import "NSMutableArrayDictionize.h"
 
 @implementation Army
 
@@ -97,6 +98,14 @@
     myLabel.position = CGPointMake(0,sprite.size.height/2 - 35);
     
     [sprite addChild:myLabel];
+}
+
+- (NSDictionary *) getDict{
+    NSDictionary *dict = [[NSDictionary alloc] init];
+    [dict setValue:[NSNumber numberWithFloat:point.x] forKey:@"X"];
+    [dict setValue:[NSNumber numberWithFloat:point.y] forKey:@"Y"];
+    [dict setValue:[creatures dictionize] forKey:@"creatures"];
+    return dict;
 }
 
 /*

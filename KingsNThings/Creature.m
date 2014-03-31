@@ -189,4 +189,13 @@
     }
     [board addChild:node];
 }*/
+
+
+- (NSDictionary *) getDict{
+    NSDictionary *dict = [[NSDictionary alloc] init];
+    [dict setValue:[NSNumber numberWithFloat:initialPoint.x] forKey:@"X"];
+    [dict setValue:[NSNumber numberWithFloat:initialPoint.y] forKey:@"Y"];
+    [dict setValue:imageName forKey:@"imageName"];
+    return dict;
+}
 @end

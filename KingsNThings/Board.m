@@ -1230,6 +1230,11 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     }
     currentPlayer.recruitsRemaining--;
     [self updateRecruitLabel:currentPlayer];
+    
+    if (currentPlayer.recruitsRemaining == 0) {
+        [self showDone];
+    }
+    
     [game checkInitalRecruitmentComplete]; //double checks to see if everyone finished recruiting so that we can move to next phase
     
     
@@ -1709,10 +1714,10 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 - (void) constructTerrainFromDictionary:(NSArray *) terrains{
     NSLog(@"gonna construct terrains with %d",terrains.count);
     
-    
-    for (NSDictionary *t in terrains) {
-        
-    }
+//    
+//    for (NSDictionary *t in terrains) {
+//        
+//    }
 }
 
 - (void) constructPlacemarkerFromDictionary:(NSArray *) placemarkers{
