@@ -12,10 +12,13 @@
 #import "CombatScene.h"
 
 
+
 @implementation CombatPhase{
     
     SKScene* comabtScen;
     MyScene* mainScene;
+    SKSpriteNode* board;
+    
 }
 
 @synthesize attackerMagicCreature,attackerRangedCreature,attackerMeleeCreature;
@@ -24,12 +27,30 @@
 @synthesize attacker,defender,building;
 @synthesize round,isAttacker;
 @synthesize diceOne,diceTwo,type;
-@synthesize attackerRolledDice, defenderRolledDice,attackerNumberOfHits,defenderNumberOfHits,attakerChargeCreatures,defenderChargeCreatures;
+@synthesize attackerRolledDice, defenderRolledDice,attackerNumberOfHits,defenderNumberOfHits,attakerChargeCreatures,defenderChargeCreatures,battle;
 
 
 
 
-
+-(id) initWithMarkerAtPoint:(CGPoint)aPoint onBoard:(id)aBoard andMainScene:(id)sce{
+    self = [super init];
+    
+    if(self) {
+        
+        board = (SKSpriteNode*) aBoard;
+        battle = [[SKSpriteNode alloc]initWithImageNamed:@"battle.jpg"];
+        battle.name= @"battle";
+        battle.position = aPoint;
+        battle.size = CGSizeMake(36.0f,36.0f);
+        [board addChild:battle];
+        
+        mainScene = (MyScene*)sce;
+    }
+    
+    
+    return self;
+    
+}
 -(id) initWithAttacker:(Player*)att andDefender:(Player*)def andAttackerArmy:(id)attArmy andDefenderArmy:(id)defArmy andMainScene:(id)sce ofType:(combatType)t{
     
     self = [super init];

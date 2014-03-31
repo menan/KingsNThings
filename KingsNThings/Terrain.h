@@ -24,4 +24,5 @@
 
 - (float) getAbsoluteX;
 - (float) getAbsoluteY;
+
 @end

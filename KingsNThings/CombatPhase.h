@@ -36,6 +36,7 @@ typedef enum Round: NSUInteger{
 @property NSMutableArray* defenderRangedCreature;
 @property NSMutableArray* attackerMeleeCreature;
 @property NSMutableArray* defenderMeleeCreature ;
+@property SKSpriteNode* battle;
 
 @property Building* building;
 
@@ -54,7 +55,7 @@ typedef enum Round: NSUInteger{
 @property Player* attacker,*defender;
 @property Army* attackerArmy,*defenderArmy;
 
-
+-(id) initWithMarkerAtPoint:(CGPoint) aPoint onBoard:(id) aBoard andMainScene:(id)sce ;
 -(id) initWithAttacker:(Player*)att andDefender:(Player*)def andAttackerArmy:(id)attArmy andDefenderArmy:(id)defArmy andMainScene:(id)sce ofType:(combatType) type;
 -(void) startCombat:(CombatScene*) combatScene;
 -(void)drawScene;

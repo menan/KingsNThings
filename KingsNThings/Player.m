@@ -25,7 +25,7 @@
 
 static int counter = -1;
 
-@synthesize armies,playingOrder,bank,army,returnedCreatures, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat,playerLeft,movementsRemaining,rack,hasBuiltCitadel,specialIncome,doneInitial;
+@synthesize stacks,playingOrder,bank,army,returnedCreatures, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat,playerLeft,movementsRemaining,rack,hasBuiltCitadel,specialIncome,doneInitial,doneTurn;
 
 -(id) init{
     
@@ -35,7 +35,7 @@ static int counter = -1;
         buildings = [[NSMutableArray alloc] init];
         territories = [[NSMutableArray alloc] init];
         specialCharacters = [[NSMutableArray alloc] init];
-        armies = [[NSMutableArray alloc] init];
+        stacks = [[NSMutableArray alloc] init];
         specialIncome = [[NSMutableArray alloc] init];
         
         combat = [[NSMutableDictionary alloc] init];
@@ -52,6 +52,7 @@ static int counter = -1;
         playerLeft = NO;
         hasBuiltCitadel = NO;
         doneInitial = NO;
+        doneTurn = NO;
     }
     return self;
  
@@ -111,7 +112,7 @@ static int counter = -1;
 
 - (int) getSpecialCreatureIncome{
     int sIncome = 0;
-    for(Army *a in armies){
+    for(Army *a in stacks){
         for(Creature *c in a.creatures){
             if (c.isSpecial){
                 sIncome++;
@@ -152,10 +153,10 @@ static int counter = -1;
     return territories;
 }
 
-- (Army *) getArmyAtIndex:(NSInteger)index{
+- (Army *) getStackAtIndex:(NSInteger)index{
     
-    if([armies count] > 0)
-        return [armies objectAtIndex:index];
+    if([stacks count] > 0)
+        return [stacks objectAtIndex:index];
     else
         return nil;
 }
@@ -168,32 +169,50 @@ static int counter = -1;
     }
 }
 
--(NSInteger) numberOfArmies{
-    return [armies count];
+-(NSInteger) numberOfstacks{
+    return [stacks count];
+}
+-(BOOL) reachedArmyLimit{
+    int limit =0;
+    
+    for(Army* a in stacks){
+        
+        limit += [a creaturesInArmy];
+    }
+    
+    if(limit >= 10)
+        return YES;
+    else
+        return NO;
 }
 
 // to construct new army (stack) every time a players drag a creature to new territory
--(Army*) constructNewArmy:(id)creatur atPoint:(CGPoint) aPoint withTerrain:(Terrain*)terrain{
+-(Army*) constructNewStack:(id)creatur atPoint:(CGPoint) aPoint withTerrain:(Terrain*)terrain{
     
-    Army* arm = [[Army alloc]initWithPoint:aPoint];
-    [arm addCreatures:creatur];
-    [arm setTerrain:terrain];
-    [arm setArmyNumber:[self numberOfArmies]+1];
-    [arm setPlayerNumber:[self playingOrder]];
+    Army* arm ;
     
-    //[arm setPosition:aPoint];
-    [armies addObject:arm];
-    NSLog(@"went in construct New Army and %d more recruits remaining", recruitsRemaining);
+    if(![self reachedArmyLimit]){
+        
+        arm = [[Army alloc]initWithPoint:aPoint];
+        [arm addCreatures:creatur];
+        [arm setTerrain:terrain];
+        [arm setArmyNumber:[self numberOfstacks]+1];
+        [arm setPlayerNumber:[self playingOrder]];
+        
+        //[arm setPosition:aPoint];
+        [stacks addObject:arm];
+        NSLog(@"went in construct New Army and %d more recruits remaining", recruitsRemaining);
+    }
     return arm;
    
 }
 
 -(void) printArmy{
     
-    for (int i = 0 ; i<[armies count];i++){
+    for (int i = 0 ; i<[stacks count];i++){
         NSLog(@"Army %d , has Creature in army  ",i);
         
-    for(Creature* cre in [[armies objectAtIndex:i] creatures])
+    for(Creature* cre in [[stacks objectAtIndex:i] creatures])
         NSLog(@" : %@  ",[cre name]);
               
     }
@@ -207,11 +226,11 @@ static int counter = -1;
 
 
 -(Army*) armyByCreature:(id)creature{
-    if([armies count] >0){
-        for (int i = 0 ; i<[armies count];i++){
+    if([stacks count] >0){
+        for (int i = 0 ; i<[stacks count];i++){
             //NSLog(@"Army %d , has Creature in army  ",i);
-            if([[armies objectAtIndex:i] containCreature:creature]){
-                return [armies objectAtIndex:i];
+            if([[stacks objectAtIndex:i] containCreature:creature]){
+                return [stacks objectAtIndex:i];
             }
         }
         
@@ -221,10 +240,10 @@ static int counter = -1;
 }
 
 -(Army*) findArmyOnTerrain:(Terrain*)terrain{
-    for (int i = 0 ; i<[armies count];i++){
+    for (int i = 0 ; i<[stacks count];i++){
         //NSLog(@"Army %d , has Creature in army  ",i);
-        if([[[armies objectAtIndex:i] terrain]isEqual:terrain]){
-            return [armies objectAtIndex:i];
+        if([[[stacks objectAtIndex:i] terrain]isEqual:terrain]){
+            return [stacks objectAtIndex:i];
         }
     }
     return nil;
