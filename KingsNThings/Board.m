@@ -1102,6 +1102,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         
         if (terrainLocated && owner != nil) {
             [self constructBuilding:owner withBuilding:node onTerrain:t];
+            [self showDone];
         }
         else{
             Building* temp = (Building*) node;
