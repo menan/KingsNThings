@@ -1228,13 +1228,10 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         //currentPlayer = [[game findPlayersByTerrain:t] objectAtIndex:0];
         currentPlayer = [game findPlayerByTerrain:t];
     }
+    [self showDone];
     currentPlayer.recruitsRemaining--;
     [self updateRecruitLabel:currentPlayer];
-    
-    if (currentPlayer.recruitsRemaining == 0) {
-        [self showDone];
-    }
-    
+        
     [game checkInitalRecruitmentComplete]; //double checks to see if everyone finished recruiting so that we can move to next phase
     
     
@@ -1714,10 +1711,40 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 - (void) constructTerrainFromDictionary:(NSArray *) terrains{
     NSLog(@"gonna construct terrains with %d",terrains.count);
     
-//    
-//    for (NSDictionary *t in terrains) {
-//        
-//    }
+    //
+    //    for (NSDictionary *t in terrains) {
+    //
+    //    }
+}
+
+
+- (void) constructStackFromDictionary:(NSArray *) stacks{
+    NSLog(@"gonna construct stacks with %d",stacks.count);
+    
+    
+        for (NSDictionary *t in stacks) {
+    
+            int playerId = [[t objectForKey:@"playerId"] integerValue];
+            NSArray *armies = [t objectForKey:@"armies"];
+            
+            for (NSDictionary* army in armies) {
+                
+                
+                CGPoint loc = CGPointMake([[army objectForKey:@"X"] floatValue], [[army objectForKey:@"Y"] floatValue]);
+                
+                for (NSDictionary* creature in [army objectForKey:@"creatures"]) {
+                    NSString *creatureName = [creature objectForKey:@"imageName"];
+                    
+                    Creature *creatureObject = [[Creature alloc] initWithImage:creatureName atPoint:CGPointMake(450, 456)];
+                    Terrain* t = [game findTerrainAt:loc];
+                    Army *armyObject = [[game.players objectAtIndex:playerId] constructNewStack:creatureObject atPoint:loc withTerrain:t];
+                    
+                    
+                    NSLog(@"creatures found: %@", creatureName);
+                }
+                
+            }
+       }
 }
 
 - (void) constructPlacemarkerFromDictionary:(NSArray *) placemarkers{

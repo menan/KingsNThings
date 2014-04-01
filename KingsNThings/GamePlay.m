@@ -512,14 +512,14 @@
     int i = 0;
     for (Player *p in players) {
         NSMutableArray *playerArray = [p.stacks dictionize];
-        NSDictionary *playerDict = [[NSDictionary alloc] init];
-        [playerDict setValue:playerArray forKey:@"armies"];
-        [playerDict setValue:[NSNumber numberWithInt:i] forKey:@"playerId"];
+        NSMutableDictionary *playerDict = [[NSMutableDictionary alloc] init];
+        [playerDict setObject:playerArray forKey:@"armies"];
+        [playerDict setObject:[NSNumber numberWithInt:i] forKey:@"playerId"];
         [arrayStacks addObject:playerDict];
         
         i++;
     }
-    
+//    NSLog(@"stacks array: %@",arrayStacks);
     return arrayStacks;
 }
 

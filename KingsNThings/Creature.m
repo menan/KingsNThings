@@ -192,10 +192,10 @@
 
 
 - (NSDictionary *) getDict{
-    NSDictionary *dict = [[NSDictionary alloc] init];
-    [dict setValue:[NSNumber numberWithFloat:initialPoint.x] forKey:@"X"];
-    [dict setValue:[NSNumber numberWithFloat:initialPoint.y] forKey:@"Y"];
-    [dict setValue:imageName forKey:@"imageName"];
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    [dict setObject:[NSNumber numberWithFloat:initialPoint.x] forKey:@"X"];
+    [dict setObject:[NSNumber numberWithFloat:initialPoint.y] forKey:@"Y"];
+    [dict setObject:imageName forKey:@"imageName"];
     return dict;
 }
 @end
