@@ -695,6 +695,25 @@
     return nil;
 }
 
+//locates terrain class object around the current point
+- (Terrain *) locateTerrainAt:(CGPoint)thisPoint{
+    NSArray * nodes = [[board getBoard] nodesAtPoint:thisPoint];
+    
+    for (id node in nodes) {
+        if ([node isKindOfClass:[Terrain class]]) {
+            NSLog(@"terrain located mfka");
+            return node;
+        }
+    }
+    return nil;
+    
+    
+//    for (Terrain *terrain in terrains) {
+//        if (terrain.position.x == thisPoint.x && terrain.position.y == thisPoint.y) {
+//            return terrain;
+//        }
+//    }
+}
 
 
 //returns the owner of the hex

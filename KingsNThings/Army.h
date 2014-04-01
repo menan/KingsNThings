@@ -13,7 +13,6 @@
 @interface Army : SKSpriteNode
 
 @property NSMutableArray* creatures;
-@property CGPoint point;
 @property BOOL hasArmyOnIt;
 @property BOOL imageIsDrawn;
 @property Terrain* terrain;

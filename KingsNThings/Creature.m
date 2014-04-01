@@ -25,7 +25,8 @@
 {
     self = [super initWithImageNamed:image];
     if (self) {
-       initialPoint = aPoint;
+        initialPoint = aPoint;
+        self.position = aPoint;
         board = aBoard;
         imageName = image;
         name = cName;
@@ -44,6 +45,7 @@
     self = [super initWithImageNamed:[NSString stringWithFormat:@"%@.jpg",string]];
     if (self) {
         initialPoint = aPoint;
+        self.position = aPoint;
         board = aBoard;
         imageName = string;
        isBluff = NO;
@@ -59,6 +61,7 @@
     self = [super initWithImageNamed:[NSString stringWithFormat:@"%@.jpg",string]];
     if (self) {
         initialPoint = aPoint;
+        self.position = aPoint;
         board = aBoard;
         imageName = string;
        isBluff = NO;
@@ -74,7 +77,7 @@
     self = [super initWithImageNamed:[NSString stringWithFormat:@"%@.jpg",image]];
     if (self) {
       initialPoint = aPoint;
-        
+        self.position = aPoint;
         imageName = image;
        isBluff = NO;
         inBowl = NO;
@@ -148,7 +151,6 @@
     self.name = [NSString stringWithFormat:@"%@.jpg",imageName];
     //self.accessibilityValue = @"creatures";
     self.size = CGSizeMake(37,37);
-    self.position = initialPoint;
     if (inBowl && isSpecial == NO) {
        self.color = [SKColor blackColor];
        self.colorBlendFactor = .85;
@@ -160,6 +162,8 @@
     }
     [board addChild:self];
 }
+
+
 - (void) drawAtPoint:(SKSpriteNode*)location{
     //[self removeFromParent]; //makes sure that it removes it to prevent duplications
     //self.spriteNodeWithImageNamed = imageName;
@@ -171,24 +175,6 @@
     
     [location addChild:self];
 }
-/*- (void) draw{
-    [node removeFromParent]; //makes sure that it removes it to prevent duplications
-    node = [SKSpriteNode spriteNodeWithImageNamed:imageName];
-    node.name = name;
-    node.accessibilityValue = @"creatures";
-    node.size = CGSizeMake(37,37);
-    node.position = point;
-    if (inBowl && isSpecial == NO) {
-        node.color = [SKColor blackColor];
-        node.colorBlendFactor = .85;
-    }
-    else{
-        
-        node.color = [SKColor grayColor];
-        node.colorBlendFactor = 0;
-    }
-    [board addChild:node];
-}*/
 
 
 - (NSDictionary *) getDict{

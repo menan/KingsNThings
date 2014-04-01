@@ -142,4 +142,13 @@
 }
 
 
+- (NSDictionary *) getDict{
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    [dict setObject:[NSNumber numberWithFloat:self.position.x] forKey:@"X"];
+    [dict setObject:[NSNumber numberWithFloat:self.position.y] forKey:@"Y"];
+    [dict setObject:[creatures dictionize] forKey:@"creatures"];
+    return dict;
+}
+
+
 @end
