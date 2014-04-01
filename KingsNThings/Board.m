@@ -1725,6 +1725,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         for (NSDictionary *t in stacks) {
     
             int playerId = [[t objectForKey:@"playerId"] integerValue];
+            [[[game.players objectAtIndex:playerId] stacks] removeAllObjects];
             NSArray *armies = [t objectForKey:@"armies"];
             
             for (NSDictionary* army in armies) {
@@ -1734,6 +1735,8 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 
                 for (NSDictionary* creature in [army objectForKey:@"creatures"]) {
                     NSString *creatureName = [creature objectForKey:@"imageName"];
+                    
+                    
                     
                     Creature *creatureObject = [[Creature alloc] initWithImage:creatureName atPoint:CGPointMake(450, 456)];
                     Terrain* t = [game findTerrainAt:loc];

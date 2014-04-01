@@ -39,7 +39,7 @@
 - (BOOL) canMoveNode:(SKSpriteNode*) node;
 - (BOOL) canSelectNode:(SKSpriteNode*) node;
 - (void) captureHex:(Player*) player atTerrain:(Terrain*)terrain;
-- (void) creaturesMoved:(SKSpriteNode *) n AtTerrain:(Terrain *) t;
+- (void) creaturesMoved:(Creature *) n AtTerrain:(Terrain *) t;
 - (Army*) createRandomArmy:(NSInteger) number atPoint:(CGPoint)aPoint andTerrain:(Terrain*)terrain;
 - (void) playTreasure:(SKSpriteNode*)node;
 - (void) hideDone;
