@@ -56,7 +56,7 @@
 
 -(void) longPressDetected:(UIGestureRecognizer *)gestureRecognizer{
     
-    CGPoint location = _selectedNode.position;
+    //CGPoint location = _selectedNode.position;
     
     if([_selectedNode isKindOfClass:[Army class]]){
         [gameBoard showArmyCreatures:(Army*)_selectedNode];
