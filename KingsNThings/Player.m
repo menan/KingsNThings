@@ -256,11 +256,11 @@ static int counter = -1;
     }
     return nil;
 }
--(SpecialIncome*) getSpecialIncomeOnTerrain:(Terrain*)ter{
+-(SpecialIncome *) getSpecialIncomeOnTerrain:(Terrain*)terrain{
     
     for (SpecialIncome *sp in specialIncome) {
-        if([[sp terrain] isEqual:ter]){
-                        return sp;
+        if([[sp terrain] isEqual:terrain]){
+            return sp;
         }
     }
     return nil;
@@ -278,6 +278,12 @@ static int counter = -1;
     }
     
     return false;
+}
+
+-(void) removeTerrainfromTerritories:(Terrain*)terrain{
+    
+    [territories removeObject:terrain];
+    
 }
 
 - (void) hasLeft:(BOOL) left{

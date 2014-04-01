@@ -137,7 +137,7 @@
         }
         
     }
-    if(!isMagic && !isRanged){
+    if(combatType != isMagic && combatType != isRanged){
         combatType = isMelee;
     }
     

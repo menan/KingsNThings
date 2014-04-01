@@ -14,7 +14,7 @@
    
     
 }
-@synthesize type,imageName,flipped,hasOwner,hasArmyOnIt,location;
+@synthesize type,imageName,flipped,location;
 
 
 - (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image andTerrainName: (NSString *) name
@@ -26,7 +26,7 @@
         imageName = image;
         type = name;
         flipped = YES;
-        hasArmyOnIt = NO;
+       
         
     }
     return self;
@@ -42,7 +42,7 @@
         imageName = [decoder decodeObjectForKey:@"imageName"];
         type = [decoder decodeObjectForKey:@"type"];
         flipped = [[decoder decodeObjectForKey:@"flipped"] boolValue];
-        hasArmyOnIt = [[decoder decodeObjectForKey:@"hasArmyOnIt"]boolValue];
+        //hasArmyOnIt = [[decoder decodeObjectForKey:@"hasArmyOnIt"]boolValue];
         //hasSpecialIncome = [[decoder decodeObjectForKey:@"hasSpecialIncome"]boolValue];
         location += [[decoder decodeObjectForKey:@"location"] integerValue];
     }
@@ -56,7 +56,7 @@
     [encoder encodeObject:imageName forKey:@"imageName"];
     [encoder encodeObject:type forKey:@"type"];
     [encoder encodeObject:[NSNumber numberWithBool:flipped] forKey:@"flipped"];
-    [encoder encodeObject:[NSNumber numberWithBool:hasArmyOnIt] forKey:@"hasArmyOnIt"];
+    //[encoder encodeObject:[NSNumber numberWithBool:hasArmyOnIt] forKey:@"hasArmyOnIt"];
     [encoder encodeObject:[NSNumber numberWithInteger:location] forKey:@"location"];
     //[encoder encodeObject:[NSNumber numberWithBool:hasSpecialIncome] forKey:@"hasSpecialIncome"];
     

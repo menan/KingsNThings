@@ -61,10 +61,12 @@ typedef enum {
 - (void) checkBluffForPlayer:(Player *) player;
 - (void) endTurn:(id)sender;
 
--(BOOL) validateHex:(Terrain*)terrain forPlayer:(Player*)player;
--(BOOL) isHexAdjacent:(Terrain*)terrain forPlayer:(Player*)p;
--(NSInteger) buildingCost;
--(void) combatPhase;
--(void) advancePhase;
+- (BOOL) validateHex:(Terrain*)terrain forPlayer:(Player*)player;
+- (BOOL) isHexAdjacent:(Terrain*)terrain forPlayer:(Player*)p;
+- (NSInteger) buildingCost;
+- (void) combatPhase;
+- (void) advancePhase;
+- (BOOL) thereAreDefendersOnTerrain:(Terrain *) terrain;
+- (BOOL) thereIsArmyOnTerrain:(Terrain *) terrain;
 
 @end

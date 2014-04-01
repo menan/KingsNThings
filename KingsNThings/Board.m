@@ -853,7 +853,6 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                     
                     if ([p setTerritory:temp]){
                         
-                        [temp setHasArmyOnIt:NO];
                         
                         node.name = @"bowl";
                         [node setSize:CGSizeMake(sizeNode, sizeNode)];
@@ -881,7 +880,6 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         else{
             if ([p setTerritory:temp]){
                 
-                [temp setHasArmyOnIt:NO];
                 
                 
                 
@@ -901,7 +899,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 if([game validateHex:temp forPlayer:p] && [game isHexAdjacent:temp forPlayer:p] && ![temp.type isEqualToString:@"Sea"]){
                 
                 if ([p setTerritory:temp]){
-                    [temp setHasArmyOnIt:NO];
+                   
                     
                     
                     node.name = @"bowl";
@@ -932,7 +930,6 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         else{
             if ([p setTerritory:temp]){
                 
-                [temp setHasArmyOnIt:NO];
                 
                 
                 node.name = @"bowl";
@@ -953,7 +950,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             
                 
                 if ([p setTerritory:temp]){
-                    [temp setHasArmyOnIt:NO];
+                  
                     
                     
                     node.name = @"bowl";
@@ -981,7 +978,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         else{
             if ([p setTerritory:temp]){
                 
-                [temp setHasArmyOnIt:NO];
+               
                 
                 
                 node.name = @"bowl";
@@ -1002,7 +999,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 
                 if ([p setTerritory:temp]){
                     
-                    [temp setHasArmyOnIt:NO];
+                    
                     
                     
                     node.name = @"bowl";
@@ -1028,7 +1025,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         else{
             if ([p setTerritory:temp]){
                 
-                [temp setHasArmyOnIt:NO];
+                
                 
                 
                 node.name = @"bowl";
@@ -1176,7 +1173,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             [a removeCreature:creature];
         }
         
-        if(![t hasArmyOnIt]){
+        if(![game thereIsArmyOnTerrain:t]){
             a = [currentPlayer constructNewStack:creature atPoint:creature.position withTerrain:t];
             if (a != nil) {
                 
@@ -1184,7 +1181,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 
                 [creature removeFromParent];
                 //[creature
-                [t setHasArmyOnIt:YES];
+                
                 
                 [self setCreaturesInBowl:creaturesInBowl-1];
             }
@@ -1513,10 +1510,9 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     if ([player setTerritory:terrian]){
         NSLog(@"captureHEx");
         
-        [terrian setHasArmyOnIt:YES];
+        
         SKSpriteNode* node = [[SKSpriteNode alloc]initWithImageNamed:[markers objectAtIndex:[player playingOrder]] ];
         node.name = @"bowl";
-        //[node setPosition:terrian.point];
         [node setSize:CGSizeMake(26.0f, 26.0f)];
         [node setPosition:CGPointMake(terrian.position.x + 10, terrian.position.y + 22)];
         [board addChild:node];
@@ -1796,7 +1792,6 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         if (temp && [p setTerritory:temp]){
 //            NSLog(@"territory is set for player %d: %@", playerId, temp.name);
             
-            [temp setHasArmyOnIt:NO];
             
             
             SKSpriteNode *node = [SKSpriteNode spriteNodeWithImageNamed:[markers objectAtIndex:playerId]];
