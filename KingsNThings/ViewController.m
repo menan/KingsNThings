@@ -118,9 +118,13 @@
         
         Phase p = [[myDictionary objectForKey:@"phase"] integerValue];
         
+        
+        [b constructBowlFromDictionary:[myDictionary objectForKey:@"bowl"]];
+        [b constructPlacemarkerFromDictionary:[myDictionary objectForKey:@"markers"]];
+        [b constructStackFromDictionary:[myDictionary objectForKey:@"stacks"]];
+        
+        
         if (p == Initial) {
-            [b constructPlacemarkerFromDictionary:[myDictionary objectForKey:@"markers"]];
-            [b constructStackFromDictionary:[myDictionary objectForKey:@"stacks"]];
             //            [b constructTerrainFromDictionary:[myDictionary objectForKey:@"terrains"]];
 //            [b constructPlacemarkerFromDictionary:[myDictionary objectForKey:@"markers"]];
             

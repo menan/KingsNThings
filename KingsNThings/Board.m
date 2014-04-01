@@ -19,7 +19,6 @@
 @implementation Board{
     NSArray *terrainNames;
     //NSMutableArray *terrain;
-    NSMutableArray *bowl;
     NSArray* markers;
     
     SKSpriteNode *board;
@@ -45,7 +44,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 
 static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 
-@synthesize textLabel,dicesClicked,creaturesInBowl,recruitLabel,game,disabled,nonMovables,bank,bowlLocaiton,doneButton,canTapDone,terrainsLayout,markersArray;
+@synthesize textLabel,dicesClicked,creaturesInBowl,recruitLabel,game,disabled,nonMovables,bank,bowlLocaiton,doneButton,canTapDone,terrainsLayout,markersArray,bowl;
 
 - (id)initWithScene: (MyScene *) aScene atPoint: (CGPoint)aPoint withSize: (CGSize) aSize
 {
@@ -1750,8 +1749,8 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                     [t setHasArmyOnIt:YES];
                     
                     [self setCreaturesInBowl:creaturesInBowl-1];
-                    
-                    NSLog(@"creatures found: %@", creatureName);
+//                    
+//                    NSLog(@"creatures found: %@", creatureName);
                 }
                 
             }
@@ -1772,7 +1771,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         if (temp && [p setTerritory:temp]){
             
             [temp setHasArmyOnIt:NO];
-        
+            
             
             SKSpriteNode *node = [SKSpriteNode spriteNodeWithImageNamed:[markers objectAtIndex:playerId]];
             node.name = @"bowl";
@@ -1783,7 +1782,38 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             
             [markersArray addObject:m];
         }
+        
+        
+        
+    }
+    
+    if([bowl count] == 0)
+        trueEliminationRule = YES;
+    
+}
 
+- (void) constructBowlFromDictionary:(NSArray *) bowlArray{
+//    NSLog(@"gonna construct placemarkers with from the data %@",bowl);
+    [bowl removeAllObjects];
+    for (NSDictionary *c in bowlArray) {
+        CGPoint pointLoc = CGPointMake([[c objectForKey:@"X"] floatValue], [[c objectForKey:@"Y"] floatValue]);
+        NSString* imageName = [c objectForKey:@"imageName"];
+        BOOL specialIncome = [[c objectForKey:@"si"] boolValue];
+        
+        if (specialIncome) {
+            
+            SpecialIncome *spIncome = [[SpecialIncome alloc] initWithBoard:board atPoint:pointLoc fromString:imageName];
+            [bowl addObject:spIncome];
+            [spIncome draw];
+        }
+        else{
+            
+            Creature *creature = [[Creature alloc] initWithBoard:board atPoint:pointLoc fromString:imageName];
+            [bowl addObject:creature];
+            [creature draw];
+        }
+        
+        NSLog(@"creatures found in bowl: %@, special? %d", imageName, specialIncome);
         
         
     }

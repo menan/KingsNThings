@@ -16,6 +16,7 @@
 @property NSInteger dicesClicked,creaturesInBowl;
 @property GamePlay *game;
 @property Bank *bank;
+@property NSMutableArray *bowl;
 @property NSArray *disabled;
 @property NSArray *nonMovables;
 @property CGPoint bowlLocaiton;
@@ -24,29 +25,43 @@
 
 
 - (id)initWithScene: (MyScene *) aScene atPoint: (CGPoint) aPoint withSize: (CGSize) aSize;
+
 - (void)draw;
 - (void) drawMarkersForPlayer:(int) j;
+
+
 - (void) updateBank;
 - (SKSpriteNode *) getBoard;
 - (GamePlay*)getGamePlay;
+
 - (void) resetText;
+- (void) updateRecruitLabel:(Player *) p;
+
 - (NSArray *) getNonMovables;
+
 - (void) rollDiceOne;
 - (void) rollDiceTwo;
+
 //- (void) nodeTapped:(SKSpriteNode*) node;
 - (void) nodeMoved:(SKSpriteNode *)node nodes:(NSArray *)nodes;
-- (void) updateRecruitLabel:(Player *) p;
 - (BOOL) canMoveNode:(SKSpriteNode*) node;
 - (BOOL) canSelectNode:(SKSpriteNode*) node;
+
+
 - (void) captureHex:(Player*) player atTerrain:(Terrain*)terrain;
 - (void) creaturesMoved:(Creature *) n AtTerrain:(Terrain *) t;
 - (Army*) createRandomArmy:(NSInteger) number atPoint:(CGPoint)aPoint andTerrain:(Terrain*)terrain;
 - (void) playTreasure:(SKSpriteNode*)node;
+-(void) showArmyCreatures:(Army*)army;
+
+
 - (void) hideDone;
 - (void) showDone;
+
+
+- (void) constructBowlFromDictionary:(NSArray *) bowlArray;
 - (void) constructTerrainFromDictionary:(NSArray *) terrains;
 - (void) constructStackFromDictionary:(NSArray *) stacks;
 - (void) constructPlacemarkerFromDictionary:(NSArray *) placemarkers;
--(void) showArmyCreatures:(Army*)army;
 
 @end

@@ -567,6 +567,7 @@
             [dicData setObject:board.terrainsDictionary forKey:@"terrains"];
             [dicData setObject:board.markersArray forKey:@"markers"];
             [dicData setObject:[self getPlayerStacksAsDictionary] forKey:@"stacks"];
+            [dicData setObject:[board.bowl dictionize] forKey:@"bowl"];
             
             
 
@@ -592,18 +593,6 @@
         
         board.doneButton.hidden = YES;
         board.canTapDone = NO;
-//        [currentMatch endTurnWithNextParticipant:nextParticipant matchData:data completionHandler:^(NSError *error) {
-//            if (error) {
-//                NSLog(@"%@", error);
-//                //                statusLabel.text = @"Oops, there was a problem.  Try that again.";
-//            } else {
-//                NSLog(@"done ending turn : %@",nextParticipant);
-//                //                statusLabel.text = @"Your turn is over.";
-//                //                textInputField.enabled = NO;
-//            }
-//        }];
-//        
-        
         NSArray *nextParticipants = [[NSArray alloc] initWithObjects:nextParticipant,nil];
 
         NSTimeInterval interval = 3600;

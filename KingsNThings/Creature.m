@@ -45,7 +45,7 @@
     if (self) {
         initialPoint = aPoint;
         board = aBoard;
-        imageName = [NSString stringWithFormat:@"%@.jpg",string];
+        imageName = string;
        isBluff = NO;
         inBowl = YES;
         numberofTimes = 1;
@@ -60,7 +60,7 @@
     if (self) {
         initialPoint = aPoint;
         board = aBoard;
-        imageName = [NSString stringWithFormat:@"%@.jpg",string];
+        imageName = string;
        isBluff = NO;
         inBowl = YES;
         numberofTimes = 1;
@@ -75,7 +75,7 @@
     if (self) {
       initialPoint = aPoint;
         
-        imageName = [NSString stringWithFormat:@"%@.jpg",image];
+        imageName = image;
        isBluff = NO;
         inBowl = NO;
         numberofTimes = 1;
@@ -145,7 +145,7 @@
     [self removeFromParent]; //makes sure that it removes it to prevent duplications
     //self.spriteNodeWithImageNamed = imageName;
     
-    self.name = name;
+    self.name = [NSString stringWithFormat:@"%@.jpg",imageName];
     //self.accessibilityValue = @"creatures";
     self.size = CGSizeMake(37,37);
     self.position = initialPoint;
@@ -164,7 +164,7 @@
     //[self removeFromParent]; //makes sure that it removes it to prevent duplications
     //self.spriteNodeWithImageNamed = imageName;
     
-    self.name = name;
+    self.name = [NSString stringWithFormat:@"%@.jpg",imageName];
     //self.accessibilityValue = @"creatures";
     self.size = CGSizeMake(37,37);
     //self.position = initialPoint;
@@ -196,6 +196,7 @@
     [dict setObject:[NSNumber numberWithFloat:initialPoint.x] forKey:@"X"];
     [dict setObject:[NSNumber numberWithFloat:initialPoint.y] forKey:@"Y"];
     [dict setObject:imageName forKey:@"imageName"];
+    [dict setObject:[NSNumber numberWithInt:NO] forKey:@"si"];
     return dict;
 }
 @end
