@@ -17,9 +17,8 @@
 
 @interface Player : NSObject
 
-@property NSMutableArray* stacks; // collection of armies
-@property NSMutableArray* rack; // collection of things on rack
-@property NSMutableArray* specialIncome;
+@property NSMutableArray* stacks, *buildings, *rack, *specialIncome; // collection of things
+
 //@property NSMutableArray* singleArmy; // single armies (eg stack one )
 @property NSInteger playingOrder;
 //@property NSArray *p1Stack1,*p1Stack2,*p2Stack1,*p3Stack1,*p3Stack2,*p3Stack3,*p4Stack1,*p4Stack2,*p4Stack3;
@@ -33,7 +32,7 @@
 @property BOOL isWaitingCombat;
 @property BOOL playerLeft;
 @property BOOL hasBuiltCitadel;
-@property BOOL doneInitial,doneTurn;
+@property BOOL doneTurn;
 @property NSMutableDictionary * combat;
 
 

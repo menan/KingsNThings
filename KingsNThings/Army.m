@@ -9,10 +9,11 @@
 #import "Army.h"
 #import "Creature.h"
 #import "Building.h"
+#import "NSMutableArrayDictionize.h"
 
 @implementation Army
 
-@synthesize creatures,point,imageIsDrawn,terrain,armyNumber,playerNumber,building;
+@synthesize creatures,imageIsDrawn,terrain,armyNumber,playerNumber,building;
 
 
 
@@ -33,8 +34,7 @@
     self = [super initWithColor:[SKColor blackColor] size:CGSizeMake(36,36)];
     if(self){
         creatures = [[NSMutableArray alloc]init];
-        [self setPosition:aPoint];
-        point = aPoint;
+        self.position = aPoint;
         //image = [[SKSpriteNode alloc]init];
     }
     return self;
@@ -74,12 +74,9 @@
 
 - (void)drawImage:(SKSpriteNode *) aBoard
 {
-    //image = [SKSpriteNode spriteNodeWithColor:[SKColor blackColor] size:CGSizeMake(36,36)];
-    //self.position = [self position];
-    //[self setAccessibilityValue:@"army"];
+    
     [self setName:[NSString stringWithFormat:@"%i", [self playerNumber]]];
     [self setAccessibilityLabel:[NSString stringWithFormat:@"%i", [self armyNumber]]];
-    
     [aBoard addChild:self];
     
     [self addDescription: [NSString stringWithFormat:@"ARMY %d",armyNumber] toSprite:self];
@@ -99,17 +96,13 @@
     [sprite addChild:myLabel];
 }
 
-/*
--(void) drawImage:(SKSpriteNode *) aBoard{
-    
-   SKSpriteNode*  node = [SKSpriteNode spriteNodeWithImageNamed:image];
-    [node setName:@"army"];
-    [node setAccessibilityLabel:@"army"];
-    node.size = CGSizeMake(88,88);
-    [node setPosition:point];
-    [board addChild:node];
-    
-    
+- (NSDictionary *) getDict{
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    [dict setObject:[NSNumber numberWithFloat:self.position.x] forKey:@"X"];
+    [dict setObject:[NSNumber numberWithFloat:self.position.y] forKey:@"Y"];
+    [dict setObject:[creatures dictionize] forKey:@"creatures"];
+    return dict;
 }
- */
+
+
 @end

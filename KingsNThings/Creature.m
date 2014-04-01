@@ -25,7 +25,8 @@
 {
     self = [super initWithImageNamed:image];
     if (self) {
-       initialPoint = aPoint;
+        initialPoint = aPoint;
+        self.position = aPoint;
         board = aBoard;
         imageName = image;
         name = cName;
@@ -44,8 +45,9 @@
     self = [super initWithImageNamed:[NSString stringWithFormat:@"%@.jpg",string]];
     if (self) {
         initialPoint = aPoint;
+        self.position = aPoint;
         board = aBoard;
-        imageName = [NSString stringWithFormat:@"%@.jpg",string];
+        imageName = string;
        isBluff = NO;
         inBowl = YES;
         numberofTimes = 1;
@@ -59,8 +61,9 @@
     self = [super initWithImageNamed:[NSString stringWithFormat:@"%@.jpg",string]];
     if (self) {
         initialPoint = aPoint;
+        self.position = aPoint;
         board = aBoard;
-        imageName = [NSString stringWithFormat:@"%@.jpg",string];
+        imageName = string;
        isBluff = NO;
         inBowl = YES;
         numberofTimes = 1;
@@ -74,8 +77,8 @@
     self = [super initWithImageNamed:[NSString stringWithFormat:@"%@.jpg",image]];
     if (self) {
       initialPoint = aPoint;
-        
-        imageName = [NSString stringWithFormat:@"%@.jpg",image];
+        self.position = aPoint;
+        imageName = image;
        isBluff = NO;
         inBowl = NO;
         numberofTimes = 1;
@@ -145,10 +148,9 @@
     [self removeFromParent]; //makes sure that it removes it to prevent duplications
     //self.spriteNodeWithImageNamed = imageName;
     
-    self.name = name;
+    self.name = [NSString stringWithFormat:@"%@.jpg",imageName];
     //self.accessibilityValue = @"creatures";
     self.size = CGSizeMake(37,37);
-    self.position = initialPoint;
     if (inBowl && isSpecial == NO) {
        self.color = [SKColor blackColor];
        self.colorBlendFactor = .85;
@@ -160,33 +162,27 @@
     }
     [board addChild:self];
 }
+
+
 - (void) drawAtPoint:(SKSpriteNode*)location{
     //[self removeFromParent]; //makes sure that it removes it to prevent duplications
     //self.spriteNodeWithImageNamed = imageName;
     
-    self.name = name;
+    self.name = [NSString stringWithFormat:@"%@.jpg",imageName];
     //self.accessibilityValue = @"creatures";
     self.size = CGSizeMake(37,37);
     //self.position = initialPoint;
     
     [location addChild:self];
 }
-/*- (void) draw{
-    [node removeFromParent]; //makes sure that it removes it to prevent duplications
-    node = [SKSpriteNode spriteNodeWithImageNamed:imageName];
-    node.name = name;
-    node.accessibilityValue = @"creatures";
-    node.size = CGSizeMake(37,37);
-    node.position = point;
-    if (inBowl && isSpecial == NO) {
-        node.color = [SKColor blackColor];
-        node.colorBlendFactor = .85;
-    }
-    else{
-        
-        node.color = [SKColor grayColor];
-        node.colorBlendFactor = 0;
-    }
-    [board addChild:node];
-}*/
+
+
+- (NSDictionary *) getDict{
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    [dict setObject:[NSNumber numberWithFloat:initialPoint.x] forKey:@"X"];
+    [dict setObject:[NSNumber numberWithFloat:initialPoint.y] forKey:@"Y"];
+    [dict setObject:imageName forKey:@"imageName"];
+    [dict setObject:[NSNumber numberWithInt:NO] forKey:@"si"];
+    return dict;
+}
 @end

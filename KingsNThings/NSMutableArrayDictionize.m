@@ -7,15 +7,23 @@
 //
 
 #import "NSMutableArrayDictionize.h"
+#import "Creature.h"
 
 @implementation NSMutableArray (Dictionizing)
 
-/*- (NSMutableArray *)dictionize
+- (NSMutableArray *)dictionize
 {
     NSMutableArray *arr = [[NSMutableArray alloc] init];
     for (id obj in self) {
-        //[arr addObject:[obj getDict]];
+        if ([obj respondsToSelector:@selector(getDict)]) {
+            [arr addObject:[obj getDict]];
+        }
+        else{
+            NSLog(@"get dict not implemented tho");
+        }
     }
+    
+    return arr;
 }
-*/
+
 @end

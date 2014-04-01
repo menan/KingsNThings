@@ -14,7 +14,7 @@
 #import "CombatPhase.h"
 #import "Board.h"
 #import "GCTurnBasedMatchHelper.h"
-
+#import "NSMutableArrayDictionize.h"
 @implementation GamePlay{
     MyScene *scene;
     NSMutableArray *servers;
@@ -151,7 +151,6 @@
     }
     return NULL;
 }
-
 
 
 -(void) movementPhase:(Player *)player withArmy:(Army*)army onTerrian:(Terrain *)newTerrain{
@@ -507,6 +506,36 @@
     }
 }
 
+
+- (NSArray *) getPlayerStacksAsDictionary{
+    NSMutableArray *arrayStacks = [[NSMutableArray alloc] init];
+    int i = 0;
+    for (Player *p in players) {
+        NSMutableArray *playerArray = [p.stacks dictionize];
+        NSMutableDictionary *playerDict = [[NSMutableDictionary alloc] init];
+        [playerDict setObject:playerArray forKey:@"armies"];
+        [playerDict setObject:[NSNumber numberWithInt:i] forKey:@"playerId"];
+        [arrayStacks addObject:playerDict];
+        
+        i++;
+    }
+    //    NSLog(@"stacks array: %@",arrayStacks);
+    return arrayStacks;
+}
+
+
+
+- (NSArray *) getPlayerBuildingsAsDictionary{
+    NSMutableArray *arrayStacks = [[NSMutableArray alloc] init];
+    for (Player *p in players) {
+        [arrayStacks addObject:[p.buildings dictionize]];
+    }
+//    NSLog(@"buildings array: %@",arrayStacks);
+    return arrayStacks;
+}
+
+
+
 #pragma GameCenter Functions
 
 
@@ -537,50 +566,63 @@
     NSLog(@"current phase: %d",phase);
     
     
-       
-    NSUInteger currentIndex = [currentMatch.participants indexOfObject:currentMatch.currentParticipant];
-    GKTurnBasedParticipant *nextParticipant;
-    
-    NSMutableDictionary *dicData = [[NSMutableDictionary alloc] init];
-    
-    NSNumber *phaseNS = [NSNumber numberWithInt:phase];
-    [dicData setObject:phaseNS forKey:@"phase"];
-    if (phase == Initial) {
-        [dicData setObject:board.terrainsDictionary forKey:@"terrains"];
-        [dicData setObject:board.markersArray forKey:@"markers"];
-        [self currentPlayer].doneInitial = YES;
-    }
-    else if(phase == GoldCollection){
+    if (currentMatch) {
+        NSUInteger currentIndex = [currentMatch.participants indexOfObject:currentMatch.currentParticipant];
+        GKTurnBasedParticipant *nextParticipant;
         
-    }
-    
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dicData];
+        NSMutableDictionary *dicData = [[NSMutableDictionary alloc] init];
+        
+        NSNumber *phaseNS = [NSNumber numberWithInt:phase];
+        [dicData setObject:phaseNS forKey:@"phase"];
+        if (phase == Initial) {
+            [dicData setObject:board.terrainsDictionary forKey:@"terrains"];
+            [dicData setObject:board.markersArray forKey:@"markers"];
+            [dicData setObject:[self getPlayerStacksAsDictionary] forKey:@"stacks"];
+            [dicData setObject:[board.bowl dictionize] forKey:@"bowl"];
+            [dicData setObject:[self getPlayerBuildingsAsDictionary] forKey:@"buildings"];
+            
+            
 
-    
-    NSUInteger nextIndex = (currentIndex + 1) % [currentMatch.participants count];
-    nextParticipant = [currentMatch.participants objectAtIndex:nextIndex];
-    
-    int index = nextIndex;
-    
-    while (nextParticipant.status != GKTurnBasedParticipantStatusActive && nextParticipant.status != GKTurnBasedParticipantStatusInvited) {
-        index ++;
-        NSUInteger nextIndex = index % [currentMatch.participants count];
-        NSLog(@"current player id %d, status: %d",currentIndex, nextParticipant.status);
-        nextParticipant = [currentMatch.participants objectAtIndex:nextIndex];
-    }
-    
-    board.doneButton.hidden = YES;
-    board.canTapDone = NO;
-    [currentMatch endTurnWithNextParticipant:nextParticipant matchData:data completionHandler:^(NSError *error) {
-        if (error) {
-            NSLog(@"%@", error);
-            //                statusLabel.text = @"Oops, there was a problem.  Try that again.";
-        } else {
-            NSLog(@"done ending turn : %@",nextParticipant);
-            //                statusLabel.text = @"Your turn is over.";
-            //                textInputField.enabled = NO;
         }
-    }];
+        else if(phase == GoldCollection){
+            
+        }
+        
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dicData];
+        
+        
+        NSUInteger nextIndex = (currentIndex + 1) % [currentMatch.participants count];
+        nextParticipant = [currentMatch.participants objectAtIndex:nextIndex];
+        
+        int index = nextIndex;
+        
+        while (nextParticipant.status != GKTurnBasedParticipantStatusActive && nextParticipant.status != GKTurnBasedParticipantStatusInvited) {
+            index ++;
+            NSUInteger nextIndex = index % [currentMatch.participants count];
+            NSLog(@"current player id %d, status: %d",currentIndex, nextParticipant.status);
+            nextParticipant = [currentMatch.participants objectAtIndex:nextIndex];
+        }
+        
+        board.doneButton.hidden = YES;
+        board.canTapDone = NO;
+        NSArray *nextParticipants = [[NSArray alloc] initWithObjects:nextParticipant,nil];
+
+        NSTimeInterval interval = 3600;
+        
+        [currentMatch endTurnWithNextParticipants:nextParticipants turnTimeout:interval matchData:data completionHandler:^(NSError *error) {
+            if (error) {
+                NSLog(@"%@", error);
+                //                statusLabel.text = @"Oops, there was a problem.  Try that again.";
+            } else {
+                NSLog(@"done ending turn : %@",nextParticipant);
+                //                statusLabel.text = @"Your turn is over.";
+                //                textInputField.enabled = NO;
+            }
+        }];
+    }
+    else{
+        NSLog(@"No matches present b.");
+    }
     
     
 }
@@ -665,6 +707,25 @@
     return nil;
 }
 
+//locates terrain class object around the current point
+- (Terrain *) locateTerrainAt:(CGPoint)thisPoint{
+    NSArray * nodes = [[board getBoard] nodesAtPoint:thisPoint];
+    
+    for (id node in nodes) {
+        if ([node isKindOfClass:[Terrain class]]) {
+            NSLog(@"terrain located mfka");
+            return node;
+        }
+    }
+    return nil;
+    
+    
+//    for (Terrain *terrain in terrains) {
+//        if (terrain.position.x == thisPoint.x && terrain.position.y == thisPoint.y) {
+//            return terrain;
+//        }
+//    }
+}
 
 
 //returns the owner of the hex

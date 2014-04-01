@@ -46,7 +46,12 @@ typedef enum {
 - (NSMutableArray *) findPlayersByTerrain:(Terrain *) terrain; //gets all the players on the terrain
 
 - (void)movementPhase:(Player *)player withArmy:(Army*)army onTerrian:(Terrain*) newTerrain;
+
+
 - (Terrain*) findTerrainAt:(CGPoint)thisPoint;
+- (Terrain *) locateTerrainAt:(CGPoint)thisPoint;
+
+
 - (Player*)findPlayerByOrder:(NSInteger)order;
 - (void) assignScene:(MyScene*)sce;
 - (void) advancePhase: (Phase) p;

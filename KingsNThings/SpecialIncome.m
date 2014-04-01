@@ -9,24 +9,20 @@
 #import "SpecialIncome.h"
 
 @implementation SpecialIncome{
-
-SKSpriteNode *board;
-
-int position;
-
-
+    SKSpriteNode *board;
+    int position;
+    NSString *imageName;
 }
 
 @synthesize goldValue,inBowl,terrainType,type,terrain,initialPoint;
 
-@synthesize node;
+//@synthesize node;
 
 - (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image andCounterName: (NSString *) cName withGoldValue: (int) value forTerrainType: (NSString *) ter{
     self = [super initWithImageNamed:image];
     if (self) {
         initialPoint = aPoint;
         board = aBoard;
-        //imageName = image;
         //name = cName;
        
         inBowl = YES;
@@ -44,6 +40,7 @@ int position;
         
         initialPoint = aPoint;
         board = aBoard;
+        imageName = string;
         
         inBowl = YES;
         
@@ -134,6 +131,16 @@ int position;
     }
     [board addChild:self];
 }
+
+- (NSDictionary *) getDict{
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    [dict setObject:[NSNumber numberWithFloat:self.position.x] forKey:@"X"];
+    [dict setObject:[NSNumber numberWithFloat:self.position.y] forKey:@"Y"];
+    [dict setObject:imageName forKey:@"imageName"];
+    [dict setObject:[NSNumber numberWithInt:YES] forKey:@"si"];
+    return dict;
+}
+
 
 
 /*- (void) draw{

@@ -13,7 +13,6 @@
 @interface Army : SKSpriteNode
 
 @property NSMutableArray* creatures;
-@property CGPoint point;
 @property BOOL hasArmyOnIt;
 @property BOOL imageIsDrawn;
 @property Terrain* terrain;
@@ -31,5 +30,5 @@
 -(BOOL) containCreature:(id)creature;
 -(NSInteger) creaturesInArmy;
 -(void) drawImage:(SKSpriteNode *) aBoard ;
-
+- (NSDictionary *) getDict;
 @end

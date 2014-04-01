@@ -17,7 +17,6 @@
     NSMutableArray* territories;
     NSMutableArray* specialCharacters;
     //NSMutableArray* specialIncome;
-    NSMutableArray* buildings;
     
     
 
@@ -25,7 +24,7 @@
 
 static int counter = -1;
 
-@synthesize stacks,playingOrder,bank,army,returnedCreatures, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat,playerLeft,movementsRemaining,rack,hasBuiltCitadel,specialIncome,doneInitial,doneTurn;
+@synthesize stacks,playingOrder,bank,army,returnedCreatures, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat,playerLeft,movementsRemaining,rack,hasBuiltCitadel,specialIncome,doneTurn,buildings;
 
 -(id) init{
     
@@ -51,7 +50,6 @@ static int counter = -1;
         isWaitingCombat = NO;
         playerLeft = NO;
         hasBuiltCitadel = NO;
-        doneInitial = NO;
         doneTurn = NO;
     }
     return self;
@@ -62,7 +60,7 @@ static int counter = -1;
 - (BOOL) setTerritory: (Terrain *) territory{
     if(territory != nil && ![territories containsObject:territory]){
         [territories addObject:territory];
-        NSLog(@"player territory is set for : %@ %d , player is %d ", territory.name, [territories count],playingOrder);
+//        NSLog(@"player territory is set for : %@ %d , player is %d ", territory.name, [territories count],playingOrder);
         return YES;
     }
     else{
@@ -106,9 +104,6 @@ static int counter = -1;
     return [bank getBalance];
 }
 
-- (void) addBuildings{
-    
-}
 
 - (int) getSpecialCreatureIncome{
     int sIncome = 0;
@@ -140,8 +135,13 @@ static int counter = -1;
 }
 
 - (BOOL) setBuilding: (Building *) building{
-    NSLog(@"Just added building %d", building.stage);
-    [buildings addObject:building];
+//    NSLog(@"Just added building %d", building.stage);
+    if (![buildings containsObject:building]) {
+        [buildings addObject:building];
+    }
+    else{
+        NSLog(@"he seems to already have the building tho");
+    }
     return YES;
 }
 
@@ -169,9 +169,6 @@ static int counter = -1;
     }
 }
 
--(NSInteger) numberOfstacks{
-    return [stacks count];
-}
 -(BOOL) reachedArmyLimit{
     int limit =0;
     
@@ -196,7 +193,7 @@ static int counter = -1;
         arm = [[Army alloc]initWithPoint:aPoint];
         [arm addCreatures:creatur];
         [arm setTerrain:terrain];
-        [arm setArmyNumber:[self numberOfstacks]+1];
+        [arm setArmyNumber:stacks.count + 1];
         [arm setPlayerNumber:[self playingOrder]];
         
         //[arm setPosition:aPoint];

@@ -19,7 +19,6 @@
 @implementation Board{
     NSArray *terrainNames;
     //NSMutableArray *terrain;
-    NSMutableArray *bowl;
     NSArray* markers;
     
     SKSpriteNode *board;
@@ -45,7 +44,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 
 static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 
-@synthesize textLabel,dicesClicked,creaturesInBowl,recruitLabel,game,disabled,nonMovables,bank,bowlLocaiton,doneButton,canTapDone,terrainsLayout,markersArray;
+@synthesize textLabel,dicesClicked,creaturesInBowl,recruitLabel,game,disabled,nonMovables,bank,bowlLocaiton,doneButton,canTapDone,terrainsLayout,markersArray,bowl;
 
 - (id)initWithScene: (MyScene *) aScene atPoint: (CGPoint)aPoint withSize: (CGSize) aSize
 {
@@ -1103,6 +1102,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         
         if (terrainLocated && owner != nil) {
             [self constructBuilding:owner withBuilding:node onTerrain:t];
+            [self showDone];
         }
         else{
             Building* temp = (Building*) node;
@@ -1161,19 +1161,19 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     recruitLabel.text = [NSString stringWithFormat: @"%d Recruits Remaining", p.recruitsRemaining];
 }
 
-- (void) creaturesMoved:(SKSpriteNode *) n AtTerrain:(Terrain *) t{
+- (void) creaturesMoved:(Creature *) creature AtTerrain:(Terrain *) t{
     
-    NSLog(@"Node is %@ , number of players at the terrain: %d" , n.name, [[game findPlayersByTerrain:t] count]);
+    NSLog(@"Node is number of players at the terrain: %@" , t.name);
     //checks if any player owns the territory and the terrain is found
     if(t && [game findPlayerByTerrain:t]){
         Player *currentPlayer = [game findPlayerByTerrain:t];
         //Creature *creature = [self findCreatureByName:n.name];
-        Creature* creature = (Creature*) n;
+//        Creature* creature = (Creature*) n;
         Army *a = [currentPlayer findArmyOnTerrain:t];
-        NSLog(@"Creature is %@",n.name);
+        NSLog(@"Creature is %@",creature.name);
         
         if(a != nil){
-            [a removeCreature:n];
+            [a removeCreature:creature];
         }
         
         if(![t hasArmyOnIt]){
@@ -1190,7 +1190,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             }
             else{
                 //must've reached the limit of charecters
-                [n setPosition:CGPointMake(480.0f, (size.height) - 175.0f)];
+                [creature setPosition:CGPointMake(480.0f, (size.height) - 175.0f)];
             }
         }
         else {
@@ -1198,7 +1198,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 if([[army terrain]isEqual:t]){
                     if([game phase] == Initial || [game phase] == Recruitment){
                         if([currentPlayer addCreatureToArmy:creature inArmy:army ]){
-                            [n removeFromParent];
+                            [creature removeFromParent];
                             [currentPlayer printArmy];
                             [MyScene wiggle:army];
                             break;
@@ -1207,7 +1207,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                     }
                     else{
                         //must've reached the limit of charecters
-                        [n setPosition:CGPointMake(480.0f, (size.height) - 175.0f)];
+                        [creature setPosition:CGPointMake(480.0f, (size.height) - 175.0f)];
                     }
                 }
             }
@@ -1215,7 +1215,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     }
     else{
         //Creature *creature = [self findCreatureByName:n.name];
-        Creature *creature = (Creature*) n;
+//        Creature *creature = (Creature*) n;
         
         //[self addToRack:creature];
 //////////        //should remove from bowl?!!
@@ -1228,8 +1228,10 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         //currentPlayer = [[game findPlayersByTerrain:t] objectAtIndex:0];
         currentPlayer = [game findPlayerByTerrain:t];
     }
+    [self showDone];
     currentPlayer.recruitsRemaining--;
     [self updateRecruitLabel:currentPlayer];
+        
     [game checkInitalRecruitmentComplete]; //double checks to see if everyone finished recruiting so that we can move to next phase
     
     
@@ -1497,7 +1499,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 }
 
 - (BOOL) canSelectNode:(SKSpriteNode*) node{
-    NSLog(@"node positoin: %f,%f",node.position.x,node.position.y);
+//    NSLog(@"node positoin: %f,%f",node.position.x,node.position.y);
     if ([game recruitmentComplete] && [node.accessibilityValue isEqualToString:@"creatures"] && node.position.x == 450 &&node.position.y == 456)
         return NO;
     else
@@ -1709,14 +1711,79 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 - (void) constructTerrainFromDictionary:(NSArray *) terrains{
     NSLog(@"gonna construct terrains with %d",terrains.count);
     
-    
-    for (NSDictionary *t in terrains) {
-        
-    }
+    //
+    //    for (NSDictionary *t in terrains) {
+    //
+    //    }
 }
 
+
+- (void) constructStackFromDictionary:(NSArray *) stacks{
+    
+    
+    for (NSDictionary *t in stacks) {
+    
+            int playerId = [[t objectForKey:@"playerId"] integerValue];
+            [[[game.players objectAtIndex:playerId] stacks] removeAllObjects];
+        
+        
+            NSArray *armies = [t objectForKey:@"armies"];
+            
+        for (NSDictionary* army in armies) {
+                
+                
+                CGPoint loc = CGPointMake([[army objectForKey:@"X"] floatValue], [[army objectForKey:@"Y"] floatValue]);
+                
+                for (NSDictionary* creature in [army objectForKey:@"creatures"]) {
+                    NSString *creatureName = [creature objectForKey:@"imageName"];
+                    
+                    Creature *creatureObject = [[Creature alloc] initWithImage:creatureName atPoint:loc];
+                    creatureObject.position = loc;
+                    
+                    Terrain* t = [game locateTerrainAt:loc];
+                    
+                    [self creaturesMoved:creatureObject AtTerrain:t];
+                    [self removeCreatureByName:creatureObject.name]; //removes the creature from the bowl, if it got added to the army or rack
+
+                }
+                
+            }
+       }
+}
+
+- (void) constructBuildingsFromDictionary:(NSArray *) buildings{
+    
+    for (NSArray *m in buildings) {
+//        NSLog(@"gonna construct buildings with from the data %@",m);
+
+        if ([m count] > 0) {
+            
+            NSDictionary *building = [m objectAtIndex:0];
+            
+            CGPoint pointMarker = CGPointMake([[building objectForKey:@"X"] floatValue], [[building objectForKey:@"Y"] floatValue]);
+            NSString *buildingName = [building objectForKey:@"imageName"];
+            
+            
+            Terrain* temp = [game findTerrainAt:[board nodeAtPoint:pointMarker].position];
+            Player *p = [game findPlayerByTerrain:temp];
+            
+            Building* b = [[Building alloc]initWithBoard:board atPoint:pointMarker fromImage:buildingName];
+            b.size = CGSizeMake(40,40);
+            [b setPosition:pointMarker];
+            [board addChild:b];
+            
+            
+            [self constructBuilding:p withBuilding:b onTerrain:temp];
+//            NSLog(@"player buildings %d", p.buildings.count);
+        }
+        
+        
+        
+    }
+    
+}
 - (void) constructPlacemarkerFromDictionary:(NSArray *) placemarkers{
-    NSLog(@"gonna construct placemarkers with from the data %d",placemarkers.count);
+//    NSLog(@"gonna construct placemarkers with from the data %d",placemarkers.count);
     
     for (NSDictionary *m in placemarkers) {
         CGPoint pointMarker = CGPointMake([[m objectForKey:@"X"] floatValue], [[m objectForKey:@"Y"] floatValue]);
@@ -1727,9 +1794,10 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         Player *p = [[game players] objectAtIndex:playerId];
         
         if (temp && [p setTerritory:temp]){
+//            NSLog(@"territory is set for player %d: %@", playerId, temp.name);
             
             [temp setHasArmyOnIt:NO];
-        
+            
             
             SKSpriteNode *node = [SKSpriteNode spriteNodeWithImageNamed:[markers objectAtIndex:playerId]];
             node.name = @"bowl";
@@ -1740,10 +1808,41 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             
             [markersArray addObject:m];
         }
-
+        
         
         
     }
+    
+    if([bowl count] == 0)
+        trueEliminationRule = YES;
+    
+}
+
+- (void) constructBowlFromDictionary:(NSArray *) bowlArray{
+//    NSLog(@"gonna construct placemarkers with from the data %@",bowl);
+    [bowl removeAllObjects];
+    for (NSDictionary *c in bowlArray) {
+        CGPoint pointLoc = CGPointMake([[c objectForKey:@"X"] floatValue], [[c objectForKey:@"Y"] floatValue]);
+        NSString* imageName = [c objectForKey:@"imageName"];
+        BOOL specialIncome = [[c objectForKey:@"si"] boolValue];
+        
+        if (specialIncome) {
+            
+            SpecialIncome *spIncome = [[SpecialIncome alloc] initWithBoard:board atPoint:pointLoc fromString:imageName];
+            [bowl addObject:spIncome];
+            [spIncome draw];
+        }
+        else{
+            
+            Creature *creature = [[Creature alloc] initWithBoard:board atPoint:pointLoc fromString:imageName];
+            [bowl addObject:creature];
+            [creature draw];
+        }
+        
+        
+        
+    }
+    NSLog(@"bowls in sync");
     
     if([bowl count] == 0)
         trueEliminationRule = YES;
@@ -1766,9 +1865,8 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     float y = 165;
     for (Creature* c in [army creatures]){
         
-        [c setPosition:(CGPointMake(x,y-(i*(c.size.height)+2)))
-         ];
-      
+        [c setPosition:(CGPointMake(x,y-(i*(c.size.height)+2)))];
+        c.size = CGSizeMake(40,41);
         [c removeFromParent];
         [subMenu addChild:c];
         ++i;

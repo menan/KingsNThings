@@ -11,7 +11,7 @@
 @implementation GCTurnBasedMatchHelper{
     UIViewController *presentingViewController;
 }
-@synthesize gameCenterAvailable,currentMatch,delegate;
+@synthesize gameCenterAvailable,currentMatch,delegate,userAuthenticated;
 
 
 #pragma mark Initialization
@@ -155,9 +155,14 @@ didRequestMatchWithPlayers: (NSArray *)playerIDsToInvite
         if (userAuthenticated) {
             [[GKLocalPlayer localPlayer] registerListener: self];
         }
+        else{
+            
+            [self showGameCenter];
+        }
         
     };
 }
+
 
 
 #pragma GKMatchmaker functions
@@ -216,5 +221,27 @@ didRequestMatchWithPlayers: (NSArray *)playerIDsToInvite
 }
 
 
+
+
+#pragma GKGameCenterFunctions
+
+
+- (void)showGameCenter
+{
+    
+    if (![GCTurnBasedMatchHelper sharedInstance].userAuthenticated) {
+        
+        GKGameCenterViewController *gameCenterController = [[GKGameCenterViewController alloc] init];
+        
+        if (gameCenterController != nil)
+        {
+//            gameCenterController.gameCenterDelegate = self;
+            gameCenterController.viewState = GKGameCenterViewControllerStateDefault;
+            [presentingViewController presentViewController: gameCenterController animated: YES completion:nil];
+            
+        }
+    }
+    
+}
 
 @end

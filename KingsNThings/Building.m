@@ -27,32 +27,6 @@
     return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)encoder {
-    [encoder encodeObject:[NSNumber numberWithFloat:point.x] forKey:@"pointX"];
-    [encoder encodeObject:[NSNumber numberWithFloat:point.y] forKey:@"pointY"];
-    [encoder encodeObject:terrain forKey:@"terrain"];
-    [encoder encodeObject:imageName forKey:@"imageName"];
-    [encoder encodeObject:[NSNumber numberWithFloat:stage] forKey:@"type"];
-    [encoder encodeObject:[NSNumber numberWithBool:cost] forKey:@"cost"];
-    [encoder encodeObject:[NSNumber numberWithBool:combatValue] forKey:@"combatValue"];
-    [encoder encodeObject:[NSNumber numberWithBool:combatValue] forKey:@"combatValue"];
-}
-
-
-//- (id)initWithCoder:(NSCoder *)decoder {
-//    if (self = [super init]) {
-//        point = CGPointMake([[decoder decodeObjectForKey:@"pointX"] floatValue], [[decoder decodeObjectForKey:@"pointY"] floatValue]);
-//        board = [decoder decodeObjectForKey:@"board"];
-//        imageName = [decoder decodeObjectForKey:@"imageName"];
-//        type = [decoder decodeObjectForKey:@"type"];
-//        flipped = [[decoder decodeObjectForKey:@"flipped"] boolValue];
-//        hasArmyOnIt = [[decoder decodeObjectForKey:@"hasArmyOnIt"]boolValue];
-//        hasSpecialIncome = [[decoder decodeObjectForKey:@"hasSpecialIncome"]boolValue];
-//        location += [[decoder decodeObjectForKey:@"location"] integerValue];
-//    }
-//    return self;
-//}
-
 
 - (id) initWithImage:(NSString*)image atPoint:(CGPoint)aPoint andStage:(Stage) s andTerrain: (Terrain *) t {
     self = [super initWithImageNamed:image];
@@ -78,6 +52,7 @@
     self = [super initWithImageNamed:image];
     if(self){
         
+        imageName = image;
         board = aBoard;
         point = aPoint;
         
@@ -139,6 +114,15 @@
     else
        return NO;
     
+}
+
+
+- (NSDictionary *) getDict{
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    [dict setObject:[NSNumber numberWithFloat:self.position.x] forKey:@"X"];
+    [dict setObject:[NSNumber numberWithFloat:self.position.y] forKey:@"Y"];
+    [dict setObject:imageName forKey:@"imageName"];
+    return dict;
 }
 
 
