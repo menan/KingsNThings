@@ -22,6 +22,7 @@
 @property NSMutableArray* terrainsLayout, *terrainsDictionary, *markersArray;
 @property BOOL canTapDone;
 
+
 - (id)initWithScene: (MyScene *) aScene atPoint: (CGPoint) aPoint withSize: (CGSize) aSize;
 - (void)draw;
 - (void) drawMarkersForPlayer:(int) j;
@@ -45,4 +46,6 @@
 - (void) showDone;
 - (void) constructTerrainFromDictionary:(NSArray *) terrains;
 - (void) constructPlacemarkerFromDictionary:(NSArray *) placemarkers;
+-(void) showArmyCreatures:(Army*)army;
+
 @end

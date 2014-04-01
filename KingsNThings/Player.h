@@ -17,7 +17,7 @@
 
 @interface Player : NSObject
 
-@property NSMutableArray* armies; // collection of armies
+@property NSMutableArray* stacks; // collection of armies
 @property NSMutableArray* rack; // collection of things on rack
 @property NSMutableArray* specialIncome;
 //@property NSMutableArray* singleArmy; // single armies (eg stack one )
@@ -33,7 +33,7 @@
 @property BOOL isWaitingCombat;
 @property BOOL playerLeft;
 @property BOOL hasBuiltCitadel;
-@property BOOL doneInitial;
+@property BOOL doneInitial,doneTurn;
 @property NSMutableDictionary * combat;
 
 
@@ -61,7 +61,7 @@
 
 
 
-- (Army*) constructNewArmy:(id)creatur atPoint:(CGPoint) aPoint withTerrain:(Terrain*)terrain;
+- (Army*) constructNewStack:(id)creatur atPoint:(CGPoint) aPoint withTerrain:(Terrain*)terrain;
 
 /*-------Finders-----*/
 - (NSMutableArray *) getTerritories;
@@ -70,7 +70,7 @@
 - (NSInteger) numberOfArmies;
 - (Bank *) getBank;
 - (Army*) armyByCreature:(id)creature;
-- (Army *) getArmyAtIndex:(NSInteger)index;
+- (Army *) getStackAtIndex:(NSInteger)index;
 - (Army*) findArmyOnTerrain:(Terrain*)terrain;
 - (Building*) getBuildingOnTerrain:(Terrain*)ter;
 - (Creature *) findCreatureOnRackByName:(NSString *) name;

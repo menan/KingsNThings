@@ -56,12 +56,12 @@
 
 -(void) longPressDetected:(UIGestureRecognizer *)gestureRecognizer{
     
-    CGPoint location = [gestureRecognizer locationInView:[gestureRecognizer view]];
+    CGPoint location = _selectedNode.position;
     
-    SKSpriteNode *touchedNode = (SKSpriteNode *)[self nodeAtPoint:location];
-    
-    NSLog(@"long press detected at location x %f , y %f ",location.x,location.y);
-    NSLog(@"long press detected at node  %@",touchedNode.name);
+    if([_selectedNode isKindOfClass:[Army class]]){
+        [gameBoard showArmyCreatures:(Army*)_selectedNode];
+    }
+  
 }
 
 - (void)selectNodeForTouch:(CGPoint)touchLocation {

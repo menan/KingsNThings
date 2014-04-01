@@ -41,9 +41,8 @@
 }
 
 -(void) addCreatures:(Creature*)creature{
-    if([creatures count]>10){
-        [creatures addObject:creature];
-    }
+            [creatures addObject:creature];
+    
 }
 -(NSInteger) getTerrainLocation{
     return [terrain location];

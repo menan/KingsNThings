@@ -78,8 +78,9 @@
     lblDone.name = @"done";
     lblDone.text = @"Done";
     lblDone.fontSize = 20;
-    lblDone.position = CGPointMake(366,48);
+    lblDone.position = CGPointMake(400,100);
     [self addChild:lblDone];
+    
     
     SKLabelNode *lblAttackerRetreat = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     lblAttackerRetreat.name = @"attackerRetreat";
@@ -116,52 +117,96 @@
     
     int i = 1 ;
     for(Creature* creature in [attacker creatures]){
-        SKSpriteNode* node =[[SKSpriteNode alloc]initWithImageNamed:[creature imageName]];
-        [node setName:[creature name]];
-         [node setAccessibilityLabel:@"attacker"];
+        //SKSpriteNode* node =[[SKSpriteNode alloc]initWithImageNamed:[creature imageName]];
+        //[node setName:[creature name]];
+         [creature setAccessibilityLabel:@"attacker"];
        
-        node.size = CGSizeMake(50,80);
+        creature.size = CGSizeMake(50,80);
         
         
         if(i >= 5){
-            [node setPosition:CGPointMake(lableAttaker.position.x + 75 ,lableAttaker.position.y - (100 *(i-4)))
+            [creature setPosition:CGPointMake(lableAttaker.position.x + 75 ,lableAttaker.position.y - (100 *(i-4)))
              ];
             
         }
         else {
-            [node setPosition:CGPointMake(lableAttaker.position.x ,lableAttaker.position.y - (100 *i))
+            [creature setPosition:CGPointMake(lableAttaker.position.x ,lableAttaker.position.y - (100 *i))
              ];
         }
         
-        [self addChild:node];
+        [self addChild:creature];
         ++i;
         
     }
     int j = 1;
     for(Creature* creature in [defender creatures]){
-        SKSpriteNode* node =[[SKSpriteNode alloc]initWithImageNamed:[creature imageName]];
-        [node setName:[creature name]];
-        [node setAccessibilityLabel:@"defender"];
-        [node setPosition:CGPointMake(lableDefender.position.x ,lableDefender.position.y - (100 *j))
-         ];
-        node.size = CGSizeMake(50,80);
-        [self addChild:node];
+        //SKSpriteNode* node =[[SKSpriteNode alloc]initWithImageNamed:[creature imageName]];
+        //[node setName:[creature name]];
+        [creature setAccessibilityLabel:@"defender"];
+        creature.size = CGSizeMake(50,80);
+        
+        if(j>=5){
+            [creature setPosition:CGPointMake(lableDefender.position.x + 75,lableDefender.position.y - (100 *j))
+             ];
+        }
+        else{
+            
+            [creature setPosition:CGPointMake(lableDefender.position.x,lableDefender.position.y - (100 *j))];
+            
+        }
+        
+        
+        [self addChild:creature];
         ++j;
         
     }
     //for(SpecialIncome)
-    
+    if([combat type] == exploration ){
+        
+        [lblAttackerRetreat removeFromParent];
+        [lblDefenderRetreat removeFromParent];
+        SKLabelNode *bribe = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+        bribe.name = @"Bribe";
+        bribe.text = @"Bribe";
+        bribe.fontSize = 20;
+        bribe.position = CGPointMake(366,48);
+        [self addChild:bribe];
+        
+        for(SpecialIncome* creature in [defender creatures]){
+            
+            //[creature setAccessibilityLabel:@"defender"];
+            creature.size = CGSizeMake(50,80);
+            
+            if(j>=5){
+                [creature setPosition:CGPointMake(lableDefender.position.x + 75,lableDefender.position.y - (100 *j))
+                 ];
+            }
+            else{
+                
+                [creature setPosition:CGPointMake(lableDefender.position.x,lableDefender.position.y - (100 *j))];
+                
+            }
+            
+            
+            [self addChild:creature];
+            ++j;
+            
+        }
+        
+        
+        
+    }
         
     if([combat building] != nil){
-    
+        
         NSLog(@"Bulding image name %@",[[combat building] imageName]);
-    SKSpriteNode* node =[[SKSpriteNode alloc]initWithImageNamed: [[combat building] imageName]];
-    [node setName:[combat building].name];
-    [node setAccessibilityLabel:@"building"];
-    [node setPosition:CGPointMake(lableDefender.position.x ,lableDefender.position.y - (100 *j))
-     ];
-    node.size = CGSizeMake(50,80);
-    [self addChild:node];
+        //SKSpriteNode* node =[[SKSpriteNode alloc]initWithImageNamed: [[combat building] imageName]];
+        //[node setName:[combat building].name];
+        //[node setAccessibilityLabel:@"building"];
+        [[combat building] setPosition:CGPointMake(lableDefender.position.x ,lableDefender.position.y - (100 *j))
+         ];
+        [combat building].size = CGSizeMake(50,80);
+        [self addChild:[combat building]];
     }
     
 }
@@ -492,6 +537,12 @@ float degToRad(float degree) {
     }
     
 }
+
+-(void) bribeArmy{
+    
+    
+}
+
 
 -(void)didMoveToView:(SKView *)view {
     textView =[[UITextView alloc]initWithFrame:CGRectMake(45,200, 250, 250)];

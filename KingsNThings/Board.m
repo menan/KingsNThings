@@ -46,6 +46,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 
 @synthesize textLabel,dicesClicked,creaturesInBowl,recruitLabel,game,disabled,nonMovables,bank,bowlLocaiton,doneButton,canTapDone,terrainsLayout,markersArray;
+
 - (id)initWithScene: (MyScene *) aScene atPoint: (CGPoint)aPoint withSize: (CGSize) aSize
 {
     self = [super init];
@@ -839,8 +840,8 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         //Army* ar = [tempPlayer getArmyAtIndex:[node.accessibilityLabel integerValue]- 1];
         Army* ar = (Army*)node;
         NSLog(@"army moved player is %d",[tempPlayer playingOrder]);
-        [self showArmyCreatures:ar];
-        //[game movementPhase:tempPlayer withArmy:ar onTerrian:temp];
+        //[self showArmyCreatures:ar];
+        [game movementPhase:tempPlayer withArmy:ar onTerrian:temp];
         
     }
     else if (terrainLocated && [node.name isEqualToString:@"Player 1"]) {
@@ -1114,10 +1115,10 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     
     
     
-    else if ([node.name isEqualToString:@"battle"]){
+    /*else if ([node.name isEqualToString:@"battle"]){
         //you can access all players on the current terrain by calling [game findPlayersByTerrain:t] n use them to go at war with each other
         [game initiateCombat:[game.players objectAtIndex:0]];
-    }
+    }*/
     else if([node.accessibilityLabel isEqualToString:@"special"]){
         [self recruiteSpecial:node];
     }
@@ -1176,7 +1177,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         }
         
         if(![t hasArmyOnIt]){
-            a = [currentPlayer constructNewArmy:creature atPoint:creature.position withTerrain:t];
+            a = [currentPlayer constructNewStack:creature atPoint:creature.position withTerrain:t];
             if (a != nil) {
                 
                 [a drawImage:board];
@@ -1193,7 +1194,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             }
         }
         else {
-            for(Army *army in [currentPlayer armies]){
+            for(Army *army in [currentPlayer stacks]){
                 if([[army terrain]isEqual:t]){
                     if([game phase] == Initial || [game phase] == Recruitment){
                         if([currentPlayer addCreatureToArmy:creature inArmy:army ]){
@@ -1215,7 +1216,8 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     else{
         //Creature *creature = [self findCreatureByName:n.name];
         Creature *creature = (Creature*) n;
-        [self addToRack:creature];
+        
+        //[self addToRack:creature];
 //////////        //should remove from bowl?!!
     }
     Player *currentPlayer;
@@ -1569,7 +1571,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                         [self removeThingFromBowl:item];
                         number-=1;
                         tempCounter = temp;
-                        [self redrawCreatures];
+                        //[self redrawCreatures];
                     }
                 }
                 else{
@@ -1594,7 +1596,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 [self removeThingFromBowl:item];
                 number-=1;
                 
-                [self redrawCreatures];
+                //[self redrawCreatures];
             }
         }
         else{// thing is a creature
@@ -1603,13 +1605,13 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             //[bowl removeObjectAtIndex:index];
             [self removeThingFromBowl:item];
             number-=1;
-            [self redrawCreatures];
+            
         }
         
         //condition for magic thing
         //random events must be returned to bowl
     }
-    
+    [self redrawCreatures];
     return a;
     
     
@@ -1650,14 +1652,16 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 [self removeThingFromBowl:temp];
                 [temp setTerrain:t];
                 [game.currentPlayer addSpecialIncome:temp];
-                game.currentPlayer.recruitsRemaining--;
-                
+                currentPlayer.recruitsRemaining--;
+                [self updateRecruitLabel:currentPlayer];
                 [self redrawCreatures];
             }
         }
         else{
             [self addToRack:temp];
             [self removeThingFromBowl:temp];
+            currentPlayer.recruitsRemaining--;
+            [self updateRecruitLabel:currentPlayer];
             
         }
     }
@@ -1749,8 +1753,10 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 -(void) showArmyCreatures:(Army*)army{
   //493.250000,238.000000
     CGPoint initalPosiiton = CGPointMake(493.250000, 238.000000);
-    SKSpriteNode *subMenu = [SKSpriteNode spriteNodeWithColor:[UIColor colorWithRed:255 green:255 blue:255 alpha:0.1] size:CGSizeMake(45,380)];
+        SKSpriteNode *subMenu = [SKSpriteNode spriteNodeWithColor:[UIColor colorWithRed:255 green:255 blue:255 alpha:0.1] size:CGSizeMake(45,380)];
     [subMenu setName:@"subMenu"];
+    [subMenu removeFromParent];
+
     [subMenu setPosition:initalPosiiton];
     [board addChild:subMenu];
 
@@ -1762,11 +1768,13 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         
         [c setPosition:(CGPointMake(x,y-(i*(c.size.height)+2)))
          ];
+      
         [c removeFromParent];
         [subMenu addChild:c];
         ++i;
+        NSLog(@"Creature parent %@",c.parent.name);
+
     }
-    
     
     
     

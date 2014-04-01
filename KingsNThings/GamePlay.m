@@ -19,6 +19,7 @@
     MyScene *scene;
     NSMutableArray *servers;
     Board *board;
+    NSMutableArray* battles;
     
 }
 
@@ -36,7 +37,7 @@
         players = [[NSMutableArray alloc] initWithObjects:[[Player alloc] init],[[Player alloc] init],[[Player alloc] init],[[Player alloc] init], nil];
         
         terrains = [[NSMutableArray alloc]init];
-       
+        battles = [[NSMutableArray alloc]init];
         
         //[self setPlayerArmy];
         p1Stack1 = [[NSArray alloc]init];
@@ -202,17 +203,24 @@
                     [defArmy setBuilding:[defender getBuildingOnTerrain:newTerrain]];
                }
                 
+                CombatPhase* combat = [[CombatPhase alloc]initWithMarkerAtPoint:newTerrain.position onBoard:[board getBoard] andMainScene:[self scene]];
+                [combat setDefenderArmy:defArmy];
+                [combat setDefender: defender];
+                [combat setAttacker:player];
+                [combat setAttackerArmy:army];
+                [combat setType:defendingHex];
+                [battles addObject:combat];
                 NSLog(@"tinside if players are NOT equal");
-                player.isWaitingCombat = YES;
+                /*player.isWaitingCombat = YES;
                 [player.combat setObject:army forKey:@"withArmy"];
                 [player.combat setObject:defender forKey:@"andPlayer"];
                 [player.combat setObject:defArmy forKey:@"andDefenderArmy"];
                 //[player.combat setObject:YES forKey:@"isDefinding"];
-                
+                */
                 NSLog(@"combat dictionary: %@",player.combat);
             }
             
-            else {
+            else if(!defender) {
                 //dude is gonna fight with random creatures on the terrain since theres no one there.
                 
                 NSLog(@"Inside explor");
@@ -230,21 +238,31 @@
                 }
                 
                 else{ // random army should appear
-                    Army* defender;
+                    Army* defending;
                     if(oneDice >0){
-                        defender = [board createRandomArmy:oneDice atPoint:army.position andTerrain:newTerrain];
+                        defending = [board createRandomArmy:oneDice atPoint:army.position andTerrain:newTerrain];
                     }
                     else{
-                        defender = [board createRandomArmy:secondDice atPoint:army.position andTerrain:newTerrain];
+                        defending = [board createRandomArmy:secondDice atPoint:army.position andTerrain:newTerrain];
                     }
                     
                     Player* tempDefender = [[Player alloc] init ];
-                    [tempDefender setArmy:defender];
-                    player.isWaitingCombat = YES;
+                    [tempDefender setArmy:defending];
+                    CombatPhase* combat = [[CombatPhase alloc]initWithMarkerAtPoint:newTerrain.position onBoard:[board getBoard] andMainScene:[self scene]];
+                    [combat setDefenderArmy:defending];
+                    [combat setDefender: tempDefender];
+                    [combat setAttacker:player];
+                    [combat setAttackerArmy:army];
+                    [combat setType:exploration];
+                    
+                    [battles addObject:combat];
+                    
+                    
+                   /* player.isWaitingCombat = YES;
                     [player.combat setObject:army forKey:@"withArmy"];
                     [player.combat setObject:tempDefender forKey:@"andPlayer"];
                     [player.combat setObject:defender forKey:@"andDefenderArmy"];
-                    [player.combat setObject:NO forKey:@"isDefinding"];
+                    [player.combat setObject:NO forKey:@"isDefinding"];*/
                     
                 }
             }
@@ -256,13 +274,13 @@
 //        float yPos = [terrain getAbsoluteY];
        [army setPosition: army.position];
     }
-    
-    NSLog(@"combat over");
+    player.doneTurn=YES;
+    [self advancePhase:Combat];
 }
 
 
 
-- (void) initiateCombat: (Player*) p{
+/*- (void) initiateCombat: (Player*) p{
     NSLog(@"Player Playing order: %d", p.playingOrder);
     if (p.isWaitingCombat) {
         Army *a = [p.combat objectForKey:@"withArmy"];
@@ -270,25 +288,70 @@
         Army *defArmy = [p.combat objectForKey:@"andDefenderArmy"];
         p.isWaitingCombat = NO;
         BOOL type = [[p.combat objectForKey:@"isDefending"] intValue];
-        [self combatPhase:p withArmy:a andPlayer:defender withArmy:defArmy isDefending:type];
+        //[self combatPhase:p withArmy:a andPlayer:defender withArmy:defArmy isDefending:type];
     }
-}
-
-
-
--(void) combatPhase:(Player *)attacker withArmy:(Army*)attackerArmy andPlayer:(Player*)defender withArmy:(Army*)defenderArmy isDefending:(BOOL)t{
-    NSLog(@"inside Combat phase");
-    CombatPhase* combat ;
-    if(t){
-        combat = [[CombatPhase alloc] initWithAttacker:attacker andDefender:defender andAttackerArmy:attackerArmy andDefenderArmy:defenderArmy andMainScene:scene ofType:defendingHex];
-    }
-    else{
-        combat = [[CombatPhase alloc] initWithAttacker:attacker andDefender:defender andAttackerArmy:attackerArmy andDefenderArmy:defenderArmy andMainScene:scene ofType:exploration];
+}*/
+/*- (void) initiateCombat{
+    Player* attacker,*defender;
+    Army* attacking,*defending;
+    Terrain* combatPlace;
+    NSArray* players;
+    for(CombatPhase* combat in battles){
+        
+        combatPlace = [self findTerrainAt:[combat battle].position];
+        defender = [self findPlayerByTerrain:combatPlace];
+        players = [self findPlayersByTerrain:combatPlace];
+        
+        for(Player* p in players){
+            if(![p isEqual:defender]){
+                attacker = p;
+                break;
+            }
+        }
+        attacking = [attacker findArmyOnTerrain:combatPlace];
+        defending = [defender findArmyOnTerrain:combatPlace];
+        if(!defender)
+        
+        //[self combatPhase:attacker withArmy:attacking andPlayer:defender withArmy:defending isDefending:YES];
         
     }
     
-    [combat drawScene];
     
+}
+*/
+
+-(void) combatPhase{
+    NSLog(@"inside Combat phase");
+    //CombatPhase* combat ;
+    
+    for (CombatPhase* combat in battles){
+        [combat drawScene];
+        if([combat.attacker hasWonCombat]){
+            
+            
+        }
+        else if ([combat.defender hasWonCombat]){
+        }
+        
+    }
+    /*if([attacker hasWonCombat]){
+        
+        
+    }
+    else if ([defender hasWonCombat]){
+    }
+     */
+}
+
+
+-(void) combatPhase:(Player *)attacker withArmy:(Army*)attackerArmy andPlayer:(Player*)defender withArmy:(Army*)defenderArmy{
+    NSLog(@"inside Combat phase");
+    //CombatPhase* combat ;
+    
+    for (CombatPhase* combat in battles){
+        [combat drawScene];
+    
+    }
     if([attacker hasWonCombat]){
         
         
@@ -317,7 +380,7 @@
             [terrainStrings addObject:t.type];
         }
     }
-    for (Army * army in player.armies) {
+    for (Army * army in player.stacks) {
         for (Creature *c in army.creatures) {
             if ([c.name hasSuffix:@"Lord"] || [c.name hasSuffix:@"King"] || [c.name hasSuffix:@"Master"]){
                 //dude gets to support other creatures in the territory who don't belong in there
@@ -332,7 +395,7 @@
     
     NSLog(@"terrain strings :%@",terrainStrings);
     int affected = 0;
-    for (Army * army in player.armies) {
+    for (Army * army in player.stacks) {
         for (Creature *c in army.creatures) {
             if (![terrainStrings containsObject:c.terrainType]) {
                 c.isBluff = YES;
@@ -412,6 +475,7 @@
 - (void) advancePhase: (Phase) p{
     NSLog(@"advancing phase to :%d",p);
     phase = p;
+    [self advancePhase];
     NSArray *phaseText = @[@"Initial Phase", @"Construction Phase", @"Movement Phase",@"Recruitment Phase",@"Special Character Recruitment Phase", @"Combat Phase", @"Gold Collection Phase"];
     board.textLabel.text = [phaseText objectAtIndex:p];
     
@@ -427,7 +491,21 @@
     }
     
 }
-
+-(void)advancePhase{
+    NSArray *phaseText = @[@"Initial Phase", @"Construction Phase", @"Movement Phase",@"Recruitment Phase",@"Special Character Recruitment Phase", @"Combat Phase", @"Gold Collection Phase"];
+    BOOL done= YES;
+    for(Player* p in players){
+        if(!p.doneTurn)
+            done = NO;
+    }
+    if(done && [battles count]>0){
+    phase +=1;
+    board.textLabel.text = [phaseText objectAtIndex:phase];
+    if(phase == Combat){
+        [self combatPhase];
+    }
+    }
+}
 
 #pragma GameCenter Functions
 
@@ -610,7 +688,7 @@
     NSMutableArray *playersArray = [[NSMutableArray alloc] init];
     
     for (Player *p in players) {
-        for (Army * a in p.armies) {
+        for (Army * a in p.stacks) {
             if ([a.terrain isEqual:terrain]) {
                 [playersArray addObject:p];
             }
