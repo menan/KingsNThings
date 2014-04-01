@@ -1740,6 +1740,14 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                     Army *armyObject = [[game.players objectAtIndex:playerId] constructNewStack:creatureObject atPoint:loc withTerrain:t];
                     
                     
+                    [armyObject drawImage:board];
+                    
+                    [creatureObject removeFromParent];
+                    //take this out too when you do it
+                    [t setHasArmyOnIt:YES];
+                    
+                    [self setCreaturesInBowl:creaturesInBowl-1];
+                    
                     NSLog(@"creatures found: %@", creatureName);
                 }
                 
