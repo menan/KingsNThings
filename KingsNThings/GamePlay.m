@@ -459,50 +459,54 @@
     NSLog(@"current phase: %d",phase);
     
     
-       
-    NSUInteger currentIndex = [currentMatch.participants indexOfObject:currentMatch.currentParticipant];
-    GKTurnBasedParticipant *nextParticipant;
-    
-    NSMutableDictionary *dicData = [[NSMutableDictionary alloc] init];
-    
-    NSNumber *phaseNS = [NSNumber numberWithInt:phase];
-    [dicData setObject:phaseNS forKey:@"phase"];
-    if (phase == Initial) {
-        [dicData setObject:board.terrainsDictionary forKey:@"terrains"];
-        [dicData setObject:board.markersArray forKey:@"markers"];
-        [self currentPlayer].doneInitial = YES;
-    }
-    else if(phase == GoldCollection){
+    if (currentMatch) {
+        NSUInteger currentIndex = [currentMatch.participants indexOfObject:currentMatch.currentParticipant];
+        GKTurnBasedParticipant *nextParticipant;
         
-    }
-    
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dicData];
-
-    
-    NSUInteger nextIndex = (currentIndex + 1) % [currentMatch.participants count];
-    nextParticipant = [currentMatch.participants objectAtIndex:nextIndex];
-    
-    int index = nextIndex;
-    
-    while (nextParticipant.status != GKTurnBasedParticipantStatusActive && nextParticipant.status != GKTurnBasedParticipantStatusInvited) {
-        index ++;
-        NSUInteger nextIndex = index % [currentMatch.participants count];
-        NSLog(@"current player id %d, status: %d",currentIndex, nextParticipant.status);
-        nextParticipant = [currentMatch.participants objectAtIndex:nextIndex];
-    }
-    
-    board.doneButton.hidden = YES;
-    board.canTapDone = NO;
-    [currentMatch endTurnWithNextParticipant:nextParticipant matchData:data completionHandler:^(NSError *error) {
-        if (error) {
-            NSLog(@"%@", error);
-            //                statusLabel.text = @"Oops, there was a problem.  Try that again.";
-        } else {
-            NSLog(@"done ending turn : %@",nextParticipant);
-            //                statusLabel.text = @"Your turn is over.";
-            //                textInputField.enabled = NO;
+        NSMutableDictionary *dicData = [[NSMutableDictionary alloc] init];
+        
+        NSNumber *phaseNS = [NSNumber numberWithInt:phase];
+        [dicData setObject:phaseNS forKey:@"phase"];
+        if (phase == Initial) {
+            [dicData setObject:board.terrainsDictionary forKey:@"terrains"];
+            [dicData setObject:board.markersArray forKey:@"markers"];
+            [self currentPlayer].doneInitial = YES;
         }
-    }];
+        else if(phase == GoldCollection){
+            
+        }
+        
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dicData];
+        
+        
+        NSUInteger nextIndex = (currentIndex + 1) % [currentMatch.participants count];
+        nextParticipant = [currentMatch.participants objectAtIndex:nextIndex];
+        
+        int index = nextIndex;
+        
+        while (nextParticipant.status != GKTurnBasedParticipantStatusActive && nextParticipant.status != GKTurnBasedParticipantStatusInvited) {
+            index ++;
+            NSUInteger nextIndex = index % [currentMatch.participants count];
+            NSLog(@"current player id %d, status: %d",currentIndex, nextParticipant.status);
+            nextParticipant = [currentMatch.participants objectAtIndex:nextIndex];
+        }
+        
+        board.doneButton.hidden = YES;
+        board.canTapDone = NO;
+        [currentMatch endTurnWithNextParticipant:nextParticipant matchData:data completionHandler:^(NSError *error) {
+            if (error) {
+                NSLog(@"%@", error);
+                //                statusLabel.text = @"Oops, there was a problem.  Try that again.";
+            } else {
+                NSLog(@"done ending turn : %@",nextParticipant);
+                //                statusLabel.text = @"Your turn is over.";
+                //                textInputField.enabled = NO;
+            }
+        }];
+    }
+    else{
+        NSLog(@"No matches present b.");
+    }
     
     
 }
