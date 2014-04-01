@@ -63,5 +63,6 @@
 - (void) constructTerrainFromDictionary:(NSArray *) terrains;
 - (void) constructStackFromDictionary:(NSArray *) stacks;
 - (void) constructPlacemarkerFromDictionary:(NSArray *) placemarkers;
+- (void) constructBuildingsFromDictionary:(NSArray *) placemarkers;
 
 @end

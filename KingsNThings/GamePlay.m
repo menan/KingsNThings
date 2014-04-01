@@ -519,7 +519,18 @@
         
         i++;
     }
-//    NSLog(@"stacks array: %@",arrayStacks);
+    //    NSLog(@"stacks array: %@",arrayStacks);
+    return arrayStacks;
+}
+
+
+
+- (NSArray *) getPlayerBuildingsAsDictionary{
+    NSMutableArray *arrayStacks = [[NSMutableArray alloc] init];
+    for (Player *p in players) {
+        [arrayStacks addObject:[p.buildings dictionize]];
+    }
+//    NSLog(@"buildings array: %@",arrayStacks);
     return arrayStacks;
 }
 
@@ -568,6 +579,7 @@
             [dicData setObject:board.markersArray forKey:@"markers"];
             [dicData setObject:[self getPlayerStacksAsDictionary] forKey:@"stacks"];
             [dicData setObject:[board.bowl dictionize] forKey:@"bowl"];
+            [dicData setObject:[self getPlayerBuildingsAsDictionary] forKey:@"buildings"];
             
             
 

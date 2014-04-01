@@ -135,8 +135,13 @@ static int counter = -1;
 }
 
 - (BOOL) setBuilding: (Building *) building{
-    NSLog(@"Just added building %d", building.stage);
-    [buildings addObject:building];
+//    NSLog(@"Just added building %d", building.stage);
+    if (![buildings containsObject:building]) {
+        [buildings addObject:building];
+    }
+    else{
+        NSLog(@"he seems to already have the building tho");
+    }
     return YES;
 }
 

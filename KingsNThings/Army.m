@@ -104,17 +104,5 @@
     return dict;
 }
 
-/*
--(void) drawImage:(SKSpriteNode *) aBoard{
-    
-   SKSpriteNode*  node = [SKSpriteNode spriteNodeWithImageNamed:image];
-    [node setName:@"army"];
-    [node setAccessibilityLabel:@"army"];
-    node.size = CGSizeMake(88,88);
-    [node setPosition:point];
-    [board addChild:node];
-    
-    
-}
- */
+
 @end

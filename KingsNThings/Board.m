@@ -1176,7 +1176,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         }
         
         if(![t hasArmyOnIt]){
-            a = [currentPlayer constructNewStack:creature atPoint:creature.initialPoint withTerrain:t];
+            a = [currentPlayer constructNewStack:creature atPoint:creature.position withTerrain:t];
             if (a != nil) {
                 
                 [a drawImage:board];
@@ -1744,28 +1744,45 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                     [self creaturesMoved:creatureObject AtTerrain:t];
                     [self removeCreatureByName:creatureObject.name]; //removes the creature from the bowl, if it got added to the army or rack
 
-                    NSLog(@"terrain at point %@, %f, %f",t, loc.x, loc.y);
-//
-//                    Army *armyObject = [[game.players objectAtIndex:playerId] constructNewStack:creatureObject atPoint:loc withTerrain:t];
-//                    
-//                    
-//                    [armyObject drawImage:board];
-//                    
-//                    [creatureObject removeFromParent];
-//                    //take this out too when you do it
-//                    [t setHasArmyOnIt:YES];
-//                    
-//                    [self setCreaturesInBowl:creaturesInBowl-1];
-//
-//                    NSLog(@"creatures found: %@", creatureName);
                 }
                 
             }
        }
 }
 
+- (void) constructBuildingsFromDictionary:(NSArray *) buildings{
+    
+    for (NSArray *m in buildings) {
+//        NSLog(@"gonna construct buildings with from the data %@",m);
+
+        if ([m count] > 0) {
+            
+            NSDictionary *building = [m objectAtIndex:0];
+            
+            CGPoint pointMarker = CGPointMake([[building objectForKey:@"X"] floatValue], [[building objectForKey:@"Y"] floatValue]);
+            NSString *buildingName = [building objectForKey:@"imageName"];
+            
+            
+            Terrain* temp = [game findTerrainAt:[board nodeAtPoint:pointMarker].position];
+            Player *p = [game findPlayerByTerrain:temp];
+            
+            Building* b = [[Building alloc]initWithBoard:board atPoint:pointMarker fromImage:buildingName];
+            b.size = CGSizeMake(40,40);
+            [b setPosition:pointMarker];
+            [board addChild:b];
+            
+            
+            [self constructBuilding:p withBuilding:b onTerrain:temp];
+//            NSLog(@"player buildings %d", p.buildings.count);
+        }
+        
+        
+        
+    }
+    
+}
 - (void) constructPlacemarkerFromDictionary:(NSArray *) placemarkers{
-    NSLog(@"gonna construct placemarkers with from the data %d",placemarkers.count);
+//    NSLog(@"gonna construct placemarkers with from the data %d",placemarkers.count);
     
     for (NSDictionary *m in placemarkers) {
         CGPoint pointMarker = CGPointMake([[m objectForKey:@"X"] floatValue], [[m objectForKey:@"Y"] floatValue]);
@@ -1776,7 +1793,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         Player *p = [[game players] objectAtIndex:playerId];
         
         if (temp && [p setTerritory:temp]){
-            NSLog(@"territory is set for player %d: %@", playerId, temp.name);
+//            NSLog(@"territory is set for player %d: %@", playerId, temp.name);
             
             [temp setHasArmyOnIt:NO];
             
@@ -1847,9 +1864,8 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     float y = 165;
     for (Creature* c in [army creatures]){
         
-        [c setPosition:(CGPointMake(x,y-(i*(c.size.height)+2)))
-         ];
-      
+        [c setPosition:(CGPointMake(x,y-(i*(c.size.height)+2)))];
+        c.size = CGSizeMake(40,41);
         [c removeFromParent];
         [subMenu addChild:c];
         ++i;
