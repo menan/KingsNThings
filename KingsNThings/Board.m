@@ -1497,7 +1497,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 }
 
 - (BOOL) canSelectNode:(SKSpriteNode*) node{
-    NSLog(@"node positoin: %f,%f",node.position.x,node.position.y);
+//    NSLog(@"node positoin: %f,%f",node.position.x,node.position.y);
     if ([game recruitmentComplete] && [node.accessibilityValue isEqualToString:@"creatures"] && node.position.x == 450 &&node.position.y == 456)
         return NO;
     else
