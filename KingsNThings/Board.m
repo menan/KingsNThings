@@ -1771,8 +1771,8 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             NSString *buildingName = [building objectForKey:@"imageName"];
             
             
-            Terrain* temp = [game findTerrainAt:[board nodeAtPoint:pointMarker].position];
-            Player *p = [game findPlayerByTerrain:temp];
+            Terrain* t = [game locateTerrainAt:pointMarker];
+            Player *p = [game findPlayerByTerrain:t];
             
             Building* b = [[Building alloc]initWithBoard:board atPoint:pointMarker fromImage:buildingName];
             b.size = CGSizeMake(40,40);
@@ -1780,7 +1780,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             [board addChild:b];
             
             
-            [self constructBuilding:p withBuilding:b onTerrain:temp];
+            [self constructBuilding:p withBuilding:b onTerrain:t];
 //            NSLog(@"player buildings %d", p.buildings.count);
         }
         

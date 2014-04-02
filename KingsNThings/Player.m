@@ -136,14 +136,14 @@ static int counter = -1;
 
 - (BOOL) setBuilding: (Building *) building{
     NSLog(@"setBuilding: %@", building.terrain.name);
-//    if (![buildings containsObject:building]) {
+    if (![buildings containsObject:building]) {
         [buildings addObject:building];
         return YES;
-//    }
-//    else{
-//        NSLog(@"he seems to already have the building tho");
-//        return NO;
-//    }
+    }
+    else{
+        NSLog(@"he seems to already have the building tho");
+        return NO;
+    }
 }
 
 - (int) getIncome{
