@@ -1759,31 +1759,30 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 }
 
 - (void) constructBuildingsFromDictionary:(NSArray *) buildings{
+    NSLog(@"gonna construct buildings with from the data %@",buildings);
     
     for (NSArray *m in buildings) {
-//        NSLog(@"gonna construct buildings with from the data %@",m);
 
-        if ([m count] > 0) {
-            
-            NSDictionary *building = [m objectAtIndex:0];
-            
-            CGPoint pointMarker = CGPointMake([[building objectForKey:@"X"] floatValue], [[building objectForKey:@"Y"] floatValue]);
-            NSString *buildingName = [building objectForKey:@"imageName"];
-            
-            
-            Terrain* t = [game locateTerrainAt:pointMarker];
-            Player *p = [game findPlayerByTerrain:t];
-            
-            Building* b = [[Building alloc]initWithBoard:board atPoint:pointMarker fromImage:buildingName];
-            b.size = CGSizeMake(40,40);
-            [b setPosition:pointMarker];
-            [board addChild:b];
-            
-            
-            [self constructBuilding:p withBuilding:b onTerrain:t];
-//            NSLog(@"player buildings %d", p.buildings.count);
-        }
         
+        for (NSDictionary *building in m) {
+            
+                CGPoint pointMarker = CGPointMake([[building objectForKey:@"X"] floatValue], [[building objectForKey:@"Y"] floatValue]);
+                NSString *buildingName = [building objectForKey:@"imageName"];
+                
+                
+                Terrain* t = [game locateTerrainAt:pointMarker];
+                Player *p = [game findPlayerByTerrain:t];
+                
+                Building* b = [[Building alloc]initWithBoard:board atPoint:pointMarker fromImage:buildingName];
+                b.size = CGSizeMake(40,40);
+                [b setPosition:pointMarker];
+                [board addChild:b];
+                
+                
+                [self constructBuilding:p withBuilding:b onTerrain:t];
+                NSLog(@"player buildings %d", p.buildings.count);
+            
+        }
         
         
     }

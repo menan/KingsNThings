@@ -579,9 +579,9 @@
 - (NSArray *) getPlayerBuildingsAsDictionary{
     NSMutableArray *arrayStacks = [[NSMutableArray alloc] init];
     for (Player *p in players) {
+        NSLog(@"buildings array: %d",p.buildings.count);
         [arrayStacks addObject:[p.buildings dictionize]];
     }
-//    NSLog(@"buildings array: %@",arrayStacks);
     return arrayStacks;
 }
 
