@@ -152,6 +152,9 @@
     [self removeFromParent]; //makes sure that it removes it to prevent duplications
     //self.spriteNodeWithImageNamed = imageName;
     
+    
+    [[board childNodeWithName:[NSString stringWithFormat:@"%@.jpg",imageName]] removeFromParent];
+    
     self.name = [NSString stringWithFormat:@"%@.jpg",imageName];
     //self.accessibilityValue = @"creatures";
     self.size = CGSizeMake(37,37);
