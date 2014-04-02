@@ -1321,6 +1321,8 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 -(void) constructBuilding:(Player*)owner withBuilding:(SKSpriteNode*)node onTerrain:(Terrain*)t{
     float towerSizeNode = PLACE_MARKER_DOCKED_SIZE + 4;
     Building *newBuilding = (Building*) node;
+    newBuilding.terrain = t;
+    NSLog(@"current terrain: %@",newBuilding.terrain);
     if(game.phase == Initial){
         if(newBuilding.stage != Tower){
             UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Invalid Move" message: @"na'aa you can't cheat;) first thing to build is tower" delegate: self                                       cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
@@ -1336,7 +1338,6 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
           
             if ([owner setBuilding:newBuilding]){
                 //[b setImageNode:node];
-                [newBuilding setTerrain:t];
                 newBuilding.name = @"bowl";
                 [newBuilding setSize:CGSizeMake(towerSizeNode, towerSizeNode)];
                 [newBuilding setPosition:CGPointMake(t.position.x - 10, t.position.y + 22)];
@@ -1393,7 +1394,6 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                                         newBuilding.name = @"bowl";
                                         [newBuilding setSize:CGSizeMake(towerSizeNode, towerSizeNode)];
                                         [newBuilding setPosition:CGPointMake(t.position.x - 10, t.position.y + 7)];
-                                        [newBuilding setTerrain:t];
                                         
                                         [self depositToBank:5];
                                         [self updateBank];
@@ -1427,7 +1427,6 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                                 [owner removeBuilding:currentBuilding];
                                 newBuilding.name = @"bowl";
                                 [newBuilding setSize:CGSizeMake(towerSizeNode, towerSizeNode)];
-                                [newBuilding setTerrain:t];
                                 
                                 [self depositToBank:5];
                                 [self updateBank];
@@ -1473,7 +1472,6 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                         
                         [newBuilding setSize:CGSizeMake(towerSizeNode, towerSizeNode)];
                         [newBuilding setPosition:CGPointMake(t.position.x - 10, t.position.y + 22)];
-                        [newBuilding setTerrain:t];
                         [self depositToBank:5];
                         [self updateBank];
                     }
