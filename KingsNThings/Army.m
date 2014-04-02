@@ -92,11 +92,10 @@
 
 - (void)drawImage:(SKSpriteNode *) aBoard
 {
-    NSString *imageNames = [NSString stringWithFormat:@"%i", [self playerNumber]];
+    NSString *imageNames = [NSString stringWithFormat:@"stack %d", [self armyNumber]];
     
     [[aBoard childNodeWithName:imageNames] removeFromParent];
     [self setName:imageNames];
-    [self setAccessibilityLabel:[NSString stringWithFormat:@"%i", [self armyNumber]]];
     [aBoard addChild:self];
     
     [self addDescription: [NSString stringWithFormat:@"STACK %d",armyNumber] toSprite:self];
