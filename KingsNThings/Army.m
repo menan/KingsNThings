@@ -95,6 +95,7 @@
     NSString *imageNames = [NSString stringWithFormat:@"stack %d", [self armyNumber]];
     
     [[aBoard childNodeWithName:imageNames] removeFromParent];
+    
     [self setName:imageNames];
     [aBoard addChild:self];
     
