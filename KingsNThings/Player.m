@@ -24,7 +24,7 @@
 
 static int counter = -1;
 
-@synthesize stacks,playingOrder,bank,army,returnedCreatures, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat,playerLeft,movementsRemaining,rack,hasBuiltCitadel,specialIncome,doneTurn,buildings;
+@synthesize stacks,playingOrder,bank,army,returnedCreatures, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat,playerLeft,movementsRemaining,rack,specialIncome,doneTurn,buildings;
 
 -(id) init{
     
@@ -49,7 +49,7 @@ static int counter = -1;
         hasWonCombat = NO;
         isWaitingCombat = NO;
         playerLeft = NO;
-        hasBuiltCitadel = NO;
+      
         doneTurn = NO;
     }
     return self;
@@ -360,5 +360,13 @@ static int counter = -1;
     
     return result;
     
+}
+-(BOOL)hasCitadel{
+    
+    for(Building* b in buildings){
+          if(b.stage == Citadel)
+            return YES;
+    }
+    return NO;
 }
 @end

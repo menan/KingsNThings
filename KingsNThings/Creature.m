@@ -17,7 +17,7 @@
 
 }
 
-@synthesize combatValue,isSpecial, isBluff, isFly,name,inBowl,imageName, terrainType,combatType,initialPoint;
+@synthesize combatValue,isSpecial, isBluff, isFly,name,inBowl,imageName, terrainType,combatType,initialPoint,stepsMoved;
 
 //@synthesize node;
 
@@ -37,6 +37,7 @@
         combatValue = value;
         numberofTimes = 1;
        isSpecial = iSpecial;
+        stepsMoved = 0;
     }
     return self;
 }
@@ -51,6 +52,7 @@
        isBluff = NO;
         inBowl = YES;
         numberofTimes = 1;
+        stepsMoved = 0;
         [self setValuesFromString:string];
     }
     return self;
@@ -68,6 +70,7 @@
         inBowl = YES;
         numberofTimes = 1;
        isSpecial = s;
+        stepsMoved = 0;
         [self setValuesFromString:string];
     }
     return self;
@@ -84,6 +87,7 @@
         numberofTimes = 1;
       
         isFly = NO;
+        stepsMoved = 0;
         [self setValuesFromString:image];
     }
     return self;

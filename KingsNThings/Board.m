@@ -1379,7 +1379,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                         
                         if (newBuilding.stage == Citadel) {
                             if([[owner bank] getBalance] >= [game buildingCost]){
-                                if(![owner hasBuiltCitadel]){
+                                if(![owner hasCitadel]){
                                     if ([owner setBuilding:newBuilding]){
                                         
                                         [owner removeBuilding:currentBuilding];
@@ -1390,7 +1390,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                                         newBuilding.name = @"bowl";
                                         [newBuilding setSize:CGSizeMake(towerSizeNode, towerSizeNode)];
                                         [newBuilding setPosition:CGPointMake(t.position.x - 10, t.position.y + 7)];
-                                        [owner setHasBuiltCitadel:YES];
+                                        [newBuilding setTerrain:t];
                                         
                                         [self depositToBank:5];
                                         [self updateBank];
@@ -1421,7 +1421,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                                 [owner removeBuilding:currentBuilding];
                                 newBuilding.name = @"bowl";
                                 [newBuilding setSize:CGSizeMake(towerSizeNode, towerSizeNode)];
-                                
+                                [newBuilding setTerrain:t];
                                 
                                 [self depositToBank:5];
                                 [self updateBank];
@@ -1459,11 +1459,12 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                     //Building *b = [[Building alloc] initWithImage:node.name atPoint:node.position andStage:Tower andTerrain:t];
                     
                     if ([owner setBuilding:newBuilding]){
-                        [newBuilding setImageNode:node];
-                        node.name = @"bowl";
+                        
+                        newBuilding.name = @"bowl";
                         
                         [newBuilding setSize:CGSizeMake(towerSizeNode, towerSizeNode)];
                         [newBuilding setPosition:CGPointMake(t.position.x - 10, t.position.y + 22)];
+                        [newBuilding setTerrain:t];
                         [self depositToBank:5];
                         [self updateBank];
                     }

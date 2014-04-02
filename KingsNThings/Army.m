@@ -13,7 +13,7 @@
 
 @implementation Army
 
-@synthesize creatures,imageIsDrawn,terrain,armyNumber,playerNumber,building;
+@synthesize creatures,imageIsDrawn,terrain,armyNumber,playerNumber,building,stepsMoved;
 
 
 
@@ -23,6 +23,7 @@
     
     if(self){
         creatures = [[NSMutableArray alloc]init];
+        stepsMoved = 0;
        // image = [[SKSpriteNode alloc]init];
     }
     return self;
@@ -35,6 +36,7 @@
     if(self){
         creatures = [[NSMutableArray alloc]init];
         self.position = aPoint;
+        stepsMoved = 0;
         //image = [[SKSpriteNode alloc]init];
     }
     return self;
@@ -71,6 +73,22 @@
 -(NSInteger) creaturesInArmy{
     return [creatures count];
 }
+-(void)updateMovingSteps:(NSInteger)steps{
+    
+    for(Creature* cre in creatures){
+        [cre setStepsMoved:(cre.stepsMoved+steps)];
+    }
+    
+    stepsMoved += steps;
+}
+-(void)resetMovingSteps{
+    
+    for(Creature* cre in creatures){
+        [cre setStepsMoved:0];
+    }
+    [self setStepsMoved:0];
+}
+
 
 - (void)drawImage:(SKSpriteNode *) aBoard
 {
@@ -79,7 +97,7 @@
     [self setAccessibilityLabel:[NSString stringWithFormat:@"%i", [self armyNumber]]];
     [aBoard addChild:self];
     
-    [self addDescription: [NSString stringWithFormat:@"ARMY %d",armyNumber] toSprite:self];
+    [self addDescription: [NSString stringWithFormat:@"STACK %d",armyNumber] toSprite:self];
     
     
 }
@@ -89,7 +107,7 @@
     SKLabelNode *myLabel = [SKLabelNode node];
     myLabel.text = description;
     myLabel.name = @"bowl";
-    myLabel.fontSize = 10;
+    myLabel.fontSize = 8;
     myLabel.fontColor = [SKColor whiteColor];
     myLabel.position = CGPointMake(0,sprite.size.height/2 - 35);
     

@@ -562,7 +562,8 @@
         
         [combatScene setInstructionText:@"We have a WINNER "];
         [combatScene postCombatScene];
-        if((building.stage == Citadel) && [attacker hasBuiltCitadel]){
+        
+        if((building.stage == Citadel) && [attacker hasCitadel]){
 ////////////////////////// game should end
         }
     }

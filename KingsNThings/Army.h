@@ -20,6 +20,7 @@
 @property NSInteger armyNumber;
 @property NSInteger playerNumber;
 @property Building* building;
+@property int stepsMoved;
 
 
 -(void) addCreatures:(id) creature;
@@ -31,4 +32,8 @@
 -(NSInteger) creaturesInArmy;
 -(void) drawImage:(SKSpriteNode *) aBoard ;
 - (NSDictionary *) getDict;
+-(void) updateMovingSteps:(NSInteger)steps;
+-(NSInteger) getMovedSteps;
+-(void) resetMovingSteps;
+
 @end

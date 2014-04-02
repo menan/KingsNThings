@@ -52,7 +52,7 @@
 - (void) creaturesMoved:(Creature *) n AtTerrain:(Terrain *) t;
 - (Army*) createRandomArmy:(NSInteger) number atPoint:(CGPoint)aPoint andTerrain:(Terrain*)terrain;
 - (void) playTreasure:(SKSpriteNode*)node;
--(void) showArmyCreatures:(Army*)army;
+- (void) showArmyCreatures:(Army*)army;
 
 
 - (void) hideDone;

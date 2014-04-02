@@ -31,7 +31,7 @@
 @property BOOL hasWonCombat;
 @property BOOL isWaitingCombat;
 @property BOOL playerLeft;
-@property BOOL hasBuiltCitadel;
+
 @property BOOL doneTurn;
 @property NSMutableDictionary * combat;
 
@@ -47,6 +47,7 @@
 - (BOOL) canAdvanceToGold;
 - (BOOL) hasSpecialIncomeOnTerrain:(Terrain*)terrain;
 - (BOOL) hasBuildingOnTerrain:(Terrain*)terrain;
+- (BOOL) hasCitadel;
 
 
 
