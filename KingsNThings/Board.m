@@ -1341,6 +1341,9 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 [newBuilding setSize:CGSizeMake(towerSizeNode, towerSizeNode)];
                 [newBuilding setPosition:CGPointMake(t.position.x - 10, t.position.y + 22)];
             }
+            else{
+                [newBuilding removeFromParent];
+            }
         }
     }
     // /else if([game isConstructionPhase]){
@@ -1397,6 +1400,9 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                                         
                                         
                                     }
+                                    else{
+                                        [newBuilding removeFromParent];
+                                    }
                                 }
                                 else {
                                     UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Citadel Building" message: @"You cannot build more than one Citadel" delegate: self                                       cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
@@ -1427,6 +1433,9 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                                 [self updateBank];
                                 
                                 //[node setPosition:CGPointMake(t.position.x - 10, t.position.y + 7)];
+                            }
+                            else{
+                                [newBuilding removeFromParent];
                             }
                         }
                     }
@@ -1467,6 +1476,9 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                         [newBuilding setTerrain:t];
                         [self depositToBank:5];
                         [self updateBank];
+                    }
+                    else{
+                        [newBuilding removeFromParent];
                     }
                 }
             }
