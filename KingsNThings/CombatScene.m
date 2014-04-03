@@ -160,7 +160,14 @@
         ++j;
         
     }
-    //for(SpecialIncome)
+    if([combat specialIncomeDefend]){
+        
+        [combat.specialIncomeDefend setPosition:CGPointMake(lableDefender.position.x + 75,lableDefender.position.y - (100 *j))];
+        [combat.specialIncomeDefend setSize:CGSizeMake(50,80)];
+        [self addChild:combat.specialIncomeDefend];
+        
+    }
+    
     if([combat type] == exploration ){
         
         [lblAttackerRetreat removeFromParent];
@@ -172,7 +179,7 @@
         bribe.position = CGPointMake(366,48);
         [self addChild:bribe];
         
-        for(SpecialIncome* creature in [defender creatures]){
+        for(SpecialIncome* creature in [combat specialIncomeCounters]){
             
             //[creature setAccessibilityLabel:@"defender"];
             creature.size = CGSizeMake(50,80);
@@ -316,57 +323,62 @@ float degToRad(float degree) {
 -(void) drawNeutralised:(SKNode*)node{
     
     
-    if([node.name isEqualToString:@"City"]){
-        SKSpriteNode* n =[[SKSpriteNode alloc]initWithImageNamed: @"-n City -s Neutralised.jpg"];
-        [n setName:node.name];
-        [n setAccessibilityLabel:@"defender"];
-        [n setPosition:node.position];
-        n.size = CGSizeMake(50,80);
-        [self addChild:n];
+    if([node isKindOfClass:[SpecialIncome class]]){
+        SpecialIncome* sp = (SpecialIncome*) node;
+        if(sp.type == City){
+            SKSpriteNode* n =[[SKSpriteNode alloc]initWithImageNamed: @"-n City -s Neutralised.jpg"];
+            [n setName:node.name];
+            [n setAccessibilityLabel:@"defender"];
+            [n setPosition:node.position];
+            n.size = CGSizeMake(50,80);
+            [self addChild:n];
         }
-    else if([node.name isEqualToString:@"Village"]){
-                SKSpriteNode* n =[[SKSpriteNode alloc]initWithImageNamed: @"-n Village -s Neutralised.jpg"];
-                [n setName:node.name];
-                [n setAccessibilityLabel:@"defender"];
-                [n setPosition:node.position];
-                n.size = CGSizeMake(50,80);
-                [self addChild:n];
-            }
-    
-    else if ([node.name isEqualToString:@"Tower"]){
-        SKSpriteNode* n =[[SKSpriteNode alloc]initWithImageNamed: @"-n Tower -s Neutralised.jpg"];
-        [n setName:node.name];
-        [n setAccessibilityLabel:@"defender"];
-        [n setPosition:node.position];
-        n.size = CGSizeMake(50,80);
-        [self addChild:n];
+        
+        else if(sp.type == Village){
+            SKSpriteNode* n =[[SKSpriteNode alloc]initWithImageNamed: @"-n Village -s Neutralised.jpg"];
+            [n setName:node.name];
+            [n setAccessibilityLabel:@"defender"];
+            [n setPosition:node.position];
+            n.size = CGSizeMake(50,80);
+            [self addChild:n];
+        }
     }
-    
-    else if ([node.name isEqualToString:@"Keep"]){
-        SKSpriteNode* n =[[SKSpriteNode alloc]initWithImageNamed: @"-n Keep -s Neutralised.jpg"];
-        [n setName:node.name];
-        [n setAccessibilityLabel:@"defender"];
-        [n setPosition:node.position];
-        n.size = CGSizeMake(50,80);
-        [self addChild:n];
+    else if ([node isKindOfClass:[Building class]]){
+        Building* building = (Building*) node;
+        if(building.stage == Tower){
+            SKSpriteNode* n =[[SKSpriteNode alloc]initWithImageNamed: @"-n Tower -s Neutralised.jpg"];
+            [n setName:node.name];
+            [n setAccessibilityLabel:@"defender"];
+            [n setPosition:node.position];
+            n.size = CGSizeMake(50,80);
+            [self addChild:n];
+        }
+        
+        else if (building.stage == Keep){
+            SKSpriteNode* n =[[SKSpriteNode alloc]initWithImageNamed: @"-n Keep -s Neutralised.jpg"];
+            [n setName:node.name];
+            [n setAccessibilityLabel:@"defender"];
+            [n setPosition:node.position];
+            n.size = CGSizeMake(50,80);
+            [self addChild:n];
+        }
+        else if (building.stage == Castle){
+            SKSpriteNode* n =[[SKSpriteNode alloc]initWithImageNamed: @"-n Castle -s Neutralised.jpg"];
+            [n setName:node.name];
+            [n setAccessibilityLabel:@"defender"];
+            [n setPosition:node.position];
+            n.size = CGSizeMake(50,80);
+            [self addChild:n];
+        }
+        else if (building.stage == Citadel){
+            SKSpriteNode* n =[[SKSpriteNode alloc]initWithImageNamed: @"-n Citadel -s Neutralised.jpg"];
+            [n setName:node.name];
+            [n setAccessibilityLabel:@"defender"];
+            [n setPosition:node.position];
+            n.size = CGSizeMake(50,80);
+            [self addChild:n];
+        }
     }
-    else if ([node.name isEqualToString:@"Castle"]){
-        SKSpriteNode* n =[[SKSpriteNode alloc]initWithImageNamed: @"-n Castle -s Neutralised.jpg"];
-        [n setName:node.name];
-        [n setAccessibilityLabel:@"defender"];
-        [n setPosition:node.position];
-        n.size = CGSizeMake(50,80);
-        [self addChild:n];
-    }
-    else if ([node.name isEqualToString:@"Citadel"]){
-        SKSpriteNode* n =[[SKSpriteNode alloc]initWithImageNamed: @"-n Citadel -s Neutralised.jpg"];
-        [n setName:node.name];
-        [n setAccessibilityLabel:@"defender"];
-        [n setPosition:node.position];
-        n.size = CGSizeMake(50,80);
-        [self addChild:n];
-    }
-
 }
 
 
@@ -476,27 +488,36 @@ float degToRad(float degree) {
         [self rollDiceOne];
     else if ([touchedNode.name isEqualToString:@"diceTwo"])
         [self rollDiceTwo];
-    else if ([touchedNode.accessibilityLabel isEqualToString:@"attacker" ]){
+    /*else if ([touchedNode.accessibilityLabel isEqualToString:@"attacker" ]){
         
         [touchedNode removeFromParent];
         [combat updateArmy:touchedNode.name andPlayerType:@"attacker"];
         [combat setDefenderNumberOfHits:[combat defenderNumberOfHits] -1 ];
         [[combat attackerArmy]removeCreatureWithName:touchedNode.name];
         
+    }*/
+    
+    else if ([touchedNode isKindOfClass:[Army class]]){
+        Creature* creature = (Creature*)touchedNode;
+        if([[combat defenderArmy] containCreature:creature]){
+            [touchedNode removeFromParent];
+            [combat updateArmy:touchedNode.name andPlayerType:@"defender"];
+            [combat setAttackerNumberOfHits:([combat attackerNumberOfHits] -1) ];
+            [[combat defenderArmy]removeCreatureWithName:touchedNode.name];
+        }
+        else if([[combat attackerArmy] containCreature:creature]){
+            [touchedNode removeFromParent];
+            [combat updateArmy:touchedNode.name andPlayerType:@"attacker"];
+            [combat setDefenderNumberOfHits:[combat defenderNumberOfHits] -1 ];
+            [[combat attackerArmy]removeCreatureWithName:touchedNode.name];
+
+            
+        }
     }
-    else if ([touchedNode.accessibilityLabel isEqualToString:@"defender" ]){
-        
-        
-        [touchedNode removeFromParent];
-        [combat updateArmy:touchedNode.name andPlayerType:@"defender"];
-        [combat setAttackerNumberOfHits:([combat attackerNumberOfHits] -1) ];
-        [[combat defenderArmy]removeCreatureWithName:touchedNode.name];
-        
-    }
-    else if ([touchedNode.accessibilityLabel isEqualToString:@"building"]){
-        
+    else if ([touchedNode isKindOfClass:[Building class]]){
+        Building* b = (Building*) touchedNode;
         [[combat building] setCurrentCombatValue:[[combat building] currentCombatValue] -1] ;
-        if([touchedNode.name isEqualToString:@"Tower"] || [touchedNode.name isEqualToString:@"Keep"] ){
+        if(b.stage == Tower|| b.stage == Keep ){
             [[combat building] setCombatValue:[[combat building] currentCombatValue]];
             
         }
@@ -507,12 +528,23 @@ float degToRad(float degree) {
             [self drawNeutralised:touchedNode];
             
         }
-        
-        
-        
     }
-    
+    else if ([touchedNode isKindOfClass:[SpecialIncome class]]){
+        //SpecialIncome* sp= (SpecialIncome*) touchedNode;
+        
+        [[combat specialIncomeDefend] setGoldValue:[combat specialIncomeDefend].goldValue -1];
+      
+        [combat setAttackerNumberOfHits:([combat attackerNumberOfHits] -1) ];
+        
+        if([[combat specialIncomeDefend] goldValue] <= 0){
+            //[[combat building] setIsNeutralised:YES];
+            [touchedNode removeFromParent];
+            [self drawNeutralised:touchedNode];
+        }
+    }
+
 }
+
 -(void) postCombatScene{
     diceOneRolled = 0;
     diceTwoRolled = 0;

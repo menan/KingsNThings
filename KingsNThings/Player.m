@@ -338,15 +338,14 @@ static int counter = -1;
 
 
 -(BOOL) hasSpecialIncomeOnTerrain:(Terrain*)terrain{
-    BOOL result = NO;
+    //BOOL result = NO;
     for(SpecialIncome* sp in specialIncome){
         if([sp.terrain isEqual:terrain]){
-            result = YES;
-            break;
+            return YES;
         }
     }
     
-    return result;
+    return NO;
     
 }
 
