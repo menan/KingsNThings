@@ -208,11 +208,11 @@ static int counter = -1;
 -(void) printArmy{
     
     for (int i = 0 ; i<[stacks count];i++){
-        NSLog(@"Army %d , has Creature in army  ",i);
+//        NSLog(@"Army %d , has Creature in army  ",i);
         
-    for(Creature* cre in [[stacks objectAtIndex:i] creatures])
-        NSLog(@" : %@  ",[cre name]);
-              
+//    for(Creature* cre in [[stacks objectAtIndex:i] creatures])
+//        NSLog(@" : %@  ",[cre name]);
+//              
     }
 }
 
@@ -330,6 +330,7 @@ static int counter = -1;
 
 
 - (BOOL) canAdvanceToGold{
+    NSLog(@"territories: %d, buildings: %d, recruitmentsRem: %d", territories.count, buildings.count, recruitsRemaining);
     if (territories.count >= 3 && buildings.count > 0 && recruitsRemaining == 0)
         return YES;
     else

@@ -1720,6 +1720,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 
 
 - (void) constructStackFromDictionary:(NSArray *) stacks{
+    NSLog(@"gonna construct armies with from the data %@",stacks);
     
     
     for (NSDictionary *t in stacks) {
@@ -1753,7 +1754,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 }
 
 - (void) constructBuildingsFromDictionary:(NSArray *) buildings{
-    NSLog(@"gonna construct buildings with from the data %@",buildings);
+//    NSLog(@"gonna construct buildings with from the data %@",buildings);
     
     for (NSArray *m in buildings) {
 
@@ -1774,7 +1775,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 
                 
                 [self constructBuilding:p withBuilding:b onTerrain:t];
-                NSLog(@"player buildings %d", p.buildings.count);
+//                NSLog(@"player buildings %d", p.buildings.count);
             
         }
         
