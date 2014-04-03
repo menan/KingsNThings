@@ -1822,6 +1822,8 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             
             
         }
+        NSLog(@"user rack vs dictionary rack %d vs %d",[[[game.players objectAtIndex:playerId] rack] count], [armies count]);
+        
         
         
         
