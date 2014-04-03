@@ -561,6 +561,26 @@
     
 }
 
+
+
+#pragma get player info as dictionary for networking
+
+- (NSDictionary *) getBoardAsADictionary{
+    
+    NSMutableDictionary *dicData = [[NSMutableDictionary alloc] init];
+    
+    NSNumber *phaseNS = [NSNumber numberWithInt:phase];
+    [dicData setObject:phaseNS forKey:@"phase"];
+    [dicData setObject:board.terrainsDictionary forKey:@"terrains"];
+    [dicData setObject:board.markersArray forKey:@"markers"];
+    [dicData setObject:[self getPlayerStacksAsDictionary] forKey:@"stacks"];
+    [dicData setObject:[board.bowl dictionize] forKey:@"bowl"];
+    [dicData setObject:[self getPlayerBuildingsAsDictionary] forKey:@"buildings"];
+    
+    return dicData;
+}
+
+
 - (NSArray *) getPlayerStacksAsDictionary{
     NSMutableArray *arrayStacks = [[NSMutableArray alloc] init];
     int i = 0;
@@ -624,25 +644,8 @@
         NSUInteger currentIndex = [currentMatch.participants indexOfObject:currentMatch.currentParticipant];
         GKTurnBasedParticipant *nextParticipant;
         
-        NSMutableDictionary *dicData = [[NSMutableDictionary alloc] init];
         
-        NSNumber *phaseNS = [NSNumber numberWithInt:phase];
-        [dicData setObject:phaseNS forKey:@"phase"];
-        if (phase == Initial) {
-            [dicData setObject:board.terrainsDictionary forKey:@"terrains"];
-            [dicData setObject:board.markersArray forKey:@"markers"];
-            [dicData setObject:[self getPlayerStacksAsDictionary] forKey:@"stacks"];
-            [dicData setObject:[board.bowl dictionize] forKey:@"bowl"];
-            [dicData setObject:[self getPlayerBuildingsAsDictionary] forKey:@"buildings"];
-            
-            
-
-        }
-        else if(phase == GoldCollection){
-            
-        }
-        
-        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dicData];
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:[self getBoardAsADictionary]];
         
         
         NSUInteger nextIndex = (currentIndex + 1) % [currentMatch.participants count];

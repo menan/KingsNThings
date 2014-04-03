@@ -69,4 +69,6 @@ typedef enum {
 - (BOOL) thereAreDefendersOnTerrain:(Terrain *) terrain;
 - (BOOL) thereIsArmyOnTerrain:(Terrain *) terrain;
 
+
+- (NSDictionary *) getBoardAsADictionary;
 @end

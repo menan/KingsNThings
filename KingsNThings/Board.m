@@ -782,10 +782,13 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 
 
 - (void) nodeMoving:(SKSpriteNode*) node to:(CGPoint) movedTo{
+    
     [node setPosition:movedTo];
 }
 
 - (void) nodeMoved:(SKSpriteNode *)node nodes:(NSArray *)nodes{
+    
+    
     node.colorBlendFactor = 0;
     //    [self resetText];
     CGPoint terrainPoint = CGPointMake(0, 0);
@@ -832,6 +835,8 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         }
     }
     else if ([node isKindOfClass:[Army class]]){
+        
+        
         NSLog(@"army moved");
         Terrain *temp = [game findTerrainAt:terrainPoint];
         Player *tempPlayer = [game findPlayerByOrder:[node.name integerValue]];
@@ -1209,29 +1214,24 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 }
             }
         }
+        
+        [self showDone];
+        currentPlayer.recruitsRemaining--;
+        [self updateRecruitLabel:currentPlayer];
+        
+        [game checkInitalRecruitmentComplete]; //double checks to see if everyone finished recruiting so that we can move to next phase
+        
+        
     }
     else{
+        
+        NSLog(@"terriain or player on terrain must be nil %@, %@", t, [game findPlayerByTerrain:t]);
         //Creature *creature = [self findCreatureByName:n.name];
 //        Creature *creature = (Creature*) n;
         
         //[self addToRack:creature];
 //////////        //should remove from bowl?!!
     }
-    Player *currentPlayer;
-    if ([[game findPlayersByTerrain:t] count] == 0) {
-        currentPlayer = [game currentPlayer];
-    }
-    else{
-        //currentPlayer = [[game findPlayersByTerrain:t] objectAtIndex:0];
-        currentPlayer = [game findPlayerByTerrain:t];
-    }
-    [self showDone];
-    currentPlayer.recruitsRemaining--;
-    [self updateRecruitLabel:currentPlayer];
-        
-    [game checkInitalRecruitmentComplete]; //double checks to see if everyone finished recruiting so that we can move to next phase
-    
-    
     
 }
 

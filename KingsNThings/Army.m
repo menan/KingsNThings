@@ -92,7 +92,7 @@
 
 - (void)drawImage:(SKSpriteNode *) aBoard
 {
-    NSString *imageNames = [NSString stringWithFormat:@"stack %d", [self armyNumber]];
+    NSString *imageNames = [NSString stringWithFormat:@"stack"];
     
     SKSpriteNode* node = (SKSpriteNode*) [aBoard nodeAtPoint:self.position];
     if([node isKindOfClass:[Army class]]){
@@ -112,7 +112,7 @@
     SKLabelNode *myLabel = [SKLabelNode node];
     myLabel.text = description;
     myLabel.name = @"bowl";
-    myLabel.fontSize = 8;
+    myLabel.fontSize = 9;
     myLabel.fontColor = [SKColor whiteColor];
     myLabel.position = CGPointMake(0,sprite.size.height/2 - 35);
     

@@ -69,7 +69,26 @@
     SKSpriteNode *touchedNode = (SKSpriteNode *)[self nodeAtPoint:touchLocation];
     //2
     
+    NSLog(@"node name %@", touchedNode.name);
     
+    if (![touchedNode.parent.name isEqualToString:@"subMenu"]) {
+        [[[gameBoard getBoard] childNodeWithName:@"subMenu"] removeFromParent];
+    }
+    
+    if ([touchedNode isKindOfClass:[Army class]]){
+        
+        [gameBoard showArmyCreatures:(Army*)touchedNode];
+        
+        
+        if (![_selectedNode isEqual:touchedNode]) {
+            [_selectedNode removeAllActions];
+            _selectedNode.color = [SKColor blackColor];
+        }
+        
+        
+        NSLog(@"army moving tho");
+        
+    }
     
 	if([gameBoard canSelectNode:touchedNode]){
         if (![_selectedNode isEqual:touchedNode]) {
@@ -132,7 +151,7 @@ CGPoint mult(const CGPoint v, const CGFloat s) {
     //CGRect screenRect = [[UIScreen mainScreen] bounds];
     //CIVector  *extent = [CIVector vectorWithX:0  Y:0  Z:screenRect.size.width  W:screenRect.size.height];
     
-    combat= [[CombatScene alloc] initWithSize:[self size] withAttacker:attacker andDefender:defender andSender:self andCombat:combatfun];
+    combat = [[CombatScene alloc] initWithSize:[self size] withAttacker:attacker andDefender:defender andSender:self andCombat:combatfun];
              
              //initWithSize:[self size] withAttacker:attacker andDefender:defender andSender:self ];
     

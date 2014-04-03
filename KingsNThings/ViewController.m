@@ -55,13 +55,13 @@
     scene.controller = self;
     scene.scaleMode = SKSceneScaleModeAspectFill;
     
-    longPressRecognizer =
-    [[UILongPressGestureRecognizer alloc]
-     initWithTarget:scene
-     action:@selector(longPressDetected:)];
-    longPressRecognizer.minimumPressDuration = 2;
-    longPressRecognizer.numberOfTouchesRequired = 1;
-    [skView addGestureRecognizer:longPressRecognizer];
+//    longPressRecognizer =
+//    [[UILongPressGestureRecognizer alloc]
+//     initWithTarget:scene
+//     action:@selector(longPressDetected:)];
+//    longPressRecognizer.minimumPressDuration = 2;
+//    longPressRecognizer.numberOfTouchesRequired = 1;
+//    [skView addGestureRecognizer:longPressRecognizer];
 
     [skView presentScene:scene];
 }
