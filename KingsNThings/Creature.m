@@ -38,6 +38,7 @@
         numberofTimes = 1;
        isSpecial = iSpecial;
         stepsMoved = 0;
+        self.size = CGSizeMake(37,37);
     }
     return self;
 }
@@ -53,6 +54,7 @@
         inBowl = YES;
         numberofTimes = 1;
         stepsMoved = 0;
+        self.size = CGSizeMake(37,37);
         [self setValuesFromString:string];
     }
     return self;
@@ -71,6 +73,7 @@
         numberofTimes = 1;
        isSpecial = s;
         stepsMoved = 0;
+        self.size = CGSizeMake(37,37);
         [self setValuesFromString:string];
     }
     return self;
@@ -88,6 +91,7 @@
       
         isFly = NO;
         stepsMoved = 0;
+        self.size = CGSizeMake(37,37);
         [self setValuesFromString:image];
     }
     return self;
@@ -157,7 +161,6 @@
     
     self.name = [NSString stringWithFormat:@"%@.jpg",imageName];
     //self.accessibilityValue = @"creatures";
-    self.size = CGSizeMake(37,37);
     if (inBowl && isSpecial == NO) {
        self.color = [SKColor blackColor];
        self.colorBlendFactor = .85;

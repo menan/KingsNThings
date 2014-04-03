@@ -64,11 +64,13 @@
 - (Army*) constructNewStack:(id)creatur atPoint:(CGPoint) aPoint withTerrain:(Terrain*)terrain;
 -(void) removeTerrainfromTerritories:(Terrain*)terrain;
 
+
+
 /*-------Finders-----*/
 - (NSMutableArray *) getTerritories;
 - (int) getBankBalance;
 - (int) getIncome;
-- (NSInteger) numberOfArmies;
+//- (NSInteger) numberOfArmies;
 - (Bank *) getBank;
 - (Army*) armyByCreature:(id)creature;
 - (Army *) getStackAtIndex:(NSInteger)index;

@@ -155,11 +155,11 @@
 
 -(void) movementPhase:(Player *)player withArmy:(Army*)army onTerrian:(Terrain *)newTerrain{
     
-    NSLog(@"inside movementPhase");
-    NSLog(@" player is %d",[player playingOrder]);
+//    NSLog(@"inside movementPhase");
+//    NSLog(@" player is %d",[player playingOrder]);
     Terrain* oldTerrain = army.terrain;
     Player *defender = [self findPlayerByTerrain:newTerrain];
-    NSLog(@"tempPlayer is %d , player is %d",[defender playingOrder],[player playingOrder]);
+//    NSLog(@"tempPlayer is %d , player is %d",[defender playingOrder],[player playingOrder]);
     
     //to check to see if palyer only moved one hex
     BOOL validMove = NO;
@@ -200,7 +200,7 @@
         //player is the owner of the terrain
         if([player isEqual:defender]){
             
-            NSLog(@"inside if players are equal");
+//            NSLog(@"inside if players are equal");
             
             int counter = 0;
             for(Army* s in player.stacks){
@@ -243,7 +243,7 @@
             [combat setAttackerArmy:army];
             [combat setType:defendingHex];
             [battles addObject:combat];
-            NSLog(@"tinside if players are NOT equal");
+//            NSLog(@"tinside if players are NOT equal");
             /*player.isWaitingCombat = YES;
              [player.combat setObject:army forKey:@"withArmy"];
              [player.combat setObject:defender forKey:@"andPlayer"];
@@ -317,7 +317,7 @@
 
     
     else {
-        NSLog(@"user must have moved more than one hex, ignored");
+//        NSLog(@"user must have moved more than one hex, ignored");
         //        float xPos = [terrain getAbsoluteX];
         //        float yPos = [terrain getAbsoluteY];
         [army setPosition: oldTerrain.position];
@@ -495,7 +495,7 @@
         //if you choose 5, battle is fought as usual
     }
     else if ([creature.name isEqualToString: @"Master Thief"]){
-        //you steal shit based by comparing the role and combat value
+        //you steal things based by comparing the role and combat value :/
     }
     else if ([creature.name isEqualToString: @"Sword Master"]){
         //when this dude is hit, you roll a dice if its 1/6 he dies or else he comes back for next session
@@ -524,8 +524,6 @@
     NSLog(@"advancing phase to :%d",p);
     phase = p;
     [self advancePhase];
-    NSArray *phaseText = @[@"Initial Phase", @"Construction Phase", @"Movement Phase",@"Recruitment Phase",@"Special Character Recruitment Phase", @"Combat Phase", @"Gold Collection Phase"];
-    board.textLabel.text = [phaseText objectAtIndex:p];
     
     //if(one turn has finished){
       //[self checkForWinner];
@@ -534,19 +532,30 @@
 }
 -(void)advancePhase{
     NSArray *phaseText = @[@"Initial Phase", @"Construction Phase", @"Movement Phase",@"Recruitment Phase",@"Special Character Recruitment Phase", @"Combat Phase", @"Gold Collection Phase"];
-    BOOL done= YES;
+    BOOL done = YES;
     for(Player* p in players){
         if(!p.doneTurn)
             done = NO;
     }
+    
+    
+    //if its recruitment phase, 2 more recruits awarded
+    if (phase == Recruitment) {
+        [self currentPlayer].recruitsRemaining+=2;
+        [board updateRecruitLabel:[self currentPlayer]];
+    }
+    
+    
     if(done && [battles count]>0){
-    phase +=1;
+        phase +=1;
+        if(phase == Combat){
+            [self combatPhase];
+        }
+    }
     board.textLabel.text = [phaseText objectAtIndex:phase];
-    if(phase == Combat){
-        [self combatPhase];
-    }
-    }
 }
+
+
 -(Player*) checkForWinner{
     Player* winner;
     int counter = 0;
@@ -563,11 +572,50 @@
     
 }
 
+
+
+#pragma get player info as dictionary for networking
+
+- (NSDictionary *) getBoardAsADictionary{
+    
+    NSMutableDictionary *dicData = [[NSMutableDictionary alloc] init];
+    
+    NSNumber *phaseNS = [NSNumber numberWithInt:phase];
+    [dicData setObject:phaseNS forKey:@"phase"];
+    [dicData setObject:board.terrainsDictionary forKey:@"terrains"];
+    [dicData setObject:board.markersArray forKey:@"markers"];
+    [dicData setObject:[self getPlayerStacksAsDictionary] forKey:@"stacks"];
+    [dicData setObject:[self getPlayerRackAsDictionary] forKey:@"racks"];
+    [dicData setObject:[board.bowl dictionize] forKey:@"bowl"];
+    [dicData setObject:[self getPlayerBuildingsAsDictionary] forKey:@"buildings"];
+    [dicData setObject:[self getGoldsAsDictionary] forKey:@"balance"];
+    
+    return dicData;
+}
+
+
 - (NSArray *) getPlayerStacksAsDictionary{
     NSMutableArray *arrayStacks = [[NSMutableArray alloc] init];
     int i = 0;
     for (Player *p in players) {
         NSMutableArray *playerArray = [p.stacks dictionize];
+        NSMutableDictionary *playerDict = [[NSMutableDictionary alloc] init];
+        [playerDict setObject:playerArray forKey:@"armies"];
+        [playerDict setObject:[NSNumber numberWithInt:i] forKey:@"playerId"];
+        [arrayStacks addObject:playerDict];
+        
+        i++;
+    }
+    //    NSLog(@"stacks array: %@",arrayStacks);
+    return arrayStacks;
+}
+
+
+- (NSArray *) getPlayerRackAsDictionary{
+    NSMutableArray *arrayStacks = [[NSMutableArray alloc] init];
+    int i = 0;
+    for (Player *p in players) {
+        NSMutableArray *playerArray = [p.rack dictionize];
         NSMutableDictionary *playerDict = [[NSMutableDictionary alloc] init];
         [playerDict setObject:playerArray forKey:@"armies"];
         [playerDict setObject:[NSNumber numberWithInt:i] forKey:@"playerId"];
@@ -587,6 +635,51 @@
         NSLog(@"buildings array: %d",p.buildings.count);
         [arrayStacks addObject:[p.buildings dictionize]];
     }
+    return arrayStacks;
+}
+
+
+- (NSArray *) getGoldsAsDictionary{
+    NSMutableArray *arrayStacks = [[NSMutableArray alloc] init];
+    int i = 0;
+    for (Player *p in players) {
+        NSMutableDictionary *playerDict = [[NSMutableDictionary alloc] init];
+        
+        NSMutableDictionary *gold = [[NSMutableDictionary alloc] init];
+        
+        [gold setValue:[NSNumber numberWithInt:p.bank.oneGold] forKey:@"1s"];
+        [gold setValue:[NSNumber numberWithInt:p.bank.twoGold] forKey:@"2s"];
+        [gold setValue:[NSNumber numberWithInt:p.bank.fiveGold] forKey:@"5s"];
+        [gold setValue:[NSNumber numberWithInt:p.bank.tenGold] forKey:@"10s"];
+        [gold setValue:[NSNumber numberWithInt:p.bank.fifteenGold] forKey:@"15s"];
+        [gold setValue:[NSNumber numberWithInt:p.bank.twentyGold] forKey:@"20s"];
+        
+        
+        [playerDict setObject:gold forKey:@"golds"];
+        
+        [playerDict setObject:[NSNumber numberWithInt:i] forKey:@"playerId"];
+        [arrayStacks addObject:playerDict];
+        i++;
+    }
+    
+    
+    NSMutableDictionary *playerDict = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *gold = [[NSMutableDictionary alloc] init];
+    
+    [gold setValue:[NSNumber numberWithInt:board.bank.oneGold] forKey:@"1s"];
+    [gold setValue:[NSNumber numberWithInt:board.bank.twoGold] forKey:@"2s"];
+    [gold setValue:[NSNumber numberWithInt:board.bank.fiveGold] forKey:@"5s"];
+    [gold setValue:[NSNumber numberWithInt:board.bank.tenGold] forKey:@"10s"];
+    [gold setValue:[NSNumber numberWithInt:board.bank.fifteenGold] forKey:@"15s"];
+    [gold setValue:[NSNumber numberWithInt:board.bank.twentyGold] forKey:@"20s"];
+    
+    
+    [playerDict setObject:gold forKey:@"golds"];
+    
+    [playerDict setObject:[NSNumber numberWithInt:-1] forKey:@"playerId"];
+    [arrayStacks addObject:playerDict];
+    
+    
     return arrayStacks;
 }
 
@@ -626,25 +719,8 @@
         NSUInteger currentIndex = [currentMatch.participants indexOfObject:currentMatch.currentParticipant];
         GKTurnBasedParticipant *nextParticipant;
         
-        NSMutableDictionary *dicData = [[NSMutableDictionary alloc] init];
         
-        NSNumber *phaseNS = [NSNumber numberWithInt:phase];
-        [dicData setObject:phaseNS forKey:@"phase"];
-        if (phase == Initial) {
-            [dicData setObject:board.terrainsDictionary forKey:@"terrains"];
-            [dicData setObject:board.markersArray forKey:@"markers"];
-            [dicData setObject:[self getPlayerStacksAsDictionary] forKey:@"stacks"];
-            [dicData setObject:[board.bowl dictionize] forKey:@"bowl"];
-            [dicData setObject:[self getPlayerBuildingsAsDictionary] forKey:@"buildings"];
-            
-            
-
-        }
-        else if(phase == GoldCollection){
-            
-        }
-        
-        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dicData];
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:[self getBoardAsADictionary]];
         
         
         NSUInteger nextIndex = (currentIndex + 1) % [currentMatch.participants count];
@@ -769,7 +845,7 @@
     
     for (id node in nodes) {
         if ([node isKindOfClass:[Terrain class]]) {
-            NSLog(@"terrain located");
+//            NSLog(@"terrain located");
             return node;
         }
     }

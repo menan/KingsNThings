@@ -141,7 +141,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     
     //    [self drawRack:CGPointMake(620.0f, (size.height) - 55)];
     //    [self drawRack:CGPointMake(620.0f, (size.height) - 150)];
-    [self drawRack:CGPointMake(620.0f, (size.height) - 240)];
+    [self drawRack:CGPointMake(625.0f, (size.height) - 240)];
     //    [self drawRack:CGPointMake(620.0f, (size.height) - 330)];
     
     
@@ -500,7 +500,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     float offset = 105.0f;
     [self drawBank:bank at:CGPointMake(left, (size.height) - 480) andWithTitle:@"Bank"];
     for (int j = 0; j < 1; j++) {
-        Player *p = [[game players] objectAtIndex:j];
+        Player *p = [game currentPlayer];
         NSLog(@"drawing bank for player %d, left: %d", j, p.playerLeft);
         NSString *title = [NSString stringWithFormat:@"P%d Stash",j + 1];
         if (j == 0)
@@ -759,11 +759,9 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 
 - (BOOL) removeCreatureByName:(NSString *) name{
     for (Creature *c in bowl) {
-        if ([c.name isEqualToString:name]) {
-            //[bowl removeObject:c];
-            
+        if ([c.name isEqualToString:name]) {           
             [self removeThingFromBowl:c];
-            NSLog(@"just removed %@ from the bowl",name);
+//            NSLog(@"just removed %@ from the bowl",c.name);
             return YES;
         }
     }
@@ -773,7 +771,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             [self removeThingFromBowl:c];
             [game currentPlayer].recruitsRemaining++;
             [self updateRecruitLabel:[game currentPlayer]];
-            NSLog(@"just removed %@ from the player rack",name);
+//            NSLog(@"just removed %@ from the player rack",c.name);
             return YES;
         }
     }
@@ -782,10 +780,13 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 
 
 - (void) nodeMoving:(SKSpriteNode*) node to:(CGPoint) movedTo{
+    
     [node setPosition:movedTo];
 }
 
 - (void) nodeMoved:(SKSpriteNode *)node nodes:(NSArray *)nodes{
+    
+    
     node.colorBlendFactor = 0;
     //    [self resetText];
     CGPoint terrainPoint = CGPointMake(0, 0);
@@ -832,7 +833,9 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         }
     }
     else if ([node isKindOfClass:[Army class]]){
-        NSLog(@"army moved");
+        
+        
+//        NSLog(@"army moved");
         Terrain *temp = [game findTerrainAt:terrainPoint];
         
         
@@ -1135,12 +1138,15 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 
             }
             else{
-                [self recruiteSpecialIncome:node onTerrain:t];
+                
+                Player* p = [game findPlayerByTerrain:t];
+                [self recruiteSpecialIncome:node onTerrain:t forPlayer:p];
             }
             
         }
         else{
-            [self recruiteSpecialIncome:node onTerrain:t];
+            Player* p = [game findPlayerByTerrain:t];
+            [self recruiteSpecialIncome:node onTerrain:t forPlayer:p];
         }
         if([game phase] == Recruitment){
             //[self recruiteSpecialIncome:node onTerrain:t
@@ -1161,14 +1167,14 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 
 - (void) creaturesMoved:(Creature *) creature AtTerrain:(Terrain *) t{
     
-    NSLog(@"Node is number of players at the terrain: %@" , t.name);
+//    NSLog(@"Node is number of players at the terrain: %@" , t.name);
     //checks if any player owns the territory and the terrain is found
     if(t && [game findPlayerByTerrain:t]){
         Player *currentPlayer = [game findPlayerByTerrain:t];
         //Creature *creature = [self findCreatureByName:n.name];
 //        Creature* creature = (Creature*) n;
         Army *a = [currentPlayer findArmyOnTerrain:t];
-        NSLog(@"Creature is %@",creature.name);
+//        NSLog(@"Creature is %@",creature.name);
         
         if(a != nil){
             [a removeCreature:creature];
@@ -1202,6 +1208,11 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                             break;
                             
                         }
+                        else{
+                            NSLog(@"could not add creature %@ to the stack since it was already present",creature.name);
+                            [creature removeFromParent];
+                            
+                        }
                     }
                     else{
                         //must've reached the limit of charecters
@@ -1210,29 +1221,24 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 }
             }
         }
+        
+        [self showDone];
+        currentPlayer.recruitsRemaining--;
+        [self updateRecruitLabel:currentPlayer];
+        
+        [game checkInitalRecruitmentComplete]; //double checks to see if everyone finished recruiting so that we can move to next phase
+        
+        
     }
     else{
+        
+        NSLog(@"terriain or player on terrain must be nil %@, %@", t, [game findPlayerByTerrain:t]);
         //Creature *creature = [self findCreatureByName:n.name];
 //        Creature *creature = (Creature*) n;
         
         //[self addToRack:creature];
 //////////        //should remove from bowl?!!
     }
-    Player *currentPlayer;
-    if ([[game findPlayersByTerrain:t] count] == 0) {
-        currentPlayer = [game currentPlayer];
-    }
-    else{
-        //currentPlayer = [[game findPlayersByTerrain:t] objectAtIndex:0];
-        currentPlayer = [game findPlayerByTerrain:t];
-    }
-    [self showDone];
-    currentPlayer.recruitsRemaining--;
-    [self updateRecruitLabel:currentPlayer];
-        
-    [game checkInitalRecruitmentComplete]; //double checks to see if everyone finished recruiting so that we can move to next phase
-    
-    
     
 }
 
@@ -1249,8 +1255,8 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 
 
 
-- (void) addToRack: (id) item{
-    if ([game currentPlayer].rack.count <= 10) {
+- (void) addToRack: (id) item forPlayer:(Player *) p{
+    if (p.rack.count <= 10) {
         SKSpriteNode *itemNode;
         
         //to make it work for both si and creature
@@ -1263,16 +1269,15 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             itemNode = itemC;
         }
         
-        
-        //        [self removeCreatureByName:itemNode.name]; //removes the creature from the bowl
-        
-        if (item && ![[game currentPlayer].rack containsObject:item]) {
-            [[game currentPlayer].rack addObject:item];
+        if (item && ![p.rack containsObject:item]) {
+            [p.rack addObject:item];
+            float offset = (p.rack.count - 1) * itemNode.size.width;
+            [itemNode setPosition:CGPointMake(540.0f + offset, (size.height) - 225)];
         }
-        
-        float offset = ([game currentPlayer].rack.count - 1) * itemNode.size.width;
-        [itemNode setPosition:CGPointMake(540.0f + offset, (size.height) - 225)];
-        //        [self redrawCreatures];
+        else{
+            [itemNode removeFromParent];
+            NSLog(@"since si %@ was already present, didnt add it to array", itemNode.name);
+        }
     }
     
     else{
@@ -1290,7 +1295,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     
     //    [game checkBluffForPlayer:[game currentPlayer]];
     
-    
+//    NSLog(@"board as a dict: %@",[game getBoardAsADictionary]);
     
     for(Player * p in game.players){
         totalIncome += [p getIncome];
@@ -1301,15 +1306,9 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         [bank withdraw:[p getIncome]];
         [p.bank deposit:[p getIncome]];
         
-        //            NSLog(@"Player balance %d after deposition and income was %d", [p.bank getBalance], [p getIncome]);
-        p.recruitsRemaining = 2;
-        recruitLabel.text = [NSString stringWithFormat: @"%d Recruits Remaining", p.recruitsRemaining];
-
-        //        NSLog(@"bank balance after collection phase completion %d", [bank getBalance]);
         [self updateBank];
         [self showDone];
         [[board childNodeWithName:@"collection"] removeFromParent];
-//        [game advancePhase:Recruitment];
         return YES;
     }
     else{
@@ -1323,7 +1322,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     float towerSizeNode = PLACE_MARKER_DOCKED_SIZE + 4;
     Building *newBuilding = (Building*) node;
     newBuilding.terrain = t;
-    NSLog(@"current terrain: %@",newBuilding.terrain);
+//    NSLog(@"current terrain: %@",newBuilding.terrain);
     if(game.phase == Initial){
         if(newBuilding.stage != Tower){
             UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Invalid Move" message: @"na'aa you can't cheat;) first thing to build is tower" delegate: self                                       cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
@@ -1626,30 +1625,27 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     
     
 }
--(void) recruiteSpecialIncome:(SKSpriteNode*)node onTerrain:(Terrain*)t{
+-(void) recruiteSpecialIncome:(SKSpriteNode*)node onTerrain:(Terrain*)t forPlayer: (Player *) currentPlayer{
     SpecialIncome *temp  = (SpecialIncome*)node;
    
-    Player* currentPlayer = [game findPlayerByTerrain:t];
 
     if(temp.type == Treasure){
-        [self addToRack:temp];
+        [self addToRack:temp forPlayer:currentPlayer];
         //[bowl removeObject:temp];
         [self removeThingFromBowl:temp];
         
         
         currentPlayer.recruitsRemaining--;
-        [self updateRecruitLabel:currentPlayer];
     }
     else{
         if([temp.terrainType isEqualToString:t.type] || temp.type == City || temp.type == Village){
             if([currentPlayer hasSpecialIncomeOnTerrain:t]){
-                [self addToRack:temp];
+                [self addToRack:temp forPlayer:currentPlayer];
                 //[bowl removeObject:temp];
                 [self removeThingFromBowl:temp];
                 //Player* currentPlayer = [[game findPlayersByTerrain:t] objectAtIndex:0];
                 
                 currentPlayer.recruitsRemaining--;
-                [self updateRecruitLabel:currentPlayer];
             }
             else {
                 //[bowl removeObject:temp];
@@ -1657,18 +1653,18 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 [temp setTerrain:t];
                 [game.currentPlayer addSpecialIncome:temp];
                 currentPlayer.recruitsRemaining--;
-                [self updateRecruitLabel:currentPlayer];
                 [self redrawCreatures];
             }
         }
         else{
-            [self addToRack:temp];
+            [self addToRack:temp forPlayer:currentPlayer];
             [self removeThingFromBowl:temp];
             currentPlayer.recruitsRemaining--;
-            [self updateRecruitLabel:currentPlayer];
             
         }
     }
+    
+    [self updateRecruitLabel:currentPlayer];
     
 }
 
@@ -1710,6 +1706,39 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 }
 
 
+
+-(void) showArmyCreatures:(Army*)army{
+    //493.250000,238.000000
+    CGPoint initalPosiiton = CGPointMake(493.250000, 238.000000);
+    SKSpriteNode *subMenu = [SKSpriteNode spriteNodeWithColor:[UIColor colorWithRed:255 green:255 blue:255 alpha:0.1] size:CGSizeMake(45,370)];
+    [subMenu setName:@"subMenu"];
+    [subMenu removeFromParent];
+    
+    [subMenu setPosition:initalPosiiton];
+    
+    
+    int i = 0;
+    float x = 1;
+    float y = 165;
+    for (Creature* c in [army creatures]){
+        
+        //        [c setSize:CGSizeMake(40,41)];
+        [c setPosition:(CGPointMake(x,y-(i*(c.size.height)+2)))];
+        [c removeFromParent];
+        [subMenu addChild:c];
+        ++i;
+//        NSLog(@"Creature name %d - %@", i ,c.name);
+        
+    }
+//    subMenu.size = CGSizeMake(45,(i*50));
+    [board addChild:subMenu];
+    
+    
+    
+}
+
+
+
 - (void) constructTerrainFromDictionary:(NSArray *) terrains{
     NSLog(@"gonna construct terrains with %d",terrains.count);
     
@@ -1720,14 +1749,17 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 }
 
 
+#pragma start for constructing things from networking
+
 - (void) constructStackFromDictionary:(NSArray *) stacks{
+//    NSLog(@"gonna construct armies with from the data %@",stacks);
     
     
     for (NSDictionary *t in stacks) {
     
             int playerId = [[t objectForKey:@"playerId"] integerValue];
             [[[game.players objectAtIndex:playerId] stacks] removeAllObjects];
-        
+            [[game.players objectAtIndex:playerId] setRecruitsRemaining:10];
         
             NSArray *armies = [t objectForKey:@"armies"];
             
@@ -1753,8 +1785,59 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
        }
 }
 
+
+- (void) constructRackFromDictionary:(NSArray *) racks{
+//    NSLog(@"gonna construct buildings with from the data %@",racks);
+    
+    for (NSDictionary *t in racks) {
+        
+        int playerId = [[t objectForKey:@"playerId"] integerValue];
+        Player *p = [game.players objectAtIndex:playerId];
+        [[p rack] removeAllObjects];
+        
+        
+        NSArray *armies = [t objectForKey:@"armies"];
+        
+        for (NSDictionary* army in armies) {
+            CGPoint loc = CGPointMake([[army objectForKey:@"X"] floatValue], [[army objectForKey:@"Y"] floatValue]);
+            NSString *creatureName = [army objectForKey:@"imageName"];
+            
+            
+            SpecialIncome *item = [[SpecialIncome alloc] initWithBoard:board atPoint:loc fromString:creatureName];
+            Terrain* t = [game locateTerrainAt:loc];
+            [self recruiteSpecialIncome:item onTerrain:t forPlayer:p];
+            
+            if (playerId == [game currentPlayer].playingOrder) {
+                
+                item.inBowl = NO;
+                [item draw];
+            }
+            
+//            if (item && ![[game currentPlayer].rack containsObject:item]) {
+//                [p.rack addObject:item];
+//                
+//                float offset = ([game currentPlayer].rack.count - 1) * item.size.width;
+//                [item setPosition:CGPointMake(540.0f + offset, (size.height) - 225)];
+//                p.recruitsRemaining--;
+//                [self updateRecruitLabel:p];
+//            }
+//            else{
+////                [item removeFromParent];
+//                NSLog(@"since si %@ was already present, didnt add it to array", item.name);
+//            }
+            
+            
+        }
+//        NSLog(@"user rack vs dictionary rack %d vs %d",p.rack.count, [armies count]);
+        
+        
+        
+        
+    }
+}
+
 - (void) constructBuildingsFromDictionary:(NSArray *) buildings{
-    NSLog(@"gonna construct buildings with from the data %@",buildings);
+//    NSLog(@"gonna construct buildings with from the data %@",buildings);
     
     for (NSArray *m in buildings) {
 
@@ -1775,7 +1858,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 
                 
                 [self constructBuilding:p withBuilding:b onTerrain:t];
-                NSLog(@"player buildings %d", p.buildings.count);
+//                NSLog(@"player buildings %d", p.buildings.count);
             
         }
         
@@ -1849,34 +1932,39 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     
 }
 
--(void) showArmyCreatures:(Army*)army{
-  //493.250000,238.000000
-    CGPoint initalPosiiton = CGPointMake(493.250000, 238.000000);
-        SKSpriteNode *subMenu = [SKSpriteNode spriteNodeWithColor:[UIColor colorWithRed:255 green:255 blue:255 alpha:0.1] size:CGSizeMake(45,380)];
-    [subMenu setName:@"subMenu"];
-    [subMenu removeFromParent];
 
-    [subMenu setPosition:initalPosiiton];
-    [board addChild:subMenu];
-
+- (void) setGoldsFromDictionary:(NSArray *) goldsArray{
     
-    int i = 0;
-    float x = 1;
-    float y = 165;
-    for (Creature* c in [army creatures]){
-        
-        [c setPosition:(CGPointMake(x,y-(i*(c.size.height)+2)))];
-        c.size = CGSizeMake(40,41);
-        [c removeFromParent];
-        [subMenu addChild:c];
-        ++i;
-        NSLog(@"Creature parent %@",c.parent.name);
-
+    for (NSDictionary *g in goldsArray) {
+        int playerId = [[g objectForKey:@"playerId"] integerValue];
+        if (playerId == -1) {
+            NSDictionary *m = [g objectForKey:@"golds"];
+            bank.oneGold = [[m objectForKey:@"1s"] integerValue];
+            bank.twoGold = [[m objectForKey:@"2s"] integerValue];
+            bank.fiveGold = [[m objectForKey:@"5s"] integerValue];
+            bank.tenGold = [[m objectForKey:@"10s"] integerValue];
+            bank.fifteenGold = [[m objectForKey:@"15s"] integerValue];
+            bank.twentyGold = [[m objectForKey:@"20s"] integerValue];
+        }
+        else{
+            NSDictionary *m = [g objectForKey:@"golds"];
+            
+            Player *p = [game.players objectAtIndex:playerId];
+            
+            p.bank.oneGold = [[m objectForKey:@"1s"] integerValue];
+            p.bank.twoGold = [[m objectForKey:@"2s"] integerValue];
+            p.bank.fiveGold = [[m objectForKey:@"5s"] integerValue];
+            p.bank.tenGold = [[m objectForKey:@"10s"] integerValue];
+            p.bank.fifteenGold = [[m objectForKey:@"15s"] integerValue];
+            p.bank.twentyGold = [[m objectForKey:@"20s"] integerValue];
+        }
     }
+    [self updateBank];
     
-    
-    
+    NSLog(@"done setting the golds from the dictionary.");
 }
+
+
 
 
 @end

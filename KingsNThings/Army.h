@@ -23,7 +23,7 @@
 @property int stepsMoved;
 
 
--(void) addCreatures:(id) creature;
+-(BOOL) addCreatures:(id)creature;
 -(id) initWithPoint:(CGPoint) aPoint;
 -(NSInteger) getTerrainLocation;
 -(void) removeCreature:(id)creature;

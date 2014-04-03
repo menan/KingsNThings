@@ -55,13 +55,13 @@
     scene.controller = self;
     scene.scaleMode = SKSceneScaleModeAspectFill;
     
-    longPressRecognizer =
-    [[UILongPressGestureRecognizer alloc]
-     initWithTarget:scene
-     action:@selector(longPressDetected:)];
-    longPressRecognizer.minimumPressDuration = 2;
-    longPressRecognizer.numberOfTouchesRequired = 1;
-    [skView addGestureRecognizer:longPressRecognizer];
+//    longPressRecognizer =
+//    [[UILongPressGestureRecognizer alloc]
+//     initWithTarget:scene
+//     action:@selector(longPressDetected:)];
+//    longPressRecognizer.minimumPressDuration = 2;
+//    longPressRecognizer.numberOfTouchesRequired = 1;
+//    [skView addGestureRecognizer:longPressRecognizer];
 
     [skView presentScene:scene];
 }
@@ -86,6 +86,7 @@
     if (match.currentParticipant == [match.participants objectAtIndex:0]) {
         NSLog(@"came to first player turn again. should advance phase right?");
         if (g.phase == Initial && [[g currentPlayer] canAdvanceToGold]) {
+            NSLog(@"advancing phase now");
             [g advancePhase:GoldCollection];
         }
         else if(g.phase == GoldCollection){
@@ -122,7 +123,9 @@
         [b constructBowlFromDictionary:[myDictionary objectForKey:@"bowl"]];
         [b constructPlacemarkerFromDictionary:[myDictionary objectForKey:@"markers"]];
         [b constructStackFromDictionary:[myDictionary objectForKey:@"stacks"]];
+        [b constructRackFromDictionary:[myDictionary objectForKey:@"racks"]];
         [b constructBuildingsFromDictionary:[myDictionary objectForKey:@"buildings"]];
+        [b setGoldsFromDictionary:[myDictionary objectForKey:@"balaçnce"]];
         
         
         if (p == Initial) {

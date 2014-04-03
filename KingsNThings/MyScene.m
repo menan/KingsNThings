@@ -69,7 +69,20 @@
     SKSpriteNode *touchedNode = (SKSpriteNode *)[self nodeAtPoint:touchLocation];
     //2
     
+//    NSLog(@"old node class %@", _selectedNode.class);
     
+    if (![touchedNode.parent.name isEqualToString:@"subMenu"]) {
+        [[[gameBoard getBoard] childNodeWithName:@"subMenu"] removeFromParent];
+    }
+    
+    if ([_selectedNode isKindOfClass:[Army class]]) {
+            _selectedNode.color = [SKColor blackColor];
+    }
+    
+    if ([touchedNode isKindOfClass:[Army class]]){
+        [gameBoard showArmyCreatures:(Army*)touchedNode];
+        
+    }
     
 	if([gameBoard canSelectNode:touchedNode]){
         if (![_selectedNode isEqual:touchedNode]) {
@@ -77,7 +90,7 @@
             _selectedNode.colorBlendFactor = 0;
         }
         		_selectedNode = touchedNode;
-        NSLog(@"node tapped: %f, %f",_selectedNode.position.x, _selectedNode.position.y);
+//        NSLog(@"node tapped:%@,  %f, %f", _selectedNode.class, _selectedNode.position.x, _selectedNode.position.y);
         
         _selectedNode.color = [SKColor redColor];
         _selectedNode.colorBlendFactor = 0.5;
@@ -119,7 +132,9 @@
 	UITouch *touch = [touches anyObject];
 	CGPoint positionInScene = [touch locationInNode:self];
     [gameBoard nodeMoved:_selectedNode nodes:[self nodesAtPoint:positionInScene]];
-    _selectedNode = NULL;
+    if (![_selectedNode isKindOfClass:[Army class]]) {
+        _selectedNode = NULL;
+    }
 }
 
 CGPoint mult(const CGPoint v, const CGFloat s) {
@@ -132,7 +147,7 @@ CGPoint mult(const CGPoint v, const CGFloat s) {
     //CGRect screenRect = [[UIScreen mainScreen] bounds];
     //CIVector  *extent = [CIVector vectorWithX:0  Y:0  Z:screenRect.size.width  W:screenRect.size.height];
     
-    combat= [[CombatScene alloc] initWithSize:[self size] withAttacker:attacker andDefender:defender andSender:self andCombat:combatfun];
+    combat = [[CombatScene alloc] initWithSize:[self size] withAttacker:attacker andDefender:defender andSender:self andCombat:combatfun];
              
              //initWithSize:[self size] withAttacker:attacker andDefender:defender andSender:self ];
     

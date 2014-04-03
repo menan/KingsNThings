@@ -9,17 +9,8 @@
 #import "Player.h"
 
 @implementation Player{
-//    int income;
-    int orderOfPlay;
-    //NSMutableArray* armies; // collection of armies
-    //NSMutableArray* singleArmy; // single armies (eg stack one )
-    //NSMutableArray* armies;
     NSMutableArray* territories;
     NSMutableArray* specialCharacters;
-    //NSMutableArray* specialIncome;
-    
-    
-
 }
 
 static int counter = -1;
@@ -208,18 +199,16 @@ static int counter = -1;
 -(void) printArmy{
     
     for (int i = 0 ; i<[stacks count];i++){
-        NSLog(@"Army %d , has Creature in army  ",i);
+//        NSLog(@"Army %d , has Creature in army  ",i);
         
-    for(Creature* cre in [[stacks objectAtIndex:i] creatures])
-        NSLog(@" : %@  ",[cre name]);
-              
+//    for(Creature* cre in [[stacks objectAtIndex:i] creatures])
+//        NSLog(@" : %@  ",[cre name]);
+//              
     }
 }
 
 -(BOOL) addCreatureToArmy:(id)creature inArmy:(Army*)force{
-    [force addCreatures:creature];
-    return YES;
-    NSLog(@"Creature is added and %d more recruits remaining", recruitsRemaining);
+    return [force addCreatures:creature];
 }
 
 
@@ -330,6 +319,7 @@ static int counter = -1;
 
 
 - (BOOL) canAdvanceToGold{
+    NSLog(@"territories: %d, buildings: %d, recruitmentsRem: %d", territories.count, buildings.count, recruitsRemaining);
     if (territories.count >= 3 && buildings.count > 0 && recruitsRemaining == 0)
         return YES;
     else

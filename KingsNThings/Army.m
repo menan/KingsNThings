@@ -42,9 +42,15 @@
     return self;
 }
 
--(void) addCreatures:(Creature*)creature{
-            [creatures addObject:creature];
-    
+-(BOOL) addCreatures:(Creature*)creature{
+    if (![creatures containsObject:creature]) {
+        [creatures addObject:creature];
+        return YES;
+    }
+    else{
+        NSLog(@"army already has a %@ present in the a stack, so avoided it.", creature.name);
+        return NO;
+    }
 }
 -(NSInteger) getTerrainLocation{
     return [terrain location];
@@ -92,7 +98,7 @@
 
 - (void)drawImage:(SKSpriteNode *) aBoard
 {
-    NSString *imageNames = [NSString stringWithFormat:@"stack %d", [self armyNumber]];
+    NSString *imageNames = [NSString stringWithFormat:@"stack"];
     
     SKSpriteNode* node = (SKSpriteNode*) [aBoard nodeAtPoint:self.position];
     if([node isKindOfClass:[Army class]]){
@@ -112,7 +118,7 @@
     SKLabelNode *myLabel = [SKLabelNode node];
     myLabel.text = description;
     myLabel.name = @"bowl";
-    myLabel.fontSize = 8;
+    myLabel.fontSize = 9;
     myLabel.fontColor = [SKColor whiteColor];
     myLabel.position = CGPointMake(0,sprite.size.height/2 - 35);
     
