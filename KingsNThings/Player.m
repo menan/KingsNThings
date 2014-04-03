@@ -9,17 +9,8 @@
 #import "Player.h"
 
 @implementation Player{
-//    int income;
-    int orderOfPlay;
-    //NSMutableArray* armies; // collection of armies
-    //NSMutableArray* singleArmy; // single armies (eg stack one )
-    //NSMutableArray* armies;
     NSMutableArray* territories;
     NSMutableArray* specialCharacters;
-    //NSMutableArray* specialIncome;
-    
-    
-
 }
 
 static int counter = -1;

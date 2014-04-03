@@ -70,7 +70,7 @@
 - (NSMutableArray *) getTerritories;
 - (int) getBankBalance;
 - (int) getIncome;
-- (NSInteger) numberOfArmies;
+//- (NSInteger) numberOfArmies;
 - (Bank *) getBank;
 - (Army*) armyByCreature:(id)creature;
 - (Army *) getStackAtIndex:(NSInteger)index;

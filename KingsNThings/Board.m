@@ -1759,7 +1759,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 #pragma start for constructing things from networking
 
 - (void) constructStackFromDictionary:(NSArray *) stacks{
-    NSLog(@"gonna construct armies with from the data %@",stacks);
+//    NSLog(@"gonna construct armies with from the data %@",stacks);
     
     
     for (NSDictionary *t in stacks) {
@@ -1795,10 +1795,10 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 
 - (void) constructRackFromDictionary:(NSArray *) racks{
     
-    NSLog(@"gonna construct rack with from the data %@",racks);
     for (NSDictionary *t in racks) {
         
         int playerId = [[t objectForKey:@"playerId"] integerValue];
+        
         [[[game.players objectAtIndex:playerId] rack] removeAllObjects];
         
         
@@ -1806,20 +1806,24 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         
         for (NSDictionary* army in armies) {
             CGPoint loc = CGPointMake([[army objectForKey:@"X"] floatValue], [[army objectForKey:@"Y"] floatValue]);
+            NSString *creatureName = [army objectForKey:@"imageName"];
             
-            for (NSDictionary* creature in [army objectForKey:@"creatures"]) {
-                NSString *creatureName = [creature objectForKey:@"imageName"];
+            
+            SpecialIncome *spIncome = [[SpecialIncome alloc] initWithBoard:board atPoint:loc fromString:creatureName];
+            Terrain* t = [game locateTerrainAt:loc];
+            
+            if (playerId == [game currentPlayer].playingOrder) {
                 
-                
-                SpecialIncome *spIncome = [[SpecialIncome alloc] initWithBoard:board atPoint:loc fromString:creatureName];
-                Terrain* t = [game locateTerrainAt:loc];
-                
-                [self recruiteSpecialIncome:spIncome onTerrain:t];
-                
-                
+                spIncome.inBowl = NO;
+                [spIncome draw];
             }
+            [self recruiteSpecialIncome:spIncome onTerrain:t];
+            
             
         }
+        
+        
+        
     }
 }
 
