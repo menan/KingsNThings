@@ -1794,6 +1794,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 
 
 - (void) constructRackFromDictionary:(NSArray *) racks{
+    NSLog(@"gonna construct buildings with from the data %@",racks);
     
     for (NSDictionary *t in racks) {
         

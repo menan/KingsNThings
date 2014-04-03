@@ -198,7 +198,7 @@
         //player is the owner of the terrain
         if([player isEqual:defender]){
             
-            NSLog(@"inside if players are equal");
+//            NSLog(@"inside if players are equal");
             
             int counter = 0;
             for(Army* s in player.stacks){
@@ -241,7 +241,7 @@
             [combat setAttackerArmy:army];
             [combat setType:defendingHex];
             [battles addObject:combat];
-            NSLog(@"tinside if players are NOT equal");
+//            NSLog(@"tinside if players are NOT equal");
             /*player.isWaitingCombat = YES;
              [player.combat setObject:army forKey:@"withArmy"];
              [player.combat setObject:defender forKey:@"andPlayer"];
@@ -834,7 +834,7 @@
     
     for (id node in nodes) {
         if ([node isKindOfClass:[Terrain class]]) {
-            NSLog(@"terrain located");
+//            NSLog(@"terrain located");
             return node;
         }
     }
