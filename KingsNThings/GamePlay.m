@@ -493,7 +493,7 @@
         //if you choose 5, battle is fought as usual
     }
     else if ([creature.name isEqualToString: @"Master Thief"]){
-        //you steal shit based by comparing the role and combat value
+        //you steal things based by comparing the role and combat value :/
     }
     else if ([creature.name isEqualToString: @"Sword Master"]){
         //when this dude is hit, you roll a dice if its 1/6 he dies or else he comes back for next session
@@ -522,8 +522,6 @@
     NSLog(@"advancing phase to :%d",p);
     phase = p;
     [self advancePhase];
-    NSArray *phaseText = @[@"Initial Phase", @"Construction Phase", @"Movement Phase",@"Recruitment Phase",@"Special Character Recruitment Phase", @"Combat Phase", @"Gold Collection Phase"];
-    board.textLabel.text = [phaseText objectAtIndex:p];
     
     //if(one turn has finished){
       //[self checkForWinner];
@@ -532,19 +530,28 @@
 }
 -(void)advancePhase{
     NSArray *phaseText = @[@"Initial Phase", @"Construction Phase", @"Movement Phase",@"Recruitment Phase",@"Special Character Recruitment Phase", @"Combat Phase", @"Gold Collection Phase"];
-    BOOL done= YES;
+    BOOL done = YES;
     for(Player* p in players){
         if(!p.doneTurn)
             done = NO;
     }
-    if(done && [battles count]>0){
-    phase +=1;
-    board.textLabel.text = [phaseText objectAtIndex:phase];
-    if(phase == Combat){
-        [self combatPhase];
+    
+    
+    
+    if (phase == GoldCollection) {
+        [self currentPlayer].recruitsRemaining+=2;
     }
+    
+    if(done && [battles count]>0){
+        phase +=1;
+        board.textLabel.text = [phaseText objectAtIndex:phase];
+        if(phase == Combat){
+            [self combatPhase];
+        }
     }
 }
+
+
 -(Player*) checkForWinner{
     Player* winner;
     int counter = 0;
