@@ -124,6 +124,7 @@
         [b constructPlacemarkerFromDictionary:[myDictionary objectForKey:@"markers"]];
         [b constructStackFromDictionary:[myDictionary objectForKey:@"stacks"]];
         [b constructBuildingsFromDictionary:[myDictionary objectForKey:@"buildings"]];
+        [b setGoldsFromDictionary:[myDictionary objectForKey:@"balaçnce"]];
         
         
         if (p == Initial) {
