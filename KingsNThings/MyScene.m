@@ -69,24 +69,18 @@
     SKSpriteNode *touchedNode = (SKSpriteNode *)[self nodeAtPoint:touchLocation];
     //2
     
-    NSLog(@"node name %@", touchedNode.name);
+    NSLog(@"old node class %@", _selectedNode.class);
     
     if (![touchedNode.parent.name isEqualToString:@"subMenu"]) {
         [[[gameBoard getBoard] childNodeWithName:@"subMenu"] removeFromParent];
     }
     
-    if ([touchedNode isKindOfClass:[Army class]]){
-        
-        [gameBoard showArmyCreatures:(Army*)touchedNode];
-        
-        
-        if (![_selectedNode isEqual:touchedNode]) {
-            [_selectedNode removeAllActions];
+    if ([_selectedNode isKindOfClass:[Army class]]) {
             _selectedNode.color = [SKColor blackColor];
-        }
-        
-        
-        NSLog(@"army moving tho");
+    }
+    
+    if ([touchedNode isKindOfClass:[Army class]]){
+        [gameBoard showArmyCreatures:(Army*)touchedNode];
         
     }
     
@@ -96,7 +90,7 @@
             _selectedNode.colorBlendFactor = 0;
         }
         		_selectedNode = touchedNode;
-        NSLog(@"node tapped: %f, %f",_selectedNode.position.x, _selectedNode.position.y);
+        NSLog(@"node tapped:%@,  %f, %f", _selectedNode.class, _selectedNode.position.x, _selectedNode.position.y);
         
         _selectedNode.color = [SKColor redColor];
         _selectedNode.colorBlendFactor = 0.5;
@@ -138,7 +132,9 @@
 	UITouch *touch = [touches anyObject];
 	CGPoint positionInScene = [touch locationInNode:self];
     [gameBoard nodeMoved:_selectedNode nodes:[self nodesAtPoint:positionInScene]];
-    _selectedNode = NULL;
+    if (![_selectedNode isKindOfClass:[Army class]]) {
+        _selectedNode = NULL;
+    }
 }
 
 CGPoint mult(const CGPoint v, const CGFloat s) {

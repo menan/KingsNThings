@@ -42,9 +42,15 @@
     return self;
 }
 
--(void) addCreatures:(Creature*)creature{
-            [creatures addObject:creature];
-    
+-(BOOL) addCreatures:(Creature*)creature{
+    if (![creatures containsObject:creature]) {
+        [creatures addObject:creature];
+        return YES;
+    }
+    else{
+        NSLog(@"army already has a %@ present in the a stack, so avoided it.", creature.name);
+        return NO;
+    }
 }
 -(NSInteger) getTerrainLocation{
     return [terrain location];

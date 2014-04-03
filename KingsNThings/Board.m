@@ -759,11 +759,9 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 
 - (BOOL) removeCreatureByName:(NSString *) name{
     for (Creature *c in bowl) {
-        if ([c.name isEqualToString:name]) {
-            //[bowl removeObject:c];
-            
+        if ([c.name isEqualToString:name]) {           
             [self removeThingFromBowl:c];
-            NSLog(@"just removed %@ from the bowl",name);
+//            NSLog(@"just removed %@ from the bowl",c.name);
             return YES;
         }
     }
@@ -773,7 +771,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             [self removeThingFromBowl:c];
             [game currentPlayer].recruitsRemaining++;
             [self updateRecruitLabel:[game currentPlayer]];
-            NSLog(@"just removed %@ from the player rack",name);
+//            NSLog(@"just removed %@ from the player rack",c.name);
             return YES;
         }
     }
@@ -837,13 +835,13 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     else if ([node isKindOfClass:[Army class]]){
         
         
-        NSLog(@"army moved");
+//        NSLog(@"army moved");
         Terrain *temp = [game findTerrainAt:terrainPoint];
         Player *tempPlayer = [game findPlayerByOrder:[node.name integerValue]];
         
         //Army* ar = [tempPlayer getArmyAtIndex:[node.accessibilityLabel integerValue]- 1];
         Army* ar = (Army*)node;
-        NSLog(@"army moved player is %d",[tempPlayer playingOrder]);
+//        NSLog(@"army moved player is %d",[tempPlayer playingOrder]);
         //[self showArmyCreatures:ar];
         [game movementPhase:tempPlayer withArmy:ar onTerrian:temp];
         
@@ -1165,14 +1163,14 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 
 - (void) creaturesMoved:(Creature *) creature AtTerrain:(Terrain *) t{
     
-    NSLog(@"Node is number of players at the terrain: %@" , t.name);
+//    NSLog(@"Node is number of players at the terrain: %@" , t.name);
     //checks if any player owns the territory and the terrain is found
     if(t && [game findPlayerByTerrain:t]){
         Player *currentPlayer = [game findPlayerByTerrain:t];
         //Creature *creature = [self findCreatureByName:n.name];
 //        Creature* creature = (Creature*) n;
         Army *a = [currentPlayer findArmyOnTerrain:t];
-        NSLog(@"Creature is %@",creature.name);
+//        NSLog(@"Creature is %@",creature.name);
         
         if(a != nil){
             [a removeCreature:creature];
@@ -1289,7 +1287,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     
     //    [game checkBluffForPlayer:[game currentPlayer]];
     
-    
+    NSLog(@"board as a dict: %@",[game getBoardAsADictionary]);
     
     for(Player * p in game.players){
         totalIncome += [p getIncome];
@@ -1870,7 +1868,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         [c removeFromParent];
         [subMenu addChild:c];
         ++i;
-        NSLog(@"Creature parent %@",c.parent.name);
+//        NSLog(@"Creature parent %@",c.parent.name);
 
     }
     

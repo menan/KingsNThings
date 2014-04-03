@@ -217,9 +217,7 @@ static int counter = -1;
 }
 
 -(BOOL) addCreatureToArmy:(id)creature inArmy:(Army*)force{
-    [force addCreatures:creature];
-    return YES;
-    NSLog(@"Creature is added and %d more recruits remaining", recruitsRemaining);
+    return [force addCreatures:creature];
 }
 
 

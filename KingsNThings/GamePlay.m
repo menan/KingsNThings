@@ -315,7 +315,7 @@
 
     
     else {
-        NSLog(@"user must have moved more than one hex, ignored");
+//        NSLog(@"user must have moved more than one hex, ignored");
         //        float xPos = [terrain getAbsoluteX];
         //        float yPos = [terrain getAbsoluteY];
         [army setPosition: oldTerrain.position];
