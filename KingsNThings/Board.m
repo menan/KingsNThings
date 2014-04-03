@@ -1265,20 +1265,15 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             itemNode = itemC;
         }
         
-        
-        //        [self removeCreatureByName:itemNode.name]; //removes the creature from the bowl
-        
         if (item && ![[game currentPlayer].rack containsObject:item]) {
             [[game currentPlayer].rack addObject:item];
+            float offset = ([game currentPlayer].rack.count - 1) * itemNode.size.width;
+            [itemNode setPosition:CGPointMake(540.0f + offset, (size.height) - 225)];
         }
         else{
             [itemNode removeFromParent];
             NSLog(@"since si %@ was already present, didnt add it to array", itemNode.name);
         }
-        
-        float offset = ([game currentPlayer].rack.count - 1) * itemNode.size.width;
-        [itemNode setPosition:CGPointMake(540.0f + offset, (size.height) - 225)];
-        //        [self redrawCreatures];
     }
     
     else{
