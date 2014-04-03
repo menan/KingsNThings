@@ -94,7 +94,10 @@
 {
     NSString *imageNames = [NSString stringWithFormat:@"stack %d", [self armyNumber]];
     
-    [[aBoard childNodeWithName:imageNames] removeFromParent];
+    SKSpriteNode* node = (SKSpriteNode*) [aBoard nodeAtPoint:self.position];
+    if([node isKindOfClass:[Army class]]){
+        [node removeFromParent];
+    }
     
     [self setName:imageNames];
     [aBoard addChild:self];
