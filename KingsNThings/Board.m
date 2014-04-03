@@ -1868,7 +1868,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     float y = 165;
     for (Creature* c in [army creatures]){
         
-        [c setSize:CGSizeMake(40,41)];
+//        [c setSize:CGSizeMake(40,41)];
         [c setPosition:(CGPointMake(x,y-(i*(c.size.height)+2)))];
         [c removeFromParent];
         [subMenu addChild:c];
