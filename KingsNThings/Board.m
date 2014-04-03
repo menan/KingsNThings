@@ -500,7 +500,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     float offset = 105.0f;
     [self drawBank:bank at:CGPointMake(left, (size.height) - 480) andWithTitle:@"Bank"];
     for (int j = 0; j < 1; j++) {
-        Player *p = [[game players] objectAtIndex:j];
+        Player *p = [game currentPlayer];
         NSLog(@"drawing bank for player %d, left: %d", j, p.playerLeft);
         NSString *title = [NSString stringWithFormat:@"P%d Stash",j + 1];
         if (j == 0)
@@ -1294,7 +1294,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     
     //    [game checkBluffForPlayer:[game currentPlayer]];
     
-    NSLog(@"board as a dict: %@",[game getBoardAsADictionary]);
+//    NSLog(@"board as a dict: %@",[game getBoardAsADictionary]);
     
     for(Player * p in game.players){
         totalIncome += [p getIncome];
@@ -1321,7 +1321,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     float towerSizeNode = PLACE_MARKER_DOCKED_SIZE + 4;
     Building *newBuilding = (Building*) node;
     newBuilding.terrain = t;
-    NSLog(@"current terrain: %@",newBuilding.terrain);
+//    NSLog(@"current terrain: %@",newBuilding.terrain);
     if(game.phase == Initial){
         if(newBuilding.stage != Tower){
             UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Invalid Move" message: @"na'aa you can't cheat;) first thing to build is tower" delegate: self                                       cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
@@ -1786,7 +1786,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 
 
 - (void) constructRackFromDictionary:(NSArray *) racks{
-    NSLog(@"gonna construct buildings with from the data %@",racks);
+//    NSLog(@"gonna construct buildings with from the data %@",racks);
     
     for (NSDictionary *t in racks) {
         
@@ -1827,7 +1827,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             
             
         }
-        NSLog(@"user rack vs dictionary rack %d vs %d",p.rack.count, [armies count]);
+//        NSLog(@"user rack vs dictionary rack %d vs %d",p.rack.count, [armies count]);
         
         
         

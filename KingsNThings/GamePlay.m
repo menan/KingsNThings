@@ -540,6 +540,7 @@
     //if its recruitment phase, 2 more recruits awarded
     if (phase == Recruitment) {
         [self currentPlayer].recruitsRemaining+=2;
+        [board updateRecruitLabel:[self currentPlayer]];
     }
     
     
