@@ -1204,6 +1204,11 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                             break;
                             
                         }
+                        else{
+                            NSLog(@"could not add creature %@ to the stack since it was already present",creature.name);
+                            [creature removeFromParent];
+                            
+                        }
                     }
                     else{
                         //must've reached the limit of charecters
@@ -1863,12 +1868,12 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     float y = 165;
     for (Creature* c in [army creatures]){
         
+        [c setSize:CGSizeMake(40,41)];
         [c setPosition:(CGPointMake(x,y-(i*(c.size.height)+2)))];
-        c.size = CGSizeMake(40,41);
         [c removeFromParent];
         [subMenu addChild:c];
         ++i;
-//        NSLog(@"Creature parent %@",c.parent.name);
+        NSLog(@"Creature name %d - %@", i ,c.name);
 
     }
     

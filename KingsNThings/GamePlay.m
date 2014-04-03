@@ -155,11 +155,11 @@
 
 -(void) movementPhase:(Player *)player withArmy:(Army*)army onTerrian:(Terrain *)newTerrain{
     
-    NSLog(@"inside movementPhase");
-    NSLog(@" player is %d",[player playingOrder]);
+//    NSLog(@"inside movementPhase");
+//    NSLog(@" player is %d",[player playingOrder]);
     Terrain* oldTerrain = army.terrain;
     Player *defender = [self findPlayerByTerrain:newTerrain];
-    NSLog(@"tempPlayer is %d , player is %d",[defender playingOrder],[player playingOrder]);
+//    NSLog(@"tempPlayer is %d , player is %d",[defender playingOrder],[player playingOrder]);
     
     //to check to see if palyer only moved one hex
     BOOL validMove = NO;
