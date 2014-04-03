@@ -1137,12 +1137,15 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 
             }
             else{
-                [self recruiteSpecialIncome:node onTerrain:t];
+                
+                Player* p = [game findPlayerByTerrain:t];
+                [self recruiteSpecialIncome:node onTerrain:t forPlayer:p];
             }
             
         }
         else{
-            [self recruiteSpecialIncome:node onTerrain:t];
+            Player* p = [game findPlayerByTerrain:t];
+            [self recruiteSpecialIncome:node onTerrain:t forPlayer:p];
         }
         if([game phase] == Recruitment){
             //[self recruiteSpecialIncome:node onTerrain:t
@@ -1627,10 +1630,9 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     
     
 }
--(void) recruiteSpecialIncome:(SKSpriteNode*)node onTerrain:(Terrain*)t{
+-(void) recruiteSpecialIncome:(SKSpriteNode*)node onTerrain:(Terrain*)t forPlayer: (Player *) currentPlayer{
     SpecialIncome *temp  = (SpecialIncome*)node;
    
-    Player* currentPlayer = [game findPlayerByTerrain:t];
 
     if(temp.type == Treasure){
         [self addToRack:temp];
@@ -1806,27 +1808,27 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             
             
             SpecialIncome *item = [[SpecialIncome alloc] initWithBoard:board atPoint:loc fromString:creatureName];
-//            Terrain* t = [game locateTerrainAt:loc];
-//            [self recruiteSpecialIncome:spIncome onTerrain:t];
+            Terrain* t = [game locateTerrainAt:loc];
+            [self recruiteSpecialIncome:item onTerrain:t forPlayer:p];
             
-            
-            if (item && ![[game currentPlayer].rack containsObject:item]) {
-                [p.rack addObject:item];
+            if (playerId == [game currentPlayer].playingOrder) {
                 
-                if (playerId == [game currentPlayer].playingOrder) {
-                    
-                    item.inBowl = NO;
-                    [item draw];
-                }
-                float offset = ([game currentPlayer].rack.count - 1) * item.size.width;
-                [item setPosition:CGPointMake(540.0f + offset, (size.height) - 225)];
-                p.recruitsRemaining--;
-                [self updateRecruitLabel:p];
+                item.inBowl = NO;
+                [item draw];
             }
-            else{
-//                [item removeFromParent];
-                NSLog(@"since si %@ was already present, didnt add it to array", item.name);
-            }
+            
+//            if (item && ![[game currentPlayer].rack containsObject:item]) {
+//                [p.rack addObject:item];
+//                
+//                float offset = ([game currentPlayer].rack.count - 1) * item.size.width;
+//                [item setPosition:CGPointMake(540.0f + offset, (size.height) - 225)];
+//                p.recruitsRemaining--;
+//                [self updateRecruitLabel:p];
+//            }
+//            else{
+////                [item removeFromParent];
+//                NSLog(@"since si %@ was already present, didnt add it to array", item.name);
+//            }
             
             
         }
