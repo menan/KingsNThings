@@ -141,7 +141,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     
     //    [self drawRack:CGPointMake(620.0f, (size.height) - 55)];
     //    [self drawRack:CGPointMake(620.0f, (size.height) - 150)];
-    [self drawRack:CGPointMake(620.0f, (size.height) - 240)];
+    [self drawRack:CGPointMake(625.0f, (size.height) - 240)];
     //    [self drawRack:CGPointMake(620.0f, (size.height) - 330)];
     
     
@@ -1254,8 +1254,8 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 
 
 
-- (void) addToRack: (id) item{
-    if ([game currentPlayer].rack.count <= 10) {
+- (void) addToRack: (id) item forPlayer:(Player *) p{
+    if (p.rack.count <= 10) {
         SKSpriteNode *itemNode;
         
         //to make it work for both si and creature
@@ -1268,9 +1268,9 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             itemNode = itemC;
         }
         
-        if (item && ![[game currentPlayer].rack containsObject:item]) {
-            [[game currentPlayer].rack addObject:item];
-            float offset = ([game currentPlayer].rack.count - 1) * itemNode.size.width;
+        if (item && ![p.rack containsObject:item]) {
+            [p.rack addObject:item];
+            float offset = (p.rack.count - 1) * itemNode.size.width;
             [itemNode setPosition:CGPointMake(540.0f + offset, (size.height) - 225)];
         }
         else{
@@ -1635,7 +1635,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
    
 
     if(temp.type == Treasure){
-        [self addToRack:temp];
+        [self addToRack:temp forPlayer:currentPlayer];
         //[bowl removeObject:temp];
         [self removeThingFromBowl:temp];
         
@@ -1645,7 +1645,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     else{
         if([temp.terrainType isEqualToString:t.type] || temp.type == City || temp.type == Village){
             if([currentPlayer hasSpecialIncomeOnTerrain:t]){
-                [self addToRack:temp];
+                [self addToRack:temp forPlayer:currentPlayer];
                 //[bowl removeObject:temp];
                 [self removeThingFromBowl:temp];
                 //Player* currentPlayer = [[game findPlayersByTerrain:t] objectAtIndex:0];
@@ -1662,7 +1662,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             }
         }
         else{
-            [self addToRack:temp];
+            [self addToRack:temp forPlayer:currentPlayer];
             [self removeThingFromBowl:temp];
             currentPlayer.recruitsRemaining--;
             
@@ -1715,12 +1715,11 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 -(void) showArmyCreatures:(Army*)army{
     //493.250000,238.000000
     CGPoint initalPosiiton = CGPointMake(493.250000, 238.000000);
-    SKSpriteNode *subMenu = [SKSpriteNode spriteNodeWithColor:[UIColor colorWithRed:255 green:255 blue:255 alpha:0.1] size:CGSizeMake(45,380)];
+    SKSpriteNode *subMenu = [SKSpriteNode spriteNodeWithColor:[UIColor colorWithRed:255 green:255 blue:255 alpha:0.1] size:CGSizeMake(45,370)];
     [subMenu setName:@"subMenu"];
     [subMenu removeFromParent];
     
     [subMenu setPosition:initalPosiiton];
-    [board addChild:subMenu];
     
     
     int i = 0;
@@ -1733,9 +1732,11 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         [c removeFromParent];
         [subMenu addChild:c];
         ++i;
-        NSLog(@"Creature name %d - %@", i ,c.name);
+//        NSLog(@"Creature name %d - %@", i ,c.name);
         
     }
+//    subMenu.size = CGSizeMake(45,(i*50));
+    [board addChild:subMenu];
     
     
     
