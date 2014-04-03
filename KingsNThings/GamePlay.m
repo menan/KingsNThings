@@ -545,11 +545,11 @@
     
     if(done && [battles count]>0){
         phase +=1;
-        board.textLabel.text = [phaseText objectAtIndex:phase];
         if(phase == Combat){
             [self combatPhase];
         }
     }
+    board.textLabel.text = [phaseText objectAtIndex:phase];
 }
 
 
