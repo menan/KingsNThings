@@ -64,6 +64,8 @@
 - (Army*) constructNewStack:(id)creatur atPoint:(CGPoint) aPoint withTerrain:(Terrain*)terrain;
 -(void) removeTerrainfromTerritories:(Terrain*)terrain;
 
+
+
 /*-------Finders-----*/
 - (NSMutableArray *) getTerritories;
 - (int) getBankBalance;

@@ -1712,6 +1712,38 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 }
 
 
+
+-(void) showArmyCreatures:(Army*)army{
+    //493.250000,238.000000
+    CGPoint initalPosiiton = CGPointMake(493.250000, 238.000000);
+    SKSpriteNode *subMenu = [SKSpriteNode spriteNodeWithColor:[UIColor colorWithRed:255 green:255 blue:255 alpha:0.1] size:CGSizeMake(45,380)];
+    [subMenu setName:@"subMenu"];
+    [subMenu removeFromParent];
+    
+    [subMenu setPosition:initalPosiiton];
+    [board addChild:subMenu];
+    
+    
+    int i = 0;
+    float x = 1;
+    float y = 165;
+    for (Creature* c in [army creatures]){
+        
+        //        [c setSize:CGSizeMake(40,41)];
+        [c setPosition:(CGPointMake(x,y-(i*(c.size.height)+2)))];
+        [c removeFromParent];
+        [subMenu addChild:c];
+        ++i;
+        NSLog(@"Creature name %d - %@", i ,c.name);
+        
+    }
+    
+    
+    
+}
+
+
+
 - (void) constructTerrainFromDictionary:(NSArray *) terrains{
     NSLog(@"gonna construct terrains with %d",terrains.count);
     
@@ -1721,6 +1753,8 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     //    }
 }
 
+
+#pragma start for constructing things from networking
 
 - (void) constructStackFromDictionary:(NSArray *) stacks{
     NSLog(@"gonna construct armies with from the data %@",stacks);
@@ -1852,34 +1886,39 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     
 }
 
--(void) showArmyCreatures:(Army*)army{
-  //493.250000,238.000000
-    CGPoint initalPosiiton = CGPointMake(493.250000, 238.000000);
-        SKSpriteNode *subMenu = [SKSpriteNode spriteNodeWithColor:[UIColor colorWithRed:255 green:255 blue:255 alpha:0.1] size:CGSizeMake(45,380)];
-    [subMenu setName:@"subMenu"];
-    [subMenu removeFromParent];
 
-    [subMenu setPosition:initalPosiiton];
-    [board addChild:subMenu];
-
+- (void) setGoldsFromDictionary:(NSArray *) goldsArray{
     
-    int i = 0;
-    float x = 1;
-    float y = 165;
-    for (Creature* c in [army creatures]){
-        
-//        [c setSize:CGSizeMake(40,41)];
-        [c setPosition:(CGPointMake(x,y-(i*(c.size.height)+2)))];
-        [c removeFromParent];
-        [subMenu addChild:c];
-        ++i;
-        NSLog(@"Creature name %d - %@", i ,c.name);
-
+    for (NSDictionary *g in goldsArray) {
+        if ([[g objectForKey:@"playerId"] isEqualToString:@"bank"]) {
+            NSDictionary *m = [g objectForKey:@"golds"];
+            bank.oneGold = [[m objectForKey:@"1s"] integerValue];
+            bank.twoGold = [[m objectForKey:@"2s"] integerValue];
+            bank.fiveGold = [[m objectForKey:@"5s"] integerValue];
+            bank.tenGold = [[m objectForKey:@"10s"] integerValue];
+            bank.fifteenGold = [[m objectForKey:@"15s"] integerValue];
+            bank.twentyGold = [[m objectForKey:@"20s"] integerValue];
+        }
+        else{
+            int playerId = [[g objectForKey:@"playerId"] integerValue];
+            NSDictionary *m = [g objectForKey:@"golds"];
+            
+            Player *p = [game.players objectAtIndex:playerId];
+            
+            p.bank.oneGold = [[m objectForKey:@"1s"] integerValue];
+            p.bank.twoGold = [[m objectForKey:@"2s"] integerValue];
+            p.bank.fiveGold = [[m objectForKey:@"5s"] integerValue];
+            p.bank.tenGold = [[m objectForKey:@"10s"] integerValue];
+            p.bank.fifteenGold = [[m objectForKey:@"15s"] integerValue];
+            p.bank.twentyGold = [[m objectForKey:@"20s"] integerValue];
+        }
     }
+    [self updateBank];
     
-    
-    
+    NSLog(@"done setting the golds from the dictionary.");
 }
+
+
 
 
 @end

@@ -576,6 +576,7 @@
     [dicData setObject:[self getPlayerStacksAsDictionary] forKey:@"stacks"];
     [dicData setObject:[board.bowl dictionize] forKey:@"bowl"];
     [dicData setObject:[self getPlayerBuildingsAsDictionary] forKey:@"buildings"];
+    [dicData setObject:[self getGoldsAsDictionary] forKey:@"balance"];
     
     return dicData;
 }
@@ -605,6 +606,51 @@
         NSLog(@"buildings array: %d",p.buildings.count);
         [arrayStacks addObject:[p.buildings dictionize]];
     }
+    return arrayStacks;
+}
+
+
+- (NSArray *) getGoldsAsDictionary{
+    NSMutableArray *arrayStacks = [[NSMutableArray alloc] init];
+    int i = 0;
+    for (Player *p in players) {
+        NSMutableDictionary *playerDict = [[NSMutableDictionary alloc] init];
+        
+        NSMutableDictionary *gold = [[NSMutableDictionary alloc] init];
+        
+        [gold setValue:[NSNumber numberWithInt:p.bank.oneGold] forKey:@"1s"];
+        [gold setValue:[NSNumber numberWithInt:p.bank.twoGold] forKey:@"2s"];
+        [gold setValue:[NSNumber numberWithInt:p.bank.fiveGold] forKey:@"5s"];
+        [gold setValue:[NSNumber numberWithInt:p.bank.tenGold] forKey:@"10s"];
+        [gold setValue:[NSNumber numberWithInt:p.bank.fifteenGold] forKey:@"15s"];
+        [gold setValue:[NSNumber numberWithInt:p.bank.twentyGold] forKey:@"20s"];
+        
+        
+        [playerDict setObject:gold forKey:@"golds"];
+        
+        [playerDict setObject:[NSNumber numberWithInt:i] forKey:@"playerId"];
+        [arrayStacks addObject:playerDict];
+        i++;
+    }
+    
+    
+    NSMutableDictionary *playerDict = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *gold = [[NSMutableDictionary alloc] init];
+    
+    [gold setValue:[NSNumber numberWithInt:board.bank.oneGold] forKey:@"1s"];
+    [gold setValue:[NSNumber numberWithInt:board.bank.twoGold] forKey:@"2s"];
+    [gold setValue:[NSNumber numberWithInt:board.bank.fiveGold] forKey:@"5s"];
+    [gold setValue:[NSNumber numberWithInt:board.bank.tenGold] forKey:@"10s"];
+    [gold setValue:[NSNumber numberWithInt:board.bank.fifteenGold] forKey:@"15s"];
+    [gold setValue:[NSNumber numberWithInt:board.bank.twentyGold] forKey:@"20s"];
+    
+    
+    [playerDict setObject:gold forKey:@"golds"];
+    
+    [playerDict setObject:@"bank" forKey:@"playerId"];
+    [arrayStacks addObject:playerDict];
+    
+    
     return arrayStacks;
 }
 
