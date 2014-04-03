@@ -1305,15 +1305,9 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         [bank withdraw:[p getIncome]];
         [p.bank deposit:[p getIncome]];
         
-        //            NSLog(@"Player balance %d after deposition and income was %d", [p.bank getBalance], [p getIncome]);
-        p.recruitsRemaining = 2;
-        recruitLabel.text = [NSString stringWithFormat: @"%d Recruits Remaining", p.recruitsRemaining];
-
-        //        NSLog(@"bank balance after collection phase completion %d", [bank getBalance]);
         [self updateBank];
         [self showDone];
         [[board childNodeWithName:@"collection"] removeFromParent];
-//        [game advancePhase:Recruitment];
         return YES;
     }
     else{

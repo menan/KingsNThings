@@ -537,10 +537,11 @@
     }
     
     
-    
-    if (phase == GoldCollection) {
+    //if its recruitment phase, 2 more recruits awarded
+    if (phase == Recruitment) {
         [self currentPlayer].recruitsRemaining+=2;
     }
+    
     
     if(done && [battles count]>0){
         phase +=1;
