@@ -238,16 +238,16 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     
     bowl = [[NSMutableArray alloc] init];
     
-    for (NSString *str in creatureList) {
-        Creature *creature = [[Creature alloc] initWithBoard:board atPoint:aPoint fromString:str];
-        [bowl addObject:creature];
-    }
-    for (NSString *str in specialIncome) {
-        SpecialIncome *spIncome = [[SpecialIncome alloc] initWithBoard:board atPoint:aPoint fromString:str];
-        [bowl addObject:spIncome];
-    }
-    
-    [self redrawCreatures];
+//    for (NSString *str in creatureList) {
+//        Creature *creature = [[Creature alloc] initWithBoard:board atPoint:aPoint fromString:str];
+//        [bowl addObject:creature];
+//    }
+//    for (NSString *str in specialIncome) {
+//        SpecialIncome *spIncome = [[SpecialIncome alloc] initWithBoard:board atPoint:aPoint fromString:str];
+//        [bowl addObject:spIncome];
+//    }
+//    
+//    [self redrawCreatures];
   
     
 }
