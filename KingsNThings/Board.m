@@ -1794,8 +1794,8 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     for (NSDictionary *t in racks) {
         
         int playerId = [[t objectForKey:@"playerId"] integerValue];
-        
-        [[[game.players objectAtIndex:playerId] rack] removeAllObjects];
+        Player *p = [game.players objectAtIndex:playerId];
+        [[p rack] removeAllObjects];
         
         
         NSArray *armies = [t objectForKey:@"armies"];
@@ -1805,19 +1805,32 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             NSString *creatureName = [army objectForKey:@"imageName"];
             
             
-            SpecialIncome *spIncome = [[SpecialIncome alloc] initWithBoard:board atPoint:loc fromString:creatureName];
-            Terrain* t = [game locateTerrainAt:loc];
+            SpecialIncome *item = [[SpecialIncome alloc] initWithBoard:board atPoint:loc fromString:creatureName];
+//            Terrain* t = [game locateTerrainAt:loc];
+//            [self recruiteSpecialIncome:spIncome onTerrain:t];
             
-            if (playerId == [game currentPlayer].playingOrder) {
+            
+            if (item && ![[game currentPlayer].rack containsObject:item]) {
+                [p.rack addObject:item];
                 
-                spIncome.inBowl = NO;
-                [spIncome draw];
+                if (playerId == [game currentPlayer].playingOrder) {
+                    
+                    item.inBowl = NO;
+                    [item draw];
+                }
+                float offset = ([game currentPlayer].rack.count - 1) * item.size.width;
+                [item setPosition:CGPointMake(540.0f + offset, (size.height) - 225)];
+                p.recruitsRemaining--;
+                [self updateRecruitLabel:p];
             }
-            [self recruiteSpecialIncome:spIncome onTerrain:t];
+            else{
+//                [item removeFromParent];
+                NSLog(@"since si %@ was already present, didnt add it to array", item.name);
+            }
             
             
         }
-        NSLog(@"user rack vs dictionary rack %d vs %d",[[[game.players objectAtIndex:playerId] rack] count], [armies count]);
+        NSLog(@"user rack vs dictionary rack %d vs %d",p.rack.count, [armies count]);
         
         
         
