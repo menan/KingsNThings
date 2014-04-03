@@ -834,10 +834,11 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     else if ([node isKindOfClass:[Army class]]){
         NSLog(@"army moved");
         Terrain *temp = [game findTerrainAt:terrainPoint];
-        Player *tempPlayer = [game findPlayerByOrder:[node.name integerValue]];
+        
         
         //Army* ar = [tempPlayer getArmyAtIndex:[node.accessibilityLabel integerValue]- 1];
         Army* ar = (Army*)node;
+        Player *tempPlayer = [game findPlayerArmy:ar];
         NSLog(@"army moved player is %d",[tempPlayer playingOrder]);
         //[self showArmyCreatures:ar];
         [game movementPhase:tempPlayer withArmy:ar onTerrian:temp];

@@ -174,11 +174,13 @@
         if (distance < 75) {
             validMove = YES;
         }
-        
+    if([newTerrain isEqual:army.terrain]){
+        validMove = NO;
+    }
     
     
     
-    if (validMove && [army stepsMoved] < 4) {
+    if (validMove && [army stepsMoved] < 4 ) {
         //must be one hex
         //[army setTerrain:newTerrain];
         
@@ -216,7 +218,7 @@
             
         }
         //else if dude has army to deal with before he acquires this terrain
-        else if(defender && [self thereAreDefendersOnTerrain:newTerrain]){
+        else if(![defender isEqual:player] && [self thereAreDefendersOnTerrain:newTerrain]){
             
             //if(defender){ // one owner of terrain
             
@@ -255,7 +257,7 @@
         }
         
         
-        else if(!defender && ![self stacksOnTerrain:newTerrain]) { // no one owns terrain
+        else if(!defender && ([[self stacksOnTerrain:newTerrain] count] == 0)) { // no one owns terrain
             //dude might fight with random creatures on the terrain since theres no one there.
             
             NSLog(@"Inside explor");
@@ -815,13 +817,21 @@
         for (Army * a in p.stacks) {
             if ([a.terrain isEqual:terrain]) {
                 [playersArray addObject:p];
+                break;
             }
         }
     }
     return playersArray;
 }
 
-
+-(Player*) findPlayerArmy:(Army*) army{
+    
+    for(Player* p in players){
+        if([p.stacks containsObject:army])
+            return p;
+    }
+    return nil;
+}
 
 //returns current users on the terrain except the owner
 - (NSArray *) findAttackersByTerrain:(Terrain *) terrain{

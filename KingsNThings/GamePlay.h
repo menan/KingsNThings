@@ -51,7 +51,7 @@ typedef enum {
 - (Terrain*) findTerrainAt:(CGPoint)thisPoint;
 - (Terrain *) locateTerrainAt:(CGPoint)thisPoint;
 
-
+- (Player*) findPlayerArmy:(Army*) army;
 - (Player*)findPlayerByOrder:(NSInteger)order;
 - (void) assignScene:(MyScene*)sce;
 - (void) advancePhase: (Phase) p;
