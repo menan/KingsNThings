@@ -62,6 +62,7 @@
 - (void) constructBowlFromDictionary:(NSArray *) bowlArray;
 - (void) constructTerrainFromDictionary:(NSArray *) terrains;
 - (void) constructStackFromDictionary:(NSArray *) stacks;
+- (void) constructRackFromDictionary:(NSArray *) racks;
 - (void) constructPlacemarkerFromDictionary:(NSArray *) placemarkers;
 - (void) constructBuildingsFromDictionary:(NSArray *) placemarkers;
 - (void) setGoldsFromDictionary:(NSArray *) goldsArray;

@@ -1271,6 +1271,10 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         if (item && ![[game currentPlayer].rack containsObject:item]) {
             [[game currentPlayer].rack addObject:item];
         }
+        else{
+            [itemNode removeFromParent];
+            NSLog(@"since si %@ was already present, didnt add it to array", itemNode.name);
+        }
         
         float offset = ([game currentPlayer].rack.count - 1) * itemNode.size.width;
         [itemNode setPosition:CGPointMake(540.0f + offset, (size.height) - 225)];
@@ -1640,7 +1644,6 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         
         
         currentPlayer.recruitsRemaining--;
-        [self updateRecruitLabel:currentPlayer];
     }
     else{
         if([temp.terrainType isEqualToString:t.type] || temp.type == City || temp.type == Village){
@@ -1651,7 +1654,6 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 //Player* currentPlayer = [[game findPlayersByTerrain:t] objectAtIndex:0];
                 
                 currentPlayer.recruitsRemaining--;
-                [self updateRecruitLabel:currentPlayer];
             }
             else {
                 //[bowl removeObject:temp];
@@ -1659,7 +1661,6 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 [temp setTerrain:t];
                 [game.currentPlayer addSpecialIncome:temp];
                 currentPlayer.recruitsRemaining--;
-                [self updateRecruitLabel:currentPlayer];
                 [self redrawCreatures];
             }
         }
@@ -1667,10 +1668,11 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             [self addToRack:temp];
             [self removeThingFromBowl:temp];
             currentPlayer.recruitsRemaining--;
-            [self updateRecruitLabel:currentPlayer];
             
         }
     }
+    
+    [self updateRecruitLabel:currentPlayer];
     
 }
 
@@ -1788,6 +1790,37 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 
             }
        }
+}
+
+
+- (void) constructRackFromDictionary:(NSArray *) racks{
+    
+    NSLog(@"gonna construct rack with from the data %@",racks);
+    for (NSDictionary *t in racks) {
+        
+        int playerId = [[t objectForKey:@"playerId"] integerValue];
+        [[[game.players objectAtIndex:playerId] rack] removeAllObjects];
+        
+        
+        NSArray *armies = [t objectForKey:@"armies"];
+        
+        for (NSDictionary* army in armies) {
+            CGPoint loc = CGPointMake([[army objectForKey:@"X"] floatValue], [[army objectForKey:@"Y"] floatValue]);
+            
+            for (NSDictionary* creature in [army objectForKey:@"creatures"]) {
+                NSString *creatureName = [creature objectForKey:@"imageName"];
+                
+                
+                SpecialIncome *spIncome = [[SpecialIncome alloc] initWithBoard:board atPoint:loc fromString:creatureName];
+                Terrain* t = [game locateTerrainAt:loc];
+                
+                [self recruiteSpecialIncome:spIncome onTerrain:t];
+                
+                
+            }
+            
+        }
+    }
 }
 
 - (void) constructBuildingsFromDictionary:(NSArray *) buildings{

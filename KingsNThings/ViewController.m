@@ -123,6 +123,7 @@
         [b constructBowlFromDictionary:[myDictionary objectForKey:@"bowl"]];
         [b constructPlacemarkerFromDictionary:[myDictionary objectForKey:@"markers"]];
         [b constructStackFromDictionary:[myDictionary objectForKey:@"stacks"]];
+        [b constructRackFromDictionary:[myDictionary objectForKey:@"racks"]];
         [b constructBuildingsFromDictionary:[myDictionary objectForKey:@"buildings"]];
         [b setGoldsFromDictionary:[myDictionary objectForKey:@"balaçnce"]];
         
