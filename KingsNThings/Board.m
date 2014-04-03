@@ -1890,7 +1890,8 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 - (void) setGoldsFromDictionary:(NSArray *) goldsArray{
     
     for (NSDictionary *g in goldsArray) {
-        if ([[g objectForKey:@"playerId"] isEqualToString:@"bank"]) {
+        int playerId = [[g objectForKey:@"playerId"] integerValue];
+        if (playerId == -1) {
             NSDictionary *m = [g objectForKey:@"golds"];
             bank.oneGold = [[m objectForKey:@"1s"] integerValue];
             bank.twoGold = [[m objectForKey:@"2s"] integerValue];
@@ -1900,7 +1901,6 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             bank.twentyGold = [[m objectForKey:@"20s"] integerValue];
         }
         else{
-            int playerId = [[g objectForKey:@"playerId"] integerValue];
             NSDictionary *m = [g objectForKey:@"golds"];
             
             Player *p = [game.players objectAtIndex:playerId];

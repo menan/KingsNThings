@@ -647,7 +647,7 @@
     
     [playerDict setObject:gold forKey:@"golds"];
     
-    [playerDict setObject:@"bank" forKey:@"playerId"];
+    [playerDict setObject:[NSNumber numberWithInt:-1] forKey:@"playerId"];
     [arrayStacks addObject:playerDict];
     
     
