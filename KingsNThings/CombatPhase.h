@@ -10,6 +10,7 @@
 #import "Player.h"
 
 #import "CombatScene.h"
+#import "SpecialIncome.h"
 
 
 @interface CombatPhase : NSObject
@@ -37,6 +38,8 @@ typedef enum Round: NSUInteger{
 @property NSMutableArray* attackerMeleeCreature;
 @property NSMutableArray* defenderMeleeCreature ;
 @property SKSpriteNode* battle;
+@property NSMutableArray* specialIncomeCounters;
+@property SpecialIncome* specialIncomeDefend;
 
 @property Building* building;
 
