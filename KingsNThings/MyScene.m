@@ -173,7 +173,7 @@ CGPoint mult(const CGPoint v, const CGFloat s) {
 -(void) tranitToArmyScene:(Army*) army forPlayer:(Player*)p{
    
     //CGSize s = CGSizeMake(self.size.width/4, self.size.height/2);
-    CGSize s = CGSizeMake(10, 10);
+//    CGSize s = CGSizeMake(10, 10);
     //ArmyScene* armyscene = [[ArmyScene alloc]initWithSize:s andSender:self Army:army forPlayer:p];
     //transitionRevealWithDirectionUp = [SKTransition revealWithDirection:SKTransitionDirectionUp duration:1];
         //initWithSize:[self size] withAttacker:attacker andDefender:defender andSender:self ];
@@ -182,9 +182,9 @@ CGPoint mult(const CGPoint v, const CGFloat s) {
     
 }
 
-- (void) startSecondCombat{
-    [gameBoard.game initiateCombat:[gameBoard.game.players objectAtIndex:2]];
-}
+//- (void) startSecondCombat{
+//    [gameBoard.game initiateCombat:[gameBoard.game.players objectAtIndex:2]];
+//}
 -(void)update:(CFTimeInterval)currentTime {
     /* Called before each frame is rendered */
 }

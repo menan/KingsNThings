@@ -40,7 +40,7 @@ typedef enum {
 
 - (id) initWithBoard:(id) b;
 
-- (void) initiateCombat: (Player*) p;
+//- (void) initiateCombat: (Player*) p;
 - (void) combatPhase:(Player *)attacker withArmy:(Army*)attackerArmy andPlayer:(Player*)defender withArmy:(Army*)defenderArmy;
 - (void) movementPhase:(Player *)player withArmy:(Army*)army onTerrian:(Terrain*) newTerrain;
 

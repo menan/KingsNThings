@@ -16,7 +16,6 @@
 @property BOOL hasArmyOnIt;
 @property BOOL imageIsDrawn;
 @property Terrain* terrain;
-//@property SKSpriteNode *image;
 @property NSInteger armyNumber;
 @property NSInteger playerNumber;
 @property Building* building;
@@ -33,7 +32,7 @@
 -(void) drawImage:(SKSpriteNode *) aBoard ;
 - (NSDictionary *) getDict;
 -(void) updateMovingSteps:(NSInteger)steps;
--(NSInteger) getMovedSteps;
+//-(NSInteger) getMovedSteps;
 -(void) resetMovingSteps;
 
 @end

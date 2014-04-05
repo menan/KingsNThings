@@ -16,6 +16,7 @@
 }
 @synthesize type,imageName,flipped,location;
 
+static int TERRAIN_POSITION = -1; //to find the posision for each terrains, so that we can eliminate some for 2 player game
 
 - (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image andTerrainName: (NSString *) name
 {
@@ -26,8 +27,8 @@
         imageName = image;
         type = name;
         flipped = YES;
-       
-        
+        TERRAIN_POSITION++;
+        location = TERRAIN_POSITION;
     }
     return self;
 }
