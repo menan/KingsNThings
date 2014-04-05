@@ -115,6 +115,7 @@
     GamePlay *g = [scene getGame];
     if ([data bytes]) {
         [b hideMarkersExceptCurrentPlayer];
+        
         NSDictionary *myDictionary = (NSDictionary*) [NSKeyedUnarchiver unarchiveObjectWithData:data];
         
         Phase p = [[myDictionary objectForKey:@"phase"] integerValue];

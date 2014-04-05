@@ -421,9 +421,9 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     CGPoint aPoint = CGPointMake(360.0f, 25.0f);
     float offset = 43;
     
-    for (int i = 0; i <= 50; i++) {
+    for (int i = 0; i <= 10; i++) {
         SKSpriteNode *playerNode = [SKSpriteNode spriteNodeWithImageNamed:[markers objectAtIndex:j]];
-        [playerNode setName:[NSString stringWithFormat:@"Player %d",j + 1]];
+        [playerNode setName:[NSString stringWithFormat:@"Player %d",j]];
         playerNode.size = CGSizeMake(40,40);
         [playerNode setPosition:CGPointMake(aPoint.x + (j * offset), aPoint.y )];
         [board addChild:playerNode];
@@ -843,7 +843,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         [game movementPhase:tempPlayer withArmy:ar onTerrian:temp];
         
     }
-    else if (terrainLocated && [node.name isEqualToString:@"Player 1"]) {
+    else if (terrainLocated && [node.name isEqualToString:@"Player 0"]) {
         Terrain* temp = [game findTerrainAt:terrainPoint];
         
         Player *p = [[game players] objectAtIndex:0];
@@ -889,7 +889,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             }
         }
     }
-    else if (terrainLocated && [node.name isEqualToString:@"Player 2"]) {
+    else if (terrainLocated && [node.name isEqualToString:@"Player 1"]) {
         Terrain* temp = [game findTerrainAt:terrainPoint];
         Player *p = [[game players] objectAtIndex:1];
         
@@ -939,7 +939,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         }
     }
     
-    else if (terrainLocated && [node.name isEqualToString:@"Player 3"]) {
+    else if (terrainLocated && [node.name isEqualToString:@"Player 2"]) {
         Terrain* temp = [game findTerrainAt:terrainPoint];
         Player *p = [[game players] objectAtIndex:2];
         
@@ -987,7 +987,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             }
         }
     }
-    else if (terrainLocated && [node.name isEqualToString:@"Player 4"]) {
+    else if (terrainLocated && [node.name isEqualToString:@"Player 3"]) {
         Terrain* temp = [game findTerrainAt:terrainPoint];
         Player *p = [[game players] objectAtIndex:3];
         
@@ -1263,18 +1263,23 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     canTapDone = NO;
 }
 
-//hides all of the markers of players except the current ones
+//hides all of the markers of players except the current player ones
 - (void) hideMarkersExceptCurrentPlayer{
-    int playerId = [game currentPlayer].playingOrder;
+    int playerId = [game currentPlayerId];
     
-    for (int i = 1; i <= 3; i++) {
-        if (playerId != i) {
-            NSString *nodeName = [NSString stringWithFormat:@"Player %d", i];
-            SKNode *node = [board childNodeWithName:nodeName];
-            
-            while (node) {
-                [node removeFromParent];
-                node = [board childNodeWithName:nodeName];
+
+    if (playerId > 0) { //only does it for non local players :)
+        
+        for (int i = 0; i <= 3; i++) {
+            if (playerId != i) {
+                NSString *nodeName = [NSString stringWithFormat:@"Player %d", i];
+                SKNode *node = [board childNodeWithName:nodeName];
+                
+                while (node) {
+                    [node removeFromParent];
+                    NSLog(@"removing node %@ from parent",node.name);
+                    node = [board childNodeWithName:nodeName];
+                }
             }
         }
     }

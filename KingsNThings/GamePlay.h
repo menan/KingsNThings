@@ -38,21 +38,24 @@ typedef enum {
 //@property BOOL goldPhase , isMovementPhase , isThingRecrPahse, isComabtPahse,isInitialPhase,isConstructionPhase;
 @property Phase phase;
 
-- (void) initiateCombat: (Player*) p;
 - (id) initWithBoard:(id) b;
+
+- (void) initiateCombat: (Player*) p;
 - (void) combatPhase:(Player *)attacker withArmy:(Army*)attackerArmy andPlayer:(Player*)defender withArmy:(Army*)defenderArmy;
+- (void) movementPhase:(Player *)player withArmy:(Army*)army onTerrian:(Terrain*) newTerrain;
+
+
 - (Player *) currentPlayer;
+- (int) currentPlayerId;
+- (int) totalPlayers;
+
 - (Player *) findPlayerByTerrain:(Terrain *) terrain;
 - (NSMutableArray *) findPlayersByTerrain:(Terrain *) terrain; //gets all the players on the terrain
-
-- (void)movementPhase:(Player *)player withArmy:(Army*)army onTerrian:(Terrain*) newTerrain;
-
-
 - (Terrain*) findTerrainAt:(CGPoint)thisPoint;
 - (Terrain *) locateTerrainAt:(CGPoint)thisPoint;
-
 - (Player*) findPlayerArmy:(Army*) army;
 - (Player*)findPlayerByOrder:(NSInteger)order;
+
 - (void) assignScene:(MyScene*)sce;
 - (void) advancePhase: (Phase) p;
 - (void) presentGCTurnViewController:(id)sender;

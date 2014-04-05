@@ -86,9 +86,26 @@
 }
 
 
+- (int) currentPlayerId{
+    return [players indexOfObject: [self currentPlayer]];
+}
+
 - (Player *) currentPlayer{
     GKTurnBasedMatch *currentMatch = [[GCTurnBasedMatchHelper sharedInstance] currentMatch];
-    return [players objectAtIndex:[currentMatch.participants indexOfObject:currentMatch.currentParticipant]];
+    int index = [currentMatch.participants indexOfObject:currentMatch.currentParticipant];
+    NSLog(@"index of the player: %d",index);
+    return [players objectAtIndex:index];
+}
+
+- (int) totalPlayers{
+    int totalParticipants = 0;
+    GKTurnBasedMatch *currentMatch = [[GCTurnBasedMatchHelper sharedInstance] currentMatch];
+    for (GKTurnBasedParticipant *p in currentMatch.participants) {
+        if (p.status == GKTurnBasedParticipantStatusActive || p.status == GKTurnBasedParticipantStatusDone || p.status == GKTurnBasedParticipantStatusInvited) {
+            totalParticipants++;
+        }
+    }
+    return totalParticipants;
 }
 
 
