@@ -1219,51 +1219,34 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 
 
 - (BOOL) setTerrain:(Terrain *) temp forPlayer:(Player *) p{
-    
-//    
-//    Terrain* temp = [game findTerrainAt:terrainPoint];
-//    Player *p = [[game players] objectAtIndex:3];
-    
     if([game phase] == Initial){
-        
         if([[p getTerritories] count] < 3){
-            
             if([game validateHex:temp forPlayer:p] && [game isHexAdjacent:temp forPlayer:p] && ![temp.type isEqualToString:@"Sea"]){
-                
                 if ([p setTerritory:temp]){
-                    
                     [markersArray addObject:
-                     [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:(temp.position.x + 10)],@"X",[NSNumber numberWithFloat:(temp.position.y + 22)],@"Y",[NSNumber numberWithInt:3],@"playerId", nil]];
-                    
+                     [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:(temp.position.x + 10)],@"X",[NSNumber numberWithFloat:(temp.position.y + 22)],@"Y",[NSNumber numberWithInt:p.playingOrder],@"playerId", nil]];
                     [self showDone];
                     return YES;
-                    
-                    
-//                    node.name = @"bowl";
-//                    [node setSize:CGSizeMake(sizeNode, sizeNode)];
-//                    [node setPosition:CGPointMake(temp.position.x + 10, temp.position.y + 22)];
-                    
-                    
                 }
             }
             else{
                 NSLog(@"hex was not validated");
                 return NO;
-//                [node setPosition:CGPointMake(360.0f + 129.0f, 25.0f)];
             }
         }
         else{
             NSLog(@"player already has 3 terrains tho");
             return NO;
-//            [node setPosition:CGPointMake(360.0f + 129.0f, 25.0f)];
         }
     }
     else{
         if ([p setTerritory:temp]){
+            [self showDone];
             return YES;
-//            node.name = @"bowl";
-//            [node setSize:CGSizeMake(sizeNode, sizeNode)];
-//            [node setPosition:CGPointMake(temp.position.x + 10, temp.position.y + 22)];
+        }
+        else{
+            NSLog(@"phase wasnt initial and error in setting the terrain too");
+            return NO;
         }
     }
     NSLog(@"function reached to the end, something mustve been wrong");
@@ -1818,7 +1801,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     
 }
 - (void) constructPlacemarkerFromDictionary:(NSArray *) placemarkers{
-//    NSLog(@"gonna construct placemarkers with from the data %d",placemarkers.count);
+    NSLog(@"gonna construct placemarkers with from the data %@",placemarkers);
     
     for (NSDictionary *m in placemarkers) {
         CGPoint pointMarker = CGPointMake([[m objectForKey:@"X"] floatValue], [[m objectForKey:@"Y"] floatValue]);
@@ -1828,19 +1811,13 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         Terrain* temp = [game findTerrainAt:[board nodeAtPoint:pointMarker].position];
         Player *p = [[game players] objectAtIndex:playerId];
         
-        if (temp && [p setTerritory:temp]){
-//            NSLog(@"territory is set for player %d: %@", playerId, temp.name);
-            
-            
-            
+        if (temp && [self setTerrain:temp forPlayer:p]){
+            NSLog(@"territory is set for player %d: %@", playerId, temp.name);
             SKSpriteNode *node = [SKSpriteNode spriteNodeWithImageNamed:[markers objectAtIndex:playerId]];
             node.name = @"bowl";
             node.size = CGSizeMake(PLACE_MARKER_DOCKED_SIZE,PLACE_MARKER_DOCKED_SIZE);
             node.position = pointMarker;
             [board addChild:node];
-            
-            
-            [markersArray addObject:m];
         }
         
         
