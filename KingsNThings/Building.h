@@ -45,6 +45,4 @@ typedef enum CombatType : NSUInteger {
 -(BOOL)checkIfConstructionPossible:(Building*) newBuilding;
 
 
-
--(void) draw;
 @end

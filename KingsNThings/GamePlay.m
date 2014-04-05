@@ -538,7 +538,7 @@
 
 
 - (void) advancePhase: (Phase) p{
-    NSLog(@"advancing phase to :%d",p);
+//    NSLog(@"advancing phase to :%d",p);
     phase = p;
     [self advancePhase];
     
@@ -563,8 +563,8 @@
     }
     
     
-    if(done && [battles count]>0){
-        phase +=1;
+    if(done && [battles count] > 0){
+        phase += 1;
         if(phase == Combat){
             [self combatPhase];
         }

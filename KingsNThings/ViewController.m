@@ -129,10 +129,7 @@
         [b setGoldsFromDictionary:[myDictionary objectForKey:@"balance"]];
         
         
-        if (p == Initial) {
-            
-        }
-        else if(p == GoldCollection){
+        if (p != Initial){
             [g advancePhase:p];
         }
         

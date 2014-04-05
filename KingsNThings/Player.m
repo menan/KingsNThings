@@ -58,6 +58,8 @@ static int counter = -1;
     
 }
 
+
+//returns how many recruits the player could get for free for the recruitment phase
 - (int) freeRecruitsCount{
     float recruitsFloat = (float)territories.count/2;
     int freeRecruits = (int) ceilf(recruitsFloat);
@@ -154,7 +156,7 @@ static int counter = -1;
 }
 
 - (BOOL) setBuilding: (Building *) building{
-    NSLog(@"setBuilding: %@", building.terrain.name );
+//    NSLog(@"setBuilding: %@", building.terrain.name );
     if (![self containsBuilding:building]) {
         [buildings addObject:building];
         return YES;
@@ -218,7 +220,7 @@ static int counter = -1;
         
         //[arm setPosition:aPoint];
         [stacks addObject:arm];
-        NSLog(@"went in construct New Army and %d more recruits remaining", recruitsRemaining);
+//        NSLog(@"went in construct New Army and %d more recruits remaining", recruitsRemaining);
     }
     return arm;
    
