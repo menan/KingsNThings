@@ -113,7 +113,6 @@
         Phase p = [[myDictionary objectForKey:@"phase"] integerValue];
         
         
-        [b constructBowlFromDictionary:[myDictionary objectForKey:@"bowl"]];
         [b constructPlacemarkerFromDictionary:[myDictionary objectForKey:@"markers"]];
         [b constructBuildingsFromDictionary:[myDictionary objectForKey:@"buildings"]];
         [b setGoldsFromDictionary:[myDictionary objectForKey:@"balance"]];
@@ -125,6 +124,9 @@
         
         [b constructStackFromDictionary:[myDictionary objectForKey:@"stacks"]];
         [b constructRackFromDictionary:[myDictionary objectForKey:@"racks"]];
+        
+        
+        [b constructBowlFromDictionary:[myDictionary objectForKey:@"bowl"]];
         
         NSLog(@"Taking turn for existing game with the received data...");
     }
