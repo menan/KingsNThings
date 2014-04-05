@@ -7,6 +7,7 @@
 //
 
 #import "Player.h"
+#import "math.h"
 
 @implementation Player{
     NSMutableArray* territories;
@@ -55,6 +56,12 @@ static int counter = -1;
     }
     return NO;
     
+}
+
+- (int) freeRecruitsCount{
+    int freeRecruits = (int) ceilf(territories.count/2);
+    NSLog(@"free recruits avaliable %d",freeRecruits);
+    return freeRecruits;
 }
 
 
