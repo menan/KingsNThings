@@ -47,9 +47,19 @@ static int counter = -1;
  
 }
 
+- (BOOL) containsTerrain: (Terrain *) terrain{
+    for (Terrain *myTerrain in territories) {
+        if (myTerrain.position.x == terrain.position.x && myTerrain.position.y == terrain.position.y) {
+            return YES;
+        }
+    }
+    return NO;
+    
+}
+
 
 - (BOOL) setTerritory: (Terrain *) territory{
-    if(territory != nil && ![territories containsObject:territory]){
+    if(territory != nil && ![self containsTerrain:territory]){
         [territories addObject:territory];
 //        NSLog(@"player territory is set for : %@ %d , player is %d ", territory.name, [territories count],playingOrder);
         return YES;
@@ -125,9 +135,19 @@ static int counter = -1;
     return i;
 }
 
+//the other built in function doesnt work since it's not the same object were testing it again :(
+- (BOOL) containsBuilding:(Building *) b{
+    for (Building *myBuilding in buildings) {
+        if (myBuilding.position.x == b.position.x && myBuilding.position.y == b.position.y) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
 - (BOOL) setBuilding: (Building *) building{
-    NSLog(@"setBuilding: %@", building.terrain.name);
-    if (![buildings containsObject:building]) {
+    NSLog(@"setBuilding: %@", building.terrain.name );
+    if (![self containsBuilding:building]) {
         [buildings addObject:building];
         return YES;
     }

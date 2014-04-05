@@ -1305,26 +1305,26 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     
     //    [game checkBluffForPlayer:[game currentPlayer]];
     
-//    NSLog(@"board as a dict: %@",[game getBoardAsADictionary]);
+    NSLog(@"board as a dict: %@",[game getBoardAsADictionary]);
     
-    for(Player * p in game.players){
-        totalIncome += [p getIncome];
-    }
-    //checks if the phase is intial and theres moeny in the bank for everyone before proceeding.
-    if (game.phase == GoldCollection && totalIncome <= [bank getBalance]) {
-        Player * p = [game currentPlayer];
-        [bank withdraw:[p getIncome]];
-        [p.bank deposit:[p getIncome]];
-        
-        [self updateBank];
-        [self showDone];
-        [[board childNodeWithName:@"collection"] removeFromParent];
-        return YES;
-    }
-    else{
-        NSLog(@"the stage was neither initial or theres not enough balance in the bank to accomodate gold collection for all users, so it wasnt initiated");
+//    for(Player * p in game.players){
+//        totalIncome += [p getIncome];
+//    }
+//    //checks if the phase is intial and theres moeny in the bank for everyone before proceeding.
+//    if (game.phase == GoldCollection && totalIncome <= [bank getBalance]) {
+//        Player * p = [game currentPlayer];
+//        [bank withdraw:[p getIncome]];
+//        [p.bank deposit:[p getIncome]];
+//        
+//        [self updateBank];
+//        [self showDone];
+//        [[board childNodeWithName:@"collection"] removeFromParent];
+//        return YES;
+//    }
+//    else{
+//        NSLog(@"the stage was neither initial or theres not enough balance in the bank to accomodate gold collection for all users, so it wasnt initiated");
         return NO;
-    }
+//    }
 }
 
 
