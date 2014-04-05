@@ -16,7 +16,7 @@
 
 static int counter = -1;
 
-@synthesize stacks,playingOrder,bank,army,returnedCreatures, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat,playerLeft,movementsRemaining,rack,specialIncome,doneTurn,buildings;
+@synthesize stacks,playingOrder,bank,army,returnedCreatures, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat,playerLeft,movementsRemaining,rack,specialIncome,doneTurn,buildings, specialRecruitsRemaining;
 
 -(id) init{
     
@@ -33,6 +33,7 @@ static int counter = -1;
         army = [[Army alloc]init];
         rack = [[NSMutableArray alloc]init];
         recruitsRemaining = 10;
+        specialRecruitsRemaining = 1;
         movementsRemaining = 4;
         returnedCreatures = 0;
         counter +=1;
@@ -58,10 +59,10 @@ static int counter = -1;
     
 }
 
+//finds how much of free recruits can be awarded to this player
 - (int) freeRecruitsCount{
     float recruitsFloat = (float)territories.count/2;
     int freeRecruits = (int) ceilf(recruitsFloat);
-//    NSLog(@"free recruits avaliable %f %d",recruitsFloat, freeRecruits);
     return freeRecruits;
 }
 

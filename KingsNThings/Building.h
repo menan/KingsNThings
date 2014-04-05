@@ -30,7 +30,6 @@ typedef enum CombatType : NSUInteger {
 @property CombatType combat;
 @property Terrain *terrain;
 @property NSInteger combatValue ,currentCombatValue;
-//@property BOOL isMagic,isRanged,isMelee;
 @property BOOL isNeutralised;
 @property CGPoint point;
 @property NSString* imageName;

@@ -548,7 +548,7 @@
     
 }
 -(void)advancePhase{
-    NSArray *phaseText = @[@"Initial Phase", @"Construction Phase", @"Movement Phase",@"Recruitment Phase",@"Special Character Recruitment Phase", @"Combat Phase", @"Gold Collection Phase"];
+    NSArray *phaseText = @[@"Initial Phase", @"Construction Phase", @"Movement Phase",@"Recruitment Phase",@"Recruit Special Character", @"Combat Phase", @"Gold Collection Phase"];
     BOOL done = YES;
     for(Player* p in players){
         if(!p.doneTurn)

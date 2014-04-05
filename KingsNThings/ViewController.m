@@ -124,17 +124,15 @@
         [b constructBowlFromDictionary:[myDictionary objectForKey:@"bowl"]];
         [b constructPlacemarkerFromDictionary:[myDictionary objectForKey:@"markers"]];
         [b constructBuildingsFromDictionary:[myDictionary objectForKey:@"buildings"]];
-        [b constructStackFromDictionary:[myDictionary objectForKey:@"stacks"]];
-        [b constructRackFromDictionary:[myDictionary objectForKey:@"racks"]];
         [b setGoldsFromDictionary:[myDictionary objectForKey:@"balance"]];
         
         
-        if (p == Initial) {
-            
-        }
-        else if(p == GoldCollection){
+        if (p != Initial){
             [g advancePhase:p];
         }
+        
+        [b constructStackFromDictionary:[myDictionary objectForKey:@"stacks"]];
+        [b constructRackFromDictionary:[myDictionary objectForKey:@"racks"]];
         
         NSLog(@"Taking turn for existing game with the received data...");
     }
