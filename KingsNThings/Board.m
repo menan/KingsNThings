@@ -1034,10 +1034,11 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 //        Creature* creature = (Creature*) n;
         Army *a = [currentPlayer findArmyOnTerrain:t];
 //        NSLog(@"Creature is %@",creature.name);
-        if(currentPlayer.recruitsRemaining >0){
+        
+        if(currentPlayer.recruitsRemaining >= 0){
             
             if(a != nil){
-            [a removeCreature:creature];
+                [a removeCreature:creature];
         }
         
         if(![game thereIsArmyOnTerrain:t]){
