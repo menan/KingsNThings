@@ -38,7 +38,7 @@
 
 - (id) init;
 
-
+- (int) freeRecruitsCount;
 - (BOOL) setBuilding: (Building *) building;
 - (BOOL) removeBuilding:(Building*) building;
 - (BOOL) setTerritory: (Terrain *) territory;

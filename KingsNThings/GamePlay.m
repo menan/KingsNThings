@@ -558,7 +558,7 @@
     
     //if its recruitment phase, 2 more recruits awarded
     if (phase == Recruitment) {
-        [self currentPlayer].recruitsRemaining+=2;
+        [self currentPlayer].recruitsRemaining += [[self currentPlayer] freeRecruitsCount]; //adds free recruits based on the rounded up # of terrains owned/2
         [board updateRecruitLabel:[self currentPlayer]];
     }
     
