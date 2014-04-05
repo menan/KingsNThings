@@ -59,8 +59,9 @@ static int counter = -1;
 }
 
 - (int) freeRecruitsCount{
-    int freeRecruits = (int) ceilf(territories.count/2);
-    NSLog(@"free recruits avaliable %d",freeRecruits);
+    float recruitsFloat = (float)territories.count/2;
+    int freeRecruits = (int) ceilf(recruitsFloat);
+//    NSLog(@"free recruits avaliable %f %d",recruitsFloat, freeRecruits);
     return freeRecruits;
 }
 
