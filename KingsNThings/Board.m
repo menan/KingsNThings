@@ -820,11 +820,13 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             
         }
         else{
-            if(game.phase == Initial){
-                
-            Terrain *temp = [game findTerrainAt:terrainPoint];
-            [self creaturesMoved:(Creature *) node AtTerrain:temp];
-            [self removeCreatureByName:node.name]; //removes the creature from the bowl, if it got added to the army or rack
+            if(game.phase == Initial || game.phase == Recruitment){
+                Terrain *temp = [game findTerrainAt:terrainPoint];
+                [self creaturesMoved:(Creature *)node AtTerrain:temp];
+                [self removeCreatureByName:node.name]; //removes the creature from the bowl, if it got added to the army or rack
+            }
+            else{
+                NSLog(@"current phase is not initial or recruitment tho.");
             }
         }
     }
