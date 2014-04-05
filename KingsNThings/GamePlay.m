@@ -538,7 +538,6 @@
 
 
 - (void) advancePhase: (Phase) p{
-//    NSLog(@"advancing phase to :%d",p);
     phase = p;
     [self advancePhase];
     
@@ -559,6 +558,12 @@
     //if its recruitment phase, 2 more recruits awarded
     if (phase == Recruitment) {
         [self currentPlayer].recruitsRemaining += [[self currentPlayer] freeRecruitsCount]; //adds free recruits based on the rounded up # of terrains owned/2
+        [board updateRecruitLabel:[self currentPlayer]];
+    }
+    else if (phase == SpecialRecruitment){
+        NSLog(@"recruits before: %d",[self currentPlayer].recruitsRemaining);
+        [self currentPlayer].recruitsRemaining += [[self currentPlayer] freeRecruitsCount]; //have to make sure previous phase has been satisfied
+        [self currentPlayer].recruitsRemaining += 1; //adds free recruits based on the rounded up # of terrains owned/2
         [board updateRecruitLabel:[self currentPlayer]];
     }
     

@@ -1195,7 +1195,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     
     //    [game checkBluffForPlayer:[game currentPlayer]];
     
-//    NSLog(@"board as a dict: %@",[game getBoardAsADictionary]);
+    NSLog(@"board as a dict: %@",[[game getBoardAsADictionary] objectForKey:@"racks"]);
     
     for(Player * p in game.players){
         totalIncome += [p getIncome];
