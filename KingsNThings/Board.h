@@ -57,6 +57,7 @@
 
 - (void) hideDone;
 - (void) showDone;
+- (void) hideMarkersExceptCurrentPlayer;
 
 
 - (void) constructBowlFromDictionary:(NSArray *) bowlArray;

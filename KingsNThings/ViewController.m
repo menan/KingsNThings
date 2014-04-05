@@ -113,8 +113,8 @@
     
     Board *b = [scene getBoard];
     GamePlay *g = [scene getGame];
-//    [b showDone];
     if ([data bytes]) {
+        [b hideMarkersExceptCurrentPlayer];
         NSDictionary *myDictionary = (NSDictionary*) [NSKeyedUnarchiver unarchiveObjectWithData:data];
         
         Phase p = [[myDictionary objectForKey:@"phase"] integerValue];

@@ -1263,6 +1263,24 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     canTapDone = NO;
 }
 
+//hides all of the markers of players except the current ones
+- (void) hideMarkersExceptCurrentPlayer{
+    int playerId = [game currentPlayer].playingOrder;
+    
+    for (int i = 1; i <= 3; i++) {
+        if (playerId != i) {
+            NSString *nodeName = [NSString stringWithFormat:@"Player %d", i];
+            SKNode *node = [board childNodeWithName:nodeName];
+            
+            while (node) {
+                [node removeFromParent];
+                node = [board childNodeWithName:nodeName];
+            }
+        }
+    }
+    
+}
+
 
 
 - (void) addToRack: (id) item forPlayer:(Player *) p{
@@ -1297,6 +1315,8 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         
     }
 }
+
+
 
 
 - (BOOL) initiateGoldCollection{
@@ -1835,20 +1855,6 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 item.inBowl = NO;
                 [item draw];
             }
-            
-//            if (item && ![[game currentPlayer].rack containsObject:item]) {
-//                [p.rack addObject:item];
-//                
-//                float offset = ([game currentPlayer].rack.count - 1) * item.size.width;
-//                [item setPosition:CGPointMake(540.0f + offset, (size.height) - 225)];
-//                p.recruitsRemaining--;
-//                [self updateRecruitLabel:p];
-//            }
-//            else{
-////                [item removeFromParent];
-//                NSLog(@"since si %@ was already present, didnt add it to array", item.name);
-//            }
-            
             
         }
 //        NSLog(@"user rack vs dictionary rack %d vs %d",p.rack.count, [armies count]);
