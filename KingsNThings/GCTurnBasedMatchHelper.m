@@ -29,9 +29,7 @@ static GCTurnBasedMatchHelper *sharedHelper = nil;
 
 #pragma mark GKLocalPlayerDelegate
 
-- (void)player: (GKPlayer *)player
-receivedTurnEventForMatch: (GKTurnBasedMatch *)match
-didBecomeActive: (BOOL)didBecomeActive
+- (void)player: (GKPlayer *)player receivedTurnEventForMatch: (GKTurnBasedMatch *)match didBecomeActive: (BOOL)didBecomeActive
 {
     
     NSLog(@"Turn has happened");
@@ -55,8 +53,7 @@ didBecomeActive: (BOOL)didBecomeActive
     }
 }
 
-- (void)player: (GKPlayer *)player
-didRequestMatchWithPlayers: (NSArray *)playerIDsToInvite
+- (void)player: (GKPlayer *)player didRequestMatchWithPlayers: (NSArray *)playerIDsToInvite
 {
     NSLog(@"new invite");
     
@@ -65,7 +62,7 @@ didRequestMatchWithPlayers: (NSArray *)playerIDsToInvite
     
     GKMatchRequest *request = [[GKMatchRequest alloc] init];
     request.playersToInvite = playerIDsToInvite;
-    request.maxPlayers = 12;
+    request.maxPlayers = 4;
     request.minPlayers = 2;
     GKTurnBasedMatchmakerViewController *viewController =   [[GKTurnBasedMatchmakerViewController alloc] initWithMatchRequest:request];
     viewController.showExistingMatches = YES;
@@ -236,6 +233,7 @@ didRequestMatchWithPlayers: (NSArray *)playerIDsToInvite
         if (gameCenterController != nil)
         {
 //            gameCenterController.gameCenterDelegate = self;
+            
             gameCenterController.viewState = GKGameCenterViewControllerStateDefault;
             [presentingViewController presentViewController: gameCenterController animated: YES completion:nil];
             

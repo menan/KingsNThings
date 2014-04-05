@@ -130,8 +130,6 @@
         
         
         if (p == Initial) {
-            //            [b constructTerrainFromDictionary:[myDictionary objectForKey:@"terrains"]];
-//            [b constructPlacemarkerFromDictionary:[myDictionary objectForKey:@"markers"]];
             
         }
         else if(p == GoldCollection){

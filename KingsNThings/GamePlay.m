@@ -93,7 +93,7 @@
 - (Player *) currentPlayer{
     GKTurnBasedMatch *currentMatch = [[GCTurnBasedMatchHelper sharedInstance] currentMatch];
     int index = [currentMatch.participants indexOfObject:currentMatch.currentParticipant];
-    NSLog(@"index of the player: %d",index);
+//    NSLog(@"index of the player: %d",index);
     return [players objectAtIndex:index];
 }
 
@@ -649,7 +649,7 @@
 - (NSArray *) getPlayerBuildingsAsDictionary{
     NSMutableArray *arrayStacks = [[NSMutableArray alloc] init];
     for (Player *p in players) {
-        NSLog(@"buildings array: %d",p.buildings.count);
+//        NSLog(@"buildings array: %d",p.buildings.count);
         [arrayStacks addObject:[p.buildings dictionize]];
     }
     return arrayStacks;

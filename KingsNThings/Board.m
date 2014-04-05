@@ -1800,7 +1800,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 #pragma start for constructing things from networking
 
 - (void) constructStackFromDictionary:(NSArray *) stacks{
-//    NSLog(@"gonna construct armies with from the data %@",stacks);
+    NSLog(@"gonna construct armies with from the data %@",stacks);
     
     
     for (NSDictionary *t in stacks) {
