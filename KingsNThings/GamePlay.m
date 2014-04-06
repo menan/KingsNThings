@@ -628,7 +628,7 @@
         
         i++;
     }
-    //    NSLog(@"stacks array: %@",arrayStacks);
+    NSLog(@"stacks array: %@",arrayStacks);
     return arrayStacks;
 }
 
