@@ -98,6 +98,7 @@
     [self addChild:diceTwoLabel];
     
     
+    
 }
 
 - (void) doneRolling{
@@ -108,7 +109,8 @@
     }
     else{
         int remaining = creature.combatValue * 2 - totalRoll;
-        lblCValue.text =  [NSString stringWithFormat: @"oops, now you gotta pay %d gold or forget about %@", remaining * 5, creature.creatureName];
+        int mutiplyValue = 10;
+        lblCValue.text =  [NSString stringWithFormat: @"oops, now you gotta pay %d gold or forget about %@", remaining * mutiplyValue, creature.creatureName];
         
         SKSpriteNode *goldCollect = [SKSpriteNode spriteNodeWithImageNamed:@"goldCollect"];
         [goldCollect setName:@"collection"];
