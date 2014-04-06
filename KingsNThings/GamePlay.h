@@ -48,6 +48,7 @@ typedef enum {
 - (Player *) currentPlayer;
 - (int) currentPlayerId;
 - (int) totalPlayers;
+- (Player*) checkForWinner;
 
 - (Player *) findPlayerByTerrain:(Terrain *) terrain;
 - (NSMutableArray *) findPlayersByTerrain:(Terrain *) terrain; //gets all the players on the terrain
@@ -57,7 +58,11 @@ typedef enum {
 - (Player*)findPlayerByOrder:(NSInteger)order;
 
 - (void) assignScene:(MyScene*)sce;
-- (void) advancePhase: (Phase) p;
+
+- (NSString *) advancePhase: (Phase) p;
+- (NSString *) advancePhase;
+
+
 - (void) presentGCTurnViewController:(id)sender;
 - (void) checkInitalRecruitmentComplete;
 - (BOOL) recruitmentComplete;
@@ -68,7 +73,6 @@ typedef enum {
 - (BOOL) isHexAdjacent:(Terrain*)terrain forPlayer:(Player*)p;
 - (NSInteger) buildingCost;
 - (void) combatPhase;
-- (void) advancePhase;
 - (BOOL) thereAreDefendersOnTerrain:(Terrain *) terrain;
 - (BOOL) thereIsArmyOnTerrain:(Terrain *) terrain;
 

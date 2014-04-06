@@ -79,31 +79,41 @@
         NSLog(@"came to first player turn again. should advance phase right?");
         if (g.phase == Initial && [[g currentPlayer] canAdvanceToGold]) {
             NSLog(@"advancing phase now");
-            [g advancePhase:GoldCollection];
+            [scene transitToPhaseChange:[g advancePhase:GoldCollection]];
         }
         else if(g.phase == GoldCollection){
-            [g advancePhase:Recruitment];
+            [scene transitToPhaseChange:[g advancePhase:Recruitment]];
         }
         else if(g.phase == Recruitment){
-            [g advancePhase:SpecialRecruitment];
+            [scene transitToPhaseChange:[g advancePhase:SpecialRecruitment]];
         }
         else if(g.phase == SpecialRecruitment){
-            [g advancePhase:RandomEvents];
+            [scene transitToPhaseChange:[g advancePhase:RandomEvents]];
         }
         else if(g.phase == RandomEvents){
-            [g advancePhase:Movement];
+            [scene transitToPhaseChange:[g advancePhase:Movement]];
         }
         else if(g.phase == Movement){
-            [g advancePhase:Combat];
+            [scene transitToPhaseChange:[g advancePhase:Combat]];
         }
         else if(g.phase == Combat){
-            [g advancePhase:Construction];
+            [scene transitToPhaseChange:[g advancePhase:Construction]];
         }
         else if(g.phase == Construction){
-            [g advancePhase:SpecialPower];
+            NSLog(@"Checking for winner since the construction phase is over...");
+            Player *winner = [g checkForWinner];
+            if (winner) {
+                NSLog(@"Yayyyy, the winner is %@", winner);
+                [scene transitWinnerScene:[NSString stringWithFormat:@"Player %d", [winner playingOrder] + 1]];
+            }
+            else{
+                NSLog(@"winner was not determined so continuing on with the game.");
+                [scene transitToPhaseChange:[g advancePhase:SpecialPower]];
+            }
         }
         else if(g.phase == SpecialPower){
             //change players order.
+            NSLog(@"game first turn completed, gotta change the orders now");
         }
     }
     
