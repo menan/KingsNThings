@@ -638,13 +638,18 @@
     
     //if its recruitment phase, 2 more recruits awarded
     if (phase == Recruitment) {
-        int freeRecs = [[self currentPlayer] freeRecruitsCount];
-        [self currentPlayer].recruitsRemaining += freeRecs; //adds free recruits based on the rounded up # of terrains owned/2
+        
+        for (Player *p in players) {
+            int freeRecs = [p freeRecruitsCount];
+            p.recruitsRemaining += freeRecs; //adds free recruits based on the rounded up # of terrains owned/2
+        }
+        
         [board updateRecruitLabel:[self currentPlayer]];
     }
     else if (phase == SpecialRecruitment){
-        NSLog(@"recruits before: %d",[self currentPlayer].recruitsRemaining);
-        [self currentPlayer].recruitsRemaining = 1; //have to make sure previous phase has been satisfied
+        for (Player *p in players) {
+            p.recruitsRemaining = 1; //adds free recruits based on the rounded up # of terrains owned/2
+        }
         [board updateRecruitLabel:[self currentPlayer]];
     }
     
