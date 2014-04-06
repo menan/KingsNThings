@@ -13,7 +13,7 @@
     SKSpriteNode* board;
 }
 
-@synthesize terrain, stage,combatValue,point,imageName,name,currentCombatValue,isNeutralised,cost,imageNode,combat;
+@synthesize terrain, stage,combatValue,point,imageName,name,currentCombatValue,isNeutralised,cost,combat;
 
 
 - (id)initWithStage:(Stage) s andTerrain: (Terrain *) t

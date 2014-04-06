@@ -752,19 +752,16 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 
 - (BOOL) removeCreatureByName:(NSString *) name{
     for (Creature *c in bowl) {
-        if ([c.name isEqualToString:name]) {           
+        if ([c.name isEqualToString:name]) {
             [self removeThingFromBowl:c];
-//            NSLog(@"just removed %@ from the bowl",c.name);
             return YES;
         }
     }
     for (Creature *c in [[game currentPlayer] rack]) {
         if ([c.name isEqualToString:name]) {
-            //[bowl removeObject:c];
             [self removeThingFromBowl:c];
             [game currentPlayer].recruitsRemaining++;
             [self updateRecruitLabel:[game currentPlayer]];
-//            NSLog(@"just removed %@ from the player rack",c.name);
             return YES;
         }
     }
@@ -1312,7 +1309,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                     
                     //Building *currentBuilding = [owner getBuildingOnTerrain:t];
                     
-                    NSLog(@"Current building %@ , new Buildign %@",[currentBuilding.imageNode accessibilityLabel],node.accessibilityLabel);
+                    NSLog(@"Current building %@ , new Buildign %@",currentBuilding.name,node.name);
                     
                     if([currentBuilding checkIfConstructionPossible:newBuilding]){
                         
@@ -1701,7 +1698,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 #pragma start for constructing things from networking
 
 - (void) constructStackFromDictionary:(NSArray *) stacks{
-//    NSLog(@"gonna construct armies with from the data %@",stacks);
+    NSLog(@"gonna construct armies with from the data %@",stacks);
     
     
     for (NSDictionary *t in stacks) {
@@ -1790,20 +1787,23 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         
         for (NSDictionary *building in m) {
             
-                CGPoint pointMarker = CGPointMake([[building objectForKey:@"X"] floatValue], [[building objectForKey:@"Y"] floatValue]);
-                NSString *buildingName = [building objectForKey:@"imageName"];
-                
-                
-                Terrain* t = [game locateTerrainAt:pointMarker];
-                Player *p = [game findPlayerByTerrain:t];
-                
-                Building* b = [[Building alloc]initWithBoard:board atPoint:pointMarker fromImage:buildingName];
-                b.size = CGSizeMake(40,40);
-                [b setPosition:pointMarker];
-                [board addChild:b];
-                
-                
-                [self constructBuilding:p withBuilding:b onTerrain:t];
+            CGPoint pointMarker = CGPointMake([[building objectForKey:@"X"] floatValue], [[building objectForKey:@"Y"] floatValue]);
+            NSString *buildingName = [building objectForKey:@"imageName"];
+            
+            
+            Terrain* t = [game locateTerrainAt:pointMarker];
+            Player *p = [game findPlayerByTerrain:t];
+            [p.buildings removeAllObjects];
+            
+            
+            Building* b = [[Building alloc]initWithBoard:board atPoint:pointMarker fromImage:buildingName];
+            b.size = CGSizeMake(PLACE_MARKER_DOCKED_SIZE + 4,PLACE_MARKER_DOCKED_SIZE + 4);
+            [b setPosition:pointMarker];
+            b.name = @"bowl";
+            [board addChild:b];
+            [p.buildings addObject:b];
+            
+//            [self constructBuilding:p withBuilding:b onTerrain:t];
 //                NSLog(@"player buildings %d", p.buildings.count);
             
         }

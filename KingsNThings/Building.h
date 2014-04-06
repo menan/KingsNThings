@@ -35,7 +35,6 @@ typedef enum CombatType : NSUInteger {
 @property NSString* imageName;
 @property NSString* name;
 @property NSInteger cost;
-@property SKNode *imageNode;
 
 - (id)initWithStage:(Stage) s andTerrain: (Terrain *) t;
 - (id) initWithBoard:(SKSpriteNode *)aBoard atPoint:(CGPoint)aPoint fromImage:(NSString *)image;
