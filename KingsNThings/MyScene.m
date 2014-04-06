@@ -54,7 +54,7 @@
     
 }*/
 
--(void) longPressDetected:(UIGestureRecognizer *)gestureRecognizer{
+/*-(void) longPressDetected:(UIGestureRecognizer *)gestureRecognizer{
     
     //CGPoint location = _selectedNode.position;
     
@@ -62,14 +62,14 @@
         [gameBoard showArmyCreatures:(Army*)_selectedNode];
     }
   
-}
+}*/
 
 - (void)selectNodeForTouch:(CGPoint)touchLocation {
     //1
     SKSpriteNode *touchedNode = (SKSpriteNode *)[self nodeAtPoint:touchLocation];
     //2
     
-//    NSLog(@"old node class %@", _selectedNode.class);
+    //    NSLog(@"old node class %@", _selectedNode.class);
     
     if (![touchedNode.parent.name isEqualToString:@"subMenu"]) {
         [[[gameBoard getBoard] childNodeWithName:@"subMenu"] removeFromParent];
@@ -169,17 +169,6 @@ CGPoint mult(const CGPoint v, const CGFloat s) {
     
     NSLog(@"presenting recruitment view");
 
-}
--(void) tranitToArmyScene:(Army*) army forPlayer:(Player*)p{
-   
-    //CGSize s = CGSizeMake(self.size.width/4, self.size.height/2);
-//    CGSize s = CGSizeMake(10, 10);
-    //ArmyScene* armyscene = [[ArmyScene alloc]initWithSize:s andSender:self Army:army forPlayer:p];
-    //transitionRevealWithDirectionUp = [SKTransition revealWithDirection:SKTransitionDirectionUp duration:1];
-        //initWithSize:[self size] withAttacker:attacker andDefender:defender andSender:self ];
-    
-    //[self.scene.view presentScene:armyscene transition:transitionRevealWithDirectionUp];
-    
 }
 
 //- (void) startSecondCombat{

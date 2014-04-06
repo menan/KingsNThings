@@ -64,6 +64,8 @@
 
 - (Army*) constructNewStack:(id)creatur atPoint:(CGPoint) aPoint withTerrain:(Terrain*)terrain;
 -(void) removeTerrainfromTerritories:(Terrain*)terrain;
+-(void) removeStack:(Army*)stack;
+-(void) removeSpecialIncomeOnRack:(SpecialIncome *) sp;
 
 
 
@@ -80,6 +82,7 @@
 - (Creature *) findCreatureOnRackByName:(NSString *) name;
 - (SpecialIncome *) findSpecialIncomeOnRackByName:(NSString *) name;
 -(SpecialIncome *) getSpecialIncomeOnTerrain:(Terrain*)terrain;
+
 
 
 @end

@@ -67,5 +67,6 @@
 - (void) constructPlacemarkerFromDictionary:(NSArray *) placemarkers;
 - (void) constructBuildingsFromDictionary:(NSArray *) placemarkers;
 - (void) setGoldsFromDictionary:(NSArray *) goldsArray;
+- (void) returnThingToBowl:(id) thing;
 
 @end

@@ -27,8 +27,10 @@
 @synthesize attacker,defender,building;
 @synthesize round,isAttacker;
 @synthesize diceOne,diceTwo,type;
+@synthesize thingsToBeReturned;
 @synthesize attackerRolledDice, defenderRolledDice,attackerNumberOfHits,defenderNumberOfHits,attakerChargeCreatures,defenderChargeCreatures,battle;
-@synthesize specialIncomeCounters,specialIncomeDefend;
+@synthesize specialIncomeCounters,specialIncomeDefend,whoRetreated;
+
 
 
 
@@ -58,9 +60,11 @@
         defenderRolledDice = [[NSMutableArray alloc]init];
         
         specialIncomeCounters = [[NSMutableArray alloc]init];
-
+        
+        thingsToBeReturned = [[NSMutableArray alloc]init];
         
         mainScene = (MyScene*)sce;
+        whoRetreated = NoOne;
     }
     
     
@@ -95,7 +99,7 @@
         
         specialIncomeCounters = [[NSMutableArray alloc]init];
 
-        
+        whoRetreated = NoOne;
         
     }
     
@@ -111,45 +115,6 @@
     
 }
 
-/*-(void) meleeRound:(CombatScene*) combatScene{
-   NSInteger attackerNumberOfHits = 0 , defenderNumberOfHits = 0;
-    
-    
-    isMagicRound = NO;
-    isMeleeRound = YES;
-    isRangedRound = NO;
-   
-    //[defenderRolledDice removeAllObjects];
-    
-    
-    
-        //[combatScene setInstructionText:@"Inside Attaker melee if statment"];
-    //NSString* str = @"Attacker: roll one dice for ";
-    // str = [str stringByAppendingString:[NSString stringWithFormat:@"%i",[attackerMagicCreature count]]];
-    //str = [str stringByAppendingString:@" times."];
-    
-    ////[combatScene setInstructionText:[NSString stringWithString:str]];
-    //[combatScene setInstructionText:str];
-            
-    [combatScene collectDiceResult];
-
-    for(int i = 0 ; i < [attackerMeleeCreature count] ; i++){
-        
-        if([[attackerMeleeCreature objectAtIndex: i] combatValue] >= [[attackerRolledDice objectAtIndex:i] integerValue] ){
-            
-            attackerNumberOfHits += 1;
-        }
-    }
-       */ /*NSString* str2 = @"Attacker can apply hits";
-        NSString* result = [NSString stringWithFormat:@"%@ %i hits",str2,attackerNumberOfHits];
-        
-        [combatScene setInstructionText:result];
-        
-        */
-   
-    
-    
-//}
 
 -(void)updateArmy:(NSString*)creatureName andPlayerType:(NSString *)player{
     
@@ -160,6 +125,7 @@
                 if([[cre name] isEqualToString:creatureName]){
                     if(cre.combatType == isMagic){
                         [attackerMagicCreature removeObject:cre];
+                        
                         break;
                     }
                     else if (cre.combatType == isRanged){
@@ -253,7 +219,7 @@
             SpecialIncome* sp = (SpecialIncome*) thing;
             if(sp.type == City || sp.type == Village){
                 specialIncomeDefend = sp;
-                [defenderMeleeCreature addObject:sp];
+                //[defenderMeleeCreature addObject:sp];
             }
             else
                 [specialIncomeCounters addObject:sp];
@@ -494,7 +460,7 @@
         }
         
         
-        if([defenderMeleeCreature count] > 0 || (building.combat == Melee)){
+        if([defenderMeleeCreature count] > 0 || (building.combat == Melee) || specialIncomeDefend){
             
             isAttacker = NO;
             int hits;
@@ -510,7 +476,7 @@
                 hits =([defenderMeleeCreature count] - defenderChargeCreatures);
                 //str = [str stringByAppendingString:[NSString stringWithFormat:@"%i",[defenderMeleeCreature count] - defenderChargeCreatures]];
             }
-            if(specialIncomeDefend && specialIncomeDefend.goldValue > 0 ){
+            if(specialIncomeDefend && specialIncomeDefend.combatValue > 0 ){
                 hits +=1;
             }
             str = [str stringByAppendingString:[NSString stringWithFormat:@"%i",hits]];
@@ -569,12 +535,16 @@
                     defenderNumberOfHits += 1;
                 }
             }
-            NSLog(@"in defender j is %d",j);
+            
             j++;
         }
         
         if((building.combat == Melee) && ([building combatValue]>0)){
             if([building combatValue] >= ([defenderRolledDice count] - 1))
+                defenderNumberOfHits +=1;
+        }
+        if((specialIncomeDefend.type == City ||specialIncomeDefend.type == Village ) && ([specialIncomeDefend combatValue]>0)){
+            if([specialIncomeDefend combatValue] >= ([defenderRolledDice count] - 1))
                 defenderNumberOfHits +=1;
         }
         
@@ -599,6 +569,7 @@
         
         [combatScene setInstructionText:@"We have a WINNER "];
         [combatScene postCombatScene];
+        [defender removeStack:defenderArmy];
         
         if((building.stage == Citadel) && [attacker hasCitadel]){
 ////////////////////////// game should end
@@ -607,17 +578,37 @@
     else if ([defenderArmy creaturesInArmy] > 0){
         [defender setHasWonCombat:YES];
         [combatScene setInstructionText:@"Defender is the winner and may keep the territory "];
+        [attacker removeStack:attackerArmy];
         
     }
-    else {
+    else if([attackerArmy creaturesInArmy] == 0 && [defenderArmy creaturesInArmy] == 0) {
+        
         [combatScene setInstructionText:@"Its a tie , defender keeps terrain"];
+    }
+    else{
+        
     }
     
     
     
 }
 
-
+-(Terrain*) adjacentHexToRetreat:(Player*) player{
+    NSMutableArray* terrains = [player getTerritories];
+    //has to iterate through all terrains because they can be set in different orders for fuk sake lol
+    
+    for(Terrain* ter in terrains){
+        float dx = [ter getAbsoluteX] - [[defenderArmy terrain] getAbsoluteX];
+        float dy = [ter getAbsoluteY] - [[defenderArmy terrain] getAbsoluteY];
+        
+        float distance = sqrt(dx*dx + dy*dy); //uses pythagorean theorem to caculate the distance
+        
+        if (distance < 75) {
+            return ter;
+        }
+    }
+    return nil;
+}
 
 
 @end

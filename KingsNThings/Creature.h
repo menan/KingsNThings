@@ -15,7 +15,8 @@ typedef enum CombatStrength:NSUInteger{
     isMagic,
     isMelee,
     isRanged,
-    isCharge
+    isCharge,
+    NONE
     
 }CombatStrength;
 

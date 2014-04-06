@@ -20,6 +20,7 @@
     NSArray *terrainNames;
     //NSMutableArray *terrain;
     NSArray* markers;
+    NSArray* initialPositions;
     
     SKSpriteNode *board;
     MyScene *scene;
@@ -57,7 +58,11 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         nonMovables = @[@"board", @"bowl", @"rack", @"Gold 1", @"Gold 2", @"Gold 5", @"Gold 10", @"Gold 15", @"Gold 20", @"My Gold 1", @"My Gold 2", @"My Gold 5", @"My Gold 10", @"My Gold 15", @"My Gold 20", @"diceOne", @"diceTwo", @"collection", @"labels", @"Bank", @"My Stash", @"P4 Stash", @"P3 Stash", @"P2 Stash", @"balance",@"coins",@"match",@"done-turn"];
         disabled = @[@"labels", @"Bank", @"My Stash", @"P4 Stash", @"P3 Stash", @"P2 Stash", @"bowl", @"board", @"rack",@"subMenu"];
         
-        terrainNames = @[@"Desert", @"Forest", @"Frozen Waste", @"Jungle", @"Mountains", @"Plains", @"Sea", @"Swamp"];
+        terrainNames = @[@"Desert", @"Forest", @"Frozen Waste", @"Jungle", @"Mountain", @"Plains", @"Sea", @"Swamp"];
+        
+        initialPositions = [[NSArray alloc]initWithObjects:[NSValue valueWithCGPoint:CGPointMake(366.0f,391.2500)],[NSValue valueWithCGPoint:CGPointMake(119.25f, 395.75)],[NSValue valueWithCGPoint:CGPointMake(119.25f, 395.75)],[NSValue valueWithCGPoint:CGPointMake(363.0f, 106.25)],[NSValue valueWithCGPoint:CGPointMake(117.75f, 110.75f)], nil];
+
+        
         
         //terrains = [[NSMutableArray alloc] init];
         bank = [[Bank alloc]init];
@@ -192,8 +197,8 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     NSLog(@"Placing terrains at : %f,%f", tPoint.x, tPoint.y );
     //    [terrains removeAllObjects];
     // 2) Loading the images
-    NSArray *images = @[@"desert", @"forest", @"frozenWaste", @"jungle", @"mountains", @"plains", @"sea", @"swamp"];
-    NSArray *imageNames = @[@"Desert", @"Forest", @"Frozen Waste", @"Jungle", @"Mountains", @"Plains", @"Sea", @"Swamp"];
+    NSArray *images = @[@"desert", @"forest", @"frozenWaste", @"jungle", @"mountain", @"plains", @"sea", @"swamp"];
+    NSArray *imageNames = @[@"Desert", @"Forest", @"Frozen Waste", @"Jungle", @"Mountain", @"Plains", @"Sea", @"Swamp"];
     
     for (int i = 0; i <= 2; i++) {
         for(int i = 0; i < [imageNames count]; ++i) {
@@ -671,15 +676,15 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     
     
     [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(303.000000,213.500000) imageNamed:@"Plains" andTerrainName:@"Plains"]];
-    [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(303.750000,356.750000) imageNamed:@"Mountains" andTerrainName:@"Mountains"]];
+    [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(303.750000,356.750000) imageNamed:@"Mountain" andTerrainName:@"Mountain"]];
     [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(426.250000,283.250000) imageNamed:@"Plains" andTerrainName:@"Plains"]];
     [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(57.750000,359.000000) imageNamed:@"Desert" andTerrainName:@"Desert"]];
-    [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(301.000000,72.500000) imageNamed:@"Mountains" andTerrainName:@"Mountains"]];
+    [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(301.000000,72.500000) imageNamed:@"Mountain" andTerrainName:@"Mountain"]];
     [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(366.000000,391.250000) imageNamed:@"Plains" andTerrainName:@"Plains"]];
     [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(238.500000,38.000000) imageNamed:@"Desert" andTerrainName:@"Desert"]];
     [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(242.250000,322.250000) imageNamed:@"Forest" andTerrainName:@"Forest"]];
     [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(117.750000,110.750000) imageNamed:@"Jungle" andTerrainName:@"Jungle"]];
-    [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(57.000000,145.250000) imageNamed:@"Mountains" andTerrainName:@"Mountains"]];
+    [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(57.000000,145.250000) imageNamed:@"Mountain" andTerrainName:@"Mountain"]];
     [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(424.750000,141.500000) imageNamed:@"frozenWaste" andTerrainName:@"Frozen Waste"]];
     [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(180.250000,287.750000) imageNamed:@"Swamp" andTerrainName:@"Swamp"]];
     [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(244.000000,465.500000) imageNamed:@"Jungle" andTerrainName:@"Jungle"]];
@@ -699,11 +704,11 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(427.500000,354.500000) imageNamed:@"Forest" andTerrainName:@"Forest"]];
     [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(239.500000,109.250000) imageNamed:@"Forest" andTerrainName:@"Forest"]];
     [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(241.000000,179.750000) imageNamed:@"Sea" andTerrainName:@"Sea"]];
-    [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(118.000000,252.500000) imageNamed:@"Mountains" andTerrainName:@"Mountains"]];
+    [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(118.000000,252.500000) imageNamed:@"Mountain" andTerrainName:@"Mountain"]];
     [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(178.500000,145.250000) imageNamed:@"Desert" andTerrainName:@"Desert"]];
     [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(363.000000,106.250000) imageNamed:@"Jungle" andTerrainName:@"Jungle"]];
     [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(56.500000,217.250000) imageNamed:@"Forest" andTerrainName:@"Forest"]];
-    [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(181.500000,430.250000) imageNamed:@"Mountains" andTerrainName:@"Mountains"]];
+    [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(181.500000,430.250000) imageNamed:@"Mountain" andTerrainName:@"Mountain"]];
     [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(303.250000,284.750000) imageNamed:@"Jungle" andTerrainName:@"Jungle"]];
     [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(119.250000,395.750000) imageNamed:@"Swamp" andTerrainName:@"Swamp"]];
     [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(305.250000,428.750000) imageNamed:@"Swamp" andTerrainName:@"Swamp"]];
@@ -713,7 +718,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(130,536) imageNamed:@"Sea" andTerrainName:@"Sea"]];
     [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(130,536) imageNamed:@"Swamp" andTerrainName:@"Swamp"]];
     [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(45,536) imageNamed:@"Jungle" andTerrainName:@"Jungle"]];
-    [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(45,536) imageNamed:@"Mountains" andTerrainName:@"Mountains"]];
+    [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(45,536) imageNamed:@"Mountain" andTerrainName:@"Mountain"]];
     [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(45,536) imageNamed:@"Desert" andTerrainName:@"Desert"]];
     [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(45,536) imageNamed:@"Desert" andTerrainName:@"Desert"]];
     [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint: CGPointMake(45,536) imageNamed:@"frozenWaste" andTerrainName:@"Frozen Waste"]];
@@ -851,6 +856,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             [node setSize:CGSizeMake(sizeNode, sizeNode)];
             [node setPosition:CGPointMake(temp.position.x + 10, temp.position.y + 22)];
         }
+        
         else{
             [node setPosition:CGPointMake(360.0f, 25.0f)];
         }
@@ -985,22 +991,38 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     else if ([node isKindOfClass:[SpecialIncome class]]){
         Terrain* t = [game findTerrainAt:terrainPoint];
         SpecialIncome* sp = (SpecialIncome*) node;
-        if(sp.type == Treasure){
-            if([game.currentPlayer findSpecialIncomeOnRackByName:node.name]){
+        Player* owner = [game findPlayerByTerrain:t];
+
+        if([owner findSpecialIncomeOnRackByName:node.name]){
+            if(sp.type == Treasure){
                 for(SKSpriteNode* n in nodes){
                     if([n.name isEqualToString:@"Bank"]){
-                        [self playTreasure:node];
+                        [self playTreasure:node forPlayer:owner];
                         break;
+                    }
+                }
+                    
+            }
+            else{
+                    if([sp.terrainType isEqualToString:t.type] || sp.type == City || sp.type == Village){
+                        if([owner hasSpecialIncomeOnTerrain:t]){
+                            [self addToRack:sp forPlayer:owner];
+                        }
+                        else{
+                            [sp setTerrain:t];
+                            [sp setName:@"bowl"];
+                            [owner addSpecialIncome:sp];
+                            [sp setSize:CGSizeMake(30, 30)];
+                            [sp setPosition:CGPointMake(t.position.x + 7, t.position.y - 15)];
+                            [owner removeSpecialIncomeOnRack:sp];
+                        }
                     }
                 }
                 
             }
-            else{
-                
-                Player* p = [game findPlayerByTerrain:t];
-                [self recruiteSpecialIncome:node onTerrain:t forPlayer:p];
-            }
+    else{
             
+            [self recruiteSpecialIncome:node onTerrain:t forPlayer:owner];
         }
         else{
             if (t) {
@@ -1017,6 +1039,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         }
         
     }
+    
     else if ([node.name isEqualToString:@"match"]){
         [game presentGCTurnViewController:self];
     }
@@ -1170,7 +1193,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             [itemNode setPosition:loc];
         }
         else{
-            [itemNode removeFromParent];
+            //[itemNode removeFromParent];
             NSLog(@"since si %@ was already present, didnt add it to array", itemNode.name);
         }
     }
@@ -1575,6 +1598,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                     [self addToRack:temp forPlayer:currentPlayer];
                     //[bowl removeObject:temp];
                     [self removeThingFromBowl:temp];
+                    
                     //Player* currentPlayer = [[game findPlayersByTerrain:t] objectAtIndex:0];
                     
                     currentPlayer.recruitsRemaining--;
@@ -1585,7 +1609,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                     [self removeThingFromBowl:temp];
                     [temp setTerrain:t];
                     [temp setName:@"bowl"];
-                    [game.currentPlayer addSpecialIncome:temp];
+                    [currentPlayer addSpecialIncome:temp];
                     [temp setSize:CGSizeMake(30, 30)];
                     [temp setPosition:CGPointMake(t.position.x + 7, t.position.y - 15)];
                     currentPlayer.recruitsRemaining--;
@@ -1613,7 +1637,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     
 }
 
--(void) playTreasure:(SKSpriteNode*)node{
+-(void) playTreasure:(SKSpriteNode*)node forPlayer:(Player*)currentPlayer{
     
     //SpecialIncome* sp = [game.currentPlayer findSpecialIncomeOnRackByName:node.name];
     SpecialIncome* sp = (SpecialIncome*) node;
@@ -1621,7 +1645,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     [self updateBank];
     [self returnThingToBowl:sp];
     [node removeFromParent];
-    [[game.currentPlayer rack] removeObject:sp];
+    [[currentPlayer rack] removeObject:sp];
     [self redrawCreatures];
 }
 -(void) returnThingToBowl:(id) thing{

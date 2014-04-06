@@ -62,6 +62,8 @@
     for(Creature* cre in creatures){
         if([[cre name] isEqualToString:name]){
             [self removeCreature:cre];
+            
+            break;
         }
     }
 }
@@ -92,7 +94,6 @@
     }
     [self setStepsMoved:0];
 }
-
 
 - (void)drawImage:(SKSpriteNode *) aBoard
 {
