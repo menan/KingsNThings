@@ -31,7 +31,6 @@
 		686C97591888A88600BE6D42 /* KingsNThingsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 686C97581888A88600BE6D42 /* KingsNThingsTests.m */; };
 		686C976C188F693B00BE6D42 /* desert.png in Resources */ = {isa = PBXBuildFile; fileRef = 686C9763188F693B00BE6D42 /* desert.png */; };
 		686C976D188F693B00BE6D42 /* forest.png in Resources */ = {isa = PBXBuildFile; fileRef = 686C9764188F693B00BE6D42 /* forest.png */; };
-		686C976E188F693B00BE6D42 /* frozenWaste.png in Resources */ = {isa = PBXBuildFile; fileRef = 686C9765188F693B00BE6D42 /* frozenWaste.png */; };
 		686C976F188F693B00BE6D42 /* jungle.png in Resources */ = {isa = PBXBuildFile; fileRef = 686C9766188F693B00BE6D42 /* jungle.png */; };
 		686C9771188F693B00BE6D42 /* plains.png in Resources */ = {isa = PBXBuildFile; fileRef = 686C9768188F693B00BE6D42 /* plains.png */; };
 		686C9772188F693B00BE6D42 /* sea.png in Resources */ = {isa = PBXBuildFile; fileRef = 686C9769188F693B00BE6D42 /* sea.png */; };
@@ -136,6 +135,7 @@
 		68F84CDD18E10AC30059706D /* kingsnthings-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 68F84CDB18E10AC30059706D /* kingsnthings-Info.plist */; };
 		68F84CDF18E10B450059706D /* kingsnthings-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 68F84CDE18E10B450059706D /* kingsnthings-Info.plist */; };
 		C503704F18E62DEE0090C5D2 /* ArmyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = C503704E18E62DEE0090C5D2 /* ArmyScene.m */; };
+		C51B9B1618F1EC9A00536F65 /* Frozen Waste.png in Resources */ = {isa = PBXBuildFile; fileRef = C51B9B1518F1EC9A00536F65 /* Frozen Waste.png */; };
 		C5461C9E18D24E9500628AC4 /* special_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C5461C9D18D24E9500628AC4 /* special_button.png */; };
 		C59BE5F218A052E700EC48E0 /* SpecialIncome.m in Sources */ = {isa = PBXBuildFile; fileRef = C59BE5F118A052E700EC48E0 /* SpecialIncome.m */; };
 		C59BE61C18A054A100EC48E0 /* -n Bird Of Paradise -t Jungle -s Fly -a 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C59BE60F18A054A100EC48E0 /* -n Bird Of Paradise -t Jungle -s Fly -a 1.jpg */; };
@@ -312,7 +312,6 @@
 		686C97581888A88600BE6D42 /* KingsNThingsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KingsNThingsTests.m; sourceTree = "<group>"; };
 		686C9763188F693B00BE6D42 /* desert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = desert.png; sourceTree = "<group>"; };
 		686C9764188F693B00BE6D42 /* forest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = forest.png; sourceTree = "<group>"; };
-		686C9765188F693B00BE6D42 /* frozenWaste.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frozenWaste.png; sourceTree = "<group>"; };
 		686C9766188F693B00BE6D42 /* jungle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jungle.png; sourceTree = "<group>"; };
 		686C9768188F693B00BE6D42 /* plains.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plains.png; sourceTree = "<group>"; };
 		686C9769188F693B00BE6D42 /* sea.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sea.png; sourceTree = "<group>"; };
@@ -471,6 +470,7 @@
 		68F84CDE18E10B450059706D /* kingsnthings-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "kingsnthings-Info.plist"; sourceTree = "<group>"; };
 		C503704D18E62DEE0090C5D2 /* ArmyScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArmyScene.h; sourceTree = "<group>"; };
 		C503704E18E62DEE0090C5D2 /* ArmyScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArmyScene.m; sourceTree = "<group>"; };
+		C51B9B1518F1EC9A00536F65 /* Frozen Waste.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Frozen Waste.png"; sourceTree = "<group>"; };
 		C5461C9D18D24E9500628AC4 /* special_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = special_button.png; sourceTree = "<group>"; };
 		C59BE5F018A052E700EC48E0 /* SpecialIncome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpecialIncome.h; sourceTree = "<group>"; };
 		C59BE5F118A052E700EC48E0 /* SpecialIncome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpecialIncome.m; sourceTree = "<group>"; };
@@ -869,7 +869,7 @@
 				C5A79DF118F0B1C600F331C9 /* mountain.png */,
 				686C9763188F693B00BE6D42 /* desert.png */,
 				686C9764188F693B00BE6D42 /* forest.png */,
-				686C9765188F693B00BE6D42 /* frozenWaste.png */,
+				C51B9B1518F1EC9A00536F65 /* Frozen Waste.png */,
 				686C9766188F693B00BE6D42 /* jungle.png */,
 				686C9768188F693B00BE6D42 /* plains.png */,
 				686C9769188F693B00BE6D42 /* sea.png */,
@@ -1560,7 +1560,6 @@
 				C5B4B35418CE50DC00B1E187 /* -n Jungle Lord -a 4 -p Special.jpg in Resources */,
 				68EF342018A2BB4A00A93480 /* -n Greathunter -t Plains -s Range -a 4.jpg in Resources */,
 				68EF3419189CE6EF00A93480 /* -n Swamp Rat -t Swamp -a 1.jpg in Resources */,
-				686C976E188F693B00BE6D42 /* frozenWaste.png in Resources */,
 				686C97CC188FA3BD00BE6D42 /* sc_10.png in Resources */,
 				C5B4B34818CE50DC00B1E187 /* -n Arch Cleric -s Magic -a 5 -p Special.jpg in Resources */,
 				C5B4B35318CE50DC00B1E187 /* -n Ice Lord -a 4 -p Special.jpg in Resources */,
@@ -1683,6 +1682,7 @@
 				68EF3317189CB0FD00A93480 /* p_yellow.jpg in Resources */,
 				C5A56AF018DE2B460048FC17 /* chest-1.png in Resources */,
 				C59BE63E18A0554100EC48E0 /* -n Emerald -t Treasure -a 10.jpg in Resources */,
+				C51B9B1618F1EC9A00536F65 /* Frozen Waste.png in Resources */,
 				68EF33A7189CE6EF00A93480 /* -n Dervish -c 2 -t Desert -s Magic -a 2.jpg in Resources */,
 				C5ADEED618A2B76100BD68C6 /* dice_2.png in Resources */,
 				C5B4B2F518CE509D00B1E187 /* -n Great Hawk -t Plains -s Fly -a 2.jpg in Resources */,

@@ -90,7 +90,7 @@
             _selectedNode.colorBlendFactor = 0;
         }
         		_selectedNode = touchedNode;
-//        NSLog(@"node tapped:%@,  %f, %f", _selectedNode.class, _selectedNode.position.x, _selectedNode.position.y);
+       NSLog(@"node tapped:%@,  %f, %f", _selectedNode.class, _selectedNode.position.x, _selectedNode.position.y);
         
         _selectedNode.color = [SKColor redColor];
         _selectedNode.colorBlendFactor = 0.5;

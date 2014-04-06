@@ -9,43 +9,46 @@
 #import "SpecialIncome.h"
 
 @implementation SpecialIncome{
-CGPoint point;
-SKSpriteNode *board;
-
-int position;
-
-
+    SKSpriteNode *board;
+    int position;
+    NSString *imageName;
 }
 
-@synthesize goldValue,symbol,name,inBowl,imageName,isKeyedToTerrain,isTreasure,terrainType;
+@synthesize goldValue,inBowl,terrainType,type,terrain,initialPoint,combatValue;
 
-@synthesize node;
+//@synthesize node;
 
-- (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image andCounterName: (NSString *) cName withGoldValue: (int) value forTerrainType: (NSString *) terrain{
-    self = [super init];
+- (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image andCounterName: (NSString *) cName withGoldValue: (int) value forTerrainType: (NSString *) ter{
+    self = [super initWithImageNamed:image];
     if (self) {
-        point = aPoint;
+        initialPoint = aPoint;
         board = aBoard;
-        imageName = image;
-        name = cName;
+        //name = cName;
        
         inBowl = YES;
         
-        terrainType = terrain;
+        terrainType = ter;
         goldValue = value;
+<<<<<<< HEAD
+        combatValue = goldValue;
+=======
+        self.size = CGSizeMake(37,37);
+>>>>>>> b4ee6cc52d52aadee54a8809197acf3d481c5626
        
         
     }
     return self;
 }
 - (id) initWithBoard:(SKSpriteNode *)aBoard atPoint:(CGPoint)aPoint fromString:(NSString *)string{
-    self = [super init];
+    self = [super initWithImageNamed:[NSString stringWithFormat:@"%@.jpg",string]];
     if (self) {
-        point = aPoint;
+        
+        initialPoint = aPoint;
         board = aBoard;
-        imageName = [NSString stringWithFormat:@"%@.jpg",string];
-       
+        imageName = string;
+        
         inBowl = YES;
+        self.size = CGSizeMake(37,37);
         
         [self setValuesFromString:string];
     }
@@ -55,19 +58,17 @@ int position;
 
 
 - (id) initWithImage:(NSString*)image atPoint:(CGPoint)aPoint{
-    self = [super init];
+    self = [super initWithImageNamed:[NSString stringWithFormat:@"%@.jpg",image]];
     if (self) {
-        point = aPoint;
-        
-        imageName = [NSString stringWithFormat:@"%@.jpg",image];
+        initialPoint = aPoint;
         
         inBowl = NO;
+        self.size = CGSizeMake(37,37);
       
         [self setValuesFromString:image];
+        
     }
     return self;
-    
-    
 }
 
 
@@ -78,19 +79,33 @@ int position;
     for(NSString *value in array){
         NSString *trimmed = [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         if ([trimmed hasPrefix:@"n"]){
-            name = [trimmed substringFromIndex:2];
-            //            NSLog(@"Name: %@", name);
+            super.name = [trimmed substringFromIndex:2];
+            
+           if([[trimmed substringFromIndex:2] isEqualToString:@"City"])
+               type = City;
+            else if ([[trimmed substringFromIndex:2] isEqualToString:@"Village"])
+                type = Village;
+           
         }
         else if ([trimmed hasPrefix:@"t"]){
             if([[trimmed substringFromIndex:2] isEqualToString:@"Treasure"]){
-                isTreasure = YES;
-                isKeyedToTerrain = NO;
+                
+                type = Treasure;
                 
             }
+            else if([[trimmed substringFromIndex:2] isEqualToString:@"Magic"]){
+                type = MagicItem;
+            }
+            else if([[trimmed substringFromIndex:2] isEqualToString:@"Event"]){
+                type = Event;
+            }
+            
             else{
-                isKeyedToTerrain = YES;
-                isTreasure = NO;
+            
+                type = Docked;
+                
                 terrainType = [trimmed substringFromIndex:2];
+            
             }
         }
       
@@ -98,38 +113,39 @@ int position;
             goldValue = [[trimmed substringFromIndex:2] integerValue];
            
         }
-      
         else {
-            //            NSLog(@"something else occured: %@",trimmed);
+            NSLog(@"something else occured: %@",trimmed);
         }
         
     }
     
+    if(type == Village || type == City)
+        combatValue = goldValue;
 }
 
 - (void) draw{
-    [node removeFromParent]; //makes sure that it removes it to prevent duplications
-    node = [SKSpriteNode spriteNodeWithImageNamed:imageName];
-    node.name = name;
-    node.accessibilityLabel = @"specialIncome";
-    if(isTreasure){
-<<<<<<< HEAD
-    node.accessibilityValue = @"treasure";
-=======
-        node.accessibilityValue = @"treasure";
->>>>>>> e2c0dabe2e3cb0cc45e0cc4aee245a906e9006a6
-    }
-    node.size = CGSizeMake(37,37);
-    node.position = point;
-    if (inBowl ) {
-        node.color = [SKColor blackColor];
-        node.colorBlendFactor = .85;
+    [self removeFromParent]; //makes sure that it removes it to prevent duplications
+
+    self.position = initialPoint;
+    if (inBowl) {
+        self.color = [SKColor blackColor];
+        self.colorBlendFactor = .85;
     }
     else{
         
-        node.color = [SKColor grayColor];
-        node.colorBlendFactor = 0;
+        self.color = [SKColor grayColor];
+        self.colorBlendFactor = 0;
     }
-    [board addChild:node];
+    [board addChild:self];
 }
+
+- (NSDictionary *) getDict{
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    [dict setObject:[NSNumber numberWithFloat:self.position.x] forKey:@"X"];
+    [dict setObject:[NSNumber numberWithFloat:self.position.y] forKey:@"Y"];
+    [dict setObject:imageName forKey:@"imageName"];
+    [dict setObject:[NSNumber numberWithInt:YES] forKey:@"si"];
+    return dict;
+}
+
 @end
