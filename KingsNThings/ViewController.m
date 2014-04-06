@@ -105,10 +105,10 @@
     
     Board *b = [scene getBoard];
     GamePlay *g = [scene getGame];
+    [b checkForTotalPlayers];
     if ([data bytes]) {
         b.avoidChecks = YES;
         
-        [b checkForTotalPlayers];
         
         
         [b hideMarkersExceptCurrentPlayer];
