@@ -468,7 +468,7 @@
                 Building* b = [loser getBuildingOnTerrain:terrain];
                 [b setStage:(b.stage-1)];
                 [b removeFromParent];
-                [b draw];
+//                [b draw];
             }
         }
         else {
