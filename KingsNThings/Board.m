@@ -1086,24 +1086,18 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         else {
             for(Army *army in [currentPlayer stacks]){
                 if([[army terrain]isEqual:t]){
-                    if([game phase] == Initial || [game phase] == Recruitment){
-                        if([currentPlayer addCreatureToArmy:creature inArmy:army ]){
-                            [creature removeFromParent];
-                            [self removeThingFromBowl:creature];
-                            [currentPlayer printArmy];
-                            [MyScene wiggle:army];
-                            break;
-                            
-                        }
-                        else{
-                            NSLog(@"could not add creature %@ to the stack since it was already present",creature.name);
-                            [creature removeFromParent];
-                            
-                        }
+                    if([currentPlayer addCreatureToArmy:creature inArmy:army ]){
+                        [creature removeFromParent];
+                        [self removeThingFromBowl:creature];
+                        [currentPlayer printArmy];
+                        [MyScene wiggle:army];
+                        break;
+                        
                     }
                     else{
-                        //must've reached the limit of charecters
-                        [creature setPosition:CGPointMake(480.0f, (size.height) - 175.0f)];
+                        NSLog(@"could not add creature %@ to the stack since it was already present",creature.name);
+                        [creature removeFromParent];
+                        
                     }
                 }
             }
@@ -1124,10 +1118,13 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     }
     else{
         
-        NSLog(@"terriain or player on terrain must be nil %@, so returned it to the bowl, continue recruiting", [game findPlayerByTerrain:t]);
-        creature.color = [SKColor blackColor];
-        creature.colorBlendFactor = .85;
-        [creature setPosition:creature.initialPoint];
+        if (![[[creature parent] name] isEqualToString:@"subMenu"]) {
+            NSLog(@"terriain or player on terrain must be nil %@, so returned it to the bowl, continue recruiting", [game findPlayerByTerrain:t]);
+            creature.color = [SKColor blackColor];
+            creature.colorBlendFactor = .85;
+            [creature setPosition:creature.initialPoint];
+        }
+        
     }
     
 }
@@ -1723,32 +1720,42 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     
     for (NSDictionary *t in stacks) {
     
-            int playerId = [[t objectForKey:@"playerId"] integerValue];
-            [[[game.players objectAtIndex:playerId] stacks] removeAllObjects];
-            [[game.players objectAtIndex:playerId] setRecruitsRemaining:10];
+        int playerId = [[t objectForKey:@"playerId"] integerValue];
+        [[[game.players objectAtIndex:playerId] stacks] removeAllObjects];
+    
+//        //removes all the stacks on the board
+//        SKNode *stack = [board childNodeWithName:@"stack"];
+//        
+//        while (stack) {
+//            [stack removeFromParent];
+//            stack = [board childNodeWithName:@"stack"];
+//        }
         
-            NSArray *armies = [t objectForKey:@"armies"];
+        
+        [[game.players objectAtIndex:playerId] setRecruitsRemaining:10];
+    
+        NSArray *armies = [t objectForKey:@"armies"];
             
         for (NSDictionary* army in armies) {
                 
                 
-                CGPoint loc = CGPointMake([[army objectForKey:@"X"] floatValue], [[army objectForKey:@"Y"] floatValue]);
+            CGPoint loc = CGPointMake([[army objectForKey:@"X"] floatValue], [[army objectForKey:@"Y"] floatValue]);
+            
+            for (NSDictionary* creature in [army objectForKey:@"creatures"]) {
+                NSString *creatureName = [creature objectForKey:@"imageName"];
                 
-                for (NSDictionary* creature in [army objectForKey:@"creatures"]) {
-                    NSString *creatureName = [creature objectForKey:@"imageName"];
-                    
-                    Creature *creatureObject = [[Creature alloc] initWithImage:creatureName atPoint:loc];
-                    creatureObject.position = loc;
-                    
-                    Terrain* t = [game locateTerrainAt:loc];
-                    
-                    [self creaturesMoved:creatureObject AtTerrain:t];
-                    [self removeCreatureByName:creatureObject.name]; //removes the creature from the bowl, if it got added to the army or rack
+                Creature *creatureObject = [[Creature alloc] initWithImage:creatureName atPoint:loc];
+                creatureObject.position = loc;
+                
+                Terrain* t = [game locateTerrainAt:loc];
+                
+                [self creaturesMoved:creatureObject AtTerrain:t];
+                [self removeCreatureByName:creatureObject.name]; //removes the creature from the bowl, if it got added to the army or rack
 
-                }
-                
             }
-       }
+            
+        }
+    }
 }
 
 

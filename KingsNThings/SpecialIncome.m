@@ -121,7 +121,7 @@
 }
 
 - (void) draw{
-    [self removeFromParent]; //makes sure that it removes it to prevent duplications
+    [[board childNodeWithName:self.name] removeFromParent]; //makes sure that it removes it to prevent duplications
 
     self.position = initialPoint;
     if (inBowl) {
