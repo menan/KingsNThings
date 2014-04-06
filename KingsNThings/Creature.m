@@ -11,7 +11,6 @@
 @implementation Creature{
     CGPoint point;
     SKSpriteNode *board;
-    //NSString* combatType;
     int position;
     int numberofTimes;
 
@@ -44,7 +43,6 @@
     return self;
 }
 - (id) initWithBoard:(SKSpriteNode *)aBoard atPoint:(CGPoint)aPoint fromString:(NSString *)string{
-    //self = [super init];
     self = [super initWithImageNamed:[NSString stringWithFormat:@"%@.jpg",string]];
     if (self) {
         initialPoint = aPoint;
@@ -158,35 +156,25 @@
 
 - (void) draw{
     [self removeFromParent]; //makes sure that it removes it to prevent duplications
-    //self.spriteNodeWithImageNamed = imageName;
-    
     
     [[board childNodeWithName:[NSString stringWithFormat:@"%@.jpg",imageName]] removeFromParent];
-    
     self.name = [NSString stringWithFormat:@"%@.jpg",imageName];
-    //self.accessibilityValue = @"creatures";
+    
     if (inBowl && isSpecial == NO) {
        self.color = [SKColor blackColor];
        self.colorBlendFactor = .85;
     }
     else{
-        
-        //self.color = [SKColor grayColor];
         self.colorBlendFactor = 0;
     }
+    
     [board addChild:self];
 }
 
 
 - (void) drawAtPoint:(SKSpriteNode*)location{
-    //[self removeFromParent]; //makes sure that it removes it to prevent duplications
-    //self.spriteNodeWithImageNamed = imageName;
-    
     self.name = [NSString stringWithFormat:@"%@.jpg",imageName];
-    //self.accessibilityValue = @"creatures";
     self.size = CGSizeMake(37,37);
-    //self.position = initialPoint;
-    
     [location addChild:self];
 }
 

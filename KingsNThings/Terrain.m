@@ -16,6 +16,7 @@
 }
 @synthesize type,imageName,flipped,location;
 
+static int TERRAIN_POSITION = -1; //to find the posision for each terrains, so that we can eliminate some for 2 player game
 
 - (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image andTerrainName: (NSString *) name
 {
@@ -26,48 +27,15 @@
         imageName = image;
         type = name;
         flipped = YES;
-       
-        
+        TERRAIN_POSITION++;
+        location = TERRAIN_POSITION;
     }
     return self;
 }
-
-
-
-
-- (id)initWithCoder:(NSCoder *)decoder {
-    if (self = [super init]) {
-        point = CGPointMake([[decoder decodeObjectForKey:@"pointX"] floatValue], [[decoder decodeObjectForKey:@"pointY"] floatValue]);
-        board = [decoder decodeObjectForKey:@"board"];
-        imageName = [decoder decodeObjectForKey:@"imageName"];
-        type = [decoder decodeObjectForKey:@"type"];
-        flipped = [[decoder decodeObjectForKey:@"flipped"] boolValue];
-        //hasArmyOnIt = [[decoder decodeObjectForKey:@"hasArmyOnIt"]boolValue];
-        //hasSpecialIncome = [[decoder decodeObjectForKey:@"hasSpecialIncome"]boolValue];
-        location += [[decoder decodeObjectForKey:@"location"] integerValue];
-    }
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)encoder {
-    [encoder encodeObject:[NSNumber numberWithFloat:point.x] forKey:@"pointX"];
-    [encoder encodeObject:[NSNumber numberWithFloat:point.y] forKey:@"pointY"];
-    [encoder encodeObject:board forKey:@"board"];
-    [encoder encodeObject:imageName forKey:@"imageName"];
-    [encoder encodeObject:type forKey:@"type"];
-    [encoder encodeObject:[NSNumber numberWithBool:flipped] forKey:@"flipped"];
-    //[encoder encodeObject:[NSNumber numberWithBool:hasArmyOnIt] forKey:@"hasArmyOnIt"];
-    [encoder encodeObject:[NSNumber numberWithInteger:location] forKey:@"location"];
-    //[encoder encodeObject:[NSNumber numberWithBool:hasSpecialIncome] forKey:@"hasSpecialIncome"];
-    
-}
-
 
 
 - (void) draw{
-    //node = [SKSpriteNode spriteNodeWithImageNamed:imageName];
     [self setName:type];
-    //[self setAccessibilityLabel:@"terrain"];
     self.size = CGSizeMake(88,88);
     [self setPosition:point];
     [board addChild:self];

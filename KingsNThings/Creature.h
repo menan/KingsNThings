@@ -21,9 +21,6 @@ typedef enum CombatStrength:NSUInteger{
 }CombatStrength;
 
 
-
-//@property (nonatomic, strong) SKSpriteNode* node;
-
 @property CombatStrength combatType;
 @property int combatValue;
 @property BOOL isSpecial;

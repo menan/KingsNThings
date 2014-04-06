@@ -86,9 +86,26 @@
 }
 
 
+- (int) currentPlayerId{
+    return [players indexOfObject: [self currentPlayer]];
+}
+
 - (Player *) currentPlayer{
     GKTurnBasedMatch *currentMatch = [[GCTurnBasedMatchHelper sharedInstance] currentMatch];
-    return [players objectAtIndex:[currentMatch.participants indexOfObject:currentMatch.currentParticipant]];
+    int index = [currentMatch.participants indexOfObject:currentMatch.currentParticipant];
+//    NSLog(@"index of the player: %d",index);
+    return [players objectAtIndex:index];
+}
+
+- (int) totalPlayers{
+    int totalParticipants = 0;
+    GKTurnBasedMatch *currentMatch = [[GCTurnBasedMatchHelper sharedInstance] currentMatch];
+    for (GKTurnBasedParticipant *p in currentMatch.participants) {
+        if (p.status == GKTurnBasedParticipantStatusActive || p.status == GKTurnBasedParticipantStatusDone || p.status == GKTurnBasedParticipantStatusInvited) {
+            totalParticipants++;
+        }
+    }
+    return totalParticipants;
 }
 
 
@@ -606,7 +623,6 @@
 
 
 - (void) advancePhase: (Phase) p{
-    NSLog(@"advancing phase to :%d",p);
     phase = p;
     [self advancePhase];
     
@@ -616,14 +632,20 @@
     
 }
 -(void)advancePhase{
-    NSArray *phaseText = @[@"Initial Phase", @"Construction Phase", @"Movement Phase",@"Recruitment Phase",@"Special Character Recruitment Phase", @"Combat Phase", @"Gold Collection Phase"];
+    NSArray *phaseText = @[@"Initial Phase", @"Construction Phase", @"Movement Phase",@"Recruitment Phase",@"Recruit Special Character", @"Combat Phase", @"Gold Collection Phase"];
     BOOL done = YES;
   
     
     
     //if its recruitment phase, 2 more recruits awarded
     if (phase == Recruitment) {
-        [self currentPlayer].recruitsRemaining+=2;
+        [self currentPlayer].recruitsRemaining += [[self currentPlayer] freeRecruitsCount]; //adds free recruits based on the rounded up # of terrains owned/2
+        [board updateRecruitLabel:[self currentPlayer]];
+    }
+    else if (phase == SpecialRecruitment){
+        NSLog(@"recruits before: %d",[self currentPlayer].recruitsRemaining);
+        [self currentPlayer].recruitsRemaining += [[self currentPlayer] freeRecruitsCount]; //have to make sure previous phase has been satisfied
+        [self currentPlayer].recruitsRemaining += 1; //adds free recruits based on the rounded up # of terrains owned/2
         [board updateRecruitLabel:[self currentPlayer]];
     }
     
@@ -687,7 +709,7 @@
         
         i++;
     }
-    //    NSLog(@"stacks array: %@",arrayStacks);
+    NSLog(@"stacks array: %@",arrayStacks);
     return arrayStacks;
 }
 
@@ -713,7 +735,7 @@
 - (NSArray *) getPlayerBuildingsAsDictionary{
     NSMutableArray *arrayStacks = [[NSMutableArray alloc] init];
     for (Player *p in players) {
-        NSLog(@"buildings array: %d",p.buildings.count);
+//        NSLog(@"buildings array: %d",p.buildings.count);
         [arrayStacks addObject:[p.buildings dictionize]];
     }
     return arrayStacks;

@@ -13,7 +13,7 @@
     SKSpriteNode* board;
 }
 
-@synthesize terrain, stage,combatValue,point,imageName,name,currentCombatValue,isNeutralised,cost,imageNode,combat;
+@synthesize terrain, stage,combatValue,point,imageName,name,currentCombatValue,isNeutralised,cost,combat;
 
 
 - (id)initWithStage:(Stage) s andTerrain: (Terrain *) t
@@ -103,17 +103,10 @@
 }
 
 -(BOOL)checkIfConstructionPossible:(Building*) newBuilding{
-
-//    if([node.accessibilityLabel isEqualToString:@"keep"] && [imageNode.accessibilityLabel isEqualToString:@"tower"])
-//        return YES;
-//    if([node.accessibilityLabel isEqualToString:@"castle"] && [imageNode.accessibilityLabel isEqualToString:@"keep"])
-//        return YES;
-//    if([node.accessibilityLabel isEqualToString:@"citadel"] && [imageNode.accessibilityLabel isEqualToString:@"castle"])
     if((newBuilding.stage - self.stage) == 1)
         return YES;
     else
        return NO;
-    
 }
 
 

@@ -41,8 +41,6 @@
     /* Called when a touch begins */
     UITouch *touch = [touches anyObject];
     CGPoint positionInScene = [touch locationInNode:self];
-    NSLog(@"location is x = %f , y = %f ",_selectedNode.position.x,_selectedNode.position.y);
-
     [self selectNodeForTouch:positionInScene];
     
 }
@@ -92,7 +90,7 @@
             _selectedNode.colorBlendFactor = 0;
         }
         		_selectedNode = touchedNode;
-       NSLog(@"node tapped:%@,  %f, %f", _selectedNode.class, _selectedNode.position.x, _selectedNode.position.y);
+//        NSLog(@"node tapped:%@,  %f, %f", _selectedNode.class, _selectedNode.position.x, _selectedNode.position.y);
         
         _selectedNode.color = [SKColor redColor];
         _selectedNode.colorBlendFactor = 0.5;
@@ -173,10 +171,9 @@ CGPoint mult(const CGPoint v, const CGFloat s) {
 
 }
 
-
-- (void) startSecondCombat{
-    [gameBoard.game initiateCombat:[gameBoard.game.players objectAtIndex:2]];
-}
+//- (void) startSecondCombat{
+//    [gameBoard.game initiateCombat:[gameBoard.game.players objectAtIndex:2]];
+//}
 -(void)update:(CFTimeInterval)currentTime {
     /* Called before each frame is rendered */
 }

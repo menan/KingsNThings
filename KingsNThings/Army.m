@@ -24,7 +24,6 @@
     if(self){
         creatures = [[NSMutableArray alloc]init];
         stepsMoved = 0;
-       // image = [[SKSpriteNode alloc]init];
     }
     return self;
 }
@@ -37,7 +36,6 @@
         creatures = [[NSMutableArray alloc]init];
         self.position = aPoint;
         stepsMoved = 0;
-        //image = [[SKSpriteNode alloc]init];
     }
     return self;
 }

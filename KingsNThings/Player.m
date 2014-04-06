@@ -7,6 +7,7 @@
 //
 
 #import "Player.h"
+#import "math.h"
 
 @implementation Player{
     NSMutableArray* territories;
@@ -15,7 +16,7 @@
 
 static int counter = -1;
 
-@synthesize stacks,playingOrder,bank,army,returnedCreatures, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat,playerLeft,movementsRemaining,rack,specialIncome,doneTurn,buildings;
+@synthesize stacks,playingOrder,bank,army,returnedCreatures, balance,recruitsRemaining,hasWonCombat,isWaitingCombat,combat,playerLeft,movementsRemaining,rack,specialIncome,doneTurn,buildings, specialRecruitsRemaining;
 
 -(id) init{
     
@@ -32,6 +33,7 @@ static int counter = -1;
         army = [[Army alloc]init];
         rack = [[NSMutableArray alloc]init];
         recruitsRemaining = 10;
+        specialRecruitsRemaining = 1;
         movementsRemaining = 4;
         returnedCreatures = 0;
         counter +=1;
@@ -47,9 +49,26 @@ static int counter = -1;
  
 }
 
+- (BOOL) containsTerrain: (Terrain *) terrain{
+    for (Terrain *myTerrain in territories) {
+        if (myTerrain.position.x == terrain.position.x && myTerrain.position.y == terrain.position.y) {
+            return YES;
+        }
+    }
+    return NO;
+    
+}
+
+//finds how much of free recruits can be awarded to this player
+- (int) freeRecruitsCount{
+    float recruitsFloat = (float)territories.count/2;
+    int freeRecruits = (int) ceilf(recruitsFloat);
+    return freeRecruits;
+}
+
 
 - (BOOL) setTerritory: (Terrain *) territory{
-    if(territory != nil && ![territories containsObject:territory]){
+    if(territory != nil && ![self containsTerrain:territory]){
         [territories addObject:territory];
 //        NSLog(@"player territory is set for : %@ %d , player is %d ", territory.name, [territories count],playingOrder);
         return YES;
@@ -125,9 +144,19 @@ static int counter = -1;
     return i;
 }
 
+//the other built in function doesnt work since it's not the same object were testing it again :(
+- (BOOL) containsBuilding:(Building *) b{
+    for (Building *myBuilding in buildings) {
+        if (myBuilding.position.x == b.position.x && myBuilding.position.y == b.position.y) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
 - (BOOL) setBuilding: (Building *) building{
-    NSLog(@"setBuilding: %@", building.terrain.name);
-    if (![buildings containsObject:building]) {
+//    NSLog(@"setBuilding: %@", building.terrain.name );
+    if (![self containsBuilding:building]) {
         [buildings addObject:building];
         return YES;
     }
@@ -190,7 +219,7 @@ static int counter = -1;
         
         //[arm setPosition:aPoint];
         [stacks addObject:arm];
-        NSLog(@"went in construct New Army and %d more recruits remaining", recruitsRemaining);
+//        NSLog(@"went in construct New Army and %d more recruits remaining", recruitsRemaining);
     }
     return arm;
    

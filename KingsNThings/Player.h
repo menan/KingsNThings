@@ -26,6 +26,7 @@
 @property Army* army;
 @property int balance; //to keep track of the paid amount to the bank when paid in 1s
 @property int recruitsRemaining;
+@property int specialRecruitsRemaining;
 @property int returnedCreatures;
 @property int movementsRemaining;
 @property BOOL hasWonCombat;
@@ -38,7 +39,7 @@
 
 - (id) init;
 
-
+- (int) freeRecruitsCount;
 - (BOOL) setBuilding: (Building *) building;
 - (BOOL) removeBuilding:(Building*) building;
 - (BOOL) setTerritory: (Terrain *) territory;

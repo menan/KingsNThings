@@ -30,13 +30,11 @@ typedef enum CombatType : NSUInteger {
 @property CombatType combat;
 @property Terrain *terrain;
 @property NSInteger combatValue ,currentCombatValue;
-//@property BOOL isMagic,isRanged,isMelee;
 @property BOOL isNeutralised;
 @property CGPoint point;
 @property NSString* imageName;
 @property NSString* name;
 @property NSInteger cost;
-@property SKNode *imageNode;
 
 - (id)initWithStage:(Stage) s andTerrain: (Terrain *) t;
 - (id) initWithBoard:(SKSpriteNode *)aBoard atPoint:(CGPoint)aPoint fromImage:(NSString *)image;
@@ -45,6 +43,4 @@ typedef enum CombatType : NSUInteger {
 -(BOOL)checkIfConstructionPossible:(Building*) newBuilding;
 
 
-
--(void) draw;
 @end

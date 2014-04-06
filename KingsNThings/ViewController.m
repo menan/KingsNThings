@@ -55,14 +55,6 @@
     scene.controller = self;
     scene.scaleMode = SKSceneScaleModeAspectFill;
     
-//    longPressRecognizer =
-//    [[UILongPressGestureRecognizer alloc]
-//     initWithTarget:scene
-//     action:@selector(longPressDetected:)];
-//    longPressRecognizer.minimumPressDuration = 2;
-//    longPressRecognizer.numberOfTouchesRequired = 1;
-//    [skView addGestureRecognizer:longPressRecognizer];
-
     [skView presentScene:scene];
 }
 
@@ -113,29 +105,28 @@
     
     Board *b = [scene getBoard];
     GamePlay *g = [scene getGame];
-//    [b showDone];
     if ([data bytes]) {
+        [b hideMarkersExceptCurrentPlayer];
+        
         NSDictionary *myDictionary = (NSDictionary*) [NSKeyedUnarchiver unarchiveObjectWithData:data];
         
         Phase p = [[myDictionary objectForKey:@"phase"] integerValue];
         
         
-        [b constructBowlFromDictionary:[myDictionary objectForKey:@"bowl"]];
         [b constructPlacemarkerFromDictionary:[myDictionary objectForKey:@"markers"]];
-        [b constructStackFromDictionary:[myDictionary objectForKey:@"stacks"]];
-        [b constructRackFromDictionary:[myDictionary objectForKey:@"racks"]];
         [b constructBuildingsFromDictionary:[myDictionary objectForKey:@"buildings"]];
-        [b setGoldsFromDictionary:[myDictionary objectForKey:@"balaçnce"]];
+        [b setGoldsFromDictionary:[myDictionary objectForKey:@"balance"]];
         
         
-        if (p == Initial) {
-            //            [b constructTerrainFromDictionary:[myDictionary objectForKey:@"terrains"]];
-//            [b constructPlacemarkerFromDictionary:[myDictionary objectForKey:@"markers"]];
-            
-        }
-        else if(p == GoldCollection){
+        if (p != Initial){
             [g advancePhase:p];
         }
+        
+        [b constructStackFromDictionary:[myDictionary objectForKey:@"stacks"]];
+        [b constructRackFromDictionary:[myDictionary objectForKey:@"racks"]];
+        
+        
+        [b constructBowlFromDictionary:[myDictionary objectForKey:@"bowl"]];
         
         NSLog(@"Taking turn for existing game with the received data...");
     }
@@ -169,13 +160,7 @@
 -(void)recieveEndGame:(GKTurnBasedMatch *)match {
     [self layoutMatch:match];
 }
-/*-(void) longPressDetected:(UIGestureRecognizer *)gestureRecognizer{
-    
-    CGPoint location = [gestureRecognizer locationInView:[gestureRecognizer view]];
-    
-    [scene respondToGesture:location];
-}
- */
+
 
 
 
