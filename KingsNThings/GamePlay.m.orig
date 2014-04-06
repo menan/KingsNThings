@@ -14,17 +14,18 @@
 #import "CombatPhase.h"
 #import "Board.h"
 #import "GCTurnBasedMatchHelper.h"
-
+#import "NSMutableArrayDictionize.h"
 @implementation GamePlay{
     MyScene *scene;
     NSMutableArray *servers;
     Board *board;
+    NSMutableArray* battles;
     
 }
 
 @synthesize me,oneDice,secondDice,players;
 
-@synthesize p1Stack1,p1Stack2,p2Stack1,p3Stack1,p3Stack2,p3Stack3,p4Stack1,p4Stack2,p4Stack3,goldPhase,terrains, isMovementPhase , isThingRecrPahse, isComabtPahse,isInitialPhase ,isConstructionPhase, scene,phase;
+@synthesize p1Stack1,p1Stack2,p2Stack1,p3Stack1,p3Stack2,p3Stack3,p4Stack1,p4Stack2,p4Stack3,terrains,scene,phase;
 
 
 -(id) initWithBoard:(id) b{
@@ -33,12 +34,10 @@
     if(self){
         board = (Board *) b;
         
-//        me = [[Player alloc] init];
-        players = [[NSMutableArray alloc] init];
-        
         players = [[NSMutableArray alloc] initWithObjects:[[Player alloc] init],[[Player alloc] init],[[Player alloc] init],[[Player alloc] init], nil];
+        
         terrains = [[NSMutableArray alloc]init];
-       
+        battles = [[NSMutableArray alloc]init];
         
         //[self setPlayerArmy];
         p1Stack1 = [[NSArray alloc]init];
@@ -56,13 +55,10 @@
         p4Stack2  = [[NSArray alloc]init];
         p4Stack3  = [[NSArray alloc]init];
     
-        goldPhase = NO;
-        isMovementPhase = NO;
-        isThingRecrPahse = NO;
-        isComabtPahse = NO;
-        isInitialPhase = YES;
+      
         oneDice = 0;
         secondDice = 0;
+        phase = Initial;
         
         [self advancePhase:Initial];
         
@@ -89,41 +85,46 @@
     
 }
 
-- (Player *) currentPlayer{
-    return [players objectAtIndex:0];
+
+- (int) currentPlayerId{
+    return [players indexOfObject: [self currentPlayer]];
 }
 
+- (Player *) currentPlayer{
+    GKTurnBasedMatch *currentMatch = [[GCTurnBasedMatchHelper sharedInstance] currentMatch];
+    int index = [currentMatch.participants indexOfObject:currentMatch.currentParticipant];
+//    NSLog(@"index of the player: %d",index);
+    return [players objectAtIndex:index];
+}
+
+- (int) totalPlayers{
+    int totalParticipants = 0;
+    GKTurnBasedMatch *currentMatch = [[GCTurnBasedMatchHelper sharedInstance] currentMatch];
+    for (GKTurnBasedParticipant *p in currentMatch.participants) {
+        if (p.status == GKTurnBasedParticipantStatusActive || p.status == GKTurnBasedParticipantStatusDone || p.status == GKTurnBasedParticipantStatusInvited) {
+            totalParticipants++;
+        }
+    }
+    return totalParticipants;
+}
+
+
+
+
+-(NSInteger)buildingCost{
+    if([players count] == 4)
+        return 20;
+    else
+        return 15;
+    
+    
+}
 -(void) assignScene:(MyScene*)sce{
     scene = sce;
 }
 
--(Terrain*) findTerrainAt:(CGPoint)thisPoint{
-for (Terrain *terrain in terrains) {
-    if (terrain.node.position.x == thisPoint.x && terrain.node.position.y == thisPoint.y) {
-        return terrain;
-    }
-}
-return NULL;
-}
 
-- (Player *) findPlayerByTerrain:(Terrain *) terrain{
-    for (Player *p in players) {
-        if ([[p getTerritories] containsObject:terrain]) {
-            return p;
-        }
-    }
-    return NULL;
-}
-- (NSMutableArray *) findPlayersByTerrain:(Terrain *) terrain{
-    NSMutableArray *playersArray = [[NSMutableArray alloc] init];
-    
-    for (Player *p in players) {
-        if ([[p getTerritories] containsObject:terrain]) {
-            [playersArray addObject:p];
-        }
-    }
-    return playersArray;
-}
+
 
 - (BOOL) recruitmentComplete{
     
@@ -169,50 +170,121 @@ return NULL;
 }
 
 
-
--(void) movementPhase:(Player *)player withArmy:(Army*)army{
-    NSLog(@"inside movementPhase");
-    NSLog(@" player is %d",[player playingOrder]);
-    Terrain* terrain = army.terrain;
-    Player *defender = [self findPlayerByTerrain:terrain];
-    NSLog(@"tempPlayer is %d , player is %d",[defender playingOrder],[player playingOrder]);
+-(void) movementPhase:(Player *)player withArmy:(Army*)army onTerrian:(Terrain *)newTerrain{
+    [self resetValues];
+//    NSLog(@"inside movementPhase");
+//    NSLog(@" player is %d",[player playingOrder]);
+    Terrain* oldTerrain = army.terrain;
+    Player *defender = [self findPlayerByTerrain:newTerrain];
+//    NSLog(@"tempPlayer is %d , player is %d",[defender playingOrder],[player playingOrder]);
     
     //to check to see if palyer only moved one hex
     BOOL validMove = NO;
     
-    //has to iterate through all terrains because they can be set in different orders for fuk sake lol
-    for (Terrain *t in [player getTerritories]) {
+        //Calculate if movement is valid
         
-        float dx = [t getAbsoluteX] - [terrain getAbsoluteX];
-        float dy = [t getAbsoluteY] - [terrain getAbsoluteY];
+        float dx = [newTerrain getAbsoluteX] - [oldTerrain getAbsoluteX];
+        float dy = [newTerrain getAbsoluteY] - [oldTerrain getAbsoluteY];
         
         float distance = sqrt(dx*dx + dy*dy); //uses pythagorean theorem to caculate the distance
         
         if (distance < 75) {
             validMove = YES;
         }
-        
+    if([newTerrain isEqual:army.terrain]){
+        validMove = NO;
     }
     
     
-    if (validMove) {
+    
+    if (validMove && [army stepsMoved] < 4 ) {
         //must be one hex
+        //[army setTerrain:newTerrain];
         
+        if([newTerrain.type isEqualToString:@"Swamp"]||
+           [newTerrain.type isEqualToString:@"Mountain"]||
+           [newTerrain.type isEqualToString:@"Forest"]||
+           [newTerrain.type isEqualToString:@"Jungle"]){
+            
+                [army updateMovingSteps:2];
+            
+        }
+        
+        else{
+            [army updateMovingSteps:1];
+        }
+        
+        //player is the owner of the terrain
         if([player isEqual:defender]){
             
-            NSLog(@"tinside if players are equal");
-            if([terrain hasArmyOnIt]){
-                Army *a = [player findArmyOnTerrain:terrain];
-                
-                if(([a creaturesInArmy] + [army creaturesInArmy]) > 10)
-                    NSLog(@"Invalid move cannot have more than 10 creatures on one terrain");
+//            NSLog(@"inside if players are equal");
+            
+            int counter = 0;
+            for(Army* s in player.stacks){
+                if([s.terrain isEqual:newTerrain])
+                    counter += [s creaturesInArmy];
             }
+            //Army *a = [player findArmyOnTerrain:newTerrain];
+            
+            if((counter + [army creaturesInArmy]) > 10){
+                NSLog(@"Invalid move cannot have more than 10 creatures on one terrain");
+                [army setPosition:oldTerrain.position];
+            }
+            else
+                [army setTerrain:newTerrain];
+            
         }
-<<<<<<< HEAD
+        //else if dude has army to deal with before he acquires this terrain
+        else if(![defender isEqual:player] && [self thereAreDefendersOnTerrain:newTerrain]){
+            
+            //if(defender){ // one owner of terrain
+            
+            //if([self thereAreDefendersOnTerrain:newTerrain]){
+            Army *defArmy = [defender findArmyOnTerrain:newTerrain];
+            Building* building = [defender getBuildingOnTerrain:newTerrain];
+            //SpecialIncome* sp = [defender getSpecialIncomeOnTerrain:newTerrain];
+            SpecialIncome* sp = [[SpecialIncome alloc]initWithImage:@"-n City -a 2" atPoint:newTerrain.position];
+            
+            if(building){
+                
+                [defArmy setBuilding:building];
+            }
+            
+            if([sp type] == Village || [sp type] == City){
+                [defArmy addCreatures:sp];
+            }
+            
+            CombatPhase* combat = [[CombatPhase alloc]initWithMarkerAtPoint:newTerrain.position onBoard:[board getBoard] andMainScene:[self scene]];
+            [combat setDefenderArmy:defArmy];
+            
+            [combat setDefender: defender];
+            [combat setAttacker:player];
+            [combat setAttackerArmy:army];
+            [combat setType:defendingHex];
+            
+            [battles addObject:combat];
+            
+            player.doneTurn=YES;
+            if(player.playingOrder == 1)
+                [self combatPhase];
+            //[self advancePhase:Combat];
+//            NSLog(@"tinside if players are NOT equal");
+            /*player.isWaitingCombat = YES;
+             [player.combat setObject:army forKey:@"withArmy"];
+             [player.combat setObject:defender forKey:@"andPlayer"];
+             [player.combat setObject:defArmy forKey:@"andDefenderArmy"];
+             //[player.combat setObject:YES forKey:@"isDefinding"];
+             */
+            
+            //}
+            
+            //}
+        }
         
-        else {
-            oneDice = 0;
-            secondDice = 0;
+        
+        else if(!defender && ([[self stacksOnTerrain:newTerrain] count] == 0)) { // no one owns terrain
+            //dude might fight with random creatures on the terrain since theres no one there.
+            
             NSLog(@"Inside explor");
             
             NSRunLoop *loop = [NSRunLoop currentRunLoop];
@@ -221,111 +293,222 @@ return NULL;
             {}
             
             if (oneDice == 1 || oneDice == 6 || secondDice == 1 || secondDice == 6){
-=======
-        else{
-            //dude has army to deal with before he acquires this terrain
-            if([terrain hasArmyOnIt]){
->>>>>>> 448d6c71e47c62ef81341b2e457909f084ab6e91
                 
-                Army *defArmy = [defender findArmyOnTerrain:terrain];
-                if([terrain hasBuilding]){
-                    [defArmy setBuilding:[defender getBuildingOnTerrain:terrain]];
-                }
-                NSLog(@"tinside if players are NOT equal");
-                player.isWaitingCombat = YES;
-                [player.combat setObject:army forKey:@"withArmy"];
-                [player.combat setObject:defender forKey:@"andPlayer"];
-                [player.combat setObject:defArmy forKey:@"andDefenderArmy"];
+                [army setTerrain:newTerrain];
+                [board captureHex:player atTerrain:newTerrain];
+                player.doneTurn=YES;
+                //[self advancePhase:Combat];
                 
-                NSLog(@"combat dictionary: %@",player.combat);
             }
             
-<<<<<<< HEAD
             else{ // random army should appear
-                Army* defender;
+                Army* defending;
                 if(oneDice >0){
-                    
-                  defender = [board createRandomArmy:oneDice atPoint:army.position andTerrain:terrain];
+                    defending = [board createRandomArmy:oneDice atPoint:army.position andTerrain:newTerrain];
                 }
                 else{
-                    defender = [board createRandomArmy:secondDice atPoint:army.position andTerrain:terrain];
-                }
-=======
-            else {
-                //dude is gonna fight with random creatures on the terrain since theres no one there.
->>>>>>> 448d6c71e47c62ef81341b2e457909f084ab6e91
-                
-                NSLog(@"Inside explor");
-                
-                NSRunLoop *loop = [NSRunLoop currentRunLoop];
-                
-                while ( ((oneDice == 0 ) && (secondDice == 0)) && [loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]])
-                {}
-                
-                if (oneDice == 1 || oneDice == 6 || secondDice == 1 || secondDice == 6){
-                    
-                    [terrain setHasArmyOnIt:NO];
-                    
-                    [board captureHex:player atTerrain:terrain];
+                    defending = [board createRandomArmy:secondDice atPoint:army.position andTerrain:newTerrain];
                 }
                 
-                else{ // random army should appear
-                    Army* defender;
-                    if(oneDice >0){
-                        defender = [board createRandomArmy:oneDice atPoint:army.position];
-                    }
-                    else{
-                        defender = [board createRandomArmy:secondDice atPoint:army.position];
-                    }
-                    
-                    Player* tempDefender = [[Player alloc] init ];
-                    [tempDefender setArmy:defender];
-                    player.isWaitingCombat = YES;
-                    [player.combat setObject:army forKey:@"withArmy"];
-                    [player.combat setObject:tempDefender forKey:@"andPlayer"];
-                    [player.combat setObject:defender forKey:@"andDefenderArmy"];
-                    
-                }
+                Player* tempDefender = [[Player alloc] init ];
+                [tempDefender setArmy:defending];
+                CombatPhase* combat = [[CombatPhase alloc]initWithMarkerAtPoint:newTerrain.position onBoard:[board getBoard] andMainScene:[self scene]];
+                [combat setDefenderArmy:defending];
+                [combat setDefender: tempDefender];
+                [combat setAttacker:player];
+                [combat setAttackerArmy:army];
+                [combat setType:exploration];
+                
+                [battles addObject:combat];
+                
+                //[army setName:@"bowl"];
+                
+                /* player.isWaitingCombat = YES;
+                 [player.combat setObject:army forKey:@"withArmy"];
+                 [player.combat setObject:tempDefender forKey:@"andPlayer"];
+                 [player.combat setObject:defender forKey:@"andDefenderArmy"];
+                 [player.combat setObject:NO forKey:@"isDefinding"];*/
+                
             }
         }
     }
-    else{
-        NSLog(@"user must have moved more than one hex, ignored");
-//        float xPos = [terrain getAbsoluteX];
-//        float yPos = [terrain getAbsoluteY];
-//        [army.image setPosition: CGPointMake(xPos, yPos)];
-    }
     
-    NSLog(@"combat over");
+    /*
+     //if a player ends movment on terrain owned but not defended
+    else if (defender && ![self thereAreDefendersOnTerrain:newTerrain]){ // defender without army
+        
+        [army setTerrain:newTerrain];
+        [defender removeTerrainfromTerritories:newTerrain];
+        //[player addNewTerrain:newTerrain];
+        [board captureHex:player atTerrain:newTerrain];
+        
+    }*/
+
+    
+    else {
+//        NSLog(@"user must have moved more than one hex, ignored");
+        //        float xPos = [terrain getAbsoluteX];
+        //        float yPos = [terrain getAbsoluteY];
+        [army setPosition: oldTerrain.position];
+    }
+  
 }
 
 
 
-- (void) initiateCombat: (Player*) p{
+/*- (void) initiateCombat: (Player*) p{
     NSLog(@"Player Playing order: %d", p.playingOrder);
     if (p.isWaitingCombat) {
         Army *a = [p.combat objectForKey:@"withArmy"];
         Player *defender = [p.combat objectForKey:@"andPlayer"];
         Army *defArmy = [p.combat objectForKey:@"andDefenderArmy"];
         p.isWaitingCombat = NO;
-        [self combatPhase:p withArmy:a andPlayer:defender withArmy:defArmy ];
+        BOOL type = [[p.combat objectForKey:@"isDefending"] intValue];
+        //[self combatPhase:p withArmy:a andPlayer:defender withArmy:defArmy isDefending:type];
     }
+}*/
+/*- (void) initiateCombat{
+    Player* attacker,*defender;
+    Army* attacking,*defending;
+    Terrain* combatPlace;
+    NSArray* players;
+    for(CombatPhase* combat in battles){
+        
+        combatPlace = [self findTerrainAt:[combat battle].position];
+        defender = [self findPlayerByTerrain:combatPlace];
+        players = [self findPlayersByTerrain:combatPlace];
+        
+        for(Player* p in players){
+            if(![p isEqual:defender]){
+                attacker = p;
+                break;
+            }
+        }
+        attacking = [attacker findArmyOnTerrain:combatPlace];
+        defending = [defender findArmyOnTerrain:combatPlace];
+        if(!defender)
+        
+        //[self combatPhase:attacker withArmy:attacking andPlayer:defender withArmy:defending isDefending:YES];
+        
+    }
+    
+    
 }
+*/
 
-
-
--(void) combatPhase:(Player *)attacker withArmy:(Army*)attackerArmy andPlayer:(Player*)defender withArmy:(Army*)defenderArmy{
-     NSLog(@"inside Combat phase");
-    CombatPhase* combat = [[CombatPhase alloc] initWithAttacker:attacker andDefender:defender andAttackerArmy:attackerArmy andDefenderArmy:defenderArmy andMainScene:scene];
+-(void) combatPhase{
+    NSLog(@"inside Combat phase");
+    //CombatPhase* combat ;
     
-    [combat drawScene];
-    
-    if([attacker hasWonCombat]){
+    for (CombatPhase* combat in battles){
+        [combat drawScene];
+        if([combat.attacker hasWonCombat]){
+            
+            
+        }
+        else if ([combat.defender hasWonCombat]){
+        }
+        for(Creature* cre in [combat thingsToBeReturned]){
+            [board returnThingToBowl:cre];
+        }
+        if([combat whoRetreated] == attackerRetreated){
+            
+        }
+        else if ([combat whoRetreated] == defenderRetreated){
+            
+            [board captureHex:[combat attacker] atTerrain:[combat attackerArmy].terrain];
+        }
+        
+    }
+    /*if([attacker hasWonCombat]){
+        
         
     }
     else if ([defender hasWonCombat]){
     }
-   }
+     */
+    
+    
+}
+-(void) postCombat:(Player*)winner andLoser:(Player*)loser andTerrain:(Terrain*)terrain{
+    oneDice = 0;
+    secondDice = 0;
+    int numOfRolles = 0;
+    
+    UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Post combat" message: @"Roll " delegate: self                                       cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
+    
+    [error show];
+    
+    if(![winner isEqual:loser]){
+        
+        if([loser getSpecialIncomeOnTerrain:terrain])
+            numOfRolles +=1;
+        if ([loser getBuildingOnTerrain:terrain])
+            numOfRolles +=1;
+        
+        
+        NSString* message = [NSString stringWithFormat:@"%@ %d %@",@"Roll one dice for ",numOfRolles,@" time(s)."];
+        
+        UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Post combat" message:message delegate: self cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
+        
+        [error show];
+        NSRunLoop *loop = [NSRunLoop currentRunLoop];
+        
+        for(int i = 0 ; i < numOfRolles;i++ ){
+        while ( (oneDice == 0) && (secondDice == 0) &&[loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]])
+        {}
+        
+        if (oneDice == 1 || oneDice == 6 || secondDice == 1 || secondDice == 6){
+            if(i == 0 ){
+                SpecialIncome* sp = [loser getSpecialIncomeOnTerrain:terrain];
+                [sp setInBowl:YES];
+                [board returnThingToBowl:sp];
+            }
+            if(i == 1){
+                Building* b = [loser getBuildingOnTerrain:terrain];
+                [b setStage:(b.stage-1)];
+                [b removeFromParent];
+                [b draw];
+            }
+        }
+        else {
+            if(i == 0 ){
+                SpecialIncome* sp = [loser getSpecialIncomeOnTerrain:terrain];
+                [[loser specialIncome] removeObject:sp];
+                [winner addSpecialIncome:sp];
+            }
+            if(i == 1){
+                Building* b = [loser getBuildingOnTerrain:terrain];
+                [loser removeBuilding:b];
+                [winner setBuilding:b];
+            }
+        }
+            
+        }
+        
+
+        
+    }
+    
+    
+}
+
+
+-(void) combatPhase:(Player *)attacker withArmy:(Army*)attackerArmy andPlayer:(Player*)defender withArmy:(Army*)defenderArmy{
+    NSLog(@"inside Combat phase");
+    //CombatPhase* combat ;
+    
+    for (CombatPhase* combat in battles){
+        [combat drawScene];
+    
+    }
+    if([attacker hasWonCombat]){
+        
+        
+    }
+    else if ([defender hasWonCombat]){
+    }
+}
 
 -(void) pahses:(NSString*)pahse{
     NSRunLoop *loop = [NSRunLoop currentRunLoop];
@@ -347,7 +530,7 @@ return NULL;
             [terrainStrings addObject:t.type];
         }
     }
-    for (Army * army in player.armies) {
+    for (Army * army in player.stacks) {
         for (Creature *c in army.creatures) {
             if ([c.name hasSuffix:@"Lord"] || [c.name hasSuffix:@"King"] || [c.name hasSuffix:@"Master"]){
                 //dude gets to support other creatures in the territory who don't belong in there
@@ -362,7 +545,7 @@ return NULL;
     
     NSLog(@"terrain strings :%@",terrainStrings);
     int affected = 0;
-    for (Army * army in player.armies) {
+    for (Army * army in player.stacks) {
         for (Creature *c in army.creatures) {
             if (![terrainStrings containsObject:c.terrainType]) {
                 c.isBluff = YES;
@@ -414,7 +597,7 @@ return NULL;
         //if you choose 5, battle is fought as usual
     }
     else if ([creature.name isEqualToString: @"Master Thief"]){
-        //you steal shit based by comparing the role and combat value
+        //you steal things based by comparing the role and combat value :/
     }
     else if ([creature.name isEqualToString: @"Sword Master"]){
         //when this dude is hit, you roll a dice if its 1/6 he dies or else he comes back for next session
@@ -440,12 +623,176 @@ return NULL;
 
 
 - (void) advancePhase: (Phase) p{
-    NSLog(@"advancing phase to :%d",p);
     phase = p;
-    NSArray *phaseText = @[@"Initial Phase", @"Construction Phase", @"Movement Phase",@"Recruitment Phase",@"Special Character Recruitment Phase", @"Combat Phase", @"Gold Collection Phase"];
-    board.textLabel.text = [phaseText objectAtIndex:p];
+    [self advancePhase];
+    
+    //if(one turn has finished){
+      //[self checkForWinner];
+    //}
     
 }
+-(void)advancePhase{
+    NSArray *phaseText = @[@"Initial Phase", @"Construction Phase", @"Movement Phase",@"Recruitment Phase",@"Recruit Special Character", @"Combat Phase", @"Gold Collection Phase"];
+    BOOL done = YES;
+  
+    
+    
+    //if its recruitment phase, 2 more recruits awarded
+    if (phase == Recruitment) {
+        [self currentPlayer].recruitsRemaining += [[self currentPlayer] freeRecruitsCount]; //adds free recruits based on the rounded up # of terrains owned/2
+        [board updateRecruitLabel:[self currentPlayer]];
+    }
+    else if (phase == SpecialRecruitment){
+        NSLog(@"recruits before: %d",[self currentPlayer].recruitsRemaining);
+        [self currentPlayer].recruitsRemaining += [[self currentPlayer] freeRecruitsCount]; //have to make sure previous phase has been satisfied
+        [self currentPlayer].recruitsRemaining += 1; //adds free recruits based on the rounded up # of terrains owned/2
+        [board updateRecruitLabel:[self currentPlayer]];
+    }
+    
+<<<<<<< HEAD
+   /*
+    if( && [battles count]>0){
+          if(phase == Combat){
+=======
+    
+    if(done && [battles count] > 0){
+        phase += 1;
+        if(phase == Combat){
+>>>>>>> b4ee6cc52d52aadee54a8809197acf3d481c5626
+            [self combatPhase];
+        }
+    }*/
+    board.textLabel.text = [phaseText objectAtIndex:phase];
+}
+
+
+-(Player*) checkForWinner{
+    Player* winner;
+    int counter = 0;
+    for(Player* p in players){
+        if([p hasCitadel]){
+            winner = p;
+            counter +=1;
+        }
+    }
+    if(counter==1)
+        return winner;
+    else
+        return nil;
+    
+}
+
+
+
+#pragma get player info as dictionary for networking
+
+- (NSDictionary *) getBoardAsADictionary{
+    
+    NSMutableDictionary *dicData = [[NSMutableDictionary alloc] init];
+    
+    NSNumber *phaseNS = [NSNumber numberWithInt:phase];
+    [dicData setObject:phaseNS forKey:@"phase"];
+    [dicData setObject:board.terrainsDictionary forKey:@"terrains"];
+    [dicData setObject:board.markersArray forKey:@"markers"];
+    [dicData setObject:[self getPlayerStacksAsDictionary] forKey:@"stacks"];
+    [dicData setObject:[self getPlayerRackAsDictionary] forKey:@"racks"];
+    [dicData setObject:[board.bowl dictionize] forKey:@"bowl"];
+    [dicData setObject:[self getPlayerBuildingsAsDictionary] forKey:@"buildings"];
+    [dicData setObject:[self getGoldsAsDictionary] forKey:@"balance"];
+    
+    return dicData;
+}
+
+
+- (NSArray *) getPlayerStacksAsDictionary{
+    NSMutableArray *arrayStacks = [[NSMutableArray alloc] init];
+    int i = 0;
+    for (Player *p in players) {
+        NSMutableArray *playerArray = [p.stacks dictionize];
+        NSMutableDictionary *playerDict = [[NSMutableDictionary alloc] init];
+        [playerDict setObject:playerArray forKey:@"armies"];
+        [playerDict setObject:[NSNumber numberWithInt:i] forKey:@"playerId"];
+        [arrayStacks addObject:playerDict];
+        
+        i++;
+    }
+    NSLog(@"stacks array: %@",arrayStacks);
+    return arrayStacks;
+}
+
+
+- (NSArray *) getPlayerRackAsDictionary{
+    NSMutableArray *arrayStacks = [[NSMutableArray alloc] init];
+    int i = 0;
+    for (Player *p in players) {
+        NSMutableArray *playerArray = [p.rack dictionize];
+        NSMutableDictionary *playerDict = [[NSMutableDictionary alloc] init];
+        [playerDict setObject:playerArray forKey:@"armies"];
+        [playerDict setObject:[NSNumber numberWithInt:i] forKey:@"playerId"];
+        [arrayStacks addObject:playerDict];
+        
+        i++;
+    }
+    //    NSLog(@"stacks array: %@",arrayStacks);
+    return arrayStacks;
+}
+
+
+
+- (NSArray *) getPlayerBuildingsAsDictionary{
+    NSMutableArray *arrayStacks = [[NSMutableArray alloc] init];
+    for (Player *p in players) {
+//        NSLog(@"buildings array: %d",p.buildings.count);
+        [arrayStacks addObject:[p.buildings dictionize]];
+    }
+    return arrayStacks;
+}
+
+
+- (NSArray *) getGoldsAsDictionary{
+    NSMutableArray *arrayStacks = [[NSMutableArray alloc] init];
+    int i = 0;
+    for (Player *p in players) {
+        NSMutableDictionary *playerDict = [[NSMutableDictionary alloc] init];
+        
+        NSMutableDictionary *gold = [[NSMutableDictionary alloc] init];
+        
+        [gold setValue:[NSNumber numberWithInt:p.bank.oneGold] forKey:@"1s"];
+        [gold setValue:[NSNumber numberWithInt:p.bank.twoGold] forKey:@"2s"];
+        [gold setValue:[NSNumber numberWithInt:p.bank.fiveGold] forKey:@"5s"];
+        [gold setValue:[NSNumber numberWithInt:p.bank.tenGold] forKey:@"10s"];
+        [gold setValue:[NSNumber numberWithInt:p.bank.fifteenGold] forKey:@"15s"];
+        [gold setValue:[NSNumber numberWithInt:p.bank.twentyGold] forKey:@"20s"];
+        
+        
+        [playerDict setObject:gold forKey:@"golds"];
+        
+        [playerDict setObject:[NSNumber numberWithInt:i] forKey:@"playerId"];
+        [arrayStacks addObject:playerDict];
+        i++;
+    }
+    
+    
+    NSMutableDictionary *playerDict = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *gold = [[NSMutableDictionary alloc] init];
+    
+    [gold setValue:[NSNumber numberWithInt:board.bank.oneGold] forKey:@"1s"];
+    [gold setValue:[NSNumber numberWithInt:board.bank.twoGold] forKey:@"2s"];
+    [gold setValue:[NSNumber numberWithInt:board.bank.fiveGold] forKey:@"5s"];
+    [gold setValue:[NSNumber numberWithInt:board.bank.tenGold] forKey:@"10s"];
+    [gold setValue:[NSNumber numberWithInt:board.bank.fifteenGold] forKey:@"15s"];
+    [gold setValue:[NSNumber numberWithInt:board.bank.twentyGold] forKey:@"20s"];
+    
+    
+    [playerDict setObject:gold forKey:@"golds"];
+    
+    [playerDict setObject:[NSNumber numberWithInt:-1] forKey:@"playerId"];
+    [arrayStacks addObject:playerDict];
+    
+    
+    return arrayStacks;
+}
+
 
 
 #pragma GameCenter Functions
@@ -455,7 +802,9 @@ return NULL;
     [[GCTurnBasedMatchHelper sharedInstance] findMatchWithMinPlayers:2 maxPlayers:4 viewController:scene.controller];
 }
 
-- (void) endTurn:(id)sender {
+
+
+- (void) endMatch:(id)sender {
     GKTurnBasedMatch *currentMatch = [[GCTurnBasedMatchHelper sharedInstance] currentMatch];
     NSString *text = @"Suppp!!";
     NSData *data = [text dataUsingEncoding:NSUTF8StringEncoding];
@@ -469,9 +818,278 @@ return NULL;
         }
     }];
 }
--(void) specialCharactersRecruiting:(Player*) player{
+
+- (void)endTurn:(id)sender {
+    GKTurnBasedMatch *currentMatch = [[GCTurnBasedMatchHelper sharedInstance] currentMatch];
+    
+    NSLog(@"current phase: %d",phase);
     
     
+    if (currentMatch) {
+        NSUInteger currentIndex = [currentMatch.participants indexOfObject:currentMatch.currentParticipant];
+        GKTurnBasedParticipant *nextParticipant;
+        
+        
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:[self getBoardAsADictionary]];
+        
+        
+        NSUInteger nextIndex = (currentIndex + 1) % [currentMatch.participants count];
+        nextParticipant = [currentMatch.participants objectAtIndex:nextIndex];
+        
+        int index = nextIndex;
+        
+        while (nextParticipant.status != GKTurnBasedParticipantStatusActive && nextParticipant.status != GKTurnBasedParticipantStatusInvited) {
+            index ++;
+            NSUInteger nextIndex = index % [currentMatch.participants count];
+            NSLog(@"current player id %d, status: %d",currentIndex, nextParticipant.status);
+            nextParticipant = [currentMatch.participants objectAtIndex:nextIndex];
+        }
+        
+        board.doneButton.hidden = YES;
+        board.canTapDone = NO;
+        NSArray *nextParticipants = [[NSArray alloc] initWithObjects:nextParticipant,nil];
+
+        NSTimeInterval interval = 3600;
+        
+        [currentMatch endTurnWithNextParticipants:nextParticipants turnTimeout:interval matchData:data completionHandler:^(NSError *error) {
+            if (error) {
+                NSLog(@"%@", error);
+                //                statusLabel.text = @"Oops, there was a problem.  Try that again.";
+            } else {
+                NSLog(@"done ending turn : %@",nextParticipant);
+                //                statusLabel.text = @"Your turn is over.";
+                //                textInputField.enabled = NO;
+            }
+        }];
+    }
+    else{
+        NSLog(@"No matches present b.");
+    }
+    
+    
+}
+
+
+
+-(BOOL) validateHex:(Terrain*)terrain forPlayer:(Player*)player{
+    
+    BOOL validMove = YES;
+    NSMutableArray* temp = [self getOthersTerrains:player];
+        //has to iterate through all terrains because they can be set in different orders for fuk sake lol
+    for (NSMutableArray *arr in temp) {
+        for(Terrain* t in arr){
+            float dx = [t getAbsoluteX] - [terrain getAbsoluteX];
+            float dy = [t getAbsoluteY] - [terrain getAbsoluteY];
+        
+            float distance = sqrt(dx*dx + dy*dy); //uses pythagorean theorem to caculate the distance
+        
+            if (distance < 75) {
+                validMove = NO;
+                break;
+            }
+        }
+        
+    }
+    return validMove;
+    
+}
+
+-(NSMutableArray*) getOthersTerrains:(Player*) player{
+    
+    NSMutableArray* tempArray = [[NSMutableArray alloc]init];
+    
+    for(Player* p in players){
+        
+        if(![p isEqual:player]){
+            [tempArray addObject:[p getTerritories]];
+        }
+        
+    }
+    
+    return tempArray;
+}
+
+-(BOOL) isHexAdjacent:(Terrain*)terrain forPlayer:(Player*)p{
+    BOOL validMove = NO;
+    NSMutableArray* temp = [p getTerritories];
+    
+    for(Terrain* t in temp){
+        float dx = [t getAbsoluteX] - [terrain getAbsoluteX];
+        float dy = [t getAbsoluteY] - [terrain getAbsoluteY];
+        
+        float distance = sqrt(dx*dx + dy*dy); //uses pythagorean theorem to caculate the distance
+        
+        if (distance < 75) {
+            validMove = YES;
+            
+        }
+    }
+    if([temp count] == 0){
+        validMove = YES;
+    }
+    
+    return validMove;
+    
+   
+}
+
+
+// =============================================
+// please use these helper functions.
+
+
+
+//locates the terrain at a specific point
+-(Terrain*) findTerrainAt:(CGPoint)thisPoint{
+    for (Terrain *terrain in terrains) {
+        if (terrain.position.x == thisPoint.x && terrain.position.y == thisPoint.y) {
+            return terrain;
+        }
+    }
+    return nil;
+}
+
+//locates terrain class object around the current point
+- (Terrain *) locateTerrainAt:(CGPoint)thisPoint{
+    NSArray * nodes = [[board getBoard] nodesAtPoint:thisPoint];
+    
+    for (id node in nodes) {
+        if ([node isKindOfClass:[Terrain class]]) {
+//            NSLog(@"terrain located");
+            return node;
+        }
+    }
+    return nil;
+    
+    
+//    for (Terrain *terrain in terrains) {
+//        if (terrain.position.x == thisPoint.x && terrain.position.y == thisPoint.y) {
+//            return terrain;
+//        }
+//    }
+}
+
+
+//returns the owner of the hex
+- (Player *) findPlayerByTerrain:(Terrain *) terrain{
+    for (Player *p in players) {
+        if ([[p getTerritories] containsObject:terrain]) {
+            return p;
+        }
+    }
+    return nil;
+}
+
+
+//returns the total number of users in the terrain
+//I think it should be used only when we need to find multiple users becoz a terrain will not alwys has army
+- (NSArray *) findPlayersByArmyOnTerrain:(Terrain *) terrain{
+    NSMutableArray *playersArray = [[NSMutableArray alloc] init];
+    
+    for (Player *p in players) {
+        for (Army * a in p.stacks) {
+            if ([a.terrain isEqual:terrain]) {
+                [playersArray addObject:p];
+            }
+        }
+    }
+    return playersArray;
+}
+
+- (NSArray *) findPlayersByTerrain:(Terrain *) terrain{
+    NSMutableArray *playersArray = [[NSMutableArray alloc] init];
+    
+    for (Player *p in players) {
+        for (Army * a in p.stacks) {
+            if ([a.terrain isEqual:terrain]) {
+                [playersArray addObject:p];
+                break;
+            }
+        }
+    }
+    return playersArray;
+}
+
+-(Player*) findPlayerArmy:(Army*) army{
+    
+    for(Player* p in players){
+        if([p.stacks containsObject:army])
+            return p;
+    }
+    return nil;
+}
+
+//returns current users on the terrain except the owner
+- (NSArray *) findAttackersByTerrain:(Terrain *) terrain{
+    NSMutableArray *playersArray = [self findPlayersByTerrain:terrain];
+    Player *owner = [self findPlayerByTerrain:terrain];
+    
+    if ([playersArray containsObject:owner]) {
+        [playersArray removeObject:owner];
+    }
+    return playersArray;
+    
+}
+
+
+//tells you if theres an defending thing present on the provided terrain
+- (BOOL) thereAreDefendersOnTerrain:(Terrain *) terrain{
+   
+        for(Player* p in players){
+            for(Army* army in [p stacks]){
+                if([army.terrain isEqual:terrain])
+                    return YES;
+            }
+            if([p getSpecialIncomeOnTerrain:terrain].type == City ||
+                [p getSpecialIncomeOnTerrain:terrain].type ==Village ||
+                [p getBuildingOnTerrain:terrain]){
+                return YES;
+                
+            }
+        }
+        
+    
+    return NO;
+}
+
+- (BOOL) thereIsArmyOnTerrain:(Terrain *) terrain{
+    NSArray* playersOnTerrain =[self findPlayersByTerrain:terrain];
+    if (playersOnTerrain.count > 0) {
+        for(Player* p in playersOnTerrain){
+            for(Army* army in [p stacks]){
+                if([army.terrain isEqual:terrain])
+                    return YES;
+            }
+        }
+        
+    }
+    return NO;
+}
+
+
+-(NSArray *) stacksOnTerrain:(Terrain*)terrain{
+    NSMutableArray* stacks = [[NSMutableArray alloc]init];
+    NSArray* playersOnTerrain =[self findPlayersByTerrain:terrain];
+    for(Player* p in playersOnTerrain){
+        for(Army* aStack in [p stacks]){
+            if([aStack.terrain isEqual:terrain])
+                [stacks addObject:aStack];
+        }
+    }
+
+    return stacks;
+}
+
+// to reset all values used in some phases like moving steps and battles array
+-(void) resetValues{
+    
+    [battles removeAllObjects];
+    
+    for(Player* p in players){
+        for(Army* army in p.stacks){
+            [army resetMovingSteps];
+        }
+    }
 }
 
 @end

@@ -118,6 +118,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     
     [self hardCodeTerrains];
     
+    //[self randomTerrains];
     [self drawMarkers];
     
     //    [self drawRack:CGPointMake(620.0f, (size.height) - 55)];
@@ -619,13 +620,15 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 }
 
 - (void) rollDiceOne{
+    diceOneLabel.text = [NSString stringWithFormat:@"%d",0];
+
     int r = (arc4random() % 6) + 1;
     diceOneLabel.text = [NSString stringWithFormat:@"%d",r];
     
     [game setOneDice:r];
 }
 - (void) rollDiceTwo{
-    
+     diceTwoLabel.text = [NSString stringWithFormat:@"%d",0];
     int r = 6; //(arc4random() % 6) + 1 ;
     diceTwoLabel.text = [NSString stringWithFormat:@"%d",r];
     
@@ -634,8 +637,139 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 }
 
 
+-(void) randomTerrains{
+    
+    terrainsLayout = [game terrains];
+    NSMutableArray* terrains = [[NSMutableArray alloc]init];
+    
+    NSArray* terrainPositions =[[NSArray alloc]initWithObjects:[NSValue valueWithCGPoint:CGPointMake( 241.500000, 250.250000)],
+                                [NSValue valueWithCGPoint:CGPointMake(242.250000, 322.250000)],
+                                [NSValue valueWithCGPoint:CGPointMake(303.250000, 284.750000)],
+                                [NSValue valueWithCGPoint:CGPointMake(303.000000, 213.500000)],
+                                [NSValue valueWithCGPoint:CGPointMake(241.000000, 179.750000)],
+                                [NSValue valueWithCGPoint:CGPointMake(179.500000, 216.500000)],
+                                [NSValue valueWithCGPoint:CGPointMake(180.250000, 287.750000)],
+                                [NSValue valueWithCGPoint:CGPointMake(180.250000, 358.250000)],
+                                [NSValue valueWithCGPoint:CGPointMake(242.250000, 394.250000)],
+                                [NSValue valueWithCGPoint:CGPointMake(303.750000, 356.750000)],
+                                [NSValue valueWithCGPoint:CGPointMake(365.500000, 320.000000)],
+                                [NSValue valueWithCGPoint:CGPointMake(364.500000, 248.750000)],
+                                [NSValue valueWithCGPoint:CGPointMake(363.250000, 177.500000)],
+                                [NSValue valueWithCGPoint:CGPointMake(302.500000, 143.750000)],
+                                [NSValue valueWithCGPoint:CGPointMake(239.500000, 109.250000)],
+                                [NSValue valueWithCGPoint:CGPointMake(178.500000, 145.250000)],
+                                [NSValue valueWithCGPoint:CGPointMake(118.000000, 181.250000)],
+                                [NSValue valueWithCGPoint:CGPointMake(118.000000, 253.250000)],
+                                [NSValue valueWithCGPoint:CGPointMake(118.500000, 323.750000)],
+                                [NSValue valueWithCGPoint:CGPointMake(119.250000, 395.750000)],
+                                [NSValue valueWithCGPoint:CGPointMake(181.500000, 430.250000)],
+                                [NSValue valueWithCGPoint:CGPointMake(244.000000, 465.500000)],
+                                [NSValue valueWithCGPoint:CGPointMake(305.250000, 428.750000)],
+                                [NSValue valueWithCGPoint:CGPointMake(366.000000, 391.250000)],
+                                [NSValue valueWithCGPoint:CGPointMake(427.500000, 354.500000)],
+                                [NSValue valueWithCGPoint:CGPointMake(426.250000, 283.250000)],
+                                [NSValue valueWithCGPoint:CGPointMake(426.000000, 212.750000)],
+                                [NSValue valueWithCGPoint:CGPointMake(424.750000, 141.500000)],
+                                [NSValue valueWithCGPoint:CGPointMake(363.000000, 106.250000)],
+                                [NSValue valueWithCGPoint:CGPointMake(301.000000, 72.500000)],
+                                [NSValue valueWithCGPoint:CGPointMake(238.500000, 38.000000)],
+                                [NSValue valueWithCGPoint:CGPointMake(177.750000, 74.000000)],
+                                [NSValue valueWithCGPoint:CGPointMake(117.750000, 110.750000)],
+                                [NSValue valueWithCGPoint:CGPointMake(57.000000, 145.250000)],
+                                [NSValue valueWithCGPoint:CGPointMake(56.500000, 217.250000)],
+                                [NSValue valueWithCGPoint:CGPointMake(57.000000, 288.500000)],
+                                [NSValue valueWithCGPoint:CGPointMake(57.750000, 359.000000)],
+                                nil];
+    int seaCounter = 0;
+    /*for(int i = 0 ; i < [terrainPositions count]; i++){
+        int random =(arc4random() % [terrainNames count]);
+        if([[terrainNames objectAtIndex:random ] isEqualToString:@"Sea"])
+            ++seaCounter;
+            
+        [terrains addObject:[terrainNames objectAtIndex:random ]];
+        
+    }*/
+    for(int i = 0 ; i < [terrainPositions count];i++){
+        
+        CGPoint aPoint =[[terrainPositions objectAtIndex:i] CGPointValue];
+        [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint:aPoint imageNamed:[terrains objectAtIndex:i] andTerrainName:[terrains objectAtIndex:i]]];
+        
+    }
+    
+    self.terrainsDictionary = [[NSMutableArray alloc] init];
+    for (Terrain * terrain in terrainsLayout) {
+        terrain.name = @"bowl";
+        [terrain draw];
+        
+        NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:@"x", [NSNumber numberWithFloat:terrain.position.x],@"y", [NSNumber numberWithFloat:terrain.position.y], @"imageNamed", terrain.imageName, @"terrainName",terrain.name, nil];
+        [self.terrainsDictionary addObject:dict];
+        
+    }
 
+}
 - (void) hardCodeTerrains{
+    terrainsLayout = [game terrains];
+    
+    NSArray* terrainPositions =[[NSArray alloc]initWithObjects:[NSValue valueWithCGPoint:CGPointMake( 241.500000, 250.250000)],
+                                [NSValue valueWithCGPoint:CGPointMake(242.250000, 322.250000)],
+                                [NSValue valueWithCGPoint:CGPointMake(303.250000, 284.750000)],
+                                [NSValue valueWithCGPoint:CGPointMake(303.000000, 213.500000)],
+                                [NSValue valueWithCGPoint:CGPointMake(241.000000, 179.750000)],
+                                [NSValue valueWithCGPoint:CGPointMake(179.500000, 216.500000)],
+                                [NSValue valueWithCGPoint:CGPointMake(180.250000, 287.750000)],
+                                [NSValue valueWithCGPoint:CGPointMake(180.250000, 358.250000)],
+                                [NSValue valueWithCGPoint:CGPointMake(242.250000, 394.250000)],
+                                [NSValue valueWithCGPoint:CGPointMake(303.750000, 356.750000)],
+                                [NSValue valueWithCGPoint:CGPointMake(365.500000, 320.000000)],
+                                [NSValue valueWithCGPoint:CGPointMake(364.500000, 248.750000)],
+                                [NSValue valueWithCGPoint:CGPointMake(363.250000, 177.500000)],
+                                [NSValue valueWithCGPoint:CGPointMake(302.500000, 143.750000)],
+                                [NSValue valueWithCGPoint:CGPointMake(239.500000, 109.250000)],
+                                [NSValue valueWithCGPoint:CGPointMake(178.500000, 145.250000)],
+                                [NSValue valueWithCGPoint:CGPointMake(118.000000, 181.250000)],
+                                [NSValue valueWithCGPoint:CGPointMake(118.000000, 253.250000)],
+                                [NSValue valueWithCGPoint:CGPointMake(118.500000, 323.750000)],
+                                [NSValue valueWithCGPoint:CGPointMake(119.250000, 395.750000)],
+                                [NSValue valueWithCGPoint:CGPointMake(181.500000, 430.250000)],
+                                [NSValue valueWithCGPoint:CGPointMake(244.000000, 465.500000)],
+                                [NSValue valueWithCGPoint:CGPointMake(305.250000, 428.750000)],
+                                [NSValue valueWithCGPoint:CGPointMake(366.000000, 391.250000)],
+                                [NSValue valueWithCGPoint:CGPointMake(427.500000, 354.500000)],
+                                [NSValue valueWithCGPoint:CGPointMake(426.250000, 283.250000)],
+                                [NSValue valueWithCGPoint:CGPointMake(426.000000, 212.750000)],
+                                [NSValue valueWithCGPoint:CGPointMake(424.750000, 141.500000)],
+                                [NSValue valueWithCGPoint:CGPointMake(363.000000, 106.250000)],
+                                [NSValue valueWithCGPoint:CGPointMake(301.000000, 72.500000)],
+                                [NSValue valueWithCGPoint:CGPointMake(238.500000, 38.000000)],
+                                [NSValue valueWithCGPoint:CGPointMake(177.750000, 74.000000)],
+                                [NSValue valueWithCGPoint:CGPointMake(117.750000, 110.750000)],
+                                [NSValue valueWithCGPoint:CGPointMake(57.000000, 145.250000)],
+                                [NSValue valueWithCGPoint:CGPointMake(56.500000, 217.250000)],
+                                [NSValue valueWithCGPoint:CGPointMake(57.000000, 288.500000)],
+                                [NSValue valueWithCGPoint:CGPointMake(57.750000, 359.000000)],
+                                nil];
+    NSArray* terrains = @[@"Swamp",@"Sea",@"Plains",@"Frozen Waste",@"Desert",@"Forest",@"Mountain",@"Desert",@"Swamp",@"Mountain",@"Forest",@"Desert",@"Forest"
+                          ,@"Jungle",@"Mountain",@"Plains",@"Sea",@"Mountain",@"Frozen Waste",@"Swamp",@"Plains",@"Sea",@"Jungle",@"Frozen Waste",@"Plains",@"Frozen Waste",@"Swamp",@"Desert",@"Desert",@"Frozen Waste",@"Mountain",@"Forest"
+                          ,@"Swamp",@"Sea",@"Swamp",@"Forest",@"Plains"];
+    for(int i = 0 ; i < [terrainPositions count];i++){
+        
+        CGPoint aPoint =[[terrainPositions objectAtIndex:i] CGPointValue];
+        [terrainsLayout addObject:[[Terrain alloc] initWithBoard:board atPoint:aPoint imageNamed:[terrains objectAtIndex:i] andTerrainName:[terrains objectAtIndex:i]]];
+        
+    }
+    
+    self.terrainsDictionary = [[NSMutableArray alloc] init];
+    for (Terrain * terrain in terrainsLayout) {
+        terrain.name = @"bowl";
+        [terrain draw];
+        
+        NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:@"x", [NSNumber numberWithFloat:terrain.position.x],@"y", [NSNumber numberWithFloat:terrain.position.y], @"imageNamed", terrain.imageName, @"terrainName",terrain.name, nil];
+        [self.terrainsDictionary addObject:dict];
+         
+    }
+}
+
+/*- (void) hardCodeTerrains{
     terrainsLayout = [game terrains];
     
     
@@ -701,9 +835,9 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         
         NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:@"x", [NSNumber numberWithFloat:terrain.position.x],@"y", [NSNumber numberWithFloat:terrain.position.y], @"imageNamed", terrain.imageName, @"terrainName",terrain.name, nil];
         [self.terrainsDictionary addObject:dict];
-         
+        
     }
-}
+}*/
 
 - (Creature *) findCreatureByName:(NSString *) name{
     //    NSLog(@"trying to located node wiht name %@",name);
@@ -1213,7 +1347,24 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 
 - (BOOL) setTerrain:(Terrain *) temp forPlayer:(Player *) p{
     if([game phase] == Initial){
-        if([[p getTerritories] count] < 3){
+        if([[p getTerritories] count] ==0){
+            if([initialPositions containsObject:[NSValue valueWithCGPoint:temp.position]]){
+                if ([p setTerritory:temp]){
+                    [markersArray addObject:
+                     [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:(temp.position.x + 10)],@"X",[NSNumber numberWithFloat:(temp.position.y + 22)],@"Y",[NSNumber numberWithInt:p.playingOrder],@"playerId", nil]];
+                    [self showDone];
+                    return YES;
+                }
+            }
+
+            else{
+                UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"incorrect hex" message: @"Your first hex must be one of the four initial positions" delegate: self                                       cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                
+                [error show];
+                return NO;
+            }
+        }
+        else if([[p getTerritories] count] < 3){
             if([game validateHex:temp forPlayer:p] && [game isHexAdjacent:temp forPlayer:p] && ![temp.type isEqualToString:@"Sea"]){
                 if ([p setTerritory:temp]){
                     [markersArray addObject:
@@ -1224,14 +1375,21 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             }
             else{
                 NSLog(@"hex was not validated");
+                UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"incorrect hex" message: @"Your new hex must be adjacent to at least one of your previous ones" delegate: self                                       cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                
+                [error show];
                 return NO;
             }
         }
         else{
             NSLog(@"player already has 3 terrains tho");
+            UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Only 3 hexes" message: @"At this stage of game only 3 hexes allowed" delegate: self                                       cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+            
+            [error show];
             return NO;
         }
     }
+
     else{
         if ([p setTerritory:temp]){
             [self showDone];
