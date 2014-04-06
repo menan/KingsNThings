@@ -124,7 +124,7 @@
     
     Board *b = [scene getBoard];
     GamePlay *g = [scene getGame];
-    [b checkForTotalPlayers];
+//    [b checkForTotalPlayers];
     if ([data bytes]) {
         b.avoidChecks = YES;
         
