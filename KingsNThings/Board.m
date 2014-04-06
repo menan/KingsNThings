@@ -1721,9 +1721,12 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 SpecialIncome *item = [[SpecialIncome alloc] initWithBoard:board atPoint:loc fromString:creatureName];
                 Terrain* t = nil;
                 
-                if (playerId == [game currentPlayer].playingOrder) {
+                if (playerId == [game currentPlayerId]) {
                     item.inBowl = NO;
                     [item draw];
+                }
+                else{
+                    [item remove];
                 }
                 
                 [self recruiteSpecialIncome:item onTerrain:t forPlayer:p];
@@ -1732,7 +1735,14 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             }
             else{
                 Creature *item = [[Creature alloc] initWithBoard:board atPoint:loc fromString:creatureName];
-                [item draw];
+                
+                if (playerId == [game currentPlayerId]) {
+                    item.inBowl = NO;
+                    [item draw];
+                }
+                else{
+                    [item remove];
+                }
                 [self addToRack:item forPlayer:p];
                 NSLog(@"dont know how to add to the rack but tried my best to do so");
             }

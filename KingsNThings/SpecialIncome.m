@@ -120,6 +120,10 @@
         combatValue = goldValue;
 }
 
+- (void) remove{
+    [[board childNodeWithName:[NSString stringWithFormat:@"%@.jpg",imageName]] removeFromParent];
+}
+
 - (void) draw{
     [[board childNodeWithName:self.name] removeFromParent]; //makes sure that it removes it to prevent duplications
 

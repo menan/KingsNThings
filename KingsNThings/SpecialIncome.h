@@ -37,7 +37,7 @@ typedef enum Type : NSUInteger {
 - (id)initWithImage:(NSString*)image atPoint:(CGPoint)aPoint;
 
 - (void) draw;
-
+- (void) remove;
 
 @end
 
