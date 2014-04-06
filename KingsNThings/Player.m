@@ -359,7 +359,7 @@ static int counter = -1;
 
 - (BOOL) canAdvanceToGold{
     NSLog(@"territories: %d, buildings: %d, recruitmentsRem: %d", territories.count, buildings.count, recruitsRemaining);
-    if (territories.count >= 3 && buildings.count > 0 && recruitsRemaining == 0)
+    if (territories.count >= 3 && buildings.count > 0 && recruitsRemaining <= 0)
         return YES;
     else
         return NO;
