@@ -1006,8 +1006,14 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             
         }
         else{
-            Player* p = [game findPlayerByTerrain:t];
-            [self recruiteSpecialIncome:node onTerrain:t forPlayer:p];
+            if (t) {
+                
+                Player* p = [game findPlayerByTerrain:t];
+                [self recruiteSpecialIncome:node onTerrain:t forPlayer:p];
+            }
+            else{
+                NSLog(@"terrain was not located here, so mustve been a random click");
+            }
         }
         if([game phase] == Recruitment){
             //[self recruiteSpecialIncome:node onTerrain:t
@@ -1170,7 +1176,9 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         if (item && ![p.rack containsObject:item]) {
             [p.rack addObject:item];
             float offset = (p.rack.count - 1) * itemNode.size.width;
-            [itemNode setPosition:CGPointMake(540.0f + offset, (size.height) - 225)];
+            CGPoint loc = CGPointMake(540.0f + offset, (size.height) - 225);
+            NSLog(@"positioning %@ at %f and %f", itemNode.name, loc.x, loc.y);
+            [itemNode setPosition:loc];
         }
         else{
             [itemNode removeFromParent];
@@ -1606,6 +1614,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         [self updateRecruitLabel:currentPlayer];
     }
     else{
+        NSLog(@"dude doesnt have any more recruits left.");
         temp.color = [SKColor blackColor];
         temp.colorBlendFactor = .85;
         [temp setPosition:temp.initialPoint];
@@ -1750,19 +1759,30 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             CGPoint loc = CGPointMake([[army objectForKey:@"X"] floatValue], [[army objectForKey:@"Y"] floatValue]);
             NSString *creatureName = [army objectForKey:@"imageName"];
             
-            
-            SpecialIncome *item = [[SpecialIncome alloc] initWithBoard:board atPoint:loc fromString:creatureName];
-            Terrain* t = [game locateTerrainAt:loc];
-            [self recruiteSpecialIncome:item onTerrain:t forPlayer:p];
-            
-            if (playerId == [game currentPlayer].playingOrder) {
+            if ([[army objectForKey:@"si"] boolValue]) {
                 
-                item.inBowl = NO;
-                [item draw];
+                SpecialIncome *item = [[SpecialIncome alloc] initWithBoard:board atPoint:loc fromString:creatureName];
+                Terrain* t = nil;
+                
+                if (playerId == [game currentPlayer].playingOrder) {
+                    item.inBowl = NO;
+                    [item draw];
+                }
+                
+                [self recruiteSpecialIncome:item onTerrain:t forPlayer:p];
+                
+                NSLog(@"placing %@", item.name);
+            }
+            else{
+                
+                Creature *item = [[Creature alloc] initWithBoard:board atPoint:loc fromString:creatureName];
+                Terrain* t = [game locateTerrainAt:loc];
+                [self recruiteSpecialIncome:item onTerrain:t forPlayer:p];
             }
             
+            
         }
-//        NSLog(@"user rack vs dictionary rack %d vs %d",p.rack.count, [armies count]);
+        NSLog(@"user rack vs dictionary rack %d vs %d",p.rack.count, [armies count]);
         
         
         
@@ -1801,7 +1821,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     
 }
 - (void) constructPlacemarkerFromDictionary:(NSArray *) placemarkers{
-    NSLog(@"gonna construct placemarkers with from the data %@",placemarkers);
+//    NSLog(@"gonna construct placemarkers with from the data %@",placemarkers);
     
     for (NSDictionary *m in placemarkers) {
         CGPoint pointMarker = CGPointMake([[m objectForKey:@"X"] floatValue], [[m objectForKey:@"Y"] floatValue]);
@@ -1830,7 +1850,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 }
 
 - (void) constructBowlFromDictionary:(NSArray *) bowlArray{
-//    NSLog(@"gonna construct placemarkers with from the data %@",bowl);
+//    NSLog(@"gonna construct bowl with from the data %@",bowl);
     [bowl removeAllObjects];
     for (NSDictionary *c in bowlArray) {
         CGPoint pointLoc = CGPointMake([[c objectForKey:@"X"] floatValue], [[c objectForKey:@"Y"] floatValue]);

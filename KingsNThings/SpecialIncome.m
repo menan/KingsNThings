@@ -29,6 +29,7 @@
         
         terrainType = ter;
         goldValue = value;
+        self.size = CGSizeMake(37,37);
        
         
     }
@@ -43,6 +44,7 @@
         imageName = string;
         
         inBowl = YES;
+        self.size = CGSizeMake(37,37);
         
         [self setValuesFromString:string];
     }
@@ -57,6 +59,7 @@
         initialPoint = aPoint;
         
         inBowl = NO;
+        self.size = CGSizeMake(37,37);
       
         [self setValuesFromString:image];
     }
@@ -105,9 +108,8 @@
             goldValue = [[trimmed substringFromIndex:2] integerValue];
            
         }
-      
         else {
-            //            NSLog(@"something else occured: %@",trimmed);
+            NSLog(@"something else occured: %@",trimmed);
         }
         
     }
@@ -117,8 +119,6 @@
 - (void) draw{
     [self removeFromParent]; //makes sure that it removes it to prevent duplications
 
-    
-    self.size = CGSizeMake(37,37);
     self.position = initialPoint;
     if (inBowl) {
         self.color = [SKColor blackColor];
@@ -141,27 +141,4 @@
     return dict;
 }
 
-
-
-/*- (void) draw{
-    [node removeFromParent]; //makes sure that it removes it to prevent duplications
-    node = [SKSpriteNode spriteNodeWithImageNamed:imageName];
-    node.name = name;
-    node.accessibilityLabel = @"specialIncome";
-    if(isTreasure){
-        node.accessibilityValue = @"treasure";
-    }
-    node.size = CGSizeMake(37,37);
-    node.position = point;
-    if (inBowl ) {
-        node.color = [SKColor blackColor];
-        node.colorBlendFactor = .85;
-    }
-    else{
-        
-        node.color = [SKColor grayColor];
-        node.colorBlendFactor = 0;
-    }
-    [board addChild:node];
-}*/
 @end
