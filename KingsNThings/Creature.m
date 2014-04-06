@@ -16,7 +16,7 @@
 
 }
 
-@synthesize combatValue,isSpecial, isBluff, isFly,name,inBowl,imageName, terrainType,combatType,initialPoint,stepsMoved;
+@synthesize combatValue,isSpecial, isBluff, isFly,name,inBowl,imageName, terrainType,combatType,initialPoint,stepsMoved,creatureName;
 
 //@synthesize node;
 
@@ -109,6 +109,7 @@
     for(NSString *value in array){
         NSString *trimmed = [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         if ([trimmed hasPrefix:@"n"]){
+            creatureName = [trimmed substringFromIndex:2];
             name = [trimmed substringFromIndex:2];
 //            NSLog(@"Name: %@", name);
         }
@@ -155,8 +156,7 @@
 }
 
 - (void) draw{
-    [self removeFromParent]; //makes sure that it removes it to prevent duplications
-    
+    //makes sure that it removes it to prevent duplications
     [[board childNodeWithName:[NSString stringWithFormat:@"%@.jpg",imageName]] removeFromParent];
     self.name = [NSString stringWithFormat:@"%@.jpg",imageName];
     

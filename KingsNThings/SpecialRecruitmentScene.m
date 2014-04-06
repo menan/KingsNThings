@@ -48,7 +48,7 @@
     [self addChild:lblTitle];
     
     SKLabelNode *lblName = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
-    lblName.text = creature.name;
+    lblName.text = creature.creatureName;
     lblName.fontSize = 20;
     lblName.color = [SKColor redColor];
     lblName.position = CGPointMake(381,836);
@@ -103,12 +103,12 @@
 - (void) doneRolling{
     int totalRoll = diceOneLabel.text.intValue + diceTwoLabel.text.intValue;
     if (totalRoll >= creature.combatValue * 2) {
-        lblCValue.text = [NSString stringWithFormat: @"Congratulation! %@ is all yours :D", creature.name];
+        lblCValue.text = [NSString stringWithFormat: @"Congratulation! %@ is all yours :D", creature.creatureName];
         [self grantCreature];
     }
     else{
         int remaining = creature.combatValue * 2 - totalRoll;
-        lblCValue.text =  [NSString stringWithFormat: @"oops, now you gotta pay %d gold or forget about %@", remaining * 5, creature.name];
+        lblCValue.text =  [NSString stringWithFormat: @"oops, now you gotta pay %d gold or forget about %@", remaining * 5, creature.creatureName];
         
         SKSpriteNode *goldCollect = [SKSpriteNode spriteNodeWithImageNamed:@"goldCollect"];
         [goldCollect setName:@"collection"];
@@ -131,6 +131,7 @@
     
     
     if ([touchedNode.name isEqualToString:@"done"]){
+        creature.position = creature.initialPoint;
         [self.scene.view presentScene:sender];
     }
     else if([touchedNode.name isEqualToString:@"diceOne"]){
@@ -200,10 +201,26 @@
     Board* board = (Board *) [sender getBoard];
     GamePlay* game = (GamePlay *) [sender getGame];
     
-    //Terrain *temp = [game findTerrainAt:creature.node.position];
-    //[board creaturesMoved:creature.node AtTerrain:temp];
-    Terrain *temp = [game findTerrainAt:creature.position];
-    [board creaturesMoved:creature AtTerrain:temp];
+    Terrain *t = [game locateTerrainAt:creature.position];
+    
+    
+    Army *army = [[game currentPlayer] findArmyOnTerrain:t];
+    
+    if([[game currentPlayer] addCreatureToArmy:creature inArmy:army ]){
+        [creature removeFromParent];
+        [[game currentPlayer] printArmy];
+        [MyScene wiggle:army];
+        [game currentPlayer].recruitsRemaining--;
+        [board updateRecruitLabel:[game currentPlayer]];
+        
+    }
+    else{
+        NSLog(@"could not add creature %@ to the stack since it was already present",creature.creatureName);
+        creature.position = creature.initialPoint;
+        
+    }
+    
+//    [board creaturesMoved:creature AtTerrain:temp];
 }
 
 

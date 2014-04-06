@@ -445,14 +445,8 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         float imageSize = 36;
         float offsetFraction = aPoint.x + ((imageSize + 1) * (i + 1));
         
-        
-        SKSpriteNode* node = [SKSpriteNode spriteNodeWithImageNamed:imageName];
-        [node setName:imageName];
-        node.accessibilityValue = @"creature";
-        node.accessibilityLabel = @"special";
-        node.size = CGSizeMake(36,36);
-        [node setPosition:CGPointMake(offsetFraction, aPoint.y)];
-        [board addChild:node];
+        Creature *creature = [[Creature alloc] initWithBoard:board atPoint:CGPointMake(offsetFraction, aPoint.y) fromString:imageName isSpecial:YES];
+        [creature draw];
     }
     
     for (int j = namesString.count/2; j < namesString.count; j++) {
@@ -463,14 +457,8 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         float imageSize = 36;
         
         float offsetFraction = aPoint.x + ((imageSize + 1) * (num + 1));
-        
-        SKSpriteNode* node = [SKSpriteNode spriteNodeWithImageNamed:imageName];
-        [node setName:imageName];
-        node.accessibilityLabel = @"special";
-        node.accessibilityValue = @"creature";
-        node.size = CGSizeMake(36,36);
-        [node setPosition:CGPointMake(offsetFraction, aPoint.y - 37)];
-        [board addChild:node];
+        Creature *creature = [[Creature alloc] initWithBoard:board atPoint:CGPointMake(offsetFraction, aPoint.y - 37) fromString:imageName isSpecial:YES];
+        [creature draw];
         
     }
     
@@ -801,36 +789,53 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     
     if([node isKindOfClass:[Creature class]])
     {
-        BOOL bowled = NO;
-        for (SKSpriteNode *nodeTerrain in nodes) {
-            if ([nodeTerrain.name isEqualToString:@"bowl"]) { //dude droppped it back in the cup
-                bowled = YES;
+        Creature *c = (Creature *) node;
+        if (c.isSpecial) {
+            Terrain *t = [game locateTerrainAt:c.position];
+            Player *owner = [game findPlayerByTerrain:t];
+            Player *me = [game currentPlayer];
+            if (t && owner && owner == me) {
+                NSLog(@"special c in the buildin...");
+                [self recruiteSpecial:c];
+            }
+            else{
+                NSLog(@"invalid hex");
+                c.position = c.initialPoint;
+            }
+        }
+        else{
+            BOOL bowled = NO;
+            for (SKSpriteNode *nodeTerrain in nodes) {
+                if ([nodeTerrain.name isEqualToString:@"bowl"]) { //dude droppped it back in the cup
+                    bowled = YES;
+                }
+            }
+            
+            if (bowled) {
+                Creature *c = [[game currentPlayer] findCreatureOnRackByName:node.name];
+                if (c){
+                    [self returnThingToBowl:c];
+                    [[game currentPlayer] returnedACreature];
+                    [self updateRecruitLabel:[game currentPlayer]];
+                    [self redrawCreatures];
+                    [[game currentPlayer] removeCreatureFromRackByName:node.name];
+                    
+                    NSLog(@"Added the creature back to the bowl and redrew things.");
+                }
+                
+            }
+            else{
+                if(game.phase == Initial || game.phase == Recruitment){
+                    Terrain *temp = [game findTerrainAt:terrainPoint];
+                    [self creaturesMoved:(Creature *)node AtTerrain:temp];
+                    [self removeCreatureByName:node.name]; //removes the creature from the bowl, if it got added to the army or rack
+                }
+                else{
+                    NSLog(@"current phase is not initial or recruitment tho.");
+                }
             }
         }
         
-        if (bowled) {
-            Creature *c = [[game currentPlayer] findCreatureOnRackByName:node.name];
-            if (c){
-                [self returnThingToBowl:c];
-                [[game currentPlayer] returnedACreature];
-                [self updateRecruitLabel:[game currentPlayer]];
-                [self redrawCreatures];
-                [[game currentPlayer] removeCreatureFromRackByName:node.name];
-                
-                NSLog(@"Added the creature back to the bowl and redrew things.");
-            }
-            
-        }
-        else{
-            if(game.phase == Initial || game.phase == Recruitment){
-                Terrain *temp = [game findTerrainAt:terrainPoint];
-                [self creaturesMoved:(Creature *)node AtTerrain:temp];
-                [self removeCreatureByName:node.name]; //removes the creature from the bowl, if it got added to the army or rack
-            }
-            else{
-                NSLog(@"current phase is not initial or recruitment tho.");
-            }
-        }
     }
     else if ([node isKindOfClass:[Army class]]){
         
@@ -985,7 +990,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         [game initiateCombat:[game currentPlayer]];
     }*/
     else if([node.accessibilityLabel isEqualToString:@"special"]){
-        [self recruiteSpecial:node];
+        [self recruiteSpecial:(Creature *)node];
     }
     
     else if ([node isKindOfClass:[SpecialIncome class]]){
@@ -1049,21 +1054,13 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 }
 
 - (void) creaturesMoved:(Creature *) creature AtTerrain:(Terrain *) t{
-    
-//    NSLog(@"Node is number of players at the terrain: %@" , t.name);
-    //checks if any player owns the territory and the terrain is found
     if(t && [game findPlayerByTerrain:t]){
         Player *currentPlayer = [game findPlayerByTerrain:t];
-        //Creature *creature = [self findCreatureByName:n.name];
-//        Creature* creature = (Creature*) n;
         Army *a = [currentPlayer findArmyOnTerrain:t];
-//        NSLog(@"Creature is %@",creature.name);
         
-//        if(currentPlayer.recruitsRemaining >= 0){
-        
-            if(a != nil){
-                [a removeCreature:creature];
-            }
+        if(a != nil){
+            [a removeCreature:creature];
+        }
         
         if(![game thereIsArmyOnTerrain:t]){
             a = [currentPlayer constructNewStack:creature atPoint:creature.position withTerrain:t];
@@ -1084,22 +1081,18 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             }
         }
         else {
-            for(Army *army in [currentPlayer stacks]){
-                if([[army terrain]isEqual:t]){
-                    if([currentPlayer addCreatureToArmy:creature inArmy:army ]){
-                        [creature removeFromParent];
-                        [self removeThingFromBowl:creature];
-                        [currentPlayer printArmy];
-                        [MyScene wiggle:army];
-                        break;
-                        
-                    }
-                    else{
-                        NSLog(@"could not add creature %@ to the stack since it was already present",creature.name);
-                        [creature removeFromParent];
-                        
-                    }
-                }
+            Army *army = [currentPlayer findArmyOnTerrain:t];
+            if([currentPlayer addCreatureToArmy:creature inArmy:army ]){
+                [creature removeFromParent];
+                [self removeThingFromBowl:creature];
+                [currentPlayer printArmy];
+                [MyScene wiggle:army];
+                
+            }
+            else{
+                NSLog(@"could not add creature %@ to the stack since it was already present",creature.name);
+                [creature removeFromParent];
+                
             }
         }
         
@@ -1109,24 +1102,18 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         
         [game checkInitalRecruitmentComplete]; //double checks to see if everyone finished recruiting so that we can move to next phase
         
-        }
-        else{
+    }
+    else
+    {
+        
+        if (![[[creature parent] name] isEqualToString:@"subMenu"]) {
+            NSLog(@"terriain or player on terrain must be nil %@, so returned it to the bowl, continue recruiting", [game findPlayerByTerrain:t]);
             creature.color = [SKColor blackColor];
             creature.colorBlendFactor = .85;
             [creature setPosition:creature.initialPoint];
-            NSLog(@"terriain or player on terrain must be nil %@, so returned it to the bowl, continue recruiting", [game findPlayerByTerrain:t]);
         }
-//    }
-//    else{
-//        
-//        if (![[[creature parent] name] isEqualToString:@"subMenu"]) {
-//            NSLog(@"terriain or player on terrain must be nil %@, so returned it to the bowl, continue recruiting", [game findPlayerByTerrain:t]);
-//            creature.color = [SKColor blackColor];
-//            creature.colorBlendFactor = .85;
-//            [creature setPosition:creature.initialPoint];
-//        }
-//        
-//    }
+        
+    }
 
 }
 
@@ -1434,17 +1421,9 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     
 }
 
--(void) recruiteSpecial:(SKSpriteNode*)node{
-    
-    NSLog(@"Inside recruite special");
-    
-    Creature* special = [[Creature alloc]initWithImage:node.name atPoint:node.position];
-    
+-(void) recruiteSpecial:(Creature*)c{
     Player *p = [game currentPlayer];
-    
-    
-    [scene transitToRecruitmentScene:special forPlayer:p];
-    
+    [scene transitToRecruitmentScene:c forPlayer:p];
     
 }
 

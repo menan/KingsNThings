@@ -26,14 +26,16 @@ typedef enum CombatStrength:NSUInteger{
 @property BOOL isSpecial;
 @property BOOL isBluff, isFly,inBowl ;
 @property NSString* symbol;
-@property NSString* name, *imageName, *terrainType;
+@property NSString* name, *imageName, *terrainType, *creatureName;
 @property CGPoint initialPoint;
 @property int stepsMoved;
 
 
 - (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image andCreatureName: (NSString *) cName withCombatValue: (int) value forTerrainType: (NSString *) terrain isSpecial:(BOOL) special andCombatType:(NSString *) cType;
+
 - (id) initWithBoard:(SKSpriteNode *)aBoard atPoint:(CGPoint)aPoint fromString:(NSString *)string;
 - (id) initWithBoard:(SKSpriteNode *)aBoard atPoint:(CGPoint)aPoint fromString:(NSString *)string isSpecial: (BOOL) _special;
+
 - (void) draw;
 - (id)initWithImage:(NSString*)image atPoint:(CGPoint)aPoint;
 - (void) drawAtPoint:(SKSpriteNode*)location;
