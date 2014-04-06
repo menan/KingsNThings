@@ -621,16 +621,16 @@
 }
 
 
-- (void) advancePhase: (Phase) p{
+- (NSString *) advancePhase: (Phase) p{
     phase = p;
-    [self advancePhase];
+    return [self advancePhase];
     
     //if(one turn has finished){
       //[self checkForWinner];
     //}
     
 }
--(void)advancePhase{
+-(NSString *)advancePhase{
     NSArray *phaseText = @[@"Initial Phase", @"Construction Phase", @"Movement Phase",@"Recruitment Phase",@"Recruit Special Character", @"Combat Phase", @"Gold Collection Phase"];
 //    BOOL done = YES;
   
@@ -655,6 +655,8 @@
         }
     }*/
     board.textLabel.text = [phaseText objectAtIndex:phase];
+    
+    return [phaseText objectAtIndex:phase];
 }
 
 
