@@ -706,9 +706,10 @@
         [playerDict setObject:[NSNumber numberWithInt:i] forKey:@"playerId"];
         [playerDict setObject:[NSNumber numberWithInt:p.recruitsRemaining] forKey:@"recruitsRemaining"];
         [playerDict setObject:[NSNumber numberWithInt:p.specialRecruitsRemaining] forKey:@"specialRecruitsRemaining"];
+        [arrayStacks addObject:playerDict];
         i++;
     }
-    NSLog(@"stacks array: %@",arrayStacks);
+//    NSLog(@"users settings array: %@",arrayStacks);
     return arrayStacks;
 }
 
