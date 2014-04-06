@@ -88,13 +88,22 @@
             [g advancePhase:SpecialRecruitment];
         }
         else if(g.phase == SpecialRecruitment){
+            [g advancePhase:RandomEvents];
+        }
+        else if(g.phase == RandomEvents){
             [g advancePhase:Movement];
         }
         else if(g.phase == Movement){
             [g advancePhase:Combat];
         }
-        else if(g.phase == Movement){
-            [g advancePhase:Combat];
+        else if(g.phase == Combat){
+            [g advancePhase:Construction];
+        }
+        else if(g.phase == Construction){
+            [g advancePhase:SpecialPower];
+        }
+        else if(g.phase == SpecialPower){
+            //change players order.
         }
     }
     
