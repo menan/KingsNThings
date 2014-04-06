@@ -202,22 +202,30 @@
     GamePlay* game = (GamePlay *) [sender getGame];
     
     Terrain *t = [game locateTerrainAt:creature.position];
+    Player *p = [game currentPlayer];
     
+    Army *army = [p findArmyOnTerrain:t];
     
-    Army *army = [[game currentPlayer] findArmyOnTerrain:t];
-    
-    if([[game currentPlayer] addCreatureToArmy:creature inArmy:army ]){
-        [creature removeFromParent];
-        [[game currentPlayer] printArmy];
-        [MyScene wiggle:army];
-        [game currentPlayer].recruitsRemaining--;
-        [board updateRecruitLabel:[game currentPlayer]];
-        [board updateBank];
+    if (army) {
         
+        if([p addCreatureToArmy:creature inArmy:army ]){
+            [creature removeFromParent];
+            [p printArmy];
+            [MyScene wiggle:army];
+            p.recruitsRemaining--;
+            [board updateRecruitLabel:p];
+            [board updateBank];
+            
+        }
+        else{
+            NSLog(@"could not add creature %@ to the stack since it was already present",creature.creatureName);
+            creature.position = creature.initialPoint;
+            
+        }
     }
     else{
-        NSLog(@"could not add creature %@ to the stack since it was already present",creature.creatureName);
-        creature.position = creature.initialPoint;
+        [board addToRack:creature forPlayer:p];
+        NSLog(@"army was not found so gonna just add it to ur rack.");
         
     }
     

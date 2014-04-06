@@ -61,6 +61,7 @@
 - (void) hideMarkersExceptCurrentPlayer;
 
 - (void) returnThingToBowl:(id) thing;
+- (void) addToRack: (id) item forPlayer:(Player *) p;
 
 - (void) constructBowlFromDictionary:(NSArray *) bowlArray;
 - (void) constructTerrainFromDictionary:(NSArray *) terrains;
