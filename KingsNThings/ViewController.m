@@ -71,9 +71,9 @@
     
     [self processData:match.matchData];
     
-    
-    
     GamePlay *g = [scene getGame];
+    
+    
     
     if (match.currentParticipant == [match.participants objectAtIndex:0]) {
         NSLog(@"came to first player turn again. should advance phase right?");
@@ -107,6 +107,10 @@
     GamePlay *g = [scene getGame];
     if ([data bytes]) {
         b.avoidChecks = YES;
+        
+        [b checkForTotalPlayers];
+        
+        
         [b hideMarkersExceptCurrentPlayer];
         
         NSDictionary *myDictionary = (NSDictionary*) [NSKeyedUnarchiver unarchiveObjectWithData:data];

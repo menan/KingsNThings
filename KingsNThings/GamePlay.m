@@ -110,7 +110,6 @@
 
 
 
-
 -(NSInteger)buildingCost{
     if([players count] == 4)
         return 20;

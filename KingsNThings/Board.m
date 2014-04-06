@@ -93,8 +93,13 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 - (NSArray *) getNonMovables{
     return nonMovables;
 }
+
+- (void) remove{
+    [board removeAllChildren];
+}
+
 - (void) draw{
-    
+    [self remove];
     board = [SKSpriteNode spriteNodeWithImageNamed:@"board"];
     [board setName:@"board"];
     board.anchorPoint = CGPointZero;
@@ -1118,6 +1123,17 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         }
     }
     
+}
+
+- (void) checkForTotalPlayers{
+    int total = [game totalPlayers];
+    NSLog(@"total players: %d",total);
+    if(total == 2){
+        for (int i = terrainsLayout.count; i > 19; i--) {
+            Terrain *t = [terrainsLayout objectAtIndex:i];
+            [t removeFromParent];
+        }
+    }
 }
 
 

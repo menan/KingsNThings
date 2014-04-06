@@ -59,6 +59,7 @@
 - (void) hideDone;
 - (void) showDone;
 - (void) hideMarkersExceptCurrentPlayer;
+- (void) checkForTotalPlayers;
 
 - (void) returnThingToBowl:(id) thing;
 - (void) addToRack: (id) item forPlayer:(Player *) p;

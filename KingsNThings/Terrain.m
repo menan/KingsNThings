@@ -42,6 +42,7 @@ static int TERRAIN_POSITION = -1; //to find the posision for each terrains, so t
 }
 
 
+
 - (float) getAbsoluteX{
     return self.position.x;
 }
