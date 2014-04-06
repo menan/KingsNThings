@@ -1140,7 +1140,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             [p.rack addObject:item];
             float offset = (p.rack.count - 1) * itemNode.size.width;
             CGPoint loc = CGPointMake(540.0f + offset, (size.height) - 225);
-            NSLog(@"positioning %@ at %f and %f", itemNode.name, loc.x, loc.y);
+//            NSLog(@"positioning %@ at %f and %f", itemNode.name, loc.x, loc.y);
             [itemNode setPosition:loc];
         }
         else{
@@ -1673,13 +1673,11 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         Player *p = [game.players objectAtIndex:playerId];
         [[p stacks] removeAllObjects];
         
-//        p.recruitsRemaining += 10;
-    
         NSArray *armies = [t objectForKey:@"armies"];
             
         for (NSDictionary* army in armies) {
-                
-                
+            
+            NSLog(@"army:");
             CGPoint loc = CGPointMake([[army objectForKey:@"X"] floatValue], [[army objectForKey:@"Y"] floatValue]);
             
             for (NSDictionary* creature in [army objectForKey:@"creatures"]) {
@@ -1689,6 +1687,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 creatureObject.position = loc;
                 
                 Terrain* t = [game locateTerrainAt:loc];
+                NSLog(@"creature %@, terrain: %@",creatureName, t.type);
                 
                 [self creaturesMoved:creatureObject AtTerrain:t];
                 [self removeCreatureByName:creatureObject.name]; //removes the creature from the bowl, if it got added to the army or rack
@@ -1749,7 +1748,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             
             
         }
-        NSLog(@"user rack vs dictionary rack %d vs %d",p.rack.count, [armies count]);
+//        NSLog(@"user rack vs dictionary rack %d vs %d",p.rack.count, [armies count]);
         
         
         

@@ -191,13 +191,12 @@ static int counter = -1;
 }
 
 -(BOOL) reachedArmyLimit{
-    int limit =0;
+    int limit = 0;
     
     for(Army* a in stacks){
-        
-        limit += [a creaturesInArmy];
+        limit += a.creatures.count;
     }
-    
+    NSLog(@"limit :%d", limit);
     if(limit >= 10)
         return YES;
     else
@@ -206,11 +205,10 @@ static int counter = -1;
 
 // to construct new army (stack) every time a players drag a creature to new territory
 -(Army*) constructNewStack:(id)creatur atPoint:(CGPoint) aPoint withTerrain:(Terrain*)terrain{
-    
+    NSLog(@"terrain: %@", terrain.type);
     Army* arm ;
     
-    if(![self reachedArmyLimit]){
-        
+//    if(![self reachedArmyLimit]){
         arm = [[Army alloc]initWithPoint:aPoint];
         [arm addCreatures:creatur];
         [arm setTerrain:terrain];
@@ -220,7 +218,10 @@ static int counter = -1;
         //[arm setPosition:aPoint];
         [stacks addObject:arm];
 //        NSLog(@"went in construct New Army and %d more recruits remaining", recruitsRemaining);
-    }
+//    }
+//    else{
+//        NSLog(@"reached the army limit tho");
+//    }
     return arm;
    
 }

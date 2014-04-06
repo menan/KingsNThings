@@ -967,13 +967,6 @@
         }
     }
     return nil;
-    
-    
-//    for (Terrain *terrain in terrains) {
-//        if (terrain.position.x == thisPoint.x && terrain.position.y == thisPoint.y) {
-//            return terrain;
-//        }
-//    }
 }
 
 
@@ -1060,7 +1053,7 @@
 }
 
 - (BOOL) thereIsArmyOnTerrain:(Terrain *) terrain{
-    NSArray* playersOnTerrain =[self findPlayersByTerrain:terrain];
+    NSArray* playersOnTerrain = [self findPlayersByTerrain:terrain];
     if (playersOnTerrain.count > 0) {
         for(Player* p in playersOnTerrain){
             for(Army* army in [p stacks]){
@@ -1072,6 +1065,7 @@
     }
     return NO;
 }
+
 
 
 -(NSArray *) stacksOnTerrain:(Terrain*)terrain{
