@@ -192,6 +192,7 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0) {
         NSLog(@"user pressed OK");
+        creature.position = creature.initialPoint;
         [self.scene.view presentScene:sender];
     }
 
