@@ -300,6 +300,11 @@ static int counter = -1;
     }
     return nil;
 }
+-(void) removeSpecialIncomeOnRack:(SpecialIncome *) sp{
+    
+    [rack removeObject:sp];
+  
+}
 
 - (BOOL) removeCreatureFromRackByName:(NSString *) name{
     
@@ -311,6 +316,10 @@ static int counter = -1;
         }
     }
     return NO;
+}
+-(void) removeStack:(Army*)stack{
+    [stacks removeObject:stack];
+    [stack removeFromParent];
 }
 
 -(void) addSpecialIncome:(SpecialIncome*)sp{

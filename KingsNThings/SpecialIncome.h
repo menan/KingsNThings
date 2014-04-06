@@ -22,7 +22,7 @@ typedef enum Type : NSUInteger {
     City
 }Type;
 
-@property int goldValue;
+@property int goldValue,combatValue;
 @property Type type;
 @property BOOL  inBowl;
 @property CGPoint initialPoint;

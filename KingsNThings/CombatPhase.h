@@ -13,6 +13,7 @@
 #import "SpecialIncome.h"
 
 
+
 @interface CombatPhase : NSObject
 
 typedef enum combatType : NSUInteger {
@@ -20,6 +21,12 @@ typedef enum combatType : NSUInteger {
     defendingHex
 
 }combatType;
+
+typedef enum Rtreated:NSUInteger{
+    attackerRetreated,
+    defenderRetreated,
+    NoOne
+}Retreated;
 
 typedef enum Round: NSUInteger{
     MagicRound,
@@ -30,6 +37,7 @@ typedef enum Round: NSUInteger{
 
 @property combatType type;
 @property Round round;
+@property Retreated whoRetreated;
 
 @property NSMutableArray* attackerMagicCreature ;
 @property NSMutableArray* defenderMagicCreature;
@@ -38,10 +46,12 @@ typedef enum Round: NSUInteger{
 @property NSMutableArray* attackerMeleeCreature;
 @property NSMutableArray* defenderMeleeCreature ;
 @property SKSpriteNode* battle;
+@property NSMutableArray* thingsToBeReturned;
 @property NSMutableArray* specialIncomeCounters;
 @property SpecialIncome* specialIncomeDefend;
 
 @property Building* building;
+
 
 @property int attackerNumberOfHits,defenderNumberOfHits;
 
@@ -63,5 +73,6 @@ typedef enum Round: NSUInteger{
 -(void) startCombat:(CombatScene*) combatScene;
 -(void)drawScene;
 -(void)updateArmy:(NSString*)creatureName andPlayerType:(NSString*)player;
+-(Terrain*) adjacentHexToRetreat:(Player*) player;
 
 @end

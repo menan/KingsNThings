@@ -36,8 +36,9 @@
         terrainType = terrain;
         combatValue = value;
         numberofTimes = 1;
-       isSpecial = iSpecial;
+        isSpecial = iSpecial;
         stepsMoved = 0;
+        combatType = NONE;
         self.size = CGSizeMake(37,37);
     }
     return self;
@@ -50,10 +51,11 @@
         self.position = aPoint;
         board = aBoard;
         imageName = string;
-       isBluff = NO;
+        isBluff = NO;
         inBowl = YES;
         numberofTimes = 1;
         stepsMoved = 0;
+        combatType = NONE;
         self.size = CGSizeMake(37,37);
         [self setValuesFromString:string];
     }
@@ -73,6 +75,7 @@
         numberofTimes = 1;
        isSpecial = s;
         stepsMoved = 0;
+        combatType = NONE;
         self.size = CGSizeMake(37,37);
         [self setValuesFromString:string];
     }
@@ -91,6 +94,7 @@
       
         isFly = NO;
         stepsMoved = 0;
+        combatType = NONE;
         self.size = CGSizeMake(37,37);
         [self setValuesFromString:image];
     }
@@ -145,7 +149,7 @@
         }
         
     }
-    if(combatType != isMagic && combatType != isRanged){
+    if(combatType != isMagic && combatType != isRanged && combatType != isCharge){
         combatType = isMelee;
     }
     

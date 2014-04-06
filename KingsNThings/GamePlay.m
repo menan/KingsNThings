@@ -154,7 +154,7 @@
 
 
 -(void) movementPhase:(Player *)player withArmy:(Army*)army onTerrian:(Terrain *)newTerrain{
-    
+    [self resetValues];
 //    NSLog(@"inside movementPhase");
 //    NSLog(@" player is %d",[player playingOrder]);
     Terrain* oldTerrain = army.terrain;
@@ -225,7 +225,8 @@
             //if([self thereAreDefendersOnTerrain:newTerrain]){
             Army *defArmy = [defender findArmyOnTerrain:newTerrain];
             Building* building = [defender getBuildingOnTerrain:newTerrain];
-            SpecialIncome* sp = [defender getSpecialIncomeOnTerrain:newTerrain];
+            //SpecialIncome* sp = [defender getSpecialIncomeOnTerrain:newTerrain];
+            SpecialIncome* sp = [[SpecialIncome alloc]initWithImage:@"-n City -a 2" atPoint:newTerrain.position];
             
             if(building){
                 
@@ -238,11 +239,18 @@
             
             CombatPhase* combat = [[CombatPhase alloc]initWithMarkerAtPoint:newTerrain.position onBoard:[board getBoard] andMainScene:[self scene]];
             [combat setDefenderArmy:defArmy];
+            
             [combat setDefender: defender];
             [combat setAttacker:player];
             [combat setAttackerArmy:army];
             [combat setType:defendingHex];
+            
             [battles addObject:combat];
+            
+            player.doneTurn=YES;
+            if(player.playingOrder == 1)
+                [self combatPhase];
+            //[self advancePhase:Combat];
 //            NSLog(@"tinside if players are NOT equal");
             /*player.isWaitingCombat = YES;
              [player.combat setObject:army forKey:@"withArmy"];
@@ -271,6 +279,9 @@
                 
                 [army setTerrain:newTerrain];
                 [board captureHex:player atTerrain:newTerrain];
+                player.doneTurn=YES;
+                //[self advancePhase:Combat];
+                
             }
             
             else{ // random army should appear
@@ -292,6 +303,7 @@
                 [combat setType:exploration];
                 
                 [battles addObject:combat];
+                
                 //[army setName:@"bowl"];
                 
                 /* player.isWaitingCombat = YES;
@@ -322,8 +334,7 @@
         //        float yPos = [terrain getAbsoluteY];
         [army setPosition: oldTerrain.position];
     }
-    //player.doneTurn=YES;
-    //[self advancePhase:Combat];
+  
 }
 
 
@@ -380,6 +391,16 @@
         }
         else if ([combat.defender hasWonCombat]){
         }
+        for(Creature* cre in [combat thingsToBeReturned]){
+            [board returnThingToBowl:cre];
+        }
+        if([combat whoRetreated] == attackerRetreated){
+            
+        }
+        else if ([combat whoRetreated] == defenderRetreated){
+            
+            [board captureHex:[combat attacker] atTerrain:[combat attackerArmy].terrain];
+        }
         
     }
     /*if([attacker hasWonCombat]){
@@ -389,6 +410,70 @@
     else if ([defender hasWonCombat]){
     }
      */
+    
+    
+}
+-(void) postCombat:(Player*)winner andLoser:(Player*)loser andTerrain:(Terrain*)terrain{
+    oneDice = 0;
+    secondDice = 0;
+    int numOfRolles = 0;
+    
+    UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Post combat" message: @"Roll " delegate: self                                       cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
+    
+    [error show];
+    
+    if(![winner isEqual:loser]){
+        
+        if([loser getSpecialIncomeOnTerrain:terrain])
+            numOfRolles +=1;
+        if ([loser getBuildingOnTerrain:terrain])
+            numOfRolles +=1;
+        
+        
+        NSString* message = [NSString stringWithFormat:@"%@ %d %@",@"Roll one dice for ",numOfRolles,@" time(s)."];
+        
+        UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Post combat" message:message delegate: self cancelButtonTitle:@"GOT IT !" otherButtonTitles:nil];
+        
+        [error show];
+        NSRunLoop *loop = [NSRunLoop currentRunLoop];
+        
+        for(int i = 0 ; i < numOfRolles;i++ ){
+        while ( (oneDice == 0) && (secondDice == 0) &&[loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]])
+        {}
+        
+        if (oneDice == 1 || oneDice == 6 || secondDice == 1 || secondDice == 6){
+            if(i == 0 ){
+                SpecialIncome* sp = [loser getSpecialIncomeOnTerrain:terrain];
+                [sp setInBowl:YES];
+                [board returnThingToBowl:sp];
+            }
+            if(i == 1){
+                Building* b = [loser getBuildingOnTerrain:terrain];
+                [b setStage:(b.stage-1)];
+                [b removeFromParent];
+                [b draw];
+            }
+        }
+        else {
+            if(i == 0 ){
+                SpecialIncome* sp = [loser getSpecialIncomeOnTerrain:terrain];
+                [[loser specialIncome] removeObject:sp];
+                [winner addSpecialIncome:sp];
+            }
+            if(i == 1){
+                Building* b = [loser getBuildingOnTerrain:terrain];
+                [loser removeBuilding:b];
+                [winner setBuilding:b];
+            }
+        }
+            
+        }
+        
+
+        
+    }
+    
+    
 }
 
 
@@ -533,10 +618,7 @@
 -(void)advancePhase{
     NSArray *phaseText = @[@"Initial Phase", @"Construction Phase", @"Movement Phase",@"Recruitment Phase",@"Special Character Recruitment Phase", @"Combat Phase", @"Gold Collection Phase"];
     BOOL done = YES;
-    for(Player* p in players){
-        if(!p.doneTurn)
-            done = NO;
-    }
+  
     
     
     //if its recruitment phase, 2 more recruits awarded
@@ -545,13 +627,12 @@
         [board updateRecruitLabel:[self currentPlayer]];
     }
     
-    
-    if(done && [battles count]>0){
-        phase +=1;
-        if(phase == Combat){
+   /*
+    if( && [battles count]>0){
+          if(phase == Combat){
             [self combatPhase];
         }
-    }
+    }*/
     board.textLabel.text = [phaseText objectAtIndex:phase];
 }
 

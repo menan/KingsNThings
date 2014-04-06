@@ -30,6 +30,8 @@
     //UITextField *textField;
     UITextView *textView;
     int diceOneRolled,diceTwoRolled;
+    BOOL bribeisOn;
+    NSMutableArray* creaturesToBribe;
     
     
 }
@@ -52,6 +54,9 @@
         
         attacker = att;
         defender = def;
+        bribeisOn = NO;
+        if([combat type] == exploration)
+            creaturesToBribe = [[NSMutableArray alloc]init];
         /*myLabel.text = @"Tap go back";
         myLabel.fontSize = 15;
         myLabel.position = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMidY(self.frame));
@@ -119,12 +124,13 @@
     for(Creature* creature in [attacker creatures]){
         //SKSpriteNode* node =[[SKSpriteNode alloc]initWithImageNamed:[creature imageName]];
         //[node setName:[creature name]];
+        [creature removeFromParent];
          [creature setAccessibilityLabel:@"attacker"];
        
         creature.size = CGSizeMake(50,80);
         
         
-        if(i >= 5){
+        if(i > 5){
             [creature setPosition:CGPointMake(lableAttaker.position.x + 75 ,lableAttaker.position.y - (100 *(i-4)))
              ];
             
@@ -142,11 +148,12 @@
     for(Creature* creature in [defender creatures]){
         //SKSpriteNode* node =[[SKSpriteNode alloc]initWithImageNamed:[creature imageName]];
         //[node setName:[creature name]];
+        [creature removeFromParent];
         [creature setAccessibilityLabel:@"defender"];
         creature.size = CGSizeMake(50,80);
         
-        if(j>=5){
-            [creature setPosition:CGPointMake(lableDefender.position.x + 75,lableDefender.position.y - (100 *j))
+        if(j>5){
+            [creature setPosition:CGPointMake(lableDefender.position.x + 75,lableDefender.position.y - (100 *(j-4)))
              ];
         }
         else{
@@ -161,8 +168,12 @@
         
     }
     if([combat specialIncomeDefend]){
-        
+        [[combat specialIncomeDefend]removeFromParent];
+        if(j>=5)
         [combat.specialIncomeDefend setPosition:CGPointMake(lableDefender.position.x + 75,lableDefender.position.y - (100 *j))];
+        else
+            [combat.specialIncomeDefend setPosition:CGPointMake(lableDefender.position.x,lableDefender.position.y - (100 *j))];
+        
         [combat.specialIncomeDefend setSize:CGSizeMake(50,80)];
         [self addChild:combat.specialIncomeDefend];
         
@@ -257,6 +268,7 @@
 }
 
 - (void) rollDiceOne{
+    diceOneLabel.text =[NSString stringWithFormat:@"%d",0];
     int r = (arc4random() % 6) + 1;
     diceOneLabel.text = [NSString stringWithFormat:@"%d",r];
     diceOneRolled = r;
@@ -272,7 +284,7 @@
     }
 }
 - (void) rollDiceTwo{
-    
+    diceTwoLabel.text = [NSString stringWithFormat:@"%d",0];
     int r = (arc4random() % 6) + 1 ;
     diceTwoLabel.text = [NSString stringWithFormat:@"%d",r];
     diceTwoRolled = r;
@@ -449,7 +461,7 @@ float degToRad(float degree) {
     
     
     
-    while ((([combat attackerNumberOfHits] > 0) || ([combat defenderNumberOfHits] > 0)) &&
+    while ((([combat attackerNumberOfHits] > 0) || ([combat defenderNumberOfHits] > 0)) && ([[combat attackerArmy]creaturesInArmy]>0) && ([[combat defenderArmy]creaturesInArmy]>0) &&
            ([loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate
                                                            distantFuture]]))
     {
@@ -477,72 +489,117 @@ float degToRad(float degree) {
         
         [combat startCombat:self];
         
+        
     }
-    if ([touchedNode.name isEqualToString:@"done"]){
-         [textView removeFromSuperview];
+    else if ([touchedNode.name isEqualToString:@"done"]){
+        [textView removeFromSuperview];
         [self.scene.view presentScene:sce];
-        [sce startSecondCombat];
-       
+        
+        
     }
+    else if ([touchedNode.name isEqualToString:@"attackerRetreat"]){
+        Terrain* t = [combat adjacentHexToRetreat:[combat attacker]];
+        if(t){
+            
+            [attacker setPosition:t.position];
+            [combat setWhoRetreated:attackerRetreated];
+            [textView removeFromSuperview];
+            [self.scene.view presentScene:sce];
+            
+        }
+        
+    }
+    else if ([touchedNode.name isEqualToString:@"defenderRetreat"]){
+        Terrain* t = [combat adjacentHexToRetreat:[combat defender]];
+        if(t){
+            [defender setPosition:t.position];
+            [combat setWhoRetreated:defenderRetreated];
+            [textView removeFromSuperview];
+            [self.scene.view presentScene:sce];
+            
+        }
+        
+    }
+    else if ([touchedNode.name isEqualToString:@"Bribe"]){
+        bribeisOn = YES;
+        
+        [self setInstructionText:@"Choose creatures to bribe"];
+        [self bribeArmy];
+        
+    }
+    
+    
     else if([touchedNode.name isEqualToString:@"diceOne"])
         [self rollDiceOne];
     else if ([touchedNode.name isEqualToString:@"diceTwo"])
         [self rollDiceTwo];
-    /*else if ([touchedNode.accessibilityLabel isEqualToString:@"attacker" ]){
-        
-        [touchedNode removeFromParent];
-        [combat updateArmy:touchedNode.name andPlayerType:@"attacker"];
-        [combat setDefenderNumberOfHits:[combat defenderNumberOfHits] -1 ];
-        [[combat attackerArmy]removeCreatureWithName:touchedNode.name];
-        
-    }*/
     
-    else if ([touchedNode isKindOfClass:[Army class]]){
+    else if ([touchedNode isKindOfClass:[Creature class]]){
         Creature* creature = (Creature*)touchedNode;
         if([[combat defenderArmy] containCreature:creature]){
-            [touchedNode removeFromParent];
-            [combat updateArmy:touchedNode.name andPlayerType:@"defender"];
-            [combat setAttackerNumberOfHits:([combat attackerNumberOfHits] -1) ];
-            [[combat defenderArmy]removeCreatureWithName:touchedNode.name];
+            if([combat attackerNumberOfHits] > 0){
+                [touchedNode removeFromParent];
+                [combat updateArmy:touchedNode.name andPlayerType:@"defender"];
+                [combat setAttackerNumberOfHits:([combat attackerNumberOfHits] -1) ];
+                [[combat defenderArmy]removeCreatureWithName:touchedNode.name];
+                [[combat thingsToBeReturned]addObject:creature];
+            }
+            else if (bribeisOn){
+                
+                [creaturesToBribe addObject:creature];
+            }
         }
         else if([[combat attackerArmy] containCreature:creature]){
-            [touchedNode removeFromParent];
-            [combat updateArmy:touchedNode.name andPlayerType:@"attacker"];
-            [combat setDefenderNumberOfHits:[combat defenderNumberOfHits] -1 ];
-            [[combat attackerArmy]removeCreatureWithName:touchedNode.name];
-
-            
+            if([combat defenderNumberOfHits] > 0){
+                [touchedNode removeFromParent];
+                [combat updateArmy:touchedNode.name andPlayerType:@"attacker"];
+                [combat setDefenderNumberOfHits:[combat defenderNumberOfHits] -1 ];
+                [[combat attackerArmy]removeCreatureWithName:touchedNode.name];
+                [[combat thingsToBeReturned]addObject:creature];
+            }
         }
     }
     else if ([touchedNode isKindOfClass:[Building class]]){
         Building* b = (Building*) touchedNode;
-        [[combat building] setCurrentCombatValue:[[combat building] currentCombatValue] -1] ;
-        if(b.stage == Tower|| b.stage == Keep ){
-            [[combat building] setCombatValue:[[combat building] currentCombatValue]];
+        if([combat attackerNumberOfHits] > 0){
             
+            [[combat building] setCurrentCombatValue:[[combat building] currentCombatValue] -1] ;
+            if(b.stage == Tower|| b.stage == Keep ){
+                [[combat building] setCombatValue:[[combat building] currentCombatValue]];
+                
+            }
+            [combat setAttackerNumberOfHits:([combat attackerNumberOfHits] -1) ];
+            
+            if([[combat building] currentCombatValue] <= 0){
+                [[combat building] setIsNeutralised:YES];
+                [self drawNeutralised:touchedNode];
+                
+            }
         }
-        [combat setAttackerNumberOfHits:([combat attackerNumberOfHits] -1) ];
-        
-        if([[combat building] currentCombatValue] <= 0){
-            [[combat building] setIsNeutralised:YES];
-            [self drawNeutralised:touchedNode];
-            
+        else if(bribeisOn){
+            [creaturesToBribe addObject:b];
         }
     }
     else if ([touchedNode isKindOfClass:[SpecialIncome class]]){
-        //SpecialIncome* sp= (SpecialIncome*) touchedNode;
-        
-        [[combat specialIncomeDefend] setGoldValue:[combat specialIncomeDefend].goldValue -1];
-      
-        [combat setAttackerNumberOfHits:([combat attackerNumberOfHits] -1) ];
-        
-        if([[combat specialIncomeDefend] goldValue] <= 0){
-            //[[combat building] setIsNeutralised:YES];
-            [touchedNode removeFromParent];
-            [self drawNeutralised:touchedNode];
+       
+        if([combat attackerNumberOfHits] > 0){
+            [[combat specialIncomeDefend] setCombatValue:[combat specialIncomeDefend].combatValue -1];
+            
+            [combat setAttackerNumberOfHits:([combat attackerNumberOfHits] -1) ];
+            
+            if([[combat specialIncomeDefend] combatValue] <= 0){
+                //[[combat building] setIsNeutralised:YES];
+                [touchedNode removeFromParent];
+                [self drawNeutralised:touchedNode];
+            }
         }
+        else if (bribeisOn){
+            SpecialIncome* sp= (SpecialIncome*) touchedNode;
+            [creaturesToBribe addObject:sp];
+        }
+        
     }
-
+    
 }
 
 -(void) postCombatScene{
@@ -572,8 +629,58 @@ float degToRad(float degree) {
 
 -(void) bribeArmy{
     
+    BOOL costDoubled;
+    int amountToBribe = 0;
+    for(id item in [defender creatures]){
+        if([item isKindOfClass:[SpecialIncome class]]){
+            costDoubled = YES;
+            break;
+        }
+    }
     
+    if(costDoubled){
+        for(id thing in creaturesToBribe){
+            if([thing isKindOfClass:[Creature class]]){
+                Creature* item = (Creature*)thing;
+                amountToBribe += (item.combatValue *2);
+            }
+            else if([thing isKindOfClass:[Creature class]]){
+                SpecialIncome* item = (SpecialIncome*)thing;
+                if(item.type == City || item.type == Village){
+                    
+                    amountToBribe += (item.combatValue *2);
+                }
+            }
+        }
+        
+            
+        }
+    else {
+        for(id thing in creaturesToBribe){
+            if([thing isKindOfClass:[Creature class]]){
+                Creature* item = (Creature*)thing;
+                amountToBribe += item.combatValue ;
+            }
+            else if([thing isKindOfClass:[Creature class]]){
+                SpecialIncome* item = (SpecialIncome*)thing;
+                if(item.type == City || item.type == Village){
+                    
+                    amountToBribe += item.combatValue;
+                }
+            }
+        }
+        
+        
+    }
+    
+    [[combat attacker] justPaid:amountToBribe];
+    
+        
 }
+    
+    
+   
+
 
 
 -(void)didMoveToView:(SKView *)view {

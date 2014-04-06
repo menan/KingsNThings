@@ -14,7 +14,7 @@
     NSString *imageName;
 }
 
-@synthesize goldValue,inBowl,terrainType,type,terrain,initialPoint;
+@synthesize goldValue,inBowl,terrainType,type,terrain,initialPoint,combatValue;
 
 //@synthesize node;
 
@@ -29,6 +29,7 @@
         
         terrainType = ter;
         goldValue = value;
+        combatValue = goldValue;
        
         
     }
@@ -59,6 +60,7 @@
         inBowl = NO;
       
         [self setValuesFromString:image];
+        
     }
     return self;
 }
@@ -112,6 +114,8 @@
         
     }
     
+    if(type == Village || type == City)
+        combatValue = goldValue;
 }
 
 - (void) draw{

@@ -41,6 +41,8 @@
     /* Called when a touch begins */
     UITouch *touch = [touches anyObject];
     CGPoint positionInScene = [touch locationInNode:self];
+    NSLog(@"location is x = %f , y = %f ",_selectedNode.position.x,_selectedNode.position.y);
+
     [self selectNodeForTouch:positionInScene];
     
 }
@@ -54,7 +56,7 @@
     
 }*/
 
--(void) longPressDetected:(UIGestureRecognizer *)gestureRecognizer{
+/*-(void) longPressDetected:(UIGestureRecognizer *)gestureRecognizer{
     
     //CGPoint location = _selectedNode.position;
     
@@ -62,14 +64,14 @@
         [gameBoard showArmyCreatures:(Army*)_selectedNode];
     }
   
-}
+}*/
 
 - (void)selectNodeForTouch:(CGPoint)touchLocation {
     //1
     SKSpriteNode *touchedNode = (SKSpriteNode *)[self nodeAtPoint:touchLocation];
     //2
     
-//    NSLog(@"old node class %@", _selectedNode.class);
+    //    NSLog(@"old node class %@", _selectedNode.class);
     
     if (![touchedNode.parent.name isEqualToString:@"subMenu"]) {
         [[[gameBoard getBoard] childNodeWithName:@"subMenu"] removeFromParent];
@@ -90,7 +92,7 @@
             _selectedNode.colorBlendFactor = 0;
         }
         		_selectedNode = touchedNode;
-//        NSLog(@"node tapped:%@,  %f, %f", _selectedNode.class, _selectedNode.position.x, _selectedNode.position.y);
+       NSLog(@"node tapped:%@,  %f, %f", _selectedNode.class, _selectedNode.position.x, _selectedNode.position.y);
         
         _selectedNode.color = [SKColor redColor];
         _selectedNode.colorBlendFactor = 0.5;
@@ -170,17 +172,7 @@ CGPoint mult(const CGPoint v, const CGFloat s) {
     NSLog(@"presenting recruitment view");
 
 }
--(void) tranitToArmyScene:(Army*) army forPlayer:(Player*)p{
-   
-    //CGSize s = CGSizeMake(self.size.width/4, self.size.height/2);
-    CGSize s = CGSizeMake(10, 10);
-    //ArmyScene* armyscene = [[ArmyScene alloc]initWithSize:s andSender:self Army:army forPlayer:p];
-    //transitionRevealWithDirectionUp = [SKTransition revealWithDirection:SKTransitionDirectionUp duration:1];
-        //initWithSize:[self size] withAttacker:attacker andDefender:defender andSender:self ];
-    
-    //[self.scene.view presentScene:armyscene transition:transitionRevealWithDirectionUp];
-    
-}
+
 
 - (void) startSecondCombat{
     [gameBoard.game initiateCombat:[gameBoard.game.players objectAtIndex:2]];
