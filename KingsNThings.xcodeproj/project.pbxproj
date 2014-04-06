@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		356D82A018F1F4A100A931D8 /* AdvancePhaseScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 356D829F18F1F4A000A931D8 /* AdvancePhaseScene.m */; };
 		6832A14C1897734100476D5D /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 6832A14B1897734100476D5D /* Player.m */; };
 		6832A14F1897735900476D5D /* Terrain.m in Sources */ = {isa = PBXBuildFile; fileRef = 6832A14E1897735900476D5D /* Terrain.m */; };
 		6832A1521897736700476D5D /* Board.m in Sources */ = {isa = PBXBuildFile; fileRef = 6832A1511897736700476D5D /* Board.m */; };
@@ -280,6 +281,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		356D829F18F1F4A000A931D8 /* AdvancePhaseScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdvancePhaseScene.m; sourceTree = "<group>"; };
+		356D82A118F1F4BE00A931D8 /* AdvancePhaseScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdvancePhaseScene.h; sourceTree = "<group>"; };
 		6832A14A1897734100476D5D /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
 		6832A14B1897734100476D5D /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
 		6832A14D1897735900476D5D /* Terrain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Terrain.h; sourceTree = "<group>"; };
@@ -900,6 +903,8 @@
 		688FB41418D6BE9C00095972 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				356D82A118F1F4BE00A931D8 /* AdvancePhaseScene.h */,
+				356D829F18F1F4A000A931D8 /* AdvancePhaseScene.m */,
 				686C97401888A88500BE6D42 /* MyScene.h */,
 				686C97411888A88500BE6D42 /* MyScene.m */,
 				C59E4D0E18A5E0FE00CCBA0D /* CombatScene.h */,
@@ -1716,6 +1721,7 @@
 				6832A1521897736700476D5D /* Board.m in Sources */,
 				C5A3190F18E7633B0055EEB1 /* NSMutableArrayDictionize.m in Sources */,
 				686C97421888A88500BE6D42 /* MyScene.m in Sources */,
+				356D82A018F1F4A100A931D8 /* AdvancePhaseScene.m in Sources */,
 				686C973F1888A88500BE6D42 /* ViewController.m in Sources */,
 				686C97391888A88500BE6D42 /* AppDelegate.m in Sources */,
 				68EF331D189CCEF700A93480 /* NSMutableArrayShuffling.m in Sources */,

@@ -13,7 +13,7 @@
 #import "SpecialRecruitmentScene.h"
 #import "Board.h"
 #import "ArmyScene.h"
-//#import "AdvancePhaseScene.h"
+#import "AdvancePhaseScene.h"
 
 @implementation MyScene{
      SKTransition* transitionDoorsCloseHorizontal;
@@ -173,16 +173,16 @@ CGPoint mult(const CGPoint v, const CGFloat s) {
 }
 
 - (void) transitToPhaseChange:(NSString *)phase{
-//    AdvancePhaseScene* aps = [[AdvancePhaseScene alloc] initWithSize:self.size andPhaseString:phase andTitle:@"Advancing phase to" andSender:self];
-//    [self.scene.view presentScene:aps transition:transitionDoorsCloseHorizontal];
+    AdvancePhaseScene* aps = [[AdvancePhaseScene alloc] initWithSize:self.size andPhaseString:phase andTitle:@"Advancing phase to" andSender:self];
+    [self.scene.view presentScene:aps transition:transitionDoorsCloseHorizontal];
     
     
 }
 
 - (void) transitWinnerScene:(NSString *)player{
     
-//    AdvancePhaseScene* aps = [[AdvancePhaseScene alloc] initWithSize:self.size andPhaseString:player andTitle:@"And the winner is..." andSender:self];
-//    [self.scene.view presentScene:aps transition:transitionDoorsCloseHorizontal];
+    AdvancePhaseScene* aps = [[AdvancePhaseScene alloc] initWithSize:self.size andPhaseString:player andTitle:@"And the winner is..." andSender:self];
+    [self.scene.view presentScene:aps transition:transitionDoorsCloseHorizontal];
     
     
 }

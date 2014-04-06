@@ -22,7 +22,7 @@ static int counter = -1;
     
     self = [super init];
     if (self) {
-        bank = [[Bank alloc] initWithOneGolds:0 twoGolds:0 fivesGolds:5 tenGolds:0 fifteenGolds:0 twentyGolds:0];
+        bank = [[Bank alloc] initWithOneGolds:0 twoGolds:0 fivesGolds:2 tenGolds:0 fifteenGolds:0 twentyGolds:0];
         buildings = [[NSMutableArray alloc] init];
         territories = [[NSMutableArray alloc] init];
         specialCharacters = [[NSMutableArray alloc] init];
