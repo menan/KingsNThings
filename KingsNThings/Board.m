@@ -632,7 +632,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 
 -(void)withdrawFromBank:(NSInteger)goldNum
 {
-    Player *p = [game.players objectAtIndex:0];
+    Player *p = [game currentPlayer];
     if ([bank withdrawGold:goldNum andCount:1]){
         [p.bank depositGold:goldNum andCount:1];
         if(game.phase == Recruitment){
@@ -644,7 +644,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 
 -(void)depositToBank:(NSInteger)goldNum
 {
-    Player *p = [game.players objectAtIndex:0];
+    Player *p = [game currentPlayer];
     if ([p.bank withdrawGold:goldNum andCount:1]){
         [bank depositGold:goldNum andCount:1];
         if(game.phase == Recruitment){
@@ -982,7 +982,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     
     /*else if ([node.name isEqualToString:@"battle"]){
         //you can access all players on the current terrain by calling [game findPlayersByTerrain:t] n use them to go at war with each other
-        [game initiateCombat:[game.players objectAtIndex:0]];
+        [game initiateCombat:[game currentPlayer]];
     }*/
     else if([node.accessibilityLabel isEqualToString:@"special"]){
         [self recruiteSpecial:node];
@@ -1059,11 +1059,11 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         Army *a = [currentPlayer findArmyOnTerrain:t];
 //        NSLog(@"Creature is %@",creature.name);
         
-        if(currentPlayer.recruitsRemaining >= 0){
-            
+//        if(currentPlayer.recruitsRemaining >= 0){
+        
             if(a != nil){
                 [a removeCreature:creature];
-        }
+            }
         
         if(![game thereIsArmyOnTerrain:t]){
             a = [currentPlayer constructNewStack:creature atPoint:creature.position withTerrain:t];
@@ -1114,19 +1114,20 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             creature.color = [SKColor blackColor];
             creature.colorBlendFactor = .85;
             [creature setPosition:creature.initialPoint];
-        }
-    }
-    else{
-        
-        if (![[[creature parent] name] isEqualToString:@"subMenu"]) {
             NSLog(@"terriain or player on terrain must be nil %@, so returned it to the bowl, continue recruiting", [game findPlayerByTerrain:t]);
-            creature.color = [SKColor blackColor];
-            creature.colorBlendFactor = .85;
-            [creature setPosition:creature.initialPoint];
         }
-        
-    }
-    
+//    }
+//    else{
+//        
+//        if (![[[creature parent] name] isEqualToString:@"subMenu"]) {
+//            NSLog(@"terriain or player on terrain must be nil %@, so returned it to the bowl, continue recruiting", [game findPlayerByTerrain:t]);
+//            creature.color = [SKColor blackColor];
+//            creature.colorBlendFactor = .85;
+//            [creature setPosition:creature.initialPoint];
+//        }
+//        
+//    }
+
 }
 
 
@@ -1721,7 +1722,8 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     for (NSDictionary *t in stacks) {
     
         int playerId = [[t objectForKey:@"playerId"] integerValue];
-        [[[game.players objectAtIndex:playerId] stacks] removeAllObjects];
+        Player *p = [game.players objectAtIndex:playerId];
+        [[p stacks] removeAllObjects];
     
 //        //removes all the stacks on the board
 //        SKNode *stack = [board childNodeWithName:@"stack"];
@@ -1732,7 +1734,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 //        }
         
         
-        [[game.players objectAtIndex:playerId] setRecruitsRemaining:10];
+//        p.recruitsRemaining += 10;
     
         NSArray *armies = [t objectForKey:@"armies"];
             
