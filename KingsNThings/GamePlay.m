@@ -631,7 +631,11 @@
     
 }
 -(NSString *)advancePhase{
-    NSArray *phaseText = @[@"Initial Phase", @"Construction Phase", @"Movement Phase",@"Recruitment Phase",@"Recruit Special Character", @"Combat Phase", @"Gold Collection Phase"];
+    
+//    SpecialPower,
+//    RandomEvents
+//    
+    NSArray *phaseText = @[@"Initial Phase", @"Construction Phase", @"Movement Phase",@"Recruitment Phase",@"Recruit Special Character", @"Combat Phase", @"Gold Collection Phase", @"Special Power Phase", @"Random Events Phase"];
 //    BOOL done = YES;
   
     
