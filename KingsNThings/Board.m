@@ -1020,10 +1020,6 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 }
                 
             }
-    else{
-            
-            [self recruiteSpecialIncome:node onTerrain:t forPlayer:owner];
-        }
         else{
             if (t) {
                 
