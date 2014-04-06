@@ -106,6 +106,7 @@
     Board *b = [scene getBoard];
     GamePlay *g = [scene getGame];
     if ([data bytes]) {
+        b.avoidChecks = YES;
         [b hideMarkersExceptCurrentPlayer];
         
         NSDictionary *myDictionary = (NSDictionary*) [NSKeyedUnarchiver unarchiveObjectWithData:data];
@@ -127,7 +128,9 @@
         
         
         [b constructBowlFromDictionary:[myDictionary objectForKey:@"bowl"]];
+        [b setUserSettingsFromDictionary:[myDictionary objectForKey:@"user-settings"]];
         
+        b.avoidChecks = NO;
         NSLog(@"Taking turn for existing game with the received data...");
     }
 }

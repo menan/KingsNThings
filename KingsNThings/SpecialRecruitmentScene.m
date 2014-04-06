@@ -212,6 +212,7 @@
         [MyScene wiggle:army];
         [game currentPlayer].recruitsRemaining--;
         [board updateRecruitLabel:[game currentPlayer]];
+        [board updateBank];
         
     }
     else{

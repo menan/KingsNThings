@@ -23,6 +23,7 @@
 @property NSMutableArray* terrainsLayout, *terrainsDictionary, *markersArray;
 @property BOOL canTapDone;
 
+@property BOOL avoidChecks; //for networking purposes tho
 
 - (id)initWithScene: (MyScene *) aScene atPoint: (CGPoint) aPoint withSize: (CGSize) aSize;
 
@@ -59,6 +60,7 @@
 - (void) showDone;
 - (void) hideMarkersExceptCurrentPlayer;
 
+- (void) returnThingToBowl:(id) thing;
 
 - (void) constructBowlFromDictionary:(NSArray *) bowlArray;
 - (void) constructTerrainFromDictionary:(NSArray *) terrains;
@@ -67,6 +69,6 @@
 - (void) constructPlacemarkerFromDictionary:(NSArray *) placemarkers;
 - (void) constructBuildingsFromDictionary:(NSArray *) placemarkers;
 - (void) setGoldsFromDictionary:(NSArray *) goldsArray;
-- (void) returnThingToBowl:(id) thing;
+- (void) setUserSettingsFromDictionary:(NSArray *) settings;
 
 @end

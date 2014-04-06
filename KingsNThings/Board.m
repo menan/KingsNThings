@@ -45,7 +45,7 @@ static NSString * const defaultText = @"KingsNThings - Team24";
 
 static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 
-@synthesize textLabel,dicesClicked,creaturesInBowl,recruitLabel,game,disabled,nonMovables,bank,bowlLocaiton,doneButton,canTapDone,terrainsLayout,markersArray,bowl;
+@synthesize textLabel,dicesClicked,creaturesInBowl,recruitLabel,game,disabled,nonMovables,bank,bowlLocaiton,doneButton,canTapDone,terrainsLayout,markersArray,bowl,avoidChecks;
 
 - (id)initWithScene: (MyScene *) aScene atPoint: (CGPoint)aPoint withSize: (CGSize) aSize
 {
@@ -62,7 +62,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         
         initialPositions = [[NSArray alloc]initWithObjects:[NSValue valueWithCGPoint:CGPointMake(366.0f,391.2500)],[NSValue valueWithCGPoint:CGPointMake(119.25f, 395.75)],[NSValue valueWithCGPoint:CGPointMake(119.25f, 395.75)],[NSValue valueWithCGPoint:CGPointMake(363.0f, 106.25)],[NSValue valueWithCGPoint:CGPointMake(117.75f, 110.75f)], nil];
 
-        
+        avoidChecks = NO; //for networking purposes
         
         //terrains = [[NSMutableArray alloc] init];
         bank = [[Bank alloc]init];
@@ -81,35 +81,6 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     
     return self;
 }
-//
-//- (id)initWithCoder:(NSCoder *)decoder {
-//    if (self = [super init]) {
-//        point = CGPointMake([[decoder decodeObjectForKey:@"pointX"] floatValue], [[decoder decodeObjectForKey:@"pointY"] floatValue]);
-//        board = [decoder decodeObjectForKey:@"board"];
-//        imageName = [decoder decodeObjectForKey:@"imageName"];
-//        type = [decoder decodeObjectForKey:@"type"];
-//        flipped = [[decoder decodeObjectForKey:@"flipped"] boolValue];
-//        hasArmyOnIt = [[decoder decodeObjectForKey:@"hasArmyOnIt"]boolValue];
-//        hasSpecialIncome = [[decoder decodeObjectForKey:@"hasSpecialIncome"]boolValue];
-//        location += [[decoder decodeObjectForKey:@"location"] integerValue];
-//    }
-//    return self;
-//}
-//
-//- (void)encodeWithCoder:(NSCoder *)encoder {
-//    [encoder encodeObject:[NSNumber numberWithFloat:point.x] forKey:@"pointX"];
-//    [encoder encodeObject:[NSNumber numberWithFloat:point.y] forKey:@"pointY"];
-//    [encoder encodeObject:board forKey:@"board"];
-//    [encoder encodeObject:imageName forKey:@"imageName"];
-//    [encoder encodeObject:type forKey:@"type"];
-//    [encoder encodeObject:[NSNumber numberWithBool:flipped] forKey:@"flipped"];
-//    [encoder encodeObject:[NSNumber numberWithBool:hasArmyOnIt] forKey:@"hasArmyOnIt"];
-//    [encoder encodeObject:[NSNumber numberWithInteger:location] forKey:@"location"];
-//    [encoder encodeObject:[NSNumber numberWithBool:hasSpecialIncome] forKey:@"hasSpecialIncome"];
-//    
-//}
-
-
 
 -(GamePlay*)getGamePlay{
     return game;
@@ -790,7 +761,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     if([node isKindOfClass:[Creature class]])
     {
         Creature *c = (Creature *) node;
-        if (c.isSpecial) {
+        if (c.isSpecial  && ![[[c parent] name] isEqualToString:@"subMenu"]){
             Terrain *t = [game locateTerrainAt:c.position];
             Player *owner = [game findPlayerByTerrain:t];
             Player *me = [game currentPlayer];
@@ -1097,11 +1068,10 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         }
         
         [self showDone];
-        currentPlayer.recruitsRemaining--;
-        [self updateRecruitLabel:currentPlayer];
-        
-        [game checkInitalRecruitmentComplete]; //double checks to see if everyone finished recruiting so that we can move to next phase
-        
+        if (!avoidChecks) {
+            currentPlayer.recruitsRemaining--;
+            [self updateRecruitLabel:currentPlayer];
+        }
     }
     else
     {
@@ -1697,23 +1667,13 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 - (void) constructStackFromDictionary:(NSArray *) stacks{
     NSLog(@"gonna construct armies with from the data %@",stacks);
     
-    
     for (NSDictionary *t in stacks) {
     
         int playerId = [[t objectForKey:@"playerId"] integerValue];
         Player *p = [game.players objectAtIndex:playerId];
         [[p stacks] removeAllObjects];
-    
-//        //removes all the stacks on the board
-//        SKNode *stack = [board childNodeWithName:@"stack"];
-//        
-//        while (stack) {
-//            [stack removeFromParent];
-//            stack = [board childNodeWithName:@"stack"];
-//        }
         
-        
-//        p.recruitsRemaining += 10;
+        p.recruitsRemaining += 10;
     
         NSArray *armies = [t objectForKey:@"armies"];
             
@@ -1724,7 +1684,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             
             for (NSDictionary* creature in [army objectForKey:@"creatures"]) {
                 NSString *creatureName = [creature objectForKey:@"imageName"];
-                
+
                 Creature *creatureObject = [[Creature alloc] initWithImage:creatureName atPoint:loc];
                 creatureObject.position = loc;
                 
@@ -1771,10 +1731,10 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 NSLog(@"placing %@", item.name);
             }
             else{
-                
                 Creature *item = [[Creature alloc] initWithBoard:board atPoint:loc fromString:creatureName];
-                Terrain* t = [game locateTerrainAt:loc];
-                [self recruiteSpecialIncome:item onTerrain:t forPlayer:p];
+                [item draw];
+                [self addToRack:item forPlayer:p];
+                NSLog(@"dont know how to add to the rack but tried my best to do so");
             }
             
             
@@ -1909,6 +1869,24 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     }
     [self updateBank];
     
+    NSLog(@"done setting the golds from the dictionary.");
+}
+
+
+
+- (void) setUserSettingsFromDictionary:(NSArray *) settings{
+    
+    for (NSDictionary *g in settings) {
+        int playerId = [[g objectForKey:@"playerId"] integerValue];
+        int recs = [[g objectForKey:@"recruitsRemaining"] integerValue];
+        int spRecs = [[g objectForKey:@"specialRecruitsRemaining"] integerValue];
+        
+        Player *p = [game.players objectAtIndex:playerId];
+        p.recruitsRemaining = recs;
+        p.specialRecruitsRemaining = spRecs;
+        
+    }
+    [self updateRecruitLabel:[game currentPlayer]];
     NSLog(@"done setting the golds from the dictionary.");
 }
 

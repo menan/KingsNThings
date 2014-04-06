@@ -692,10 +692,24 @@
     [dicData setObject:[board.bowl dictionize] forKey:@"bowl"];
     [dicData setObject:[self getPlayerBuildingsAsDictionary] forKey:@"buildings"];
     [dicData setObject:[self getGoldsAsDictionary] forKey:@"balance"];
+    [dicData setObject:[self getPlayerSettingsAsDictionary] forKey:@"user-settings"];
     
     return dicData;
 }
 
+- (NSArray *) getPlayerSettingsAsDictionary{
+    NSMutableArray *arrayStacks = [[NSMutableArray alloc] init];
+    int i = 0;
+    for (Player *p in players) {
+        NSMutableDictionary *playerDict = [[NSMutableDictionary alloc] init];
+        [playerDict setObject:[NSNumber numberWithInt:i] forKey:@"playerId"];
+        [playerDict setObject:[NSNumber numberWithInt:p.recruitsRemaining] forKey:@"recruitsRemaining"];
+        [playerDict setObject:[NSNumber numberWithInt:p.specialRecruitsRemaining] forKey:@"specialRecruitsRemaining"];
+        i++;
+    }
+    NSLog(@"stacks array: %@",arrayStacks);
+    return arrayStacks;
+}
 
 - (NSArray *) getPlayerStacksAsDictionary{
     NSMutableArray *arrayStacks = [[NSMutableArray alloc] init];
