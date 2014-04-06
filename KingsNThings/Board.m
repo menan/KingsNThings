@@ -1108,18 +1108,10 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     }
     else{
         
-        NSLog(@"terriain or player on terrain must be nil %@, %@", t, [game findPlayerByTerrain:t]);
-        //Creature *creature = [self findCreatureByName:n.name];
-//        Creature *creature = (Creature*) n;
+        NSLog(@"terriain or player on terrain must be nil %@, so returned it to the bowl, continue recruiting", [game findPlayerByTerrain:t]);
         creature.color = [SKColor blackColor];
         creature.colorBlendFactor = .85;
         [creature setPosition:creature.initialPoint];
-        //[self returnThingToBowl:creature];
-        //[self redrawCreatures];
-        //[creature setPosition:creature.initialPoint];
-        
-        //[self addToRack:creature];
-//////////        //should remove from bowl?!!
     }
     
 }
