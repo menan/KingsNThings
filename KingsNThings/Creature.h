@@ -37,6 +37,9 @@ typedef enum CombatStrength:NSUInteger{
 - (id) initWithBoard:(SKSpriteNode *)aBoard atPoint:(CGPoint)aPoint fromString:(NSString *)string isSpecial: (BOOL) _special;
 
 - (void) draw;
+- (void) remove;
+
+
 - (id)initWithImage:(NSString*)image atPoint:(CGPoint)aPoint;
 - (void) drawAtPoint:(SKSpriteNode*)location;
 - (NSDictionary *) getDict;

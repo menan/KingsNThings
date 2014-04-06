@@ -155,9 +155,13 @@
     
 }
 
-- (void) draw{
-    //makes sure that it removes it to prevent duplications
+- (void) remove{
     [[board childNodeWithName:[NSString stringWithFormat:@"%@.jpg",imageName]] removeFromParent];
+}
+
+- (void) draw{
+    [self remove];
+    
     self.name = [NSString stringWithFormat:@"%@.jpg",imageName];
     
     if (inBowl && isSpecial == NO) {
