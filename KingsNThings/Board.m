@@ -1673,7 +1673,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         Player *p = [game.players objectAtIndex:playerId];
         [[p stacks] removeAllObjects];
         
-        p.recruitsRemaining += 10;
+//        p.recruitsRemaining += 10;
     
         NSArray *armies = [t objectForKey:@"armies"];
             
