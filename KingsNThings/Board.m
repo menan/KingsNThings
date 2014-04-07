@@ -1334,7 +1334,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     
     //    [game checkBluffForPlayer:[game currentPlayer]];
     
-    NSLog(@"board as a dict: %@",[[game getBoardAsADictionary] objectForKey:@"user-settings"]);
+//    NSLog(@"board as a dict: %@",[[game getBoardAsADictionary] objectForKey:@"user-settings"]);
     
     for(Player * p in game.players){
         totalIncome += [p getIncome];
@@ -1611,6 +1611,9 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     if ([player setTerritory:terrian]){
         NSLog(@"captureHEx");
         
+        
+        [markersArray addObject:
+         [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:(terrian.position.x + 10)],@"X",[NSNumber numberWithFloat:(terrian.position.y + 22)],@"Y",[NSNumber numberWithInt:player.playingOrder],@"playerId", nil]];
         
         SKSpriteNode* node = [[SKSpriteNode alloc]initWithImageNamed:[markers objectAtIndex:[player playingOrder]] ];
         node.name = @"bowl";

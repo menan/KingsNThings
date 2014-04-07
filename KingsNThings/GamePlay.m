@@ -707,6 +707,8 @@
     return dicData;
 }
 
+
+
 - (NSArray *) getPlayerSettingsAsDictionary{
     NSMutableArray *arrayStacks = [[NSMutableArray alloc] init];
     int i = 0;
