@@ -11,7 +11,7 @@
 #import "Creature.h"
 #import "Bank.h"
 #import "MyScene.h"
-#import "Combat.h"
+#import "CombatPhase.h"
 #import "Board.h"
 #import "GCTurnBasedMatchHelper.h"
 #import "NSMutableArrayDictionize.h"
@@ -235,7 +235,7 @@
             if([sp type] == Village || [sp type] == City)
                 [defArmy addCreatures:sp];
             
-            Combat* combat = [[Combat alloc]initWithMarkerAtPoint:newTerrain.position onBoard:[board getBoard] andMainScene:[self scene]];
+            CombatPhase* combat = [[CombatPhase alloc]initWithMarkerAtPoint:newTerrain.position onBoard:[board getBoard] andMainScene:[self scene]];
             [combat setDefenderArmy:defArmy];
             
             [combat setDefender: defender];
@@ -281,7 +281,7 @@
                 
                 Player* tempDefender = [[Player alloc] init ];
                 [tempDefender setArmy:defending];
-                Combat* combat = [[Combat alloc]initWithMarkerAtPoint:newTerrain.position onBoard:[board getBoard] andMainScene:[self scene]];
+                CombatPhase* combat = [[CombatPhase alloc]initWithMarkerAtPoint:newTerrain.position onBoard:[board getBoard] andMainScene:[self scene]];
                 [combat setDefenderArmy:defending];
                 [combat setDefender: tempDefender];
                 [combat setAttacker:player];
