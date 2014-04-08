@@ -591,13 +591,10 @@
         }
         [board updateRecruitLabel:[self currentPlayer]];
     }
-    
-   /*
-    if( && [battles count]>0){
-          if(phase == Combat){
-            [self combatPhase];
-        }
-    }*/
+    else if(phase == Combat){
+            if (battles.count > 0)
+                [self combatPhase];
+    }
     board.textLabel.text = [phaseText objectAtIndex:phase];
     
     return [phaseText objectAtIndex:phase];
