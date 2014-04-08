@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Tinrit. All rights reserved.
 //
 
-#import "Combat.h"
+#import "CombatPhase.h"
 #import "Creature.h"
 #import "MyScene.h"
 #import "CombatScene.h"
@@ -611,14 +611,14 @@
 }
 
 
-- (NSDictionary *) getDict{
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    [dict setObject:[NSNumber numberWithFloat:initialPoint.x] forKey:@"X"];
-    [dict setObject:[NSNumber numberWithFloat:initialPoint.y] forKey:@"Y"];
-    [dict setObject:imageName forKey:@"imageName"];
-    [dict setObject:[NSNumber numberWithInt:NO] forKey:@"si"];
-    return dict;
-}
+//- (NSDictionary *) getDict{
+//    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+//    [dict setObject:[NSNumber numberWithFloat:initialPoint.x] forKey:@"X"];
+//    [dict setObject:[NSNumber numberWithFloat:initialPoint.y] forKey:@"Y"];
+//    [dict setObject:imageName forKey:@"imageName"];
+//    [dict setObject:[NSNumber numberWithInt:NO] forKey:@"si"];
+//    return dict;
+//}
 
 
 @end

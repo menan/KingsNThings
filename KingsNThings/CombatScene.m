@@ -12,7 +12,7 @@
 #import "Player.h"
 #import "Creature.h"
 #import "GamePlay.h"
-#import "Combat.h"
+#import "CombatPhase.h"
 
 @implementation CombatScene{
    
@@ -22,7 +22,7 @@
     SKSpriteNode* background;
     SKLabelNode* combatRound;
     //GamePlay* game;
-    Combat* combat;
+    CombatPhase* combat;
     SKLabelNode *diceOneLabel ;
     SKLabelNode *diceTwoLabel;
     SKLabelNode *instructionLable;
