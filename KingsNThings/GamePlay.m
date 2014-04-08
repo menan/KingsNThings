@@ -168,33 +168,29 @@
     return NULL;
 }
 
+- (BOOL) validateMove:(Terrain *) oldTerrain withTerrain:(Terrain *) newTerrain{
+    
+    //Calculate if movement is valid
+    
+    float dx = [newTerrain getAbsoluteX] - [oldTerrain getAbsoluteX];
+    float dy = [newTerrain getAbsoluteY] - [oldTerrain getAbsoluteY];
+    
+    float distance = sqrt(dx*dx + dy*dy); //uses pythagorean theorem to caculate the distance
+    
+    if (distance < 75)
+        return YES;
+    else
+        return NO;
+}
+
 
 -(void) movementPhase:(Player *)player withArmy:(Army*)army onTerrian:(Terrain *)newTerrain{
     [self resetValues];
-//    NSLog(@"inside movementPhase");
-//    NSLog(@" player is %d",[player playingOrder]);
     Terrain* oldTerrain = army.terrain;
     Player *defender = [self findPlayerByTerrain:newTerrain];
-//    NSLog(@"tempPlayer is %d , player is %d",[defender playingOrder],[player playingOrder]);
     
     //to check to see if palyer only moved one hex
-    BOOL validMove = NO;
-    
-        //Calculate if movement is valid
-        
-        float dx = [newTerrain getAbsoluteX] - [oldTerrain getAbsoluteX];
-        float dy = [newTerrain getAbsoluteY] - [oldTerrain getAbsoluteY];
-        
-        float distance = sqrt(dx*dx + dy*dy); //uses pythagorean theorem to caculate the distance
-        
-        if (distance < 75) {
-            validMove = YES;
-        }
-    if([newTerrain isEqual:army.terrain]){
-        validMove = NO;
-    }
-    
-    
+    BOOL validMove = [self validateMove:newTerrain withTerrain:oldTerrain];
     
     if (validMove && [army stepsMoved] < 4 ) {
         //must be one hex
@@ -204,27 +200,20 @@
            [newTerrain.type isEqualToString:@"Mountain"]||
            [newTerrain.type isEqualToString:@"Forest"]||
            [newTerrain.type isEqualToString:@"Jungle"]){
-            
-                [army updateMovingSteps:2];
+            [army updateMovingSteps:2];
             
         }
         
         else{
             [army updateMovingSteps:1];
         }
-        
         //player is the owner of the terrain
         if([player isEqual:defender]){
-            
-//            NSLog(@"inside if players are equal");
-            
             int counter = 0;
             for(Army* s in player.stacks){
                 if([s.terrain isEqual:newTerrain])
                     counter += [s creaturesInArmy];
             }
-            //Army *a = [player findArmyOnTerrain:newTerrain];
-            
             if((counter + [army creaturesInArmy]) > 10){
                 NSLog(@"Invalid move cannot have more than 10 creatures on one terrain");
                 [army setPosition:oldTerrain.position];
@@ -235,23 +224,16 @@
         }
         //else if dude has army to deal with before he acquires this terrain
         else if(![defender isEqual:player] && [self thereAreDefendersOnTerrain:newTerrain]){
-            
-            //if(defender){ // one owner of terrain
-            
-            //if([self thereAreDefendersOnTerrain:newTerrain]){
             Army *defArmy = [defender findArmyOnTerrain:newTerrain];
             Building* building = [defender getBuildingOnTerrain:newTerrain];
             //SpecialIncome* sp = [defender getSpecialIncomeOnTerrain:newTerrain];
             SpecialIncome* sp = [[SpecialIncome alloc]initWithImage:@"-n City -a 2" atPoint:newTerrain.position];
             
-            if(building){
-                
+            if(building)
                 [defArmy setBuilding:building];
-            }
             
-            if([sp type] == Village || [sp type] == City){
+            if([sp type] == Village || [sp type] == City)
                 [defArmy addCreatures:sp];
-            }
             
             CombatPhase* combat = [[CombatPhase alloc]initWithMarkerAtPoint:newTerrain.position onBoard:[board getBoard] andMainScene:[self scene]];
             [combat setDefenderArmy:defArmy];
@@ -266,18 +248,6 @@
             player.doneTurn=YES;
             if(player.playingOrder == 1)
                 [self combatPhase];
-            //[self advancePhase:Combat];
-//            NSLog(@"tinside if players are NOT equal");
-            /*player.isWaitingCombat = YES;
-             [player.combat setObject:army forKey:@"withArmy"];
-             [player.combat setObject:defender forKey:@"andPlayer"];
-             [player.combat setObject:defArmy forKey:@"andDefenderArmy"];
-             //[player.combat setObject:YES forKey:@"isDefinding"];
-             */
-            
-            //}
-            
-            //}
         }
         
         

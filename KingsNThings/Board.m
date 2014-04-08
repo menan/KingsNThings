@@ -1608,8 +1608,9 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     
     //Terrain* temp = [self findTerrainAt:aPoint];
     
+    
     if ([player setTerritory:terrian]){
-        NSLog(@"captureHEx");
+//        NSLog(@"captureHEx");
         
         
         SKSpriteNode* node = [[SKSpriteNode alloc]initWithImageNamed:[markers objectAtIndex:[player playingOrder]] ];
@@ -1618,6 +1619,8 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         [node setPosition:CGPointMake(terrian.position.x + 10, terrian.position.y + 22)];
         [board addChild:node];
         
+        [markersArray addObject:
+         [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:(terrian.position.x + 10)],@"X",[NSNumber numberWithFloat:(terrian.position.y + 22)],@"Y",[NSNumber numberWithInt:player.playingOrder],@"playerId", nil]];
     }
     
     
