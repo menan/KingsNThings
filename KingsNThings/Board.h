@@ -64,6 +64,8 @@
 - (void) returnThingToBowl:(id) thing;
 - (void) addToRack: (id) item forPlayer:(Player *) p;
 
+
+//for networking :)
 - (void) constructBowlFromDictionary:(NSArray *) bowlArray;
 - (void) constructTerrainFromDictionary:(NSArray *) terrains;
 - (void) constructStackFromDictionary:(NSArray *) stacks;
@@ -72,5 +74,6 @@
 - (void) constructBuildingsFromDictionary:(NSArray *) placemarkers;
 - (void) setGoldsFromDictionary:(NSArray *) goldsArray;
 - (void) setUserSettingsFromDictionary:(NSArray *) settings;
+- (void) setBattlesFromDictionary:(NSArray *) battles;
 
 @end

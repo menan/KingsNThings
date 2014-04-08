@@ -13,6 +13,7 @@
 #import "Bank.h"
 #import "Player.h"
 #import "GamePlay.h"
+#import "CombatPhase.h"
 #import "NSMutableArrayShuffling.h"
 
 
@@ -1869,7 +1870,8 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         [[p stacks] removeAllObjects];
         
         NSArray *armies = [t objectForKey:@"armies"];
-            
+        
+        
         for (NSDictionary* army in armies) {
             
             NSLog(@"army:");
@@ -2096,6 +2098,45 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 }
 
 
+- (Army *) armyFromDictionary:(NSDictionary *)armyDict{
+    CGPoint loc = CGPointMake([[armyDict objectForKey:@"X"] floatValue], [[armyDict objectForKey:@"Y"] floatValue]);
+    Army * newArmy = [[Army alloc] initWithPoint:loc];
+    
+    for (NSDictionary *creatureDict in [armyDict objectForKey:@"creatures"]) {
+        if ([[creatureDict objectForKey:@"si"] boolValue]) {
+            SpecialIncome *si = [[SpecialIncome alloc] initWithBoard:board atPoint:loc fromString:[creatureDict objectForKey:@"imageName"]];
+            [newArmy addCreatures:si];
+        }
+        else{
+            Creature *aCreature = [[Creature alloc] initWithBoard:board atPoint:loc fromString:[creatureDict objectForKey:@"imageName"]];
+            [newArmy addCreatures:aCreature];
+        }
+    }
+    return newArmy;
+}
 
+- (void) setBattlesFromDictionary:(NSArray *) battles{
+    NSLog(@"battle came in like this: %@", battles);
+    
+    for (NSDictionary * battle in battles) {
+        CGPoint pointLoc = CGPointMake([[battle objectForKey:@"X"] floatValue], [[battle objectForKey:@"Y"] floatValue]);
+        Army * attackerArmy = [self armyFromDictionary:[battle objectForKey:@"attackerArmy"]];
+        Army * defenderArmy = [self armyFromDictionary:[battle objectForKey:@"defenderArmy"]];
+        Player * defender = [[game players] objectAtIndex:[[battle objectForKey:@"defender"] intValue]];
+        Player * attacker = [[game players] objectAtIndex:[[battle objectForKey:@"attacker"] intValue]];
+        CreatureCombatType type = [[battle objectForKey:@"attacker"] intValue];
+        
+        CombatPhase* combat = [[CombatPhase alloc]initWithMarkerAtPoint:pointLoc onBoard:board andMainScene:scene];
+        [combat setDefenderArmy:defenderArmy];
+        [combat setAttackerArmy:attackerArmy];
+        [combat setDefender: defender];
+        [combat setAttacker:attacker];
+        [combat setType:type];
+        [game.battles addObject:combat];
+        
+        NSLog(@"added battle: %@ -> %@",battle, game.battles);
+    }
+    
+}
 
 @end

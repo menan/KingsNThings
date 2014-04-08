@@ -14,13 +14,13 @@
 
 
 
-@interface Combat : NSObject
+@interface CombatPhase : NSObject
 
-typedef enum combatType : NSUInteger {
+typedef enum CreatureCombatType : NSUInteger {
     exploration,
     defendingHex
 
-}combatType;
+}CreatureCombatType;
 
 typedef enum Rtreated:NSUInteger{
     attackerRetreated,
@@ -35,7 +35,7 @@ typedef enum Round: NSUInteger{
     
 }Round;
 
-@property combatType type;
+@property CreatureCombatType type;
 @property Round round;
 @property Retreated whoRetreated;
 
@@ -69,7 +69,7 @@ typedef enum Round: NSUInteger{
 @property Army* attackerArmy,*defenderArmy;
 
 -(id) initWithMarkerAtPoint:(CGPoint) aPoint onBoard:(id) aBoard andMainScene:(id)sce ;
--(id) initWithAttacker:(Player*)att andDefender:(Player*)def andAttackerArmy:(id)attArmy andDefenderArmy:(id)defArmy andMainScene:(id)sce ofType:(combatType) type;
+-(id) initWithAttacker:(Player*)att andDefender:(Player*)def andAttackerArmy:(id)attArmy andDefenderArmy:(id)defArmy andMainScene:(id)sce ofType:(CreatureCombatType) type;
 -(void) startCombat:(CombatScene*) combatScene;
 -(void)drawScene;
 -(void)updateArmy:(NSString*)creatureName andPlayerType:(NSString*)player;

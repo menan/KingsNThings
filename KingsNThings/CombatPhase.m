@@ -13,7 +13,7 @@
 
 
 
-@implementation Combat{
+@implementation CombatPhase{
     
     SKScene* comabtScen;
     MyScene* mainScene;
@@ -71,7 +71,7 @@
     return self;
     
 }
--(id) initWithAttacker:(Player*)att andDefender:(Player*)def andAttackerArmy:(id)attArmy andDefenderArmy:(id)defArmy andMainScene:(id)sce ofType:(combatType)t{
+-(id) initWithAttacker:(Player*)att andDefender:(Player*)def andAttackerArmy:(id)attArmy andDefenderArmy:(id)defArmy andMainScene:(id)sce ofType:(CreatureCombatType)t{
     
     self = [super init];
     if(self)
@@ -175,6 +175,7 @@
    
      NSLog(@" at start num of Creatures in Attacker army %d", [attackerArmy creaturesInArmy]);
      NSLog(@" at start num of Creatures in defender army %d", [defenderArmy creaturesInArmy]);
+    
     
     
     for(Creature* creature in [attackerArmy creatures])
@@ -613,10 +614,13 @@
 
 - (NSDictionary *) getDict{
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    [dict setObject:[NSNumber numberWithFloat:initialPoint.x] forKey:@"X"];
-    [dict setObject:[NSNumber numberWithFloat:initialPoint.y] forKey:@"Y"];
-    [dict setObject:imageName forKey:@"imageName"];
-    [dict setObject:[NSNumber numberWithInt:NO] forKey:@"si"];
+    [dict setObject:[NSNumber numberWithFloat:battle.position.x] forKey:@"X"];
+    [dict setObject:[NSNumber numberWithFloat:battle.position.y] forKey:@"Y"];
+    [dict setObject:[NSNumber numberWithInteger:defender.playingOrder] forKey:@"defender"];
+    [dict setObject:[NSNumber numberWithInteger:attacker.playingOrder] forKey:@"attacker"];
+    [dict setObject:[attackerArmy getDict] forKey:@"attackerArmy"];
+    [dict setObject:[defenderArmy getDict] forKey:@"defenderArmy"];
+    [dict setObject:[NSNumber numberWithInteger:type] forKey:@"type"];
     return dict;
 }
 

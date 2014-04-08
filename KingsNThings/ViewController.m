@@ -152,6 +152,7 @@
         
         [b constructBowlFromDictionary:[myDictionary objectForKey:@"bowl"]];
         [b setUserSettingsFromDictionary:[myDictionary objectForKey:@"user-settings"]];
+        [b setBattlesFromDictionary:[myDictionary objectForKey:@"battles"]];
         
         b.avoidChecks = NO;
         NSLog(@"Taking turn for existing game with the received data...");
