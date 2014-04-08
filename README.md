@@ -5,7 +5,4 @@ Kings & Things is a classic Tom Wham game of warring kingdoms in a fantasy world
 http://boardgamegeek.com/boardgame/58/kings-things
 
 To do:
-
-- Displaying the winner.
 - Setup empty board
-- change player order after one completion
