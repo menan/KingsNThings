@@ -26,6 +26,12 @@ typedef enum {
 } Phase;
 
 
+typedef enum {
+    ClockWise,
+    CounterClockWise
+    
+}PlayingOrder;
+
 @property Player *me;
 @property MyScene *scene;
 
@@ -34,6 +40,9 @@ typedef enum {
 @property NSMutableArray *players, *terrains, *battles;
 
 @property Phase phase;
+@property PlayingOrder order;
+
+
 
 - (id) initWithBoard:(id) b;
 

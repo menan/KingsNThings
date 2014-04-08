@@ -24,7 +24,7 @@
 
 @synthesize me,oneDice,secondDice,players;
 
-@synthesize terrains,scene,phase,battles;
+@synthesize terrains,scene,phase,battles,order;
 
 
 -(id) initWithBoard:(id) b{
@@ -41,6 +41,8 @@
         oneDice = 0;
         secondDice = 0;
         phase = Initial;
+        order = ClockWise;
+    
         
         [self advancePhase:Initial];
         
@@ -86,7 +88,6 @@
 -(void) assignScene:(MyScene*)sce{
     scene = sce;
 }
-
 
 
 
@@ -335,7 +336,10 @@
     //CombatPhase* combat ;
     
     for (CombatPhase* combat in battles){
-        [combat drawScene];
+        
+        if(combat.attacker == [self currentPlayer] || combat.defender == [self currentPlayer])
+            [combat drawScene];
+        
         if([combat.attacker hasWonCombat]){
             
             
@@ -819,7 +823,11 @@
         int index = nextIndex;
         
         while (nextParticipant.status != GKTurnBasedParticipantStatusActive && nextParticipant.status != GKTurnBasedParticipantStatusInvited) {
-            index ++;
+            if (order == ClockWise)
+                index ++;
+            else
+                index --;
+            
             NSUInteger nextIndex = index % [currentMatch.participants count];
             NSLog(@"current player id %d, status: %d",currentIndex, nextParticipant.status);
             nextParticipant = [currentMatch.participants objectAtIndex:nextIndex];

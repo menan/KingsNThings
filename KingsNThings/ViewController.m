@@ -113,6 +113,14 @@
         }
         else if(g.phase == SpecialPower){
             //change players order.
+            if (g.order == ClockWise) {
+                g.order = CounterClockWise;
+            }
+            else{
+                g.order = ClockWise;
+            }
+            
+            [scene transitToPhaseChange:[g advancePhase:GoldCollection]];
             NSLog(@"game first turn completed, gotta change the orders now");
         }
     }
