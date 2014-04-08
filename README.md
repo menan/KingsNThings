@@ -6,6 +6,6 @@ http://boardgamegeek.com/boardgame/58/kings-things
 
 To do:
 
-> Displaying the winner.
-> Setup empty board
-> change player order after one completion
+- Displaying the winner.
+- Setup empty board
+- change player order after one completion
