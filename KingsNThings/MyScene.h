@@ -19,7 +19,7 @@
 
 - (void) transitToCombat:(id)attacker andDefender:(id)defender andCombatFunction:(id)combatfun;
 - (void) transitToRecruitmentScene: (Creature *) c forPlayer: (Player *) p;
-- (void) tranitToArmyScene:(Army*) army forPlayer:(Player*)p;
+//- (void) tranitToArmyScene:(Army*) army forPlayer:(Player*)p;
 - (void) transitWinnerScene:(NSString *)player;
 - (void) transitToPhaseChange:(NSString *)phase;
 

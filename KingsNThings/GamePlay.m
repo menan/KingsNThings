@@ -620,6 +620,8 @@
     
 }
 
+//========================================================
+//helper functions for game center stuff.
 
 
 #pragma get player info as dictionary for networking
@@ -639,6 +641,9 @@
     [dicData setObject:[self getGoldsAsDictionary] forKey:@"balance"];
     [dicData setObject:[self getPlayerSettingsAsDictionary] forKey:@"user-settings"];
     [dicData setObject:[battles dictionize] forKey:@"battles"];
+    [dicData setObject:[self getPlayerSICsAsDictionary] forKey:@"sic"];
+    
+    
     
     NSLog(@"battles: %@", [battles dictionize]);
     
@@ -692,6 +697,24 @@
         i++;
     }
     //    NSLog(@"stacks array: %@",arrayStacks);
+    return arrayStacks;
+}
+
+
+//SIC = special income counter ;)
+- (NSArray *) getPlayerSICsAsDictionary{
+    NSMutableArray *arrayStacks = [[NSMutableArray alloc] init];
+    int i = 0;
+    for (Player *p in players) {
+        NSMutableArray *playerArray = [p.specialIncome dictionize];
+        NSMutableDictionary *playerDict = [[NSMutableDictionary alloc] init];
+        [playerDict setObject:playerArray forKey:@"counters"];
+        [playerDict setObject:[NSNumber numberWithInt:i] forKey:@"playerId"];
+        [arrayStacks addObject:playerDict];
+        
+        i++;
+    }
+    NSLog(@"SICs array: %@",arrayStacks);
     return arrayStacks;
 }
 
@@ -752,6 +775,8 @@
 }
 
 
+//========================================================
+//functions for game center stuff.
 
 #pragma GameCenter Functions
 

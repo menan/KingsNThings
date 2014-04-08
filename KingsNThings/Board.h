@@ -52,7 +52,7 @@
 - (void) captureHex:(Player*) player atTerrain:(Terrain*)terrain;
 - (void) creaturesMoved:(Creature *) n AtTerrain:(Terrain *) t;
 - (Army*) createRandomArmy:(NSInteger) number atPoint:(CGPoint)aPoint andTerrain:(Terrain*)terrain;
-- (void) playTreasure:(SKSpriteNode*)node;
+//- (void) playTreasure:(SKSpriteNode*)node;
 - (void) showArmyCreatures:(Army*)army;
 
 
@@ -75,5 +75,6 @@
 - (void) setGoldsFromDictionary:(NSArray *) goldsArray;
 - (void) setUserSettingsFromDictionary:(NSArray *) settings;
 - (void) setBattlesFromDictionary:(NSArray *) battles;
+- (void) setSICsFromDictionary:(NSArray *) sics;
 
 @end

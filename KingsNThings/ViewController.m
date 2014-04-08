@@ -147,6 +147,7 @@
         }
         
         [b constructStackFromDictionary:[myDictionary objectForKey:@"stacks"]];
+        [b setSICsFromDictionary:[myDictionary objectForKey:@"sics"]];
         [b constructRackFromDictionary:[myDictionary objectForKey:@"racks"]];
         
         
