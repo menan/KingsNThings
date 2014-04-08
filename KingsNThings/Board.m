@@ -1293,7 +1293,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 
 
 - (void) addToRack: (id) item forPlayer:(Player *) p{
-    if (p.rack.count <= 10) {
+    if (p.rack.count <= 10 || avoidChecks) {
         SKSpriteNode *itemNode;
         
         //to make it work for both si and creature
@@ -1908,7 +1908,6 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             NSString *creatureName = [army objectForKey:@"imageName"];
             if ([[army objectForKey:@"si"] boolValue]) {
                 SpecialIncome *item = [[SpecialIncome alloc] initWithBoard:board atPoint:loc fromString:creatureName];
-                Terrain* t = nil;
                 if (playerId == [game currentPlayerId]) {
                     item.inBowl = NO;
                     [item draw];
@@ -1916,7 +1915,8 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 else{
                     [item remove];
                 }
-                [self recruiteSpecialIncome:item onTerrain:t forPlayer:p];
+                [self addToRack:item forPlayer:p];
+//                [self recruiteSpecialIncome:item onTerrain:t forPlayer:p];
                 NSLog(@"placing %@", item.name);
             }
             else{
@@ -2075,7 +2075,6 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             NSString* imageName = [counter objectForKey:@"imageName"];
             CGPoint location = [self pointFromDictionary:counter];
             SpecialIncome *spIncome = [[SpecialIncome alloc] initWithBoard:board atPoint:location fromString:imageName];
-            [p.specialIncome addObject:spIncome];
             
             Terrain *t = [game locateTerrainAt:location];
             
@@ -2083,7 +2082,12 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             [spIncome setName:@"bowl"];
             [spIncome setSize:CGSizeMake(30, 30)];
             [spIncome setPosition:location];
+            spIncome.inBowl = NO;
+            [spIncome draw];
+            
             [spIncome setTerrain:t];
+            
+            [p.specialIncome addObject:spIncome];
             
         }
         NSLog(@"just added special income for player %d vs %d",[[sic objectForKey:@"counters"] count], p.specialIncome.count);

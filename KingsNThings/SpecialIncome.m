@@ -134,7 +134,7 @@
     }
     else{
         
-        self.color = [SKColor grayColor];
+        self.color = [SKColor clearColor];
         self.colorBlendFactor = 0;
     }
     [board addChild:self];
