@@ -5,6 +5,4 @@ Kings & Things is a classic Tom Wham game of warring kingdoms in a fantasy world
 http://boardgamegeek.com/boardgame/58/kings-things
 
 To do:
-
-- Special Income counters need to sync.
-- 
+- Setup empty board

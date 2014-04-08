@@ -52,7 +52,7 @@
 - (void) captureHex:(Player*) player atTerrain:(Terrain*)terrain;
 - (void) creaturesMoved:(Creature *) n AtTerrain:(Terrain *) t;
 - (Army*) createRandomArmy:(NSInteger) number atPoint:(CGPoint)aPoint andTerrain:(Terrain*)terrain;
-- (void) playTreasure:(SKSpriteNode*)node;
+//- (void) playTreasure:(SKSpriteNode*)node;
 - (void) showArmyCreatures:(Army*)army;
 
 
@@ -64,6 +64,8 @@
 - (void) returnThingToBowl:(id) thing;
 - (void) addToRack: (id) item forPlayer:(Player *) p;
 
+
+//for networking :)
 - (void) constructBowlFromDictionary:(NSArray *) bowlArray;
 - (void) constructTerrainFromDictionary:(NSArray *) terrains;
 - (void) constructStackFromDictionary:(NSArray *) stacks;
@@ -72,5 +74,7 @@
 - (void) constructBuildingsFromDictionary:(NSArray *) placemarkers;
 - (void) setGoldsFromDictionary:(NSArray *) goldsArray;
 - (void) setUserSettingsFromDictionary:(NSArray *) settings;
+- (void) setBattlesFromDictionary:(NSArray *) battles;
+- (void) setSICsFromDictionary:(NSArray *) sics;
 
 @end

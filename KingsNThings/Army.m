@@ -7,7 +7,6 @@
 //
 
 #import "Army.h"
-#import "Creature.h"
 #import "Building.h"
 #import "NSMutableArrayDictionize.h"
 
@@ -67,6 +66,21 @@
         }
     }
 }
+
+
+- (NSMutableArray *) getCreaturesOfType:(CombatStrength) type{
+
+    NSMutableArray *returnCreatures = [[NSMutableArray alloc] init];
+    
+    for(Creature* c in creatures){
+        if (c.combatType == type) {
+            [returnCreatures addObject:c];
+        }
+    }
+    return returnCreatures;
+}
+
+
 
 -(BOOL)containCreature:(id)creature{
     if([creatures containsObject:creature])

@@ -19,15 +19,15 @@ typedef enum Stage : NSUInteger {
     None
 }Stage;
 
-typedef enum CombatType : NSUInteger {
+typedef enum BuildingCombatType : NSUInteger {
   Magic,
   Ranged,
   Melee
-}CombatType;
+}BuildingCombatType;
 
 
 @property Stage stage;
-@property CombatType combat;
+@property BuildingCombatType combat;
 @property Terrain *terrain;
 @property NSInteger combatValue ,currentCombatValue;
 @property BOOL isNeutralised;

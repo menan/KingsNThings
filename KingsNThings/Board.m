@@ -13,6 +13,7 @@
 #import "Bank.h"
 #import "Player.h"
 #import "GamePlay.h"
+#import "CombatPhase.h"
 #import "NSMutableArrayShuffling.h"
 
 
@@ -680,7 +681,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                                 [NSValue valueWithCGPoint:CGPointMake(57.000000, 288.500000)],
                                 [NSValue valueWithCGPoint:CGPointMake(57.750000, 359.000000)],
                                 nil];
-    int seaCounter = 0;
+//    int seaCounter = 0;
     /*for(int i = 0 ; i < [terrainPositions count]; i++){
         int random =(arc4random() % [terrainNames count]);
         if([[terrainNames objectAtIndex:random ] isEqualToString:@"Sea"])
@@ -1142,6 +1143,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                             [owner addSpecialIncome:sp];
                             [sp setSize:CGSizeMake(30, 30)];
                             [sp setPosition:CGPointMake(t.position.x + 7, t.position.y - 15)];
+                            [sp setTerrain:t];
                             [owner removeSpecialIncomeOnRack:sp];
                         }
                     }
@@ -1291,7 +1293,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 
 
 - (void) addToRack: (id) item forPlayer:(Player *) p{
-    if (p.rack.count <= 10) {
+    if (p.rack.count <= 10 || avoidChecks) {
         SKSpriteNode *itemNode;
         
         //to make it work for both si and creature
@@ -1608,8 +1610,9 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     
     //Terrain* temp = [self findTerrainAt:aPoint];
     
+    
     if ([player setTerritory:terrian]){
-        NSLog(@"captureHEx");
+//        NSLog(@"captureHEx");
         
         
         [markersArray addObject:
@@ -1621,6 +1624,8 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         [node setPosition:CGPointMake(terrian.position.x + 10, terrian.position.y + 22)];
         [board addChild:node];
         
+        [markersArray addObject:
+         [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:(terrian.position.x + 10)],@"X",[NSNumber numberWithFloat:(terrian.position.y + 22)],@"Y",[NSNumber numberWithInt:player.playingOrder],@"playerId", nil]];
     }
     
     
@@ -1867,14 +1872,12 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         int playerId = [[t objectForKey:@"playerId"] integerValue];
         Player *p = [game.players objectAtIndex:playerId];
         [[p stacks] removeAllObjects];
-        
         NSArray *armies = [t objectForKey:@"armies"];
-            
+        
         for (NSDictionary* army in armies) {
-            
             NSLog(@"army:");
-            CGPoint loc = CGPointMake([[army objectForKey:@"X"] floatValue], [[army objectForKey:@"Y"] floatValue]);
-            
+            CGPoint loc =  [self pointFromDictionary:army];
+
             for (NSDictionary* creature in [army objectForKey:@"creatures"]) {
                 NSString *creatureName = [creature objectForKey:@"imageName"];
 
@@ -1896,25 +1899,18 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 
 - (void) constructRackFromDictionary:(NSArray *) racks{
 //    NSLog(@"gonna construct buildings with from the data %@",racks);
-    
     for (NSDictionary *t in racks) {
-        
         int playerId = [[t objectForKey:@"playerId"] integerValue];
         Player *p = [game.players objectAtIndex:playerId];
         [[p rack] removeAllObjects];
         
-        
         NSArray *armies = [t objectForKey:@"armies"];
         
         for (NSDictionary* army in armies) {
-            CGPoint loc = CGPointMake([[army objectForKey:@"X"] floatValue], [[army objectForKey:@"Y"] floatValue]);
+            CGPoint loc =  [self pointFromDictionary:army];
             NSString *creatureName = [army objectForKey:@"imageName"];
-            
             if ([[army objectForKey:@"si"] boolValue]) {
-                
                 SpecialIncome *item = [[SpecialIncome alloc] initWithBoard:board atPoint:loc fromString:creatureName];
-                Terrain* t = nil;
-                
                 if (playerId == [game currentPlayerId]) {
                     item.inBowl = NO;
                     [item draw];
@@ -1922,14 +1918,12 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 else{
                     [item remove];
                 }
-                
-                [self recruiteSpecialIncome:item onTerrain:t forPlayer:p];
-                
+                [self addToRack:item forPlayer:p];
+//                [self recruiteSpecialIncome:item onTerrain:t forPlayer:p];
                 NSLog(@"placing %@", item.name);
             }
             else{
                 Creature *item = [[Creature alloc] initWithBoard:board atPoint:loc fromString:creatureName];
-                
                 if (playerId == [game currentPlayerId]) {
                     item.inBowl = NO;
                     [item draw];
@@ -1940,14 +1934,8 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
                 [self addToRack:item forPlayer:p];
                 NSLog(@"dont know how to add to the rack but tried my best to do so");
             }
-            
-            
         }
 //        NSLog(@"user rack vs dictionary rack %d vs %d",p.rack.count, [armies count]);
-        
-        
-        
-        
     }
 }
 
@@ -1959,7 +1947,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         
         for (NSDictionary *building in m) {
             
-            CGPoint pointMarker = CGPointMake([[building objectForKey:@"X"] floatValue], [[building objectForKey:@"Y"] floatValue]);
+            CGPoint pointMarker =  [self pointFromDictionary:building];
             NSString *buildingName = [building objectForKey:@"imageName"];
             
             
@@ -1988,7 +1976,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 //    NSLog(@"gonna construct placemarkers with from the data %@",placemarkers);
     
     for (NSDictionary *m in placemarkers) {
-        CGPoint pointMarker = CGPointMake([[m objectForKey:@"X"] floatValue], [[m objectForKey:@"Y"] floatValue]);
+        CGPoint pointMarker = [self pointFromDictionary:m];
         int playerId = [[m objectForKey:@"playerId"] integerValue];
         
         
@@ -2017,7 +2005,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 //    NSLog(@"gonna construct bowl with from the data %@",bowl);
     [bowl removeAllObjects];
     for (NSDictionary *c in bowlArray) {
-        CGPoint pointLoc = CGPointMake([[c objectForKey:@"X"] floatValue], [[c objectForKey:@"Y"] floatValue]);
+        CGPoint pointLoc = [self pointFromDictionary:c];
         NSString* imageName = [c objectForKey:@"imageName"];
         BOOL specialIncome = [[c objectForKey:@"si"] boolValue];
         
@@ -2076,6 +2064,38 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
     NSLog(@"done setting the golds from the dictionary.");
 }
 
+- (void) setSICsFromDictionary:(NSArray *) sics{
+    
+    for (NSDictionary *sic in sics) {
+        
+        
+        int playerId = [[sic objectForKey:@"playerId"] integerValue];
+        Player *p = [game.players objectAtIndex:playerId];
+        [p.specialIncome removeAllObjects];
+        
+        
+        for (NSDictionary *counter in [sic objectForKey:@"counters"]) {
+            NSString* imageName = [counter objectForKey:@"imageName"];
+            CGPoint location = [self pointFromDictionary:counter];
+            SpecialIncome *spIncome = [[SpecialIncome alloc] initWithBoard:board atPoint:location fromString:imageName];
+            
+            Terrain *t = [game locateTerrainAt:location];
+            
+            
+            [spIncome setName:@"bowl"];
+            [spIncome setSize:CGSizeMake(30, 30)];
+            [spIncome setPosition:location];
+            spIncome.inBowl = NO;
+            [spIncome draw];
+            
+            [spIncome setTerrain:t];
+            
+            [p.specialIncome addObject:spIncome];
+            
+        }
+        NSLog(@"just added special income for player %d vs %d",[[sic objectForKey:@"counters"] count], p.specialIncome.count);
+    }
+}
 
 
 - (void) setUserSettingsFromDictionary:(NSArray *) settings{
@@ -2096,6 +2116,52 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 }
 
 
+- (Army *) armyFromDictionary:(NSDictionary *)armyDict{
+    CGPoint loc = [self pointFromDictionary:armyDict];
+    Army * newArmy = [[Army alloc] initWithPoint:loc];
+    
+    for (NSDictionary *creatureDict in [armyDict objectForKey:@"creatures"]) {
+        if ([[creatureDict objectForKey:@"si"] boolValue]) {
+            SpecialIncome *si = [[SpecialIncome alloc] initWithBoard:board atPoint:loc fromString:[creatureDict objectForKey:@"imageName"]];
+            [newArmy addCreatures:si];
+        }
+        else{
+            Creature *aCreature = [[Creature alloc] initWithBoard:board atPoint:loc fromString:[creatureDict objectForKey:@"imageName"]];
+            [newArmy addCreatures:aCreature];
+        }
+    }
+    return newArmy;
+}
+
+- (void) setBattlesFromDictionary:(NSArray *) battles{
+    NSLog(@"battle came in like this: %@", battles);
+    
+    for (NSDictionary * battle in battles) {
+        CGPoint pointLoc = [self pointFromDictionary:battle];
+        Army * attackerArmy = [self armyFromDictionary:[battle objectForKey:@"attackerArmy"]];
+        Army * defenderArmy = [self armyFromDictionary:[battle objectForKey:@"defenderArmy"]];
+        Player * defender = [[game players] objectAtIndex:[[battle objectForKey:@"defender"] intValue]];
+        Player * attacker = [[game players] objectAtIndex:[[battle objectForKey:@"attacker"] intValue]];
+        CreatureCombatType type = [[battle objectForKey:@"attacker"] intValue];
+        
+        CombatPhase* combat = [[CombatPhase alloc]initWithMarkerAtPoint:pointLoc onBoard:board andMainScene:scene];
+        [combat setDefenderArmy:defenderArmy];
+        [combat setAttackerArmy:attackerArmy];
+        [combat setDefender: defender];
+        [combat setAttacker:attacker];
+        [combat setType:type];
+        [game.battles addObject:combat];
+        
+        NSLog(@"added battle: %@ -> %@",battle, game.battles);
+    }
+    
+}
+
+
+//makes a point from the dictionary
+- (CGPoint) pointFromDictionary:(NSDictionary *) dict{
+    return CGPointMake([[dict objectForKey:@"X"] floatValue], [[dict objectForKey:@"Y"] floatValue]);
+}
 
 
 @end

@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Terrain.h"
 #import "Building.h"
+#import "Creature.h"
 
 @interface Army : SKSpriteNode
 
@@ -34,5 +35,5 @@
 -(void) updateMovingSteps:(NSInteger)steps;
 //-(NSInteger) getMovedSteps;
 -(void) resetMovingSteps;
-
+- (NSMutableArray *) getCreaturesOfType:(CombatStrength) type;
 @end

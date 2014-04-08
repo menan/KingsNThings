@@ -26,17 +26,23 @@ typedef enum {
 } Phase;
 
 
+typedef enum {
+    ClockWise,
+    CounterClockWise
+    
+}PlayingOrder;
+
 @property Player *me;
 @property MyScene *scene;
 
 @property NSInteger oneDice;
 @property NSInteger secondDice;
-@property NSMutableArray *players, *terrains;
+@property NSMutableArray *players, *terrains, *battles;
 
-@property NSArray *p1Stack1,*p1Stack2,*p2Stack1,*p3Stack1,*p3Stack2,*p3Stack3,*p4Stack1,*p4Stack2,*p4Stack3;
-
-//@property BOOL goldPhase , isMovementPhase , isThingRecrPahse, isComabtPahse,isInitialPhase,isConstructionPhase;
 @property Phase phase;
+@property PlayingOrder order;
+
+
 
 - (id) initWithBoard:(id) b;
 

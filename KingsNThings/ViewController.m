@@ -113,6 +113,14 @@
         }
         else if(g.phase == SpecialPower){
             //change players order.
+            if (g.order == ClockWise) {
+                g.order = CounterClockWise;
+            }
+            else{
+                g.order = ClockWise;
+            }
+            
+            [scene transitToPhaseChange:[g advancePhase:GoldCollection]];
             NSLog(@"game first turn completed, gotta change the orders now");
         }
     }
@@ -147,11 +155,13 @@
         }
         
         [b constructStackFromDictionary:[myDictionary objectForKey:@"stacks"]];
+        [b setSICsFromDictionary:[myDictionary objectForKey:@"sics"]];
         [b constructRackFromDictionary:[myDictionary objectForKey:@"racks"]];
         
         
         [b constructBowlFromDictionary:[myDictionary objectForKey:@"bowl"]];
         [b setUserSettingsFromDictionary:[myDictionary objectForKey:@"user-settings"]];
+        [b setBattlesFromDictionary:[myDictionary objectForKey:@"battles"]];
         
         b.avoidChecks = NO;
         NSLog(@"Taking turn for existing game with the received data...");
