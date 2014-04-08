@@ -14,7 +14,7 @@
 
 
 
-@interface CombatPhase : NSObject
+@interface Combat : NSObject
 
 typedef enum combatType : NSUInteger {
     exploration,

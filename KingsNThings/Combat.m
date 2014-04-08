@@ -6,14 +6,14 @@
 //  Copyright (c) 2014 Tinrit. All rights reserved.
 //
 
-#import "CombatPhase.h"
+#import "Combat.h"
 #import "Creature.h"
 #import "MyScene.h"
 #import "CombatScene.h"
 
 
 
-@implementation CombatPhase{
+@implementation Combat{
     
     SKScene* comabtScen;
     MyScene* mainScene;
@@ -608,6 +608,16 @@
         }
     }
     return nil;
+}
+
+
+- (NSDictionary *) getDict{
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    [dict setObject:[NSNumber numberWithFloat:initialPoint.x] forKey:@"X"];
+    [dict setObject:[NSNumber numberWithFloat:initialPoint.y] forKey:@"Y"];
+    [dict setObject:imageName forKey:@"imageName"];
+    [dict setObject:[NSNumber numberWithInt:NO] forKey:@"si"];
+    return dict;
 }
 
 

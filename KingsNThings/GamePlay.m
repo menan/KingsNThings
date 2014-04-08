@@ -11,7 +11,7 @@
 #import "Creature.h"
 #import "Bank.h"
 #import "MyScene.h"
-#import "CombatPhase.h"
+#import "Combat.h"
 #import "Board.h"
 #import "GCTurnBasedMatchHelper.h"
 #import "NSMutableArrayDictionize.h"
@@ -235,7 +235,7 @@
             if([sp type] == Village || [sp type] == City)
                 [defArmy addCreatures:sp];
             
-            CombatPhase* combat = [[CombatPhase alloc]initWithMarkerAtPoint:newTerrain.position onBoard:[board getBoard] andMainScene:[self scene]];
+            Combat* combat = [[Combat alloc]initWithMarkerAtPoint:newTerrain.position onBoard:[board getBoard] andMainScene:[self scene]];
             [combat setDefenderArmy:defArmy];
             
             [combat setDefender: defender];
@@ -281,7 +281,7 @@
                 
                 Player* tempDefender = [[Player alloc] init ];
                 [tempDefender setArmy:defending];
-                CombatPhase* combat = [[CombatPhase alloc]initWithMarkerAtPoint:newTerrain.position onBoard:[board getBoard] andMainScene:[self scene]];
+                Combat* combat = [[Combat alloc]initWithMarkerAtPoint:newTerrain.position onBoard:[board getBoard] andMainScene:[self scene]];
                 [combat setDefenderArmy:defending];
                 [combat setDefender: tempDefender];
                 [combat setAttacker:player];
@@ -673,9 +673,14 @@
     [dicData setObject:[self getPlayerBuildingsAsDictionary] forKey:@"buildings"];
     [dicData setObject:[self getGoldsAsDictionary] forKey:@"balance"];
     [dicData setObject:[self getPlayerSettingsAsDictionary] forKey:@"user-settings"];
+    [dicData setObject:[battles dictionize] forKey:@"battles"];
+    
+    NSLog(@"battles: %@", [battles dictionize]);
     
     return dicData;
 }
+
+
 
 - (NSArray *) getPlayerSettingsAsDictionary{
     NSMutableArray *arrayStacks = [[NSMutableArray alloc] init];
@@ -688,7 +693,7 @@
         [arrayStacks addObject:playerDict];
         i++;
     }
-//    NSLog(@"users settings array: %@",arrayStacks);
+    //    NSLog(@"users settings array: %@",arrayStacks);
     return arrayStacks;
 }
 
