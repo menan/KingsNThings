@@ -591,9 +591,11 @@
         for (Player *p in players) {
             int freeRecs = [p freeRecruitsCount];
             p.recruitsRemaining += freeRecs; //adds free recruits based on the rounded up # of terrains owned/2
+            [self checkBluffForPlayer:p];
         }
         
         [board updateRecruitLabel:[self currentPlayer]];
+        
     }
     else if (phase == SpecialRecruitment){
         for (Player *p in players) {
@@ -602,6 +604,7 @@
         }
         [board updateRecruitLabel:[self currentPlayer]];
     }
+    
     else if(phase == Combat){
             if (battles.count > 0)
                 [self combatPhase];
