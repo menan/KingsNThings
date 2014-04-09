@@ -120,14 +120,15 @@ static int counter = -1;
     for(Army *a in stacks){
         for(id c in a.creatures){
             if ([c isKindOfClass:[SpecialIncome class]]) {
+                NSLog(@"creature special creature income: %@", c);
                 sIncome++;
             }
-            else{
-                Creature *myCreature = c;
-                if (myCreature.isSpecial){
-                    sIncome++;
-                }
-            }
+//            else{
+//                Creature *myCreature = c;
+//                if (myCreature.isSpecial){
+//                    sIncome++;
+//                }
+//            }
             
         }
     }
@@ -174,7 +175,8 @@ static int counter = -1;
 }
 
 - (int) getIncome{
-    return (territories.count + [self getBuildingIncome] + [self getSpecialCreatureIncome] + [self getSpecialIncomeValue]);
+    NSLog(@"territories %d: %d ", [self playingOrder],territories.count + [self getBuildingIncome] + [self getSpecialIncomeValue]);
+    return (territories.count + [self getBuildingIncome] + [self getSpecialIncomeValue]);
 }
 
 - (NSMutableArray *) getTerritories{
