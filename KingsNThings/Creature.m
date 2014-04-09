@@ -151,7 +151,7 @@
     if(combatType != isMagic && combatType != isRanged && combatType != isCharge){
         combatType = isMelee;
     }
-    isBluff = YES;
+ 
     
 }
 
