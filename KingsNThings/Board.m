@@ -1265,10 +1265,14 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
         
         [self updateBank];
         [self showDone];
-        [[board childNodeWithName:@"collection"] removeFromParent];
+//        [[board childNodeWithName:@"collection"] removeFromParent];
         return YES;
     }
     else{
+        
+        UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Phase Error" message: @"You can only collect gold in gold collection phase, Wait for the next turn." delegate: self                                       cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        
+        [error show];
         NSLog(@"the stage was neither initial or theres not enough balance in the bank to accomodate gold collection for all users, so it wasnt initiated");
         return NO;
     }
