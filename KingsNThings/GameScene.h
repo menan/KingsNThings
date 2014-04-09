@@ -10,7 +10,7 @@
 #import "Player.h"
 #import "Creature.h"
 
-@interface MyScene : SKScene
+@interface GameScene : SKScene
 
 @property (nonatomic, strong) SKSpriteNode *board;
 @property (nonatomic, strong) SKSpriteNode *selectedNode;

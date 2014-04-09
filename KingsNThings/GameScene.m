@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Tinrit. All rights reserved.
 //
 
-#import "MyScene.h"
+#import "GameScene.h"
 #import "CombatScene.h"
 #import "Army.h"
 #import "Creature.h"
@@ -15,7 +15,7 @@
 #import "ArmyScene.h"
 #import "AdvancePhaseScene.h"
 
-@implementation MyScene{
+@implementation GameScene{
      SKTransition* transitionDoorsCloseHorizontal;
     SKTransition* transitionRevealWithDirectionUp;
     CombatScene* combat;
@@ -46,24 +46,6 @@
     
 }
 
-/*-(void) respondToGesture:(CGPoint)location{
-    
-    SKSpriteNode *touchedNode = (SKSpriteNode *)[self nodeAtPoint:location];
-    
-    NSLog(@"long press detected at location x %f , y %f ",location.x,location.y);
-    NSLog(@"long press detected at node  %@",touchedNode.name);
-    
-}*/
-
-/*-(void) longPressDetected:(UIGestureRecognizer *)gestureRecognizer{
-    
-    //CGPoint location = _selectedNode.position;
-    
-    if([_selectedNode isKindOfClass:[Army class]]){
-        [gameBoard showArmyCreatures:(Army*)_selectedNode];
-    }
-  
-}*/
 
 - (void)selectNodeForTouch:(CGPoint)touchLocation {
     //1
@@ -91,7 +73,7 @@
             _selectedNode.colorBlendFactor = 0;
         }
         		_selectedNode = touchedNode;
-       NSLog(@"node tapped:%@,  %f, %f", _selectedNode.class, _selectedNode.position.x, _selectedNode.position.y);
+//       NSLog(@"node tapped:%@,  %f, %f", _selectedNode.class, _selectedNode.position.x, _selectedNode.position.y);
         
         _selectedNode.color = [SKColor redColor];
         _selectedNode.colorBlendFactor = 0.5;

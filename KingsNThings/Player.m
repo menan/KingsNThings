@@ -118,10 +118,17 @@ static int counter = -1;
 - (int) getSpecialCreatureIncome{
     int sIncome = 0;
     for(Army *a in stacks){
-        for(Creature *c in a.creatures){
-            if (c.isSpecial){
+        for(id c in a.creatures){
+            if ([c isKindOfClass:[SpecialIncome class]]) {
                 sIncome++;
             }
+            else{
+                Creature *myCreature = c;
+                if (myCreature.isSpecial){
+                    sIncome++;
+                }
+            }
+            
         }
     }
     

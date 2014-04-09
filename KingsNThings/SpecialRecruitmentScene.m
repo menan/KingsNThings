@@ -7,14 +7,14 @@
 //
 
 #import "SpecialRecruitmentScene.h"
-#import "MyScene.h"
+#import "GameScene.h"
 #import "Dice.h"
 #import "Board.h"
 
 @implementation SpecialRecruitmentScene{
     SKSpriteNode *background,*diceOne, *diceTwo;
     SKLabelNode *diceOneLabel,*diceTwoLabel, *lblCValue;
-    MyScene* sender;
+    GameScene* sender;
     int rolled;
     
 }
@@ -214,7 +214,7 @@
         if([p addCreatureToArmy:creature inArmy:army ]){
             [creature removeFromParent];
             [p printArmy];
-            [MyScene wiggle:army];
+            [GameScene wiggle:army];
             p.recruitsRemaining--;
             [board updateRecruitLabel:p];
             [board updateBank];

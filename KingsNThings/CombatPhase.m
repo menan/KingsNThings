@@ -8,7 +8,7 @@
 
 #import "CombatPhase.h"
 #import "Creature.h"
-#import "MyScene.h"
+#import "GameScene.h"
 #import "CombatScene.h"
 
 
@@ -16,7 +16,7 @@
 @implementation CombatPhase{
     
     SKScene* comabtScen;
-    MyScene* mainScene;
+    GameScene* mainScene;
     SKSpriteNode* board;
     
 }
@@ -63,7 +63,7 @@
         
         thingsToBeReturned = [[NSMutableArray alloc]init];
         
-        mainScene = (MyScene*)sce;
+        mainScene = (GameScene*)sce;
         whoRetreated = NoOne;
     }
     

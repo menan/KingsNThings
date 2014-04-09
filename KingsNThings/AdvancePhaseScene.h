@@ -7,8 +7,8 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
-#import "MyScene.h"
+#import "GameScene.h"
 
 @interface AdvancePhaseScene : SKScene
-    -(id)initWithSize:(CGSize)size andPhaseString:(NSString*)phase andTitle:(NSString *) title andSender:(MyScene *) s;
+    -(id)initWithSize:(CGSize)size andPhaseString:(NSString*)phase andTitle:(NSString *) title andSender:(GameScene *) s;
 @end

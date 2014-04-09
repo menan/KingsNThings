@@ -11,7 +11,7 @@
 
 @implementation ViewController
 
-@synthesize scene,longPressRecognizer;
+@synthesize scene;
 
 
 - (void)viewDidLoad
@@ -49,13 +49,24 @@
     skView.showsFPS = NO;
     skView.showsNodeCount = NO;
     
-    
-    // Create and configure the scene.
-    scene = [MyScene sceneWithSize:skView.bounds.size];
+    scene = [GameScene sceneWithSize:skView.bounds.size];
     scene.controller = self;
     scene.scaleMode = SKSceneScaleModeAspectFill;
+
     
-    [skView presentScene:scene];
+    LaunchScene *lScene = [LaunchScene sceneWithSize:skView.bounds.size];
+    
+    lScene = [lScene initWithSize:skView.bounds.size andSender:scene forView:self];
+    
+    lScene.scaleMode = SKSceneScaleModeAspectFill;
+    
+    [skView presentScene:lScene];
+
+    
+    
+    // Create and configure the scene.
+//
+//    [skView presentScene:scene];
 }
 
 
@@ -154,8 +165,8 @@
             [g advancePhase:p];
         }
         
-        [b constructStackFromDictionary:[myDictionary objectForKey:@"stacks"]];
         [b setSICsFromDictionary:[myDictionary objectForKey:@"sics"]];
+        [b constructStackFromDictionary:[myDictionary objectForKey:@"stacks"]];
         [b constructRackFromDictionary:[myDictionary objectForKey:@"racks"]];
         
         

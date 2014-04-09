@@ -9,7 +9,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Player.h"
-#import "MyScene.h"
+#import "GameScene.h"
 
 @interface GamePlay : NSObject
 
@@ -33,7 +33,7 @@ typedef enum {
 }PlayingOrder;
 
 @property Player *me;
-@property MyScene *scene;
+@property GameScene *scene;
 
 @property NSInteger oneDice;
 @property NSInteger secondDice;
@@ -63,7 +63,7 @@ typedef enum {
 - (Player*) findPlayerArmy:(Army*) army;
 - (Player*)findPlayerByOrder:(NSInteger)order;
 
-- (void) assignScene:(MyScene*)sce;
+- (void) assignScene:(GameScene*)sce;
 
 - (NSString *) advancePhase: (Phase) p;
 - (NSString *) advancePhase;

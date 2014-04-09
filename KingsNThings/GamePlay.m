@@ -10,13 +10,13 @@
 #import "Player.h"
 #import "Creature.h"
 #import "Bank.h"
-#import "MyScene.h"
+#import "GameScene.h"
 #import "CombatPhase.h"
 #import "Board.h"
 #import "GCTurnBasedMatchHelper.h"
 #import "NSMutableArrayDictionize.h"
 @implementation GamePlay{
-    MyScene *scene;
+    GameScene *scene;
     NSMutableArray *servers;
     Board *board;
     
@@ -85,7 +85,7 @@
     
     
 }
--(void) assignScene:(MyScene*)sce{
+-(void) assignScene:(GameScene*)sce{
     scene = sce;
 }
 

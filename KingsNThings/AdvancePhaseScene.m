@@ -9,12 +9,12 @@
 #import "AdvancePhaseScene.h"
 
 @implementation AdvancePhaseScene{
-    MyScene* sender;
+    GameScene* sender;
 }
 
 
 
--(id)initWithSize:(CGSize)size andPhaseString:(NSString*)phase andTitle:(NSString *) title andSender:(MyScene *) s {
+-(id)initWithSize:(CGSize)size andPhaseString:(NSString*)phase andTitle:(NSString *) title andSender:(GameScene *) s {
     if (self = [super initWithSize:size]) {
         sender = s;
         SKSpriteNode *background = [[SKSpriteNode alloc]initWithImageNamed:@"combat.jpg"];

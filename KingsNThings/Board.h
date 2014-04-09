@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <SpriteKit/SpriteKit.h>
 #import "GamePlay.h"
-#import "MyScene.h"
+#import "GameScene.h"
 
 @interface Board : NSObject
 @property SKLabelNode* textLabel, *recruitLabel, *doneButton;
@@ -20,12 +20,13 @@
 @property NSArray *disabled;
 @property NSArray *nonMovables;
 @property CGPoint bowlLocaiton;
-@property NSMutableArray* terrainsLayout, *terrainsDictionary, *markersArray;
+@property NSMutableArray* terrainsLayout, *terrainsDictionary, *markersArray, *creatureList, *specialIncome;
 @property BOOL canTapDone;
 
 @property BOOL avoidChecks; //for networking purposes tho
+@property int nextCreature;
 
-- (id)initWithScene: (MyScene *) aScene atPoint: (CGPoint) aPoint withSize: (CGSize) aSize;
+- (id)initWithScene: (GameScene *) aScene atPoint: (CGPoint) aPoint withSize: (CGSize) aSize;
 
 - (void)draw;
 - (void) drawMarkersForPlayer:(int) j;

@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <SpriteKit/SpriteKit.h>
-#import "MyScene.h"
+#import "GameScene.h"
+#import "LaunchScene.h"
 #import "GCTurnBasedMatchHelper.h"
 
 @interface ViewController : UIViewController<GCTurnBasedMatchHelperDelegate>
 
-@property (nonatomic, strong) MyScene * scene;
-@property UILongPressGestureRecognizer *longPressRecognizer;
+@property (nonatomic, strong) GameScene * scene;
+- (void) processData:(NSData *) data;
 @end

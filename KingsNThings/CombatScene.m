@@ -7,7 +7,7 @@
 //
 
 #import "CombatScene.h"
-#import "MyScene.h"
+#import "GameScene.h"
 #import "Army.h"
 #import "Player.h"
 #import "Creature.h"
@@ -16,7 +16,7 @@
 
 @implementation CombatScene{
    
-    MyScene* sce;
+    GameScene* sce;
     Army* attacker;
     Army* defender;
     SKSpriteNode* background;

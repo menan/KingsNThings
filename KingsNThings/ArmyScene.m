@@ -7,13 +7,13 @@
 //
 
 #import "ArmyScene.h"
-#import "MyScene.h"
+#import "GameScene.h"
 
 @implementation ArmyScene{
     
     SKSpriteNode *background;
     
-    MyScene* sender;
+    GameScene* sender;
     
 }
 
