@@ -622,7 +622,10 @@
     
     NSMutableDictionary *creatures2Dictionary = [[NSMutableDictionary alloc] init];
     
+    int creatureId = 0;
+    
     for (NSString *stringC in playerTwoCreatures) {
+        
         
         NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
         [dict setObject:[NSNumber numberWithFloat:303.250000] forKey:@"X"];
@@ -630,6 +633,15 @@
         [dict setObject:stringC forKey:@"imageName"];
         [dict setObject:[NSNumber numberWithInt:NO] forKey:@"si"];
         
+        if (creatureId == 2 || creatureId == 3) {
+            [dict setObject:[NSNumber numberWithInt:YES] forKey:@"isBluff"];
+        }
+        else{
+            [dict setObject:[NSNumber numberWithInt:NO] forKey:@"isBluff"];
+        }
+        
+        
+        creatureId++;
         [armies2Array addObject:dict];
     }
     [creatures2Dictionary setObject:armies2Array forKey:@"creatures"];
@@ -764,7 +776,7 @@
         lblV2.name = @"v2";
         lblV2.text = @"Predefined Board 2";
         lblV2.fontSize = 20;
-        lblV2.position = CGPointMake(166,448);
+        lblV2.position = CGPointMake(396,448);
         [self addChild:lblV2];
         
         
@@ -772,7 +784,7 @@
         lblV3.name = @"v3";
         lblV3.text = @"Empty Board";
         lblV3.fontSize = 20;
-        lblV3.position = CGPointMake(566,448);
+        lblV3.position = CGPointMake(666,448);
         [self addChild:lblV3];
         
     }

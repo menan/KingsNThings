@@ -1803,8 +1803,12 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 
                 Creature *creatureObject = [[Creature alloc] initWithImage:creatureName atPoint:loc];
                 creatureObject.position = loc;
+                BOOL isBluff =  [[creature objectForKey:@"isBluff"] boolValue];
                 
+
+                creatureObject.isBluff = isBluff;
                 Terrain* t = [game locateTerrainAt:loc];
+                
                 NSLog(@"creature %@, terrain: %@",creatureName, t.type);
                 
                 [self creaturesMoved:creatureObject AtTerrain:t];
