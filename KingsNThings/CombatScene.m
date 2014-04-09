@@ -521,10 +521,13 @@ float degToRad(float degree) {
         
     }
     else if ([touchedNode.name isEqualToString:@"Bribe"]){
-        bribeisOn = YES;
-        
-        [self setInstructionText:@"Choose creatures to bribe"];
-        [self bribeArmy];
+       
+        if(!bribeisOn){
+             bribeisOn = YES;
+            [self setInstructionText:@"Choose creatures to bribe then click Bribe"];
+        }
+        else
+            [self bribeArmy];
         
     }
     
@@ -536,7 +539,15 @@ float degToRad(float degree) {
     
     else if ([touchedNode isKindOfClass:[Creature class]]){
         Creature* creature = (Creature*)touchedNode;
-        if([[combat defenderArmy] containCreature:creature]){
+       
+        if (bribeisOn){
+            
+            [creaturesToBribe addObject:creature];
+            creature.color = [SKColor blackColor];
+            creature.colorBlendFactor = .35;
+
+        }
+        else if([[combat defenderArmy] containCreature:creature]){
             if([combat attackerNumberOfHits] > 0){
                 [touchedNode removeFromParent];
                 [combat updateArmy:touchedNode.name andPlayerType:@"defender"];
@@ -544,10 +555,7 @@ float degToRad(float degree) {
                 [[combat defenderArmy]removeCreatureWithName:touchedNode.name];
                 [[combat thingsToBeReturned]addObject:creature];
             }
-            else if (bribeisOn){
-                
-                [creaturesToBribe addObject:creature];
-            }
+            
         }
         else if([[combat attackerArmy] containCreature:creature]){
             if([combat defenderNumberOfHits] > 0){
@@ -673,8 +681,25 @@ float degToRad(float degree) {
         
     }
     
-    [[combat attacker] justPaid:amountToBribe];
     
+    [[combat attacker] justPaid:amountToBribe];
+    if([creaturesToBribe count] == [defender creaturesInArmy])
+    {
+        [self setInstructionText:@"You have bribed the whole army, hex is yours"];
+        [combat.attacker setHasWonCombat:YES];
+        [textView removeFromSuperview];
+        [self.scene.view presentScene:sce];
+
+        
+    }
+    else {
+        for(id c in creaturesToBribe){
+            [defender removeCreature:c];
+            [c removeFromParent];
+            [[combat thingsToBeReturned] addObject:c];
+        }
+        [combat startCombat:self];
+    }
         
 }
     
