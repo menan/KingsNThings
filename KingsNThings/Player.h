@@ -50,7 +50,7 @@
 - (BOOL) hasBuildingOnTerrain:(Terrain*)terrain;
 - (BOOL) hasCitadel;
 
-
+- (BOOL) hasBuilding:(Building *)b;
 
 
 - (void) justPaid:(int) amount;

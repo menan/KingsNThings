@@ -177,6 +177,8 @@
     
     [buildingsMainArray addObject:buildingsArray];
     
+    NSLog(@"buildings:%@",buildingsMainArray);
+    
     [dict setObject:buildingsMainArray forKey:@"buildings"];
     
     

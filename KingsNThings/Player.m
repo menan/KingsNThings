@@ -175,7 +175,7 @@ static int counter = -1;
 }
 
 - (int) getIncome{
-    NSLog(@"territories %d: %d ", [self playingOrder],territories.count + [self getBuildingIncome] + [self getSpecialIncomeValue]);
+    NSLog(@"territories %d: %d ", [self playingOrder],[self getBuildingIncome] );
     return (territories.count + [self getBuildingIncome] + [self getSpecialIncomeValue]);
 }
 
@@ -344,6 +344,15 @@ static int counter = -1;
     [rack removeObject:sp];
   
 }
+- (BOOL) hasBuilding:(Building *)b{
+    for (Building *nyB in buildings) {
+        if ([b.name isEqualToString:nyB.name] && b.position.x == nyB.position.x && b.position.x == nyB.position.y ) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
 
 - (BOOL) removeCreatureFromRackByName:(NSString *) name{
     

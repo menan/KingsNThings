@@ -1795,7 +1795,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 #pragma start for constructing things from networking
 
 - (void) constructStackFromDictionary:(NSArray *) stacks{
-    NSLog(@"gonna construct armies with from the data %@",stacks);
+//    NSLog(@"gonna construct armies with from the data %@",stacks);
     
     for (NSDictionary *t in stacks) {
     
@@ -1827,7 +1827,7 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             }
             
         }
-        NSLog(@"player %d army %d vs %d", [p playingOrder],[p.stacks count],[armies count]);
+//        NSLog(@"player %d army %d vs %d", [p playingOrder],[p.stacks count],[armies count]);
     }
 }
 
@@ -1864,12 +1864,12 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 //                NSLog(@"dont know how to add to the rack but tried my best to do so");
             }
         }
-        NSLog(@"user rack vs dictionary rack %d vs %d",p.rack.count, [armies count]);
+//        NSLog(@"user rack vs dictionary rack %d vs %d",p.rack.count, [armies count]);
     }
 }
 
 - (void) constructBuildingsFromDictionary:(NSArray *) buildings{
-//    NSLog(@"gonna construct buildings with from the data %@",buildings);
+    NSLog(@"gonna construct buildings with from the data %@",buildings);
     
     for (NSArray *m in buildings) {
 
@@ -1889,9 +1889,11 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
             [b setPosition:CGPointMake(t.position.x - 10, t.position.y + 22)];
             b.name = @"bowl";
             [board addChild:b];
-            [p.buildings addObject:b];
+            if (![p hasBuilding:b]) {
+                NSLog(@"player %d buildings %@",[p playingOrder], b);
+                [p.buildings addObject:b];
+            }
             
-//            NSLog(@"player %d buildings %d",[p playingOrder], p.buildings.count);
             
         }
         
@@ -1901,6 +1903,10 @@ static float PLACE_MARKER_DOCKED_SIZE = 26.0f;
 }
 - (void) constructPlacemarkerFromDictionary:(NSArray *) placemarkers{
 //    NSLog(@"gonna construct placemarkers with from the data %@",placemarkers);
+    
+    for (Player *p in [game players]) {
+        [[p getTerritories] removeAllObjects];
+    }
     
     for (NSDictionary *m in placemarkers) {
         CGPoint pointMarker = [self pointFromDictionary:m];
