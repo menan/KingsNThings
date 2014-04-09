@@ -592,6 +592,7 @@
     else if (phase == SpecialRecruitment){
         for (Player *p in players) {
             p.recruitsRemaining = 1; //adds free recruits based on the rounded up # of terrains owned/2
+            p.specialRecruitsRemaining = 1; //adds free recruits based on the rounded up # of terrains owned/2
         }
         [board updateRecruitLabel:[self currentPlayer]];
     }

@@ -376,6 +376,20 @@
     [dict setObject:[NSNumber numberWithInt:6] forKey:@"phase"];
     
     
+    NSMutableArray* arraySettings = [[NSMutableArray alloc] init];
+    
+    for (int i = 0; i <= 3; i++) {
+        
+        NSMutableDictionary *playerDict = [[NSMutableDictionary alloc] init];
+        [playerDict setObject:[NSNumber numberWithInt:i] forKey:@"playerId"];
+        [playerDict setObject:[NSNumber numberWithInt:0] forKey:@"recruitsRemaining"];
+        [playerDict setObject:[NSNumber numberWithInt:0] forKey:@"specialRecruitsRemaining"];
+        [arraySettings addObject:playerDict];
+    }
+    
+    [dict setObject:arraySettings forKey:@"user-settings"];
+    
+    
     
     return [NSKeyedArchiver archivedDataWithRootObject:dict];
     
