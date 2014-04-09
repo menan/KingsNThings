@@ -491,6 +491,8 @@
         for (Creature *c in army.creatures) {
             if (![terrainStrings containsObject:c.terrainType]) {
                 c.isBluff = YES;
+                c.color = [SKColor blackColor];
+                c.colorBlendFactor = .60;
                 affected++;
             }
         }
