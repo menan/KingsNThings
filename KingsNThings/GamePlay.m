@@ -464,7 +464,7 @@
 
 - (void) checkBluffForPlayer:(Player *) player{
     //would check for each creatures to see if theyre bluff n add bluff to them
-    NSMutableArray *terrainStrings;
+    NSMutableArray *terrainStrings = [[NSMutableArray alloc] init];
     
     for(Terrain *t in [player getTerritories]){
         if (![terrainStrings containsObject:t.type]) {
@@ -491,7 +491,7 @@
         for (Creature *c in army.creatures) {
             if (![terrainStrings containsObject:c.terrainType]) {
                 c.isBluff = YES;
-                c.color = [SKColor blackColor];
+//                c.color = [SKColor blackColor];
                 c.colorBlendFactor = .60;
                 affected++;
             }
@@ -570,10 +570,6 @@
     phase = p;
     return [self advancePhase];
     
-    //if(one turn has finished){
-      //[self checkForWinner];
-    //}
-    
 }
 -(NSString *)advancePhase{
     
@@ -601,6 +597,7 @@
         for (Player *p in players) {
             p.recruitsRemaining = 1; //adds free recruits based on the rounded up # of terrains owned/2
             p.specialRecruitsRemaining = 1; //adds free recruits based on the rounded up # of terrains owned/2
+            [self checkBluffForPlayer:p];
         }
         [board updateRecruitLabel:[self currentPlayer]];
     }

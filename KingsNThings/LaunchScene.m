@@ -766,17 +766,17 @@
         
         
         SKLabelNode *lblV1 = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
-        lblV1.name = @"v1";
+        lblV1.name = @"v2";
         lblV1.text = @"Predefined Board 1";
         lblV1.fontSize = 20;
         lblV1.position = CGPointMake(166,448);
         [self addChild:lblV1];
         
         SKLabelNode *lblV2 = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
-        lblV2.name = @"v2";
+        lblV2.name = @"v1";
         lblV2.text = @"Predefined Board 2";
         lblV2.fontSize = 20;
-        lblV2.position = CGPointMake(396,448);
+        lblV2.position = CGPointMake(556,448);
         [self addChild:lblV2];
         
         
@@ -784,7 +784,7 @@
         lblV3.name = @"v3";
         lblV3.text = @"Empty Board";
         lblV3.fontSize = 20;
-        lblV3.position = CGPointMake(666,448);
+        lblV3.position = CGPointMake(366,378);
         [self addChild:lblV3];
         
     }
