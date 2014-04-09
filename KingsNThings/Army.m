@@ -94,8 +94,9 @@
     return [creatures count];
 }
 -(void)updateMovingSteps:(NSInteger)steps{
-    
     for(Creature* cre in creatures){
+        NSLog(@"creature: %@",cre.name);
+        
         [cre setStepsMoved:(cre.stepsMoved+steps)];
     }
     

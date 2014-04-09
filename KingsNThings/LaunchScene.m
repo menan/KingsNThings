@@ -188,14 +188,11 @@
     
     NSMutableArray *armiesMainArray = [[NSMutableArray alloc] init];
     
-    NSMutableDictionary *playerDict = [[NSMutableDictionary alloc] init];
-    [playerDict setObject:[NSNumber numberWithInt:0] forKey:@"playerId"];
-    
-    
     NSMutableDictionary *dict1 = [[NSMutableDictionary alloc] init];
     
     [dict1 setObject:[NSNumber numberWithFloat:303.000000] forKey:@"X"];
     [dict1 setObject:[NSNumber numberWithFloat:213.500000] forKey:@"Y"];
+    [dict1 setObject:[NSNumber numberWithInt:0] forKey:@"playerId"];
     
     NSMutableArray *creaturesArray = [[NSMutableArray alloc] init];
     NSMutableArray *armiesArray = [[NSMutableArray alloc] init];
@@ -231,14 +228,11 @@
     NSArray *playerTwoCreatures = @[@"-n Thing -t Swamp -a 2",@"-n Giant Lizard -c 2 -t Swamp -a 2", @"-n Swamp Rat -t Swamp -a 1", @"-n Unicorn -t Forest -a 4",@"-n Bears -t Forest -a 2",@"-n Camel Corps -t Desert -a 3", @"-n Sandworm -t Desert -a 3", @"-n Black Knight -t Swamp -s Charge -a 3", @"-n Dervish -c 2 -t Desert -s Magic -a 2",@"-n Forester -t Forest -s Range -a 2"];
     
     
-    NSMutableDictionary *player2Dict = [[NSMutableDictionary alloc] init];
-    [player2Dict setObject:[NSNumber numberWithInt:1] forKey:@"playerId"];
-    
-    
     NSMutableDictionary *dict2 = [[NSMutableDictionary alloc] init];
     
-    [dict1 setObject:[NSNumber numberWithFloat:303.250000] forKey:@"X"];
-    [dict1 setObject:[NSNumber numberWithFloat:284.750000] forKey:@"Y"];
+    [dict2 setObject:[NSNumber numberWithFloat:303.250000] forKey:@"X"];
+    [dict2 setObject:[NSNumber numberWithFloat:284.750000] forKey:@"Y"];
+    [dict2 setObject:[NSNumber numberWithInt:1] forKey:@"playerId"];
     
     NSMutableArray *creatures2Array = [[NSMutableArray alloc] init];
     NSMutableArray *armies2Array = [[NSMutableArray alloc] init];
