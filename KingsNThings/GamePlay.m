@@ -151,7 +151,7 @@
 
 
 -(void) movementPhase:(Player *)player withArmy:(Army*)army onTerrian:(Terrain *)newTerrain{
-    [self resetValues];
+    
     Terrain* oldTerrain = army.terrain;
     Player *defender = [self findPlayerByTerrain:newTerrain];
     
@@ -223,6 +223,8 @@
             NSLog(@"Inside explor");
             
             NSRunLoop *loop = [NSRunLoop currentRunLoop];
+            oneDice = 0;
+            secondDice = 0;
             
             while ( ((oneDice == 0 ) && (secondDice == 0)) && [loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]])
             {}
@@ -341,10 +343,12 @@
             [combat drawScene];
         
         if([combat.attacker hasWonCombat]){
-            
+            if(combat.type == exploration)
+                [board captureHex:combat.attacker atTerrain:combat.defenderArmy.terrain];
             
         }
         else if ([combat.defender hasWonCombat]){
+        
         }
         for(Creature* cre in [combat thingsToBeReturned]){
             [board returnThingToBowl:cre];
