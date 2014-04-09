@@ -554,6 +554,16 @@ float degToRad(float degree) {
                 [combat setAttackerNumberOfHits:([combat attackerNumberOfHits] -1) ];
                 [[combat defenderArmy]removeCreatureWithName:touchedNode.name];
                 [[combat thingsToBeReturned]addObject:creature];
+                
+            }
+            else if(creature.isBluff){
+                
+                
+                UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Bluff detected" message: @"Oops, your opponent discovered your bluffs" delegate: self                                       cancelButtonTitle:@"Got It!" otherButtonTitles:nil];
+                
+                [error show];
+                [touchedNode removeFromParent];
+                [[combat defenderArmy]removeCreatureWithName:touchedNode.name];
             }
             
         }
@@ -564,6 +574,14 @@ float degToRad(float degree) {
                 [combat setDefenderNumberOfHits:[combat defenderNumberOfHits] -1 ];
                 [[combat attackerArmy]removeCreatureWithName:touchedNode.name];
                 [[combat thingsToBeReturned]addObject:creature];
+            }
+            else if(creature.isBluff){
+                UIAlertView *error = [[UIAlertView alloc] initWithTitle:@"Bluff detected" message: @"Oops, your opponent discovered your bluffs" delegate: self                                       cancelButtonTitle:@"Got It!" otherButtonTitles:nil];
+                
+                [error show];
+                [touchedNode removeFromParent];
+               
+                [[combat attackerArmy]removeCreatureWithName:touchedNode.name];
             }
         }
     }
