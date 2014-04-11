@@ -2,7 +2,7 @@
 //  GCTurnBasedMatchHelper.h
 //  KingsNThings
 //
-//  Created by Menan Vadivel on 2014-03-13.
+//  Created by  Areej Ba Salamah and Menan Vadivel on 2014-03-13.
 //  Copyright (c) 2014 Tinrit. All rights reserved.
 //
 

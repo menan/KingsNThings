@@ -31,9 +31,9 @@ typedef enum Type : NSUInteger {
 @property Terrain* terrain;
 
 
-//- (id)initWithBoard: (SKSpriteNode *) aBoard atPoint: (CGPoint) aPoint imageNamed: (NSString *) image andCounterName: (NSString *) cName withGoldValue: (int) value forTerrainType: (NSString *) ter isKeyedToTerrain:(BOOL) keyed;
+
 - (id) initWithBoard:(SKSpriteNode *)aBoard atPoint:(CGPoint)aPoint fromString:(NSString *)string;
-//- (id) initWithBoard:(SKSpriteNode *)aBoard atPoint:(CGPoint)aPoint fromString:(NSString *)string isKeyedToTerrain: (BOOL) keyed;
+
 - (id)initWithImage:(NSString*)image atPoint:(CGPoint)aPoint;
 
 - (void) draw;

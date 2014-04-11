@@ -2,7 +2,7 @@
 //  LaunchScene.m
 //  kingsnthings
 //
-//  Created by Menan Vadivel on 2014-04-08.
+//  Created by  Areej Ba Salamah and Menan Vadivel on 2014-04-08.
 //  Copyright (c) 2014 Tinrit. All rights reserved.
 //
 

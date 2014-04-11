@@ -12,7 +12,7 @@
 #import "Creature.h"
 #import "SpecialRecruitmentScene.h"
 #import "Board.h"
-#import "ArmyScene.h"
+
 #import "AdvancePhaseScene.h"
 
 @implementation GameScene{
